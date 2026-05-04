@@ -5,31 +5,37 @@
 html, body { height: 100%; overflow: hidden; }
 
 body {
-  background: #0d0d0d;
-  color: #d4d4d4;
+  background: #f2ece3;
+  color: #2a1e12;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   line-height: 1.5;
 }
 
-/* subpages can scroll */
 main { overflow: auto; }
 
-::selection { background: #a78bfa33; color: #fff; }
+::selection { background: #c4a8e855; }
 ::-webkit-scrollbar { width: 3px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #252525; border-radius: 2px; }
+::-webkit-scrollbar-thumb { background: #d0c4b4; border-radius: 2px; }
 
 .card {
-  background: #121212;
-  border: 1px solid #1c1c1c;
-  border-radius: 12px;
+  background: #fffef9;
+  border: 1px solid #e4d8c8;
+  border-radius: 14px;
   overflow: hidden;
   position: relative;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
-.card:hover { border-color: #2a2a2a; }
+.card:hover {
+  border-color: #c8b8a4;
+  box-shadow: 0 2px 12px rgba(80,50,20,0.07);
+}
 
-/* Leaflet popup override */
+.handwritten {
+  font-family: var(--font-caveat), cursive;
+}
+
+/* Leaflet dark popup override */
 .leaflet-popup-content-wrapper {
   background: transparent !important;
   border: none !important;
@@ -37,9 +43,12 @@ main { overflow: auto; }
   padding: 0 !important;
 }
 .leaflet-popup-content { margin: 0 !important; }
-.leaflet-popup-tip { display: none !important; }
+.leaflet-popup-tip-container { display: none !important; }
 
-@keyframes fade-up {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
+/* subpages */
+.page-bg {
+  background: #f2ece3;
+  color: #2a1e12;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }

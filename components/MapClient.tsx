@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, ZoomControl } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { galleryPhotos } from "@/lib/data";
@@ -13,15 +13,16 @@ function photoIcon(photo: GalleryPhoto) {
     html: `
       <div style="
         position:relative;
-        width:44px;
+        width:48px;
         cursor:pointer;
-        filter: drop-shadow(0 3px 8px rgba(0,0,0,0.8));
+        filter: drop-shadow(0 3px 8px rgba(0,0,0,0.35));
       ">
         <div style="
-          width:44px; height:34px;
-          border:2px solid rgba(255,255,255,0.25);
-          border-radius:5px; overflow:hidden;
-          background:#0d0d0d;
+          width:48px; height:38px;
+          border:2.5px solid #fff;
+          border-radius:6px; overflow:hidden;
+          background:#f0e8dc;
+          box-shadow: 0 2px 6px rgba(80,50,20,0.3);
         ">
           <img src="${photo.thumb}" style="width:100%;height:100%;object-fit:cover;" />
         </div>
@@ -29,63 +30,54 @@ function photoIcon(photo: GalleryPhoto) {
           width:0; height:0;
           border-left:6px solid transparent;
           border-right:6px solid transparent;
-          border-top:6px solid rgba(255,255,255,0.25);
+          border-top:7px solid #fff;
           margin:0 auto;
         "></div>
       </div>
     `,
-    iconSize: [44, 44],
-    iconAnchor: [22, 44],
-    popupAnchor: [0, -48],
+    iconSize: [48, 48],
+    iconAnchor: [24, 48],
+    popupAnchor: [0, -52],
   });
 }
 
 export default function MapClient() {
   useEffect(() => {
-    // Fix leaflet icon paths in Next.js
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     delete (L.Icon.Default.prototype as any)._getIconUrl;
-    L.Icon.Default.mergeOptions({
-      iconRetinaUrl: "",
-      iconUrl: "",
-      shadowUrl: "",
-    });
+    L.Icon.Default.mergeOptions({ iconRetinaUrl: "", iconUrl: "", shadowUrl: "" });
   }, []);
 
   return (
     <MapContainer
-      center={[48.8, 10.5]}
-      zoom={5}
+      center={[46.8, 8.2]}
+      zoom={7}
       style={{ width: "100%", height: "100%" }}
       zoomControl={false}
       attributionControl={false}
-      scrollWheelZoom={false}
+      scrollWheelZoom={true}
     >
+      <ZoomControl position="bottomright" />
       <TileLayer
-        url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+        url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
         subdomains="abcd"
       />
       {galleryPhotos.map((photo) => (
-        <Marker
-          key={photo.id}
-          position={[photo.lat, photo.lng]}
-          icon={photoIcon(photo)}
-        >
-          <Popup
-            closeButton={false}
-          >
+        <Marker key={photo.id} position={[photo.lat, photo.lng]} icon={photoIcon(photo)}>
+          <Popup closeButton={false}>
             <div style={{
-              background: "#141414",
-              border: "1px solid #252525",
+              background: "#fffef9",
+              border: "1px solid #e4d8c8",
               borderRadius: 8,
-              padding: "8px 10px",
+              padding: "8px 12px",
               fontSize: 11,
-              color: "#d4d4d4",
+              color: "#2a1e12",
               minWidth: 120,
+              boxShadow: "0 2px 12px rgba(80,50,20,0.15)",
             }}>
               <div style={{ fontWeight: 700, marginBottom: 2 }}>{photo.title}</div>
-              <div style={{ color: "#666", fontSize: 10 }}>{photo.location}</div>
-              <div style={{ color: "#444", fontSize: 10, marginTop: 2 }}>{photo.date}</div>
+              <div style={{ color: "#9a8070", fontSize: 10 }}>📍 {photo.location}</div>
+              <div style={{ color: "#b4a090", fontSize: 10, marginTop: 1 }}>{photo.date}</div>
             </div>
           </Popup>
         </Marker>

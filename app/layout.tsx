@@ -1,19 +1,18 @@
 import type { Metadata } from "next";
+import { Caveat } from "next/font/google";
 import "./globals.css";
 
+const caveat = Caveat({ subsets: ["latin"], weight: ["600", "700"], variable: "--font-caveat" });
+
 export const metadata: Metadata = {
-  title: "Enis Shorra — Developer",
-  description: "Personal portfolio of Enis Shorra — Frontend Developer & UI enthusiast",
+  title: "Enis Shorra",
+  description: "17-year-old developer from Germany — C#, .NET, UI design",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="de" className="h-full antialiased">
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="en" className={caveat.variable}>
+      <body>{children}</body>
     </html>
   );
 }

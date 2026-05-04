@@ -1,156 +1,237 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-const LINES = [
-  "Initializing portfolio...",
-  "Loading components...",
-  "Connecting to GitHub...",
-  "Rendering UI...",
-  "Welcome.",
-];
+const CHARS = "!@#$%^&*<>?/\\|[]{}0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const rnd = () => CHARS[Math.floor(Math.random() * CHARS.length)];
+
+const WORDS = ["ENIS", "SHORRA"];
+const FLAT = WORDS.join(" "); // "ENIS SHORRA"
 
 export default function LoadingScreen({ onDone }: { onDone: () => void }) {
-  const [lineIndex, setLineIndex] = useState(0);
-  const [charIndex, setCharIndex] = useState(0);
-  const [displayed, setDisplayed] = useState<string[]>([]);
-  const [progress, setProgress] = useState(0);
-  const [fading, setFading] = useState(false);
+  const [display, setDisplay] = useState<string[]>(() => FLAT.split("").map(rnd));
+  const [locked, setLocked] = useState<boolean[]>(() => FLAT.split("").map(() => false));
+  const [phase, setPhase] = useState<"scramble" | "glow" | "exit">("scramble");
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  // Rapid scramble
   useEffect(() => {
-    const current = LINES[lineIndex];
-    if (!current) return;
+    intervalRef.current = setInterval(() => {
+      setDisplay((prev) =>
+        prev.map((c, i) => (locked[i] || FLAT[i] === " " ? FLAT[i] : rnd()))
+      );
+    }, 40);
+    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
+  }, [locked]);
 
-    if (charIndex < current.length) {
-      const t = setTimeout(() => setCharIndex((c) => c + 1), 28);
-      return () => clearTimeout(t);
-    } else {
+  // Staggered reveal
+  useEffect(() => {
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    FLAT.split("").forEach((_, i) => {
+      if (FLAT[i] === " ") return;
       const t = setTimeout(() => {
-        setDisplayed((d) => [...d, current]);
-        setProgress(Math.round(((lineIndex + 1) / LINES.length) * 100));
-        if (lineIndex < LINES.length - 1) {
-          setLineIndex((i) => i + 1);
-          setCharIndex(0);
-        } else {
-          setTimeout(() => {
-            setFading(true);
-            setTimeout(onDone, 600);
-          }, 400);
-        }
-      }, 120);
-      return () => clearTimeout(t);
-    }
-  }, [charIndex, lineIndex, onDone]);
+        setLocked((prev) => {
+          const next = [...prev];
+          next[i] = true;
+          return next;
+        });
+      }, 400 + i * 110);
+      timers.push(t);
+    });
 
-  const currentLine = LINES[lineIndex] || "";
-  const typing = currentLine.slice(0, charIndex);
+    // After all revealed
+    const total = FLAT.replace(/ /g, "").length;
+    const doneTimer = setTimeout(() => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      setPhase("glow");
+      setTimeout(() => setPhase("exit"), 800);
+      setTimeout(() => onDone(), 1400);
+    }, 400 + total * 110 + 200);
+    timers.push(doneTimer);
+
+    return () => timers.forEach(clearTimeout);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const allLocked = locked.every((l, i) => l || FLAT[i] === " ");
+  const isExit = phase === "exit";
+
+  const firstWord = FLAT.slice(0, WORDS[0].length);
+  const space = " ";
+  const secondWord = FLAT.slice(WORDS[0].length + 1);
+  const offset = WORDS[0].length + 1;
 
   return (
     <div
       style={{
         position: "fixed",
         inset: 0,
-        background: "#0a0a0a",
         zIndex: 9999,
+        background: "#060608",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        transition: "opacity 0.6s ease",
-        opacity: fading ? 0 : 1,
-        pointerEvents: fading ? "none" : "all",
+        overflow: "hidden",
+        transition: isExit ? "opacity 0.6s ease, transform 0.6s ease" : "none",
+        opacity: isExit ? 0 : 1,
+        transform: isExit ? "scale(1.04)" : "scale(1)",
       }}
     >
-      {/* Big name */}
-      <div style={{ marginBottom: 48, textAlign: "center" }}>
-        <div
-          style={{
-            fontSize: 64,
-            fontWeight: 800,
-            letterSpacing: "-2px",
-            background: "linear-gradient(135deg, #a78bfa 0%, #60a5fa 50%, #f472b6 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-          }}
-        >
-          Enis Shorra
-        </div>
-        <div style={{ fontSize: 13, color: "#555", marginTop: 4, letterSpacing: "0.15em" }}>
-          PORTFOLIO
-        </div>
-      </div>
+      {/* Animated background grid */}
+      <svg
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.04 }}
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+            <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#a78bfa" strokeWidth="0.5" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#grid)" />
+      </svg>
 
-      {/* Terminal */}
+      {/* Scan line effect */}
       <div
         style={{
-          width: 360,
-          background: "#111",
-          border: "1px solid #222",
-          borderRadius: 10,
-          overflow: "hidden",
-          fontFamily: "'Courier New', monospace",
-          fontSize: 13,
+          position: "absolute",
+          left: 0,
+          right: 0,
+          height: 2,
+          background: "linear-gradient(90deg, transparent, rgba(167,139,250,0.4), transparent)",
+          animation: "scanline 3s linear infinite",
+          pointerEvents: "none",
         }}
-      >
-        {/* Title bar */}
+      />
+
+      {/* Corner brackets */}
+      {[
+        { top: 40, left: 40 },
+        { top: 40, right: 40 },
+        { bottom: 40, left: 40 },
+        { bottom: 40, right: 40 },
+      ].map((pos, i) => (
+        <div
+          key={i}
+          style={{
+            position: "absolute",
+            width: 24,
+            height: 24,
+            borderColor: "#a78bfa44",
+            borderStyle: "solid",
+            borderWidth: 0,
+            ...(pos.top !== undefined ? { borderTopWidth: 2, top: pos.top } : { borderBottomWidth: 2, bottom: pos.bottom }),
+            ...(pos.left !== undefined ? { borderLeftWidth: 2, left: pos.left } : { borderRightWidth: 2, right: pos.right }),
+          }}
+        />
+      ))}
+
+      {/* Main text */}
+      <div style={{ textAlign: "center", position: "relative" }}>
+        {/* "// PORTFOLIO" label */}
         <div
           style={{
-            background: "#1a1a1a",
-            padding: "8px 12px",
-            display: "flex",
-            alignItems: "center",
-            gap: 6,
-            borderBottom: "1px solid #222",
+            fontSize: 11,
+            letterSpacing: "0.3em",
+            color: "#a78bfa88",
+            marginBottom: 32,
+            fontFamily: "monospace",
+            opacity: allLocked ? 1 : 0,
+            transition: "opacity 0.5s ease",
           }}
         >
-          <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#ff5f57", display: "block" }} />
-          <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#febc2e", display: "block" }} />
-          <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#28c840", display: "block" }} />
-          <span style={{ marginLeft: 8, fontSize: 11, color: "#444" }}>bash — 80×24</span>
+          // PORTFOLIO
         </div>
 
-        {/* Content */}
-        <div style={{ padding: "14px 16px", minHeight: 120 }}>
-          {displayed.map((line, i) => (
-            <div key={i} style={{ color: i === displayed.length - 1 && lineIndex >= LINES.length - 1 ? "#a78bfa" : "#4ade80", marginBottom: 4 }}>
-              <span style={{ color: "#555" }}>$ </span>{line}
-            </div>
+        {/* Scrambled name */}
+        <div
+          style={{
+            fontSize: "clamp(60px, 8vw, 100px)",
+            fontWeight: 900,
+            letterSpacing: "0.05em",
+            lineHeight: 1,
+            display: "flex",
+            gap: "0.15em",
+            justifyContent: "center",
+            animation: phase === "glow" ? "pulse-glow 0.8s ease" : "none",
+          }}
+        >
+          {/* First word */}
+          {firstWord.split("").map((_, i) => (
+            <span
+              key={i}
+              style={{
+                color: locked[i] ? "#ffffff" : "#2a2a2a",
+                transition: locked[i] ? "color 0.1s" : "none",
+                display: "inline-block",
+                minWidth: "0.6em",
+                textAlign: "center",
+                fontFamily: "monospace",
+              }}
+            >
+              {display[i]}
+            </span>
           ))}
-          {lineIndex < LINES.length && (
-            <div style={{ color: "#e0e0e0" }}>
-              <span style={{ color: "#555" }}>$ </span>
-              {typing}
+
+          <span style={{ color: "transparent", minWidth: "0.4em" }}>{space}</span>
+
+          {/* Second word */}
+          {secondWord.split("").map((_, j) => {
+            const i = offset + j;
+            return (
               <span
+                key={i}
                 style={{
+                  color: locked[i]
+                    ? phase === "glow"
+                      ? "#a78bfa"
+                      : "#ffffff"
+                    : "#2a2a2a",
+                  transition: locked[i] ? "color 0.15s" : "none",
                   display: "inline-block",
-                  width: 7,
-                  height: 13,
-                  background: "#a78bfa",
-                  marginLeft: 1,
-                  verticalAlign: "text-bottom",
-                  animation: "blink 1s step-end infinite",
+                  minWidth: "0.6em",
+                  textAlign: "center",
+                  fontFamily: "monospace",
                 }}
-              />
-            </div>
+              >
+                {display[i]}
+              </span>
+            );
+          })}
+        </div>
+
+        {/* Underline */}
+        <div
+          style={{
+            height: 1,
+            background: "linear-gradient(90deg, transparent, #a78bfa, transparent)",
+            marginTop: 20,
+            opacity: allLocked ? 0.6 : 0,
+            transition: "opacity 0.5s ease",
+          }}
+        />
+
+        {/* Status line */}
+        <div
+          style={{
+            marginTop: 20,
+            fontFamily: "monospace",
+            fontSize: 11,
+            color: "#333",
+            letterSpacing: "0.15em",
+            height: 16,
+          }}
+        >
+          {!allLocked && (
+            <span>
+              DECRYPTING
+              <span style={{ animation: "pulse-glow 0.6s infinite" }}>...</span>
+            </span>
+          )}
+          {allLocked && phase !== "exit" && (
+            <span style={{ color: "#a78bfa88" }}>ACCESS GRANTED</span>
           )}
         </div>
-
-        {/* Progress bar */}
-        <div style={{ height: 3, background: "#1a1a1a" }}>
-          <div
-            style={{
-              height: "100%",
-              width: `${progress}%`,
-              background: "linear-gradient(90deg, #a78bfa, #60a5fa)",
-              transition: "width 0.4s ease",
-            }}
-          />
-        </div>
-      </div>
-
-      <div style={{ marginTop: 24, fontSize: 11, color: "#333" }}>
-        {progress}% loaded
       </div>
     </div>
   );

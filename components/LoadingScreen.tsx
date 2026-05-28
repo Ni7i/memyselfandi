@@ -1,66 +1,47 @@
 "use client";
-
 import { useEffect, useState } from "react";
 
 export default function LoadingScreen({ onDone }: { onDone: () => void }) {
-  const [progress, setProgress] = useState(0);
-  const [nameVisible, setNameVisible] = useState(false);
-  const [exiting, setExiting] = useState(false);
+  const [fading, setFading] = useState(false);
 
   useEffect(() => {
-    const t1 = setTimeout(() => setNameVisible(true), 150);
-    let p = 0;
-    const interval = setInterval(() => {
-      p += 2.2;
-      setProgress(Math.min(p, 100));
-      if (p >= 100) {
-        clearInterval(interval);
-        setTimeout(() => { setExiting(true); setTimeout(onDone, 500); }, 250);
-      }
-    }, 18);
-    return () => { clearTimeout(t1); clearInterval(interval); };
+    const t1 = setTimeout(() => setFading(true), 3400);
+    const t2 = setTimeout(onDone, 4300);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
   }, [onDone]);
 
-  return (
-    <div style={{
-      position: "fixed", inset: 0, zIndex: 9999,
-      background: "#f2ece3",
-      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-      transition: "opacity 0.5s ease",
-      opacity: exiting ? 0 : 1,
-    }}>
-      <div style={{
-        textAlign: "center",
-        transition: "opacity 0.6s ease, transform 0.6s ease",
-        opacity: nameVisible ? 1 : 0,
-        transform: nameVisible ? "translateY(0)" : "translateY(10px)",
-      }}>
-        <div className="handwritten" style={{
-          fontSize: "clamp(44px, 7vw, 80px)",
-          fontWeight: 700,
-          color: "#2a1e12",
-          lineHeight: 1,
-          letterSpacing: "-0.01em",
-        }}>
-          Enis{" "}
-          <span style={{
-            background: "linear-gradient(120deg, #7c5cbf, #d45e7a)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-          }}>
-            Shorra
-          </span>
-        </div>
-        {/* hand-drawn squiggle */}
-        <svg width="160" height="12" viewBox="0 0 160 12" style={{ marginTop: 6, opacity: nameVisible ? 0.5 : 0, transition: "opacity 0.8s ease 0.3s" }}>
-          <path d="M4 8 Q24 2 44 8 Q64 14 84 8 Q104 2 124 8 Q144 14 156 8" stroke="#7c5cbf" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
-        </svg>
-        <div style={{ fontSize: 11, color: "#b4a090", letterSpacing: "0.18em", marginTop: 14 }}>PORTFOLIO</div>
-      </div>
+  const rays = [0, 45, 90, 135, 180, 225, 270, 315];
 
-      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 3, background: "#e4d8c8" }}>
-        <div style={{ height: "100%", width: `${progress}%`, background: "linear-gradient(90deg, #7c5cbf, #d45e7a)", transition: "width 0.04s linear" }} />
+  return (
+    <div className={`loading${fading ? " fade" : ""}`}>
+      <div className="loading-inner">
+        <div className="loading-art">
+          <svg viewBox="-100 -100 200 200">
+            <polygon className="stroke"
+              points="80,0 56.6,56.6 0,80 -56.6,56.6 -80,0 -56.6,-56.6 0,-80 56.6,-56.6" />
+            <polygon className="stroke" style={{ animationDelay: "0.2s" }}
+              points="60,24.9 24.9,60 -24.9,60 -60,24.9 -60,-24.9 -24.9,-60 24.9,-60 60,-24.9" />
+            <polygon className="stroke" style={{ animationDelay: "0.5s" }}
+              points="0,-72 16,-16 72,0 16,16 0,72 -16,16 -72,0 -16,-16" />
+            <polygon className="stroke" style={{ animationDelay: "0.8s" }}
+              points="0,-28 28,0 0,28 -28,0" />
+            {rays.map((a, i) => {
+              const rad = (a * Math.PI) / 180;
+              return (
+                <line key={a} className="stroke"
+                  style={{ animationDelay: `${1.0 + i * 0.04}s` }}
+                  x1={28 * Math.cos(rad)} y1={28 * Math.sin(rad)}
+                  x2={80 * Math.cos(rad)} y2={80 * Math.sin(rad)} />
+              );
+            })}
+            <circle className="dot" cx="0" cy="0" r="3" />
+          </svg>
+        </div>
+        <div className="loading-text">
+          Hi, I&apos;m<span className="italic">Enis</span>
+        </div>
+        <div className="loading-sub">﷽ &nbsp;·&nbsp; quietly loading</div>
+        <div className="loading-progress" />
       </div>
     </div>
   );

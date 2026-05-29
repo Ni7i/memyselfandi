@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HP Garage – Rudolfstetten</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',sans-serif;color:#1a1a1a;background:#fff;overflow-x:hidden}
+  a{text-decoration:none;color:inherit}
+  img{display:block;max-width:100%}
+
+  /* ── VARIABLES ── */
+  :root{
+    --red:#c1121f;
+    --dark:#111111;
+    --mid:#2a2a2a;
+    --light:#f5f5f5;
+    --border:#e0e0e0
+  }
+
+  /* ── HEADER ── */
+  header{
+    position:fixed;top:0;left:0;right:0;z-index:1000;
+    background:var(--dark);height:68px;
+    display:flex;align-items:center;justify-content:space-between;padding:0 5%;
+    box-shadow:0 2px 12px rgba(0,0,0,.5)
+  }
+  .logo{font-size:1.5rem;font-weight:900;color:#fff;letter-spacing:1.5px}
+  .logo em{color:var(--red);font-style:normal}
+  .nav-links{display:flex;gap:8px}
+  .nav-links button{
+    background:none;border:none;cursor:pointer;
+    color:#aaa;padding:8px 14px;border-radius:5px;
+    font-family:'Inter',sans-serif;font-size:.87rem;font-weight:600;
+    letter-spacing:.4px;transition:all .2s
+  }
+  .nav-links button:hover{color:#fff}
+  .nav-links button.active{color:#fff;background:var(--red)}
+  .nav-cta{
+    background:var(--red);color:#fff!important;
+    padding:9px 20px;border-radius:6px;font-weight:700!important
+  }
+  .nav-cta:hover{background:#a00e17!important}
+
+  /* Hamburger */
+  .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+  .hamburger span{display:block;width:24px;height:2px;background:#fff;border-radius:2px;transition:all .3s}
+
+  /* ── PAGES ── */
+  main{margin-top:68px}
+  .page{display:none;animation:fadeIn .35s ease}
+  .page.active{display:block}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+  /* ── HERO (HOME) ── */
+  .hero{
+    background:linear-gradient(135deg,var(--dark) 55%,var(--mid) 100%);
+    min-height:calc(100vh - 68px);
+    display:flex;align-items:center;padding:60px 5%;
+    position:relative;overflow:hidden
+  }
+  .hero::before{
+    content:'';position:absolute;right:-100px;top:-100px;
+    width:600px;height:600px;
+    background:radial-gradient(circle,rgba(193,18,31,.18) 0%,transparent 70%);
+    border-radius:50%
+  }
+  .hero-content{position:relative;z-index:1;max-width:600px}
+  .hero-tag{
+    display:inline-flex;align-items:center;gap:8px;
+    background:rgba(193,18,31,.15);border:1px solid rgba(193,18,31,.35);
+    color:#ff6b6b;font-size:.75rem;font-weight:700;letter-spacing:2px;
+    text-transform:uppercase;padding:7px 16px;border-radius:30px;margin-bottom:28px
+  }
+  .hero-tag::before{content:'';width:6px;height:6px;background:#c1121f;border-radius:50%;animation:pulse 1.5s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+  .hero h1{
+    font-size:3.2rem;font-weight:900;line-height:1.1;
+    color:#fff;margin-bottom:20px;letter-spacing:-1px
+  }
+  .hero h1 em{color:var(--red);font-style:normal}
+  .hero p{color:#888;font-size:1.05rem;line-height:1.8;margin-bottom:36px;max-width:480px}
+  .hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+  .btn-main{
+    background:var(--red);color:#fff;
+    padding:14px 30px;border-radius:7px;font-weight:700;font-size:.95rem;
+    transition:all .2s;border:2px solid var(--red)
+  }
+  .btn-main:hover{background:#a00e17;border-color:#a00e17;transform:translateY(-2px)}
+  .btn-outline{
+    background:transparent;color:#fff;border:2px solid rgba(255,255,255,.3);
+    padding:14px 30px;border-radius:7px;font-weight:600;font-size:.95rem;
+    transition:all .2s
+  }
+  .btn-outline:hover{border-color:#fff}
+
+  /* STATS */
+  .stats{
+    background:var(--red);
+    display:grid;grid-template-columns:repeat(3,1fr);
+  }
+  .stat{
+    padding:28px 20px;text-align:center;border-right:1px solid rgba(255,255,255,.2);
+  }
+  .stat:last-child{border-right:none}
+  .stat-num{font-size:2.2rem;font-weight:900;color:#fff;line-height:1}
+  .stat-label{font-size:.8rem;color:rgba(255,255,255,.7);margin-top:5px;font-weight:500;letter-spacing:.5px}
+
+  /* QUICK SERVICES on HOME */
+  .home-services{padding:75px 5%;max-width:1100px;margin:0 auto}
+  .sec-header{margin-bottom:45px}
+  .sec-tag{
+    display:inline-block;
+    font-size:.72rem;font-weight:700;letter-spacing:2px;
+    text-transform:uppercase;color:var(--red);margin-bottom:10px
+  }
+  .sec-title{font-size:2rem;font-weight:900;color:var(--dark);letter-spacing:-0.5px;margin-bottom:12px}
+  .sec-sub{color:#777;font-size:1rem;line-height:1.7;max-width:500px}
+  .srv-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:22px
+  }
+  .srv-card{
+    border:1px solid var(--border);border-radius:12px;
+    padding:30px 24px;transition:all .25s;cursor:default
+  }
+  .srv-card:hover{border-color:var(--red);box-shadow:0 8px 30px rgba(193,18,31,.1);transform:translateY(-3px)}
+  .srv-card .srv-icon{
+    width:50px;height:50px;background:rgba(193,18,31,.08);border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.5rem;margin-bottom:18px
+  }
+  .srv-card h3{font-size:1rem;font-weight:700;margin-bottom:8px;color:var(--dark)}
+  .srv-card p{font-size:.88rem;color:#888;line-height:1.6}
+
+  /* ── ÜBER UNS PAGE ── */
+  .about-hero{
+    background:var(--dark);padding:70px 5% 60px;color:#fff;text-align:center
+  }
+  .about-hero h1{font-size:2.5rem;font-weight:900;letter-spacing:-0.5px;margin-bottom:14px}
+  .about-hero p{color:#888;font-size:1rem;max-width:500px;margin:0 auto}
+
+  .about-body{padding:70px 5%;max-width:1100px;margin:0 auto}
+  .about-split{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;margin-bottom:60px}
+  .about-img{
+    background:var(--light);border-radius:16px;aspect-ratio:4/3;
+    display:flex;align-items:center;justify-content:center;color:#bbb;font-size:.9rem
+  }
+  .about-text h2{font-size:1.6rem;font-weight:800;margin-bottom:18px;color:var(--dark)}
+  .about-text p{color:#666;line-height:1.8;margin-bottom:14px;font-size:.97rem}
+  .about-values{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:20px
+  }
+  .val-card{
+    background:var(--light);border-radius:12px;padding:28px 20px;text-align:center
+  }
+  .val-card .val-ic{font-size:1.8rem;margin-bottom:12px}
+  .val-card h3{font-size:.95rem;font-weight:700;margin-bottom:6px;color:var(--dark)}
+  .val-card p{font-size:.83rem;color:#888;line-height:1.5}
+
+  /* ── LEISTUNGEN PAGE ── */
+  .srv-page-hero{
+    background:var(--dark);padding:70px 5% 60px;color:#fff;text-align:center
+  }
+  .srv-page-hero h1{font-size:2.5rem;font-weight:900;letter-spacing:-0.5px;margin-bottom:14px}
+  .srv-page-hero p{color:#888;max-width:480px;margin:0 auto;font-size:1rem}
+  .srv-page-body{padding:70px 5%;max-width:1100px;margin:0 auto}
+  .srv-big-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+  .srv-big-card{
+    border:1px solid var(--border);border-radius:14px;padding:32px 28px;
+    transition:all .25s
+  }
+  .srv-big-card:hover{border-color:var(--red);box-shadow:0 10px 35px rgba(193,18,31,.1);transform:translateY(-3px)}
+  .srv-big-card .head{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+  .srv-big-card .lic{
+    width:46px;height:46px;background:rgba(193,18,31,.08);
+    border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.4rem
+  }
+  .srv-big-card h3{font-size:1.05rem;font-weight:700;color:var(--dark)}
+  .srv-big-card p{color:#777;font-size:.9rem;line-height:1.7;margin-bottom:14px}
+  .srv-big-card ul{list-style:none;display:flex;flex-direction:column;gap:6px}
+  .srv-big-card ul li{font-size:.85rem;color:#888;padding-left:16px;position:relative}
+  .srv-big-card ul li::before{content:'✓';position:absolute;left:0;color:var(--red);font-weight:700}
+
+  /* ── KONTAKT PAGE ── */
+  .kontakt-hero{
+    background:var(--dark);padding:70px 5% 60px;color:#fff;text-align:center
+  }
+  .kontakt-hero h1{font-size:2.5rem;font-weight:900;letter-spacing:-0.5px;margin-bottom:14px}
+  .kontakt-hero p{color:#888;font-size:1rem;max-width:480px;margin:0 auto}
+  .kontakt-body{padding:70px 5%;max-width:1100px;margin:0 auto}
+  .kontakt-split{display:grid;grid-template-columns:1fr 1.2fr;gap:60px}
+  .k-info h2{font-size:1.2rem;font-weight:800;margin-bottom:22px;color:var(--dark)}
+  .k-item{display:flex;gap:14px;margin-bottom:22px;align-items:flex-start}
+  .k-item .k-ic{
+    width:40px;height:40px;background:rgba(193,18,31,.08);border-radius:8px;
+    display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0
+  }
+  .k-item div{font-size:.9rem;color:#666;line-height:1.6}
+  .k-item div strong{display:block;color:var(--dark);margin-bottom:2px;font-size:.95rem}
+  .k-item a{color:var(--red)}
+  .hours-wrap h2{font-size:1.2rem;font-weight:800;margin-bottom:22px;color:var(--dark)}
+  .hours-table{width:100%;border-collapse:collapse}
+  .hours-table tr:not(:last-child) td{border-bottom:1px solid #eee}
+  .hours-table td{padding:12px 8px;font-size:.9rem;color:#666}
+  .hours-table td:last-child{font-weight:700;color:var(--dark);text-align:right}
+  .form-wrap{background:var(--light);border-radius:16px;padding:36px;margin-top:40px}
+  .form-wrap h2{font-size:1.2rem;font-weight:800;margin-bottom:22px;color:var(--dark)}
+  .form-group{margin-bottom:16px}
+  .form-group label{display:block;font-size:.82rem;font-weight:600;color:#555;margin-bottom:6px;letter-spacing:.3px}
+  .form-group input,.form-group textarea,.form-group select{
+    width:100%;padding:11px 14px;border:1.5px solid #ddd;border-radius:7px;
+    font-family:'Inter',sans-serif;font-size:.9rem;color:var(--dark);background:#fff;
+    transition:border-color .2s;outline:none
+  }
+  .form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--red)}
+  .form-group textarea{height:100px;resize:vertical}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .btn-submit{
+    width:100%;background:var(--red);color:#fff;border:none;
+    padding:13px;border-radius:7px;font-family:'Inter',sans-serif;
+    font-size:.95rem;font-weight:700;cursor:pointer;
+    transition:background .2s,transform .15s;margin-top:6px
+  }
+  .btn-submit:hover{background:#a00e17;transform:translateY(-1px)}
+
+  /* ── FOOTER ── */
+  footer{
+    background:var(--dark);color:#555;text-align:center;
+    padding:24px;font-size:.82rem
+  }
+  footer a{color:#777}
+
+  /* ── RESPONSIVE ── */
+  @media(max-width:900px){
+    .srv-grid{grid-template-columns:repeat(2,1fr)}
+    .srv-big-grid{grid-template-columns:1fr}
+    .about-split{grid-template-columns:1fr}
+    .about-img{display:none}
+    .kontakt-split{grid-template-columns:1fr}
+    .about-values{grid-template-columns:1fr 1fr}
+  }
+  @media(max-width:600px){
+    .nav-links{display:none}
+    .hamburger{display:flex}
+    .hero h1{font-size:2rem}
+    .stats{grid-template-columns:1fr}
+    .stat{border-right:none;border-bottom:1px solid rgba(255,255,255,.2)}
+    .stat:last-child{border-bottom:none}
+    .srv-grid{grid-template-columns:1fr}
+    .about-values{grid-template-columns:1fr}
+    .form-row{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">HP<em>Garage</em></div>
+  <nav class="nav-links">
+    <button class="active" onclick="showPage('home',this)">Home</button>
+    <button onclick="showPage('about',this)">Über uns</button>
+    <button onclick="showPage('leistungen',this)">Leistungen</button>
+    <button class="nav-cta" onclick="showPage('kontakt',this)">Kontakt</button>
+  </nav>
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</header>
+
+<main>
+
+<!-- ════ HOME ════ -->
+<div class="page active" id="page-home">
+
+  <div class="hero">
+    <div class="hero-content">
+      <span class="hero-tag">Autogarage Rudolfstetten</span>
+      <h1>Professionell.<br><em>Zuverlässig.</em><br>Persönlich.</h1>
+      <p>Ihre HP Garage in Rudolfstetten — für alles rund ums Auto. Von der Wartung bis zur Hauptrevision, wir kümmern uns um Ihr Fahrzeug.</p>
+      <div class="hero-btns">
+        <a href="#" class="btn-main" onclick="showPage('kontakt',null)">Termin vereinbaren</a>
+        <a href="#" class="btn-outline" onclick="showPage('leistungen',null)">Unsere Leistungen</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">15+</div>
+      <div class="stat-label">Jahre Erfahrung</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">1200+</div>
+      <div class="stat-label">Zufriedene Kunden</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">98%</div>
+      <div class="stat-label">Weiterempfehlungen</div>
+    </div>
+  </div>
+
+  <div class="home-services">
+    <div class="sec-header">
+      <span class="sec-tag">Was wir bieten</span>
+      <h2 class="sec-title">Unsere Kernleistungen</h2>
+      <p class="sec-sub">Von der einfachen Inspektion bis zur komplexen Reparatur — alles aus einer Hand.</p>
+    </div>
+    <div class="srv-grid">
+      <div class="srv-card">
+        <div class="srv-icon">🔧</div>
+        <h3>Service &amp; Wartung</h3>
+        <p>Ölwechsel, Filter, Bremsflüssigkeit und mehr — wir halten Ihr Fahrzeug in Topzustand.</p>
+      </div>
+      <div class="srv-card">
+        <div class="srv-icon">🛠️</div>
+        <h3>Reparaturen</h3>
+        <p>Motor, Getriebe, Fahrwerk — wir reparieren schnell und fachgerecht, immer transparent.</p>
+      </div>
+      <div class="srv-card">
+        <div class="srv-icon">🔍</div>
+        <h3>MFK Vorbereitung</h3>
+        <p>Wir bereiten Ihr Fahrzeug optimal auf die Motorfahrzeugkontrolle vor — sicher bestehen.</p>
+      </div>
+      <div class="srv-card">
+        <div class="srv-icon">❄️</div>
+        <h3>Klimaservice</h3>
+        <p>Klimaanlage warten, befüllen und auf Lecks prüfen — für angenehme Fahrt im Sommer.</p>
+      </div>
+      <div class="srv-card">
+        <div class="srv-icon">💻</div>
+        <h3>Fahrzeugdiagnose</h3>
+        <p>Modernste Diagnosetechnik für alle Fahrzeugmarken — Fehler schnell und präzise finden.</p>
+      </div>
+      <div class="srv-card">
+        <div class="srv-icon">🛞</div>
+        <h3>Reifenwechsel</h3>
+        <p>Sommer- und Winterreifen fachgerecht montieren, wuchten und einlagern.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════ ÜBER UNS ════ -->
+<div class="page" id="page-about">
+  <div class="about-hero">
+    <h1>Über HP Garage</h1>
+    <p>Ein Team mit Leidenschaft für Fahrzeuge — und echtem Einsatz für unsere Kunden.</p>
+  </div>
+  <div class="about-body">
+    <div class="about-split">
+      <div class="about-img">📸 Foto Garage / Team</div>
+      <div class="about-text">
+        <h2>Wer wir sind</h2>
+        <p>Die HP Garage wurde vor über 15 Jahren in Rudolfstetten gegründet und hat sich seither als verlässlicher Partner für Privatpersonen und Gewerbetreibende im Raum Aargau etabliert.</p>
+        <p>Unser erfahrenes Team aus qualifizierten Automechanikern setzt auf Qualität, Transparenz und Kundennähe. Jeder Auftrag — gross oder klein — wird mit dem gleichen Engagement angegangen.</p>
+        <p>Wir arbeiten mit modernstem Diagnosegerät und hochwertigen Originalteilen, damit Ihr Fahrzeug lange und sicher läuft.</p>
+      </div>
+    </div>
+    <div class="about-values">
+      <div class="val-card">
+        <div class="val-ic">🤝</div>
+        <h3>Vertrauen</h3>
+        <p>Transparente Preise, ehrliche Beratung — keine versteckten Kosten.</p>
+      </div>
+      <div class="val-card">
+        <div class="val-ic">⚡</div>
+        <h3>Schnelligkeit</h3>
+        <p>Kurze Wartezeiten, pünktliche Rückgabe. Ihre Zeit ist wertvoll.</p>
+      </div>
+      <div class="val-card">
+        <div class="val-ic">🏆</div>
+        <h3>Qualität</h3>
+        <p>Nur hochwertige Ersatzteile. Arbeit mit Garantie.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ LEISTUNGEN ════ -->
+<div class="page" id="page-leistungen">
+  <div class="srv-page-hero">
+    <h1>Unsere Leistungen</h1>
+    <p>Alles rund ums Auto — kompetent, schnell und zu fairen Preisen.</p>
+  </div>
+  <div class="srv-page-body">
+    <div class="srv-big-grid">
+      <div class="srv-big-card">
+        <div class="head">
+          <div class="lic">🔧</div>
+          <h3>Service &amp; Wartung</h3>
+        </div>
+        <p>Regelmässige Wartung verlängert die Lebensdauer Ihres Fahrzeugs und spart langfristig Kosten. Wir führen alle Servicearbeiten nach Herstellervorgabe durch.</p>
+        <ul>
+          <li>Ölwechsel &amp; Filterwechsel</li>
+          <li>Bremsflüssigkeit &amp; Kühlmittel</li>
+          <li>Zündkerzen, Riemen</li>
+          <li>Inspektion nach Serviceheft</li>
+        </ul>
+      </div>
+      <div class="srv-big-card">
+        <div class="head">
+          <div class="lic">🛠️</div>
+          <h3>Reparaturen</h3>
+        </div>
+        <p>Von kleinen Defekten bis zur grossen Revision — wir diagnostizieren präzise und reparieren fachgerecht mit Originalteilen oder gleichwertigen Qualitätsteilen.</p>
+        <ul>
+          <li>Motor- &amp; Getriebereparaturen</li>
+          <li>Fahrwerks- &amp; Lenkungsarbeiten</li>
+          <li>Bremsen &amp; ABS</li>
+          <li>Abgas- &amp; Auspuffanlage</li>
+        </ul>
+      </div>
+      <div class="srv-big-card">
+        <div class="head">
+          <div class="lic">🔍</div>
+          <h3>MFK Vorbereitung</h3>
+        </div>
+        <p>Bestehen Sie die Motorfahrzeugkontrolle ohne Stress. Wir überprüfen alle relevanten Punkte vorab und beheben Mängel sofort.</p>
+        <ul>
+          <li>Vollständige Vorinspektion</li>
+          <li>Licht &amp; Blinker prüfen</li>
+          <li>Bremsen kontrollieren</li>
+          <li>Abgas- &amp; Emissionsmessung</li>
+        </ul>
+      </div>
+      <div class="srv-big-card">
+        <div class="head">
+          <div class="lic">❄️</div>
+          <h3>Klimaservice</h3>
+        </div>
+        <p>Eine gewartete Klimaanlage spart Sprit und schützt vor Keimen. Wir warten Ihr System professionell mit modernsten Geräten.</p>
+        <ul>
+          <li>Klimaanlage befüllen</li>
+          <li>Dichtigkeitsprüfung</li>
+          <li>Pollen-/Innenraumfilter</li>
+          <li>Desinfektion &amp; Geruchsbehandlung</li>
+        </ul>
+      </div>
+      <div class="srv-big-card">
+        <div class="head">
+          <div class="lic">💻</div>
+          <h3>Fahrzeugdiagnose</h3>
+        </div>
+        <p>Modernes Diagnosegerät für alle Marken. Fehlercodes auslesen und interpretieren — damit keine Zeit verloren geht.</p>
+        <ul>
+          <li>OBD-Diagnose aller Systeme</li>
+          <li>Fehlerspeicher auslesen &amp; löschen</li>
+          <li>Steuergeräte-Kalibrierung</li>
+          <li>Elektrische Diagnose</li>
+        </ul>
+      </div>
+      <div class="srv-big-card">
+        <div class="head">
+          <div class="lic">🛞</div>
+          <h3>Reifenwechsel &amp; -service</h3>
+        </div>
+        <p>Pünktlich zum Sommer- oder Winterbeginn — wir wechseln, montieren und wuchten Ihre Reifen schnell und sicher.</p>
+        <ul>
+          <li>Reifen montieren &amp; wuchten</li>
+          <li>Reifeneinlagerung</li>
+          <li>Reifendruck TPMS</li>
+          <li>Reifen verkaufen &amp; beraten</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ KONTAKT ════ -->
+<div class="page" id="page-kontakt">
+  <div class="kontakt-hero">
+    <h1>Kontakt aufnehmen</h1>
+    <p>Wir freuen uns auf Ihre Anfrage — telefonisch, per E-Mail oder über das Formular.</p>
+  </div>
+  <div class="kontakt-body">
+    <div class="kontakt-split">
+      <div class="k-info">
+        <h2>So erreichen Sie uns</h2>
+        <div class="k-item">
+          <div class="k-ic">📍</div>
+          <div>
+            <strong>Adresse</strong>
+            Musterstrasse 1<br>8964 Rudolfstetten-Friedlisberg
+          </div>
+        </div>
+        <div class="k-item">
+          <div class="k-ic">📞</div>
+          <div>
+            <strong>Telefon</strong>
+            <a href="tel:+41561234567">+41 56 123 45 67</a>
+          </div>
+        </div>
+        <div class="k-item">
+          <div class="k-ic">✉️</div>
+          <div>
+            <strong>E-Mail</strong>
+            <a href="mailto:info@hpgarage.ch">info@hpgarage.ch</a>
+          </div>
+        </div>
+
+        <div class="hours-wrap" style="margin-top:30px">
+          <h2>Öffnungszeiten</h2>
+          <table class="hours-table">
+            <tr><td>Montag – Freitag</td><td>07:30 – 17:30</td></tr>
+            <tr><td>Samstag</td><td>08:00 – 12:00</td></tr>
+            <tr><td>Sonntag</td><td>Geschlossen</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div>
+        <div style="background:#e6e4e0;border-radius:12px;height:200px;display:flex;align-items:center;justify-content:center;color:#aaa;margin-bottom:24px;border:1px solid #d8d8d8">
+          📍 Google Maps Einbindung
+        </div>
+        <div class="form-wrap">
+          <h2>Terminanfrage</h2>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Vorname</label>
+              <input type="text" placeholder="Max">
+            </div>
+            <div class="form-group">
+              <label>Nachname</label>
+              <input type="text" placeholder="Mustermann">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Telefon / E-Mail</label>
+            <input type="text" placeholder="+41 79 000 00 00">
+          </div>
+          <div class="form-group">
+            <label>Gewünschte Leistung</label>
+            <select>
+              <option>Service &amp; Wartung</option>
+              <option>Reparatur</option>
+              <option>MFK Vorbereitung</option>
+              <option>Klimaservice</option>
+              <option>Reifenwechsel</option>
+              <option>Sonstiges</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Nachricht</label>
+            <textarea placeholder="Fahrzeug, Jahrgang, Anliegen..."></textarea>
+          </div>
+          <button class="btn-submit">Anfrage senden</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 HP Garage Rudolfstetten &nbsp;·&nbsp; <a href="#">Impressum</a> &nbsp;·&nbsp; <a href="#">Datenschutz</a></p>
+</footer>
+
+<script>
+  function showPage(id, btn) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    if (btn) {
+      document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+  function toggleMenu() {
+    const nav = document.querySelector('.nav-links');
+    nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+    nav.style.flexDirection = 'column';
+    nav.style.position = 'absolute';
+    nav.style.top = '68px';
+    nav.style.left = '0';
+    nav.style.right = '0';
+    nav.style.background = '#1a1a1a';
+    nav.style.padding = '16px';
+    nav.style.gap = '8px';
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HP Garage – Rudolfstetten</title>
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Segoe UI',Arial,sans-serif;color:#2d2d2d;background:#fff}
+  a{text-decoration:none;color:inherit}
+
+  /* HEADER */
+  header{
+    position:sticky;top:0;z-index:99;
+    background:#1a1a1a;height:62px;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 6%;box-shadow:0 2px 8px rgba(0,0,0,.4)
+  }
+  .logo{font-size:1.55rem;font-weight:800;color:#fff;letter-spacing:1px}
+  .logo span{color:#d62828}
+  nav a{color:#bbb;margin-left:26px;font-size:.9rem;letter-spacing:.4px;transition:color .2s}
+  nav a:hover{color:#d62828}
+
+  /* HERO */
+  .hero{
+    background:#1a1a1a;
+    padding:80px 6% 90px;text-align:center;color:#fff
+  }
+  .hero-badge{
+    display:inline-block;background:#d62828;color:#fff;
+    font-size:.72rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;
+    padding:5px 14px;border-radius:20px;margin-bottom:20px
+  }
+  .hero h1{font-size:2.5rem;font-weight:800;line-height:1.2;margin-bottom:14px}
+  .hero p{color:#999;font-size:1.05rem;max-width:500px;margin:0 auto 32px;line-height:1.75}
+  .btn{
+    display:inline-block;background:#d62828;color:#fff;
+    padding:13px 32px;border-radius:6px;font-weight:700;font-size:.95rem;
+    transition:background .2s,transform .15s
+  }
+  .btn:hover{background:#b51f1f;transform:translateY(-2px)}
+
+  /* SECTIONS */
+  .sec{padding:65px 6%;max-width:1080px;margin:0 auto}
+  .sec-alt{background:#f6f6f6}
+  .sec-alt .sec{max-width:100%;padding:65px 6%}
+  .sec-alt .inner{max-width:1080px;margin:0 auto}
+  .sec-title{font-size:1.65rem;font-weight:800;color:#1a1a1a;margin-bottom:10px}
+  .sec-bar{width:46px;height:4px;background:#d62828;border-radius:2px;margin-bottom:38px}
+
+  /* SERVICES */
+  .grid-6{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    gap:18px
+  }
+  .card{
+    background:#fff;border:1px solid #e4e4e4;border-radius:10px;
+    padding:28px 18px;text-align:center;
+    transition:box-shadow .25s,transform .2s
+  }
+  .card:hover{box-shadow:0 8px 24px rgba(0,0,0,.09);transform:translateY(-3px)}
+  .card .ic{font-size:2rem;margin-bottom:12px}
+  .card h3{font-size:.9rem;font-weight:600;color:#1a1a1a}
+
+  /* ABOUT */
+  .about-text{line-height:1.85;color:#555;font-size:1.02rem;max-width:680px}
+
+  /* CONTACT */
+  .contact-wrap{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:start}
+  .contact-wrap h3{font-size:1rem;font-weight:700;margin-bottom:14px;color:#1a1a1a}
+  .contact-wrap p{margin:9px 0;color:#555;line-height:1.65;font-size:.95rem}
+  .contact-wrap a{color:#d62828}
+  table.hours{width:100%;border-collapse:collapse}
+  table.hours td{padding:9px 4px;border-bottom:1px solid #e8e8e8;color:#555;font-size:.93rem}
+  table.hours td:last-child{text-align:right;font-weight:600;color:#1a1a1a}
+  .map-ph{
+    background:#e6e4e0;border-radius:8px;height:170px;
+    display:flex;align-items:center;justify-content:center;
+    color:#888;font-size:.88rem;margin-top:18px;border:1px solid #d8d8d8
+  }
+
+  /* FOOTER */
+  footer{background:#1a1a1a;color:#666;text-align:center;padding:20px;font-size:.82rem}
+  footer a{color:#888}
+
+  /* MOBILE */
+  @media(max-width:660px){
+    nav{display:none}
+    .hero h1{font-size:1.8rem}
+    .contact-wrap{grid-template-columns:1fr;gap:30px}
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">HP<span>Garage</span></div>
+  <nav>
+    <a href="#leistungen">Leistungen</a>
+    <a href="#ueber-uns">Über uns</a>
+    <a href="#kontakt">Kontakt</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <span class="hero-badge">Autogarage · Rudolfstetten</span>
+  <h1>Ihr zuverlässiger<br>Partner rund ums Auto</h1>
+  <p>Professionelle Reparaturen, Service und Fahrzeugpflege — fair, schnell und persönlich in Rudolfstetten.</p>
+  <a href="#kontakt" class="btn">Termin anfragen</a>
+</section>
+
+<!-- LEISTUNGEN -->
+<div class="sec" id="leistungen">
+  <p class="sec-title">Unsere Leistungen</p>
+  <div class="sec-bar"></div>
+  <div class="grid-6">
+    <div class="card"><div class="ic">🔧</div><h3>Service &amp; Wartung</h3></div>
+    <div class="card"><div class="ic">🛠️</div><h3>Reparaturen</h3></div>
+    <div class="card"><div class="ic">🔍</div><h3>MFK Vorbereitung</h3></div>
+    <div class="card"><div class="ic">❄️</div><h3>Klimaservice</h3></div>
+    <div class="card"><div class="ic">💻</div><h3>Fahrzeugdiagnose</h3></div>
+    <div class="card"><div class="ic">🛞</div><h3>Reifenwechsel</h3></div>
+  </div>
+</div>
+
+<!-- ÜBER UNS -->
+<div class="sec-alt" id="ueber-uns">
+  <div class="sec inner">
+    <p class="sec-title">Über uns</p>
+    <div class="sec-bar"></div>
+    <p class="about-text">
+      Die HP Garage in Rudolfstetten ist Ihr vertrauenswürdiger Ansprechpartner für alle Fahrzeuganliegen.
+      Mit langjähriger Erfahrung und modernstem Equipment sorgen wir dafür, dass Ihr Fahrzeug immer in Topform ist.
+      Bei uns erhalten Sie persönliche Beratung, transparente Preise und schnelle Ausführung —
+      weil Ihre Zufriedenheit für uns an erster Stelle steht.
+    </p>
+  </div>
+</div>
+
+<!-- KONTAKT -->
+<div class="sec" id="kontakt">
+  <p class="sec-title">Kontakt &amp; Öffnungszeiten</p>
+  <div class="sec-bar"></div>
+  <div class="contact-wrap">
+    <div>
+      <h3>Adresse &amp; Kontakt</h3>
+      <p>📍 Musterstrasse 1<br>8964 Rudolfstetten-Friedlisberg</p>
+      <p>📞 <a href="tel:+41561234567">+41 56 123 45 67</a></p>
+      <p>✉️ <a href="mailto:info@hpgarage.ch">info@hpgarage.ch</a></p>
+      <div class="map-ph">📍 Google Maps Einbindung</div>
+    </div>
+    <div>
+      <h3>Öffnungszeiten</h3>
+      <table class="hours">
+        <tr><td>Montag – Freitag</td><td>07:30 – 12:00 &nbsp;/&nbsp; 13:00 – 17:30</td></tr>
+        <tr><td>Samstag</td><td>08:00 – 12:00</td></tr>
+        <tr><td>Sonntag</td><td>Geschlossen</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 HP Garage Rudolfstetten &nbsp;·&nbsp; <a href="#">Impressum</a> &nbsp;·&nbsp; <a href="#">Datenschutz</a></p>
+</footer>
+
+</body>
+</html>

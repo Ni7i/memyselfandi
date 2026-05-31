@@ -30,6 +30,7 @@ img{display:block;max-width:100%}
 #nav{position:fixed;top:0;left:0;right:0;z-index:900;height:72px;padding:0 5%;display:flex;align-items:center;justify-content:space-between;transition:background .4s,border-color .4s;border-bottom:1px solid transparent}
 #nav.pinned{background:rgba(8,8,8,.94);backdrop-filter:blur(18px);border-color:var(--border)}
 .n-logo{display:flex;align-items:center;gap:11px;font-size:1.35rem;font-weight:900;color:#fff;letter-spacing:1px;cursor:pointer}
+.nav-logo-img{height:48px;width:auto;object-fit:contain}
 .n-badge{width:36px;height:36px;background:var(--red);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:900;color:#fff;flex-shrink:0}
 .n-links{display:flex;align-items:center;gap:2px}
 .n-links a{color:#555;padding:8px 13px;border-radius:6px;font-size:.84rem;font-weight:500;transition:color .2s,background .2s;cursor:pointer}
@@ -292,12 +293,7 @@ footer{background:var(--dark);border-top:1px solid var(--border)}
 <!-- NAV -->
 <header id="nav">
   <div class="n-logo" onclick="go('home')">
-    <svg width="130" height="34" viewBox="0 0 130 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="34" height="34" rx="7" fill="#c1121f"/>
-      <text x="17" y="23" font-family="Inter,Arial,sans-serif" font-size="14" font-weight="900" fill="white" text-anchor="middle" dominant-baseline="auto">HP</text>
-      <text x="44" y="22" font-family="Inter,Arial,sans-serif" font-size="17" font-weight="900" fill="white" dominant-baseline="auto">HP<tspan fill="#c1121f">Garage</tspan></text>
-      <text x="44" y="31" font-family="Inter,Arial,sans-serif" font-size="6.5" font-weight="500" fill="#444" letter-spacing="2" dominant-baseline="auto">RUDOLFSTETTEN</text>
-    </svg>
+    <img src="logo.png" alt="HP Garage" class="nav-logo-img">
   </div>
   <nav class="n-links">
     <a onclick="go('home')" id="nl-home" class="active">Start</a>
@@ -803,8 +799,7 @@ footer{background:var(--dark);border-top:1px solid var(--border)}
     <div class="ft-cols">
       <div class="ft-brand">
         <div class="n-logo" onclick="go('home')" style="margin-bottom:14px">
-          <div class="n-badge">HP</div>
-          <span>HP<b style="color:var(--red);font-weight:900">Garage</b></span>
+          <img src="logo.png" alt="HP Garage" class="nav-logo-img">
         </div>
         <p>Ihre Autogarage in Rudolfstetten &mdash; persönlich, fair und professionell seit über 15 Jahren.</p>
         <div class="ft-social">

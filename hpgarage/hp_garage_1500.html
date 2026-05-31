@@ -20,8 +20,8 @@ img{display:block;max-width:100%}
 /* LOADER */
 #loader{position:fixed;inset:0;z-index:9999;background:var(--dark);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .7s ease,visibility .7s ease}
 #loader.out{opacity:0;visibility:hidden}
-.ld-logo{font-size:1.8rem;font-weight:900;color:#fff;letter-spacing:2px}
-.ld-logo b{color:var(--red)}
+.ld-logo{display:flex;align-items:center;justify-content:center}
+.ld-logo img{height:80px;width:auto;object-fit:contain}
 .ld-track{width:140px;height:2px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden}
 .ld-fill{height:100%;background:var(--red);width:0;border-radius:2px;animation:ldAnim 1.6s cubic-bezier(.4,0,.2,1) forwards}
 @keyframes ldAnim{to{width:100%}}
@@ -288,7 +288,7 @@ footer{background:var(--dark);border-top:1px solid var(--border)}
 <body>
 
 <!-- LOADER -->
-<div id="loader"><div class="ld-logo">HP<b>Garage</b></div><div class="ld-track"><div class="ld-fill"></div></div></div>
+<div id="loader"><div class="ld-logo"><img src="logo.png" alt="HP Garage"></div><div class="ld-track"><div class="ld-fill"></div></div></div>
 
 <!-- NAV -->
 <header id="nav">

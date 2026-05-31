@@ -1,7 +1,4 @@
 {
   "version": 2,
-  "framework": null,
-  "buildCommand": "",
-  "outputDirectory": "hpgarage",
-  "installCommand": ""
+  "framework": "nextjs"
 }

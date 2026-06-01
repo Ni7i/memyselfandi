@@ -471,10 +471,6 @@ function GithubCard() {
         <div className="card-h" style={{ margin: 0 }}>{I.git}GitHub</div>
         <span className="handle">@Ni7i</span>
       </div>
-      <div className="stats">
-        <span className="big">512</span>
-        <span className="small">contributions in the last year</span>
-      </div>
       <div className="month-row">
         {months.map((m, i) => <span key={i}>{m}</span>)}
       </div>
@@ -646,7 +642,6 @@ export default function Home() {
         <div className="app">
           <div className="grid">
             <AboutCard />
-            <ShoutoutsCard />
             <GalleryCard />
             <RecitingCard onOpen={() => setQuranOpen(true)} />
             <NavCard onOpenQuran={() => setQuranOpen(true)} />

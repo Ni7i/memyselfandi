@@ -77,7 +77,6 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
 /* APP */
 .app {
   position: fixed; inset: 0;
-  max-width: 1640px; margin: 0 auto;
   padding: 22px;
   display: flex; flex-direction: column; gap: 14px;
   overflow: hidden;
@@ -89,18 +88,17 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
   grid-template-columns: repeat(14, 1fr);
   grid-template-rows: repeat(6, minmax(0, 1fr));
   grid-template-areas:
-    "abo abo abo sho sho sho sho sho gal gal rec rec nav nav"
-    "abo abo abo pro pro pro pro pro map map map map boa boa"
-    "abo abo abo pro pro pro pro pro map map map map boa boa"
-    "abo abo abo pro pro pro pro pro map map map map boa boa"
-    "stu stu stu pro pro pro pro pro git git git git boa boa"
-    "stu stu stu pro pro pro pro pro git git git git boa boa";
+    "abo abo abo gal gal gal gal rec rec rec nav nav nav nav"
+    "abo abo abo pro pro pro pro pro map map map boa boa boa"
+    "abo abo abo pro pro pro pro pro map map map boa boa boa"
+    "abo abo abo pro pro pro pro pro map map map boa boa boa"
+    "stu stu stu pro pro pro pro pro git git git boa boa boa"
+    "stu stu stu pro pro pro pro pro git git git boa boa boa";
   gap: 14px;
   flex: 1;
   min-height: 0;
 }
 .gd-about    { grid-area: abo; }
-.gd-shouts   { grid-area: sho; }
 .gd-gallery  { grid-area: gal; }
 .gd-reciting { grid-area: rec; }
 .gd-nav      { grid-area: nav; }
@@ -390,11 +388,11 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
     grid-template-columns: repeat(12, 1fr);
     grid-template-rows: repeat(5, minmax(0, 1fr));
     grid-template-areas:
-      "abo abo abo sho sho sho sho gal gal rec rec nav"
-      "abo abo abo pro pro pro pro pro map map map map"
-      "abo abo abo pro pro pro pro pro map map map map"
-      "stu stu stu pro pro pro pro pro git git git git"
-      "stu stu stu boa boa boa boa boa boa boa boa boa";
+      "abo abo abo gal gal gal rec rec rec nav nav nav"
+      "abo abo abo pro pro pro pro pro map map boa boa"
+      "abo abo abo pro pro pro pro pro map map boa boa"
+      "stu stu stu pro pro pro pro pro git git boa boa"
+      "stu stu stu pro pro pro pro pro git git boa boa";
   }
   .socials { grid-template-columns: repeat(3, 1fr); }
   .qv-grid { column-count: 4; }
@@ -407,7 +405,6 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
     grid-template-rows: auto;
     flex: none;
     grid-template-areas:
-      "abo abo abo abo sho sho sho sho"
       "abo abo abo abo gal gal rec rec"
       "abo abo abo abo nav nav nav nav"
       "stu stu stu stu stu stu stu stu"
@@ -422,7 +419,7 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
 @media (max-width: 600px) {
   .grid {
     grid-template-columns: 1fr;
-    grid-template-areas: "abo" "sho" "gal" "rec" "nav" "pro" "map" "stu" "git" "boa";
+    grid-template-areas: "abo" "gal" "rec" "nav" "pro" "map" "stu" "git" "boa";
   }
   .socials { grid-template-columns: 1fr; }
   .about h1 { font-size: 30px; }

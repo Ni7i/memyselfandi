@@ -111,21 +111,21 @@ function QuranView({ onClose }: { onClose: () => void }) {
     { num: "01", ar: "ٱلْفَاتِحَة", tr: "Al-Fātiḥah",   reciter: "M. Ayyub",     pat: "star8",   c: 7,  size: "tall" },
     { num: "67", ar: "ٱلْمُلْك",   tr: "Al-Mulk",      reciter: "Y. Al-Dosari", pat: "rings",   c: 1,  size: "tall" },
     { num: "55", ar: "ٱلرَّحْمَٰن", tr: "Ar-Raḥmān",    reciter: "M. Ayyub",     pat: "bloom",   c: 2,  size: "mid"  },
-    { num: "18", ar: "ٱلْكَهْف",   tr: "Al-Kahf",      reciter: "Ali Jaber",    pat: "weave",   c: 3,  size: "tall" },
+    { num: "18", ar: "ٱلْكَهْف",   tr: "Al-Kahf",      reciter: "Ali Jabir",    pat: "weave",   c: 3,  size: "tall" },
     { num: "02", ar: "ٱلْبَقَرَة",  tr: "Al-Baqarah",   reciter: "Y. Al-Dosari", pat: "grid",    c: 6,  size: "mid"  },
     { num: "36", ar: "يٰسٓ",       tr: "Yā-Sīn",       reciter: "M. Ayyub",     pat: "star8",   c: 8,  size: "short"},
-    { num: "112",ar: "ٱلْإِخْلَاص", tr: "Al-Ikhlāṣ",   reciter: "Ali Jaber",    pat: "minimal", c: 9,  size: "short"},
-    { num: "113",ar: "ٱلْفَلَق",   tr: "Al-Falaq",     reciter: "Ali Jaber",    pat: "rings",   c: 10, size: "wide" },
-    { num: "114",ar: "ٱلنَّاس",    tr: "An-Nās",       reciter: "Ali Jaber",    pat: "minimal", c: 6,  size: "short"},
+    { num: "112",ar: "ٱلْإِخْلَاص", tr: "Al-Ikhlāṣ",   reciter: "Ali Jabir",    pat: "minimal", c: 9,  size: "short"},
+    { num: "113",ar: "ٱلْفَلَق",   tr: "Al-Falaq",     reciter: "Ali Jabir",    pat: "rings",   c: 10, size: "wide" },
+    { num: "114",ar: "ٱلنَّاس",    tr: "An-Nās",       reciter: "Ali Jabir",    pat: "minimal", c: 6,  size: "short"},
     { num: "78", ar: "ٱلنَّبَأ",    tr: "An-Naba'",     reciter: "Y. Al-Dosari", pat: "weave",   c: 4,  size: "tall" },
     { num: "56", ar: "ٱلْوَاقِعَة",  tr: "Al-Wāqi'ah",  reciter: "M. Ayyub",     pat: "bloom",   c: 5,  size: "mid"  },
     { num: "12", ar: "يُوسُف",      tr: "Yūsuf",        reciter: "M. Ayyub",     pat: "grid",    c: 1,  size: "mid"  },
     { num: "19", ar: "مَرْيَم",     tr: "Maryam",       reciter: "Y. Al-Dosari", pat: "rings",   c: 3,  size: "tall" },
     { num: "20", ar: "طٰهٰ",        tr: "Ṭā-Hā",        reciter: "M. Ayyub",     pat: "star8",   c: 9,  size: "short"},
-    { num: "32", ar: "ٱلسَّجْدَة",  tr: "As-Sajdah",    reciter: "Ali Jaber",    pat: "weave",   c: 2,  size: "mid"  },
+    { num: "32", ar: "ٱلسَّجْدَة",  tr: "As-Sajdah",    reciter: "Ali Jabir",    pat: "weave",   c: 2,  size: "mid"  },
     { num: "44", ar: "ٱلدُّخَان",   tr: "Ad-Dukhān",    reciter: "Y. Al-Dosari", pat: "grid",    c: 5,  size: "short"},
     { num: "76", ar: "ٱلْإِنْسَان", tr: "Al-Insān",     reciter: "M. Ayyub",     pat: "bloom",   c: 7,  size: "mid"  },
-    { num: "85", ar: "ٱلْبُرُوج",   tr: "Al-Burūj",     reciter: "Ali Jaber",    pat: "minimal", c: 10, size: "short"},
+    { num: "85", ar: "ٱلْبُرُوج",   tr: "Al-Burūj",     reciter: "Ali Jabir",    pat: "minimal", c: 10, size: "short"},
     { num: "97", ar: "ٱلْقَدْر",    tr: "Al-Qadr",      reciter: "Y. Al-Dosari", pat: "star8",   c: 4,  size: "short"},
     { num: "99", ar: "ٱلزَّلْزَلَة", tr: "Az-Zalzalah",  reciter: "M. Ayyub",     pat: "rings",   c: 8,  size: "wide" },
   ];
@@ -133,10 +133,10 @@ function QuranView({ onClose }: { onClose: () => void }) {
   const reciters = [
     { num: "01", ar: "محمد أيوب",          tr: "Muhammad Ayyub",       reciter: "Madinah", pat: "rings",   c: 5, size: "tall"  },
     { num: "02", ar: "ياسر الدوسري",        tr: "Yasser Al-Dosari",     reciter: "Makkah",  pat: "star8",   c: 2, size: "mid"   },
-    { num: "03", ar: "علي جابر",           tr: "Ali Jaber",            reciter: "Madinah", pat: "bloom",   c: 7, size: "tall"  },
+    { num: "03", ar: "علي جابر",           tr: "Ali Jabir",            reciter: "Madinah", pat: "bloom",   c: 7, size: "tall"  },
     { num: "04", ar: "عبد الرحمٰن السديس",  tr: "Abdurrahman As-Sudais",reciter: "Makkah",  pat: "weave",   c: 1, size: "mid"   },
     { num: "05", ar: "سعد الغامدي",         tr: "Sa'ad Al-Ghamidi",     reciter: "Makkah",  pat: "grid",    c: 4, size: "short" },
-    { num: "06", ar: "مشاري العفاسي",       tr: "Mishary Alafasy",      reciter: "Kuwait",  pat: "minimal", c: 8, size: "short" },
+    { num: "06", ar: "ماهر المعيقلي",       tr: "Maher Al-Muaiqly",     reciter: "Makkah",  pat: "minimal", c: 8, size: "short" },
   ];
 
   const data = filter === "surahs" ? surahs : reciters;
@@ -242,6 +242,14 @@ function GalleryCard() {
         <div className="gallery-photo code"><div className="ph">Setup</div></div>
         <div className="gallery-photo cay"><div className="ph">Çay</div></div>
       </div>
+      <div className="gallery-vid">
+        <iframe
+          src="https://www.youtube.com/embed/sbSDGjnRqek?controls=0&modestbranding=1&rel=0&playsinline=1"
+          title="Istanbul"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      </div>
     </div>
   );
 }
@@ -251,8 +259,8 @@ function RecitingCard({ onOpen }: { onOpen: () => void }) {
   const tracks = [
     { reciter: "Muhammad Ayyub",   surah: "Al-Mulk",   num: "67" },
     { reciter: "Yasser Al-Dosari", surah: "Ar-Rahman", num: "55" },
-    { reciter: "Ali Jaber",        surah: "Al-Kahf",   num: "18" },
-    { reciter: "Muhammad Ayyub",   surah: "Al-Baqarah",num: "02" },
+    { reciter: "Ali Jabir",        surah: "Al-Kahf",    num: "18" },
+    { reciter: "Maher Al-Muaiqly", surah: "Al-Mulk",   num: "67" },
   ];
   const [idx, setIdx] = useState(0);
   useEffect(() => {
@@ -361,9 +369,9 @@ function ProjectsCard() {
           </div>
           <p>A small attempt at putting my world on a single page — work, faith, the things that matter. Still iterating.</p>
           <div className="tag-row">
-            <span className="tag">HTML</span>
-            <span className="tag">CSS</span>
-            <span className="tag">a lot of feelings</span>
+            <span className="tag">Next.js</span>
+            <span className="tag">TypeScript</span>
+            <a href="https://enisshorra.ch" target="_blank" rel="noopener noreferrer" className="tag tag-link">↗ enisshorra.ch</a>
           </div>
         </div>
       </div>
@@ -579,7 +587,7 @@ function SocialsRow() {
     { cls: "gh", lbl: "GitHub",   handle: "/Ni7i",              icon: I.git,     href: "https://github.com/Ni7i" },
     { cls: "li", lbl: "LinkedIn", handle: "/enis-shorra",       icon: I.link,    href: "https://linkedin.com/in/enis-shorra" },
     { cls: "em", lbl: "Email",    handle: "shorra.enis@hotmail",icon: I.mail,    href: "mailto:shorra.enis@hotmail.com" },
-    { cls: "dc", lbl: "Discord",  handle: "enis.shorra",        icon: I.discord, href: "#" },
+    { cls: "dc", lbl: "Discord",  handle: "nisi_17",             icon: I.discord, href: "https://discord.com/users/nisi_17" },
   ];
   return (
     <div className="socials">

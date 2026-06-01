@@ -36,7 +36,7 @@ html, body {
   font-size: 14px;
   line-height: 1.5;
   letter-spacing: -0.005em;
-  height: 100vh;
+  height: 100%;
   overflow: hidden;
 }
 
@@ -47,50 +47,41 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
 /* LOADING */
 .loading {
   position: fixed; inset: 0; z-index: 9999; background: var(--bg);
-  display: grid; place-items: center;
-  transition: opacity 0.9s ease, visibility 0.9s ease;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  transition: opacity 0.7s ease, visibility 0.7s ease;
 }
 .loading.fade { opacity: 0; visibility: hidden; pointer-events: none; }
-.loading-inner { display: flex; flex-direction: column; align-items: center; gap: 32px; }
-.loading-art { width: 200px; height: 200px; position: relative; }
-.loading-art svg { width: 100%; height: 100%; overflow: visible; }
-.loading-art .stroke {
-  fill: none; stroke: var(--accent); stroke-width: 1.1;
-  stroke-linecap: round; stroke-linejoin: round;
-  stroke-dasharray: 900; stroke-dashoffset: 900;
-  animation: draw 2.6s ease-out forwards;
-  filter: drop-shadow(0 0 10px rgba(240, 142, 127, 0.35));
+.loading-center {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  opacity: 0; animation: fadeUp 0.6s ease-out 0.15s forwards;
 }
-.loading-art .dot { fill: var(--accent); opacity: 0; animation: pop 0.5s ease-out 2.3s forwards; }
-@keyframes draw { to { stroke-dashoffset: 0; } }
-@keyframes pop { from { opacity: 0; transform: scale(0); } to { opacity: 1; transform: scale(1); } }
-.loading-text {
-  font-family: var(--font-body), sans-serif; font-weight: 400; font-size: 36px;
-  letter-spacing: -0.02em; color: var(--text);
-  opacity: 0; animation: fadeUp 0.9s ease-out 1.2s forwards; text-align: center;
-}
-.loading-text .italic {
-  font-family: var(--font-display), serif; font-style: italic; color: var(--accent);
-  font-size: 56px; margin-left: 6px;
-}
-.loading-sub {
-  font-family: var(--font-mono), monospace; font-size: 10.5px; letter-spacing: 0.3em;
+.loading-hi {
+  font-family: var(--font-mono), monospace; font-size: 11px; letter-spacing: 0.28em;
   text-transform: uppercase; color: var(--text-faint);
-  opacity: 0; animation: fadeUp 0.8s ease-out 1.8s forwards;
 }
-.loading-progress {
-  width: 240px; height: 1px; background: var(--border); position: relative; overflow: hidden;
-  opacity: 0; animation: fadeUp 0.6s ease-out 2s forwards;
+.loading-name {
+  font-family: var(--font-display), serif; font-style: italic;
+  font-size: 100px; letter-spacing: -0.025em; line-height: 1; color: var(--accent);
 }
-.loading-progress::before {
-  content: ""; position: absolute; inset: 0; background: var(--accent);
-  transform-origin: left; animation: prog 1.5s ease-out 2s forwards; transform: scaleX(0);
+.loading-bar {
+  position: fixed; bottom: 0; left: 0; right: 0; height: 2px; background: var(--border);
+  opacity: 0; animation: fadeUp 0.4s ease-out 0.4s forwards;
 }
-@keyframes prog { to { transform: scaleX(1); } }
-@keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.loading-bar-fill {
+  height: 100%; background: var(--accent); width: 0;
+  animation: barFill 1.3s cubic-bezier(0.4, 0, 0.2, 1) 0.4s forwards;
+}
+@keyframes barFill { to { width: 100%; } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
 /* APP */
-.app { max-width: 1640px; margin: 0 auto; padding: 22px; position: relative; z-index: 1; height: 100vh; display: flex; flex-direction: column; gap: 14px; overflow: hidden; }
+.app {
+  position: fixed; inset: 0;
+  max-width: 1640px; margin: 0 auto;
+  padding: 22px;
+  display: flex; flex-direction: column; gap: 14px;
+  overflow: hidden;
+}
 
 /* GRID */
 .grid {
@@ -410,7 +401,7 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
 }
 @media (max-width: 980px) {
   html, body { height: auto; overflow-y: auto; }
-  .app { height: auto; overflow: visible; }
+  .app { position: static; height: auto; overflow: visible; }
   .grid {
     grid-template-columns: repeat(8, 1fr);
     grid-template-rows: auto;

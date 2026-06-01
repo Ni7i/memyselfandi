@@ -15,7 +15,7 @@ export default function LoadingScreen() {
 
   return (
     <div id="loader" ref={ref} role="status" aria-label="Seite wird geladen">
-      <Image src="/logo.png" alt="HP Garage" width={200} height={56} priority />
+      <span style={{ fontWeight: 900, fontSize: '1.6rem', letterSpacing: '0.2em', color: '#fff' }}>MEMYSELFANDI</span>
       <div className="ld-bar-track">
         <div className="ld-bar-fill" />
       </div>

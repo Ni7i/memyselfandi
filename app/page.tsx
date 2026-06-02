@@ -237,63 +237,115 @@ function ShoutoutsCard() {
 
 // ─── Gallery ─────────────────────────────────────────────────────────────────
 const GALLERY_PHOTOS = [
-  { src: "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=400&h=280&fit=crop", alt: "Lauterbrunnen" },
-  { src: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=280&fit=crop", alt: "Grindelwald" },
-  { src: "https://images.unsplash.com/photo-1548345680-f5475ea5df84?w=400&h=280&fit=crop", alt: "Zürichsee" },
+  { src: "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=400&h=280&fit=crop", full: "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=1600&q=90", alt: "Lauterbrunnen, Bern" },
+  { src: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=280&fit=crop", full: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=90", alt: "Grindelwald, Bern" },
+  { src: "https://images.unsplash.com/photo-1548345680-f5475ea5df84?w=400&h=280&fit=crop", full: "https://images.unsplash.com/photo-1548345680-f5475ea5df84?w=1600&q=90", alt: "Zürichsee, Zurich" },
 ];
 
 function GalleryCard() {
+  const [open, setOpen] = useState<number | null>(null);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (open === null) return;
+      if (e.key === "Escape") setOpen(null);
+      if (e.key === "ArrowRight") setOpen(o => (o! + 1) % GALLERY_PHOTOS.length);
+      if (e.key === "ArrowLeft")  setOpen(o => (o! - 1 + GALLERY_PHOTOS.length) % GALLERY_PHOTOS.length);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
   return (
-    <div className="card gallery gd-gallery">
-      <div className="card-h">{I.image}Gallery</div>
-      <div className="gallery-stack">
-        {GALLERY_PHOTOS.map((p, i) => (
-          <div key={i} className={`gallery-photo p${i + 1}`}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={p.src} alt={p.alt} />
-          </div>
-        ))}
+    <>
+      <div className="card gallery gd-gallery">
+        <div className="card-h">{I.image}Gallery</div>
+        <div className="gallery-stack">
+          {GALLERY_PHOTOS.map((p, i) => (
+            <div key={i} className={`gallery-photo p${i + 1}`} onClick={() => setOpen(i)}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={p.src} alt={p.alt} />
+            </div>
+          ))}
+        </div>
+        <div className="gallery-label">Switzerland · tap to open</div>
       </div>
-      <div className="gallery-label">Switzerland · 2024</div>
-    </div>
+
+      {open !== null && (
+        <div className="g-modal" onClick={() => setOpen(null)}>
+          <div className="g-modal-inner" onClick={e => e.stopPropagation()}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={GALLERY_PHOTOS[open].full} alt={GALLERY_PHOTOS[open].alt} />
+            <div className="g-modal-bar">
+              <span className="g-modal-alt">{GALLERY_PHOTOS[open].alt}</span>
+              <span className="g-modal-count">{open + 1} / {GALLERY_PHOTOS.length}</span>
+            </div>
+          </div>
+          <button className="g-modal-nav g-prev" onClick={e => { e.stopPropagation(); setOpen(o => (o! - 1 + GALLERY_PHOTOS.length) % GALLERY_PHOTOS.length); }}>‹</button>
+          <button className="g-modal-nav g-next" onClick={e => { e.stopPropagation(); setOpen(o => (o! + 1) % GALLERY_PHOTOS.length); }}>›</button>
+          <button className="g-modal-close" onClick={() => setOpen(null)}>×</button>
+        </div>
+      )}
+    </>
   );
 }
 
 // ─── Reciting ─────────────────────────────────────────────────────────────────
-const TRACKS = [
-  { reciter: "Muhammad Ayyub",   surah: "Al-Mulk",    num: "67", ar: "الملك",   g1: "#b84a32", g2: "#4a1808" },
-  { reciter: "Yasser Al-Dosari", surah: "Ar-Raḥmān",  num: "55", ar: "الرحمن", g1: "#1e6040", g2: "#071f14" },
-  { reciter: "Ali Jabir",        surah: "Al-Kahf",    num: "18", ar: "الكهف",  g1: "#1a406e", g2: "#08162a" },
-  { reciter: "Maher Al-Muaiqly", surah: "Al-Fātiḥah", num: "01", ar: "الفاتحة",g1: "#6e5018", g2: "#241a06" },
+const RECITERS = [
+  {
+    name: "Muhammad Ayyub",     ar: "محمد أيوب",
+    mosque: "Al-Nabawi · Madinah",
+    surahs: [{ tr: "Al-Mulk", num: "67" }, { tr: "Al-Wāqiʿah", num: "56" }, { tr: "An-Naba'", num: "78" }],
+    g1: "#163424", g2: "#08160e", pat: "rings",
+  },
+  {
+    name: "Yasser Al-Dosari",   ar: "ياسر الدوسري",
+    mosque: "King Khalid · Riyadh",
+    surahs: [{ tr: "Ar-Raḥmān", num: "55" }, { tr: "Al-Baqarah", num: "2" }, { tr: "Al-Kahf", num: "18" }],
+    g1: "#341618", g2: "#16080a", pat: "star8",
+  },
+  {
+    name: "Ali Jabir",          ar: "علي جابر",
+    mosque: "Al-Haram · Makkah",
+    surahs: [{ tr: "Al-Fātiḥah", num: "1" }, { tr: "Al-Ikhlāṣ", num: "112" }, { tr: "As-Sajdah", num: "32" }],
+    g1: "#162234", g2: "#080e16", pat: "bloom",
+  },
+  {
+    name: "Maher Al-Muaiqly",   ar: "ماهر المعيقلي",
+    mosque: "Al-Haram · Makkah",
+    surahs: [{ tr: "Yā-Sīn", num: "36" }, { tr: "Al-Mulk", num: "67" }, { tr: "Al-Fātiḥah", num: "1" }],
+    g1: "#342a14", g2: "#161108", pat: "minimal",
+  },
 ];
 
 function RecitingCard({ onOpen }: { onOpen: () => void }) {
   const [idx, setIdx] = useState(0);
   useEffect(() => {
-    const t = setInterval(() => setIdx((i) => (i + 1) % TRACKS.length), 5500);
+    const t = setInterval(() => setIdx(i => (i + 1) % RECITERS.length), 6000);
     return () => clearInterval(t);
   }, []);
-  const t = TRACKS[idx];
+  const r = RECITERS[idx];
   return (
     <div className="card reciting gd-reciting" onClick={onOpen}>
       <div className="card-h">
         {I.music}Reciting
         <span className="live"><span className="pulse" />Live</span>
       </div>
-      <div
-        className="rec-art"
-        style={{ background: `linear-gradient(150deg, ${t.g1} 0%, ${t.g2} 100%)` }}
-      >
-        <span className="rec-arabic">{t.ar}</span>
+      <div className="rec-art" style={{ background: `linear-gradient(150deg, ${r.g1} 0%, ${r.g2} 100%)` }}>
+        <QuranTilePattern variant={r.pat} />
+        <span className="rec-arabic">{r.ar}</span>
       </div>
-      <div className="rec-meta">
-        <div className="rec-surah">{t.surah}<span className="rec-num"> · {t.num}</span></div>
-        <div className="rec-reciter">{t.reciter}</div>
+      <div className="rec-info">
+        <div className="rec-name">{r.name}</div>
+        <div className="rec-mosque">{r.mosque}</div>
+        <div className="rec-chips">
+          {r.surahs.map(s => (
+            <span key={s.num} className="rec-chip">{s.tr}<span className="rec-chip-num"> · {s.num}</span></span>
+          ))}
+        </div>
       </div>
       <div className="rec-dots">
-        {TRACKS.map((_, i) => (
-          <span key={i} className={`rec-dot${i === idx ? " active" : ""}`} />
-        ))}
+        {RECITERS.map((_, i) => <span key={i} className={`rec-dot${i === idx ? " active" : ""}`} />)}
       </div>
     </div>
   );
@@ -324,56 +376,63 @@ function NavCard({ onOpenQuran }: { onOpenQuran: () => void }) {
 }
 
 // ─── Projects ─────────────────────────────────────────────────────────────────
+const REPOS = [
+  { name: "whiteplayer",         lang: "C# / WPF",    year: "2026", desc: "Minimal music player with custom WPF UI" },
+  { name: "Quizlot",             lang: "TypeScript",  year: "2026", desc: "Quiz platform" },
+  { name: "ICT-Regios-2026",     lang: "JavaScript",  year: "2026", desc: "ICT Regios competition project" },
+  { name: "TrackMyFoodFrontend", lang: "JavaScript",  year: "2026", desc: "Food tracking app frontend" },
+  { name: "Impostergame-WhoAmI", lang: "JavaScript",  year: "2026", desc: "First professional project in Rudolfstetten" },
+  { name: "screentime-blocker",  lang: "JavaScript",  year: "2026", desc: "Website & app screen time management" },
+  { name: "OaseJugendraum",      lang: "Python",      year: "2026", desc: "Youth room web app" },
+  { name: "Swissskills25",       lang: "—",           year: "2026", desc: "Swiss Skills 2025 competition" },
+  { name: "BudgetBudddy",        lang: "Python",      year: "2025", desc: "macOS blocker for websites & apps" },
+  { name: "ReactProjekt",        lang: "JavaScript",  year: "2025", desc: "UI & code progress showcase" },
+  { name: "midnight-calculator", lang: "C#",          year: "2025", desc: "Professional calculator for a local SME" },
+  { name: "LCR",                 lang: "C#",          year: "2025", desc: "Little random OOP game" },
+  { name: "Zitate",              lang: "Python",      year: "2025", desc: "Quotes collection app" },
+  { name: "memyselfandi",        lang: "TypeScript",  year: "2026", desc: "This portfolio — enisshorra.ch" },
+];
+
+const LANG_COLOR: Record<string, string> = {
+  "C#": "#7b3fcf", "C# / WPF": "#7b3fcf",
+  "TypeScript": "#3178c6", "JavaScript": "#d4a017",
+  "Python": "#3572a5", "HTML": "#e34c26", "—": "#555",
+};
+
 function ProjectsCard() {
   return (
     <div className="card projects gd-projects">
       <div className="card-h">
-        <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>{I.folder}Projects</span>
-        <span className="right">Selected · 2026</span>
+        {I.folder}Projects
+        <span className="right">GitHub · @Ni7i</span>
       </div>
       <div className="featured">
         <div>
           <div className="featured-head">
             <h3>Stock Rendite</h3>
-            <span className="date">May 2026 — present</span>
+            <span className="date">2026 — present</span>
           </div>
-          <p>A tool I&apos;m building for myself — track holdings, see the actual return, learn the patterns. Boring on the outside, fun in the backend.</p>
+          <p>Track your holdings, see the actual return, learn the patterns. C#, .NET, Blazor — private project in active development.</p>
           <div className="tag-row">
-            <span className="tag">C#</span>
-            <span className="tag">.NET</span>
-            <span className="tag">Blazor</span>
-            <span className="tag">PostgreSQL</span>
+            <span className="tag">C#</span><span className="tag">.NET</span>
+            <span className="tag">Blazor</span><span className="tag">PostgreSQL</span>
           </div>
         </div>
         <div className="featured-art">S</div>
       </div>
-      <div className="project">
-        <div style={{ flex: 1 }}>
-          <div className="head">
-            <h4>Home-Lab Scripts</h4>
-            <span className="meta">ongoing</span>
-          </div>
-          <p>A growing pile of small Python &amp; Bash helpers running on my Linux box. Backups, monitoring, the little stuff that saves time.</p>
-          <div className="tag-row">
-            <span className="tag">Python</span>
-            <span className="tag">Bash</span>
-            <span className="tag">Linux</span>
-          </div>
-        </div>
-      </div>
-      <div className="project">
-        <div style={{ flex: 1 }}>
-          <div className="head">
-            <h4>This portfolio</h4>
-            <span className="meta">2026</span>
-          </div>
-          <p>A small attempt at putting my world on a single page — work, faith, the things that matter. Still iterating.</p>
-          <div className="tag-row">
-            <span className="tag">Next.js</span>
-            <span className="tag">TypeScript</span>
-            <a href="https://enisshorra.ch" target="_blank" rel="noopener noreferrer" className="tag tag-link">↗ enisshorra.ch</a>
-          </div>
-        </div>
+      <div className="proj-scroll">
+        {REPOS.map((r) => (
+          <a key={r.name} className="proj-repo" href={`https://github.com/Ni7i/${r.name}`} target="_blank" rel="noopener noreferrer">
+            <div className="proj-repo-meta">
+              <span className="proj-repo-name">{r.name}</span>
+              <span className="proj-repo-desc">{r.desc}</span>
+            </div>
+            <span className="proj-repo-lang" style={{ borderColor: LANG_COLOR[r.lang] || "#444", color: LANG_COLOR[r.lang] || "#888" }}>
+              {r.lang}
+            </span>
+            <span className="proj-repo-year">{r.year}</span>
+          </a>
+        ))}
       </div>
     </div>
   );
@@ -398,26 +457,26 @@ function GithubCard() {
   const weeks = useMemo(() => {
     const arr: number[][] = [];
     let seed = 11;
-    for (let w = 0; w < 52; w++) {
+    for (let w = 0; w < 26; w++) {
       const week: number[] = [];
       for (let d = 0; d < 7; d++) {
         seed = (seed * 9301 + 49297) % 233280;
         const r = seed / 233280;
-        const recency = w / 52;
-        const base = r + recency * 0.35 - 0.2;
+        const recency = w / 26;
+        const base = r + recency * 0.4 - 0.15;
         let level = 0;
         if (base > 0.18) level = 1;
         if (base > 0.42) level = 2;
         if (base > 0.66) level = 3;
         if (base > 0.86) level = 4;
-        if ((d === 5 || d === 6) && r > 0.55) level = Math.max(0, level - 1);
+        if ((d === 5 || d === 6) && r > 0.6) level = Math.max(0, level - 1);
         week.push(level);
       }
       arr.push(week);
     }
     return arr;
   }, []);
-  const months = ["Jun","Jul","Aug","Sep","Oct","Nov","Dec","Jan","Feb","Mar","Apr","May"];
+  const months = ["Dec", "Jan", "Feb", "Mar", "Apr", "May"];
   return (
     <div className="card github gd-github">
       <div className="label-row">
@@ -428,10 +487,10 @@ function GithubCard() {
         {months.map((m, i) => <span key={i}>{m}</span>)}
       </div>
       <div className="heatmap">
-        {weeks.map((week, i) => (
-          <div className="hweek" key={i}>
-            {week.map((lvl, j) => (
-              <div className="hday" key={j} data-l={lvl} />
+        {weeks.map((week, wi) => (
+          <div className="hweek" key={wi}>
+            {week.map((lvl, di) => (
+              <div className="hday" key={di} data-l={lvl} />
             ))}
           </div>
         ))}
@@ -506,26 +565,50 @@ function BoardCard() {
 
 // ─── Stuff ────────────────────────────────────────────────────────────────────
 function StuffCard() {
+  const sections = [
+    {
+      title: "Languages",
+      items: [
+        { label: "C#", sub: "durch und durch", icon: I.cs },
+        { label: "Python", icon: I.py },
+        { label: "SQL", icon: I.code },
+        { label: "JavaScript", icon: I.brand },
+      ],
+    },
+    {
+      title: "Frameworks",
+      items: [
+        { label: ".NET / Blazor", icon: I.cs },
+        { label: "Next.js", icon: I.code },
+        { label: "React", icon: I.brand },
+        { label: "WPF", icon: I.windows },
+      ],
+    },
+    {
+      title: "Environment",
+      items: [
+        { label: "macOS", icon: I.apple },
+        { label: "Linux", icon: I.linux },
+        { label: "Windows", icon: I.windows },
+      ],
+    },
+  ];
   return (
     <div className="card stuff gd-stuff">
       <div className="card-h">{I.tool}Stuff I Use</div>
-      <div className="stuff-section">
-        <h4>Languages</h4>
-        <div className="stuff-grid">
-          <div className="stuff-item"><span className="ic">{I.cs}</span>C# (durch und durch)</div>
-          <div className="stuff-item"><span className="ic">{I.py}</span>Python</div>
-          <div className="stuff-item"><span className="ic">{I.code}</span>SQL</div>
-          <div className="stuff-item"><span className="ic">{I.brand}</span>JavaScript</div>
+      {sections.map((sec) => (
+        <div className="stuff-section" key={sec.title}>
+          <h4>{sec.title}</h4>
+          <div className="stuff-grid">
+            {sec.items.map((it) => (
+              <div className="stuff-item" key={it.label}>
+                <span className="ic">{it.icon}</span>
+                <span>{it.label}{it.sub && <small> · {it.sub}</small>}</span>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-      <div className="stuff-section">
-        <h4>Systems</h4>
-        <div className="stuff-grid">
-          <div className="stuff-item"><span className="ic">{I.apple}</span>macOS</div>
-          <div className="stuff-item"><span className="ic">{I.linux}</span>Linux</div>
-          <div className="stuff-item"><span className="ic">{I.windows}</span>Windows</div>
-        </div>
-      </div>
+      ))}
     </div>
   );
 }

@@ -179,20 +179,38 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
 .tag-link { color: var(--accent) !important; border-color: rgba(240,142,127,0.3) !important; text-decoration: none; transition: border-color 0.2s ease, background 0.2s ease; }
 .tag-link:hover { background: rgba(240,142,127,0.08) !important; border-color: var(--accent) !important; }
 
+/* GALLERY MODAL */
+.g-modal { position: fixed; inset: 0; z-index: 200; background: rgba(5,5,7,0.94); display: flex; align-items: center; justify-content: center; animation: fadeUp 0.2s ease; }
+.g-modal-inner { position: relative; max-width: 88vw; max-height: 88vh; border-radius: 12px; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,0.7); }
+.g-modal-inner img { display: block; max-width: 88vw; max-height: 80vh; object-fit: contain; }
+.g-modal-bar { position: absolute; bottom: 0; left: 0; right: 0; padding: 12px 18px; background: linear-gradient(transparent, rgba(0,0,0,0.8)); display: flex; justify-content: space-between; align-items: flex-end; }
+.g-modal-alt { font-family: var(--font-display), serif; font-style: italic; font-size: 15px; color: rgba(255,255,255,0.85); }
+.g-modal-count { font-family: var(--font-mono), monospace; font-size: 10px; color: rgba(255,255,255,0.45); }
+.g-modal-nav { position: fixed; top: 50%; transform: translateY(-50%); background: rgba(30,28,26,0.85); border: 1px solid var(--border-strong); color: var(--text); font-size: 28px; width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; cursor: pointer; transition: background 0.2s ease, color 0.2s ease; backdrop-filter: blur(8px); }
+.g-prev { left: 20px; }
+.g-next { right: 20px; }
+.g-modal-nav:hover { background: rgba(50,40,38,0.95); color: var(--accent); }
+.g-modal-close { position: fixed; top: 20px; right: 20px; width: 40px; height: 40px; border-radius: 50%; background: rgba(30,28,26,0.85); border: 1px solid var(--border-strong); color: var(--text); font-size: 20px; display: grid; place-items: center; cursor: pointer; transition: background 0.2s ease; backdrop-filter: blur(8px); }
+.g-modal-close:hover { background: rgba(50,40,38,0.95); color: var(--accent); }
+
 /* RECITING - Album Cover */
 .reciting { padding: 14px; cursor: pointer; display: flex; flex-direction: column; }
 .reciting .card-h { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: 10px; }
 .reciting .live { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); font-family: var(--font-mono), monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; }
 .reciting .live .pulse { width: 5px; height: 5px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 8px var(--accent); animation: pulse 1.6s ease-in-out infinite; }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-.rec-art { flex: 1; min-height: 0; border-radius: 10px; display: grid; place-items: center; position: relative; overflow: hidden; margin-bottom: 10px; transition: background 0.9s ease; }
-.rec-art::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 35% 28%, rgba(255,255,255,0.18), transparent 60%); pointer-events: none; }
-.rec-arabic { font-family: var(--font-arabic), serif; font-size: clamp(30px, 3.5vw, 54px); color: rgba(255,255,255,0.92); text-shadow: 0 4px 24px rgba(0,0,0,0.5); position: relative; z-index: 1; }
-.rec-meta { flex-shrink: 0; }
-.rec-surah { font-family: var(--font-display), serif; font-style: italic; font-size: 15px; color: var(--text); }
-.rec-num { font-family: var(--font-mono), monospace; font-style: normal; font-size: 10px; color: var(--text-faint); }
-.rec-reciter { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
-.rec-dots { display: flex; gap: 5px; margin-top: 8px; align-items: center; }
+.rec-art { flex: 1; min-height: 0; border-radius: 10px; display: grid; place-items: center; position: relative; overflow: hidden; margin-bottom: 10px; transition: background 1s ease; }
+.rec-art::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 35% 28%, rgba(255,255,255,0.16), transparent 60%); pointer-events: none; z-index: 1; }
+.rec-art .pattern { position: absolute; inset: 0; opacity: 0.22; z-index: 0; }
+.rec-art .pattern svg { width: 100%; height: 100%; }
+.rec-arabic { font-family: var(--font-arabic), serif; font-size: clamp(28px, 3vw, 48px); color: rgba(255,255,255,0.92); text-shadow: 0 4px 24px rgba(0,0,0,0.6); position: relative; z-index: 2; }
+.rec-info { flex-shrink: 0; margin-bottom: 8px; }
+.rec-name { font-size: 13.5px; font-weight: 600; color: var(--text); letter-spacing: -0.01em; }
+.rec-mosque { font-family: var(--font-mono), monospace; font-size: 10px; letter-spacing: 0.1em; color: var(--text-faint); text-transform: uppercase; margin-top: 1px; margin-bottom: 7px; }
+.rec-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.rec-chip { font-family: var(--font-mono), monospace; font-size: 10px; padding: 3px 7px; border-radius: 4px; background: var(--card-2); border: 1px solid var(--border-soft); color: var(--text-dim); }
+.rec-chip-num { color: var(--text-faint); }
+.rec-dots { display: flex; gap: 5px; align-items: center; }
 .rec-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border-strong); transition: background 0.3s ease, transform 0.3s ease; flex-shrink: 0; }
 .rec-dot.active { background: var(--accent); transform: scale(1.35); }
 
@@ -207,7 +225,7 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
 .nav-item .arrow { margin-left: auto; color: var(--accent); font-size: 14px; opacity: 0; transform: translateX(-6px); transition: all 0.2s ease; }
 
 /* PROJECTS */
-.projects { padding: 22px; }
+.projects { padding: 22px; display: flex; flex-direction: column; overflow: hidden; }
 .projects .card-h { justify-content: space-between; width: 100%; }
 .projects .card-h .right { font-family: var(--font-mono), monospace; font-size: 10px; color: var(--text-faint); letter-spacing: 0.1em; }
 .featured { display: grid; grid-template-columns: 1fr 140px; gap: 22px; align-items: start; padding: 18px; margin-bottom: 4px; border-radius: 12px; background: linear-gradient(135deg, rgba(240, 142, 127, 0.05), transparent 60%); border: 1px solid var(--border-soft); cursor: pointer; transition: border-color 0.25s ease, transform 0.25s ease; }
@@ -230,6 +248,16 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
 .project h4 { font-size: 15.5px; font-weight: 600; margin: 0; color: var(--text); letter-spacing: -0.01em; }
 .project .meta { font-family: var(--font-mono), monospace; font-size: 10px; letter-spacing: 0.06em; color: var(--text-faint); white-space: nowrap; }
 .project p { margin: 0 0 10px 0; color: var(--text-dim); font-size: 13px; line-height: 1.55; max-width: 60ch; }
+.proj-scroll { flex: 1; min-height: 0; overflow-y: auto; margin-top: 12px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.proj-scroll::-webkit-scrollbar { width: 4px; }
+.proj-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+.proj-repo { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-top: 1px solid var(--border-soft); text-decoration: none; cursor: pointer; transition: padding-left 0.2s ease; }
+.proj-repo:hover { padding-left: 6px; }
+.proj-repo-meta { flex: 1; min-width: 0; }
+.proj-repo-name { display: block; font-size: 13px; font-weight: 500; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.proj-repo-desc { display: block; font-size: 11.5px; color: var(--text-dim); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.proj-repo-lang { font-family: var(--font-mono), monospace; font-size: 9.5px; padding: 3px 7px; border-radius: 4px; background: transparent; border: 1px solid; flex-shrink: 0; letter-spacing: 0.02em; }
+.proj-repo-year { font-family: var(--font-mono), monospace; font-size: 10px; color: var(--text-faint); flex-shrink: 0; }
 
 /* MAP - Leaflet */
 .map { padding: 0; overflow: hidden; position: relative; display: flex; flex-direction: column; background: #111315; }
@@ -248,17 +276,14 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
 .leaflet-popup-tip-container { display: none !important; }
 
 /* GITHUB */
-.github { padding: 20px; }
+.github { padding: 20px; display: flex; flex-direction: column; }
 .github .label-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
 .github .label-row .handle { font-family: var(--font-mono), monospace; font-size: 11px; color: var(--text-dim); letter-spacing: 0.08em; }
-.github .stats { display: flex; align-items: baseline; gap: 14px; margin-bottom: 14px; }
-.github .stats .big { font-family: var(--font-display), serif; font-style: italic; font-size: 44px; line-height: 1; letter-spacing: -0.02em; color: var(--text); }
-.github .stats .small { font-family: var(--font-mono), monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-dim); max-width: 16ch; line-height: 1.4; }
-.month-row { display: flex; gap: 3px; font-family: var(--font-mono), monospace; font-size: 9px; letter-spacing: 0.05em; color: var(--text-faint); margin-bottom: 5px; }
+.month-row { display: flex; gap: 3px; font-family: var(--font-mono), monospace; font-size: 9px; letter-spacing: 0.05em; color: var(--text-faint); margin-bottom: 6px; }
 .month-row span { flex: 1; }
-.heatmap { display: flex; gap: 3px; }
-.hweek { display: flex; flex-direction: column; gap: 3px; flex: 1; }
-.hday { aspect-ratio: 1; width: 100%; max-width: 14px; border-radius: 2px; background: #1a1c1e; transition: transform 0.15s ease; cursor: pointer; }
+.heatmap { display: flex; gap: 4px; flex: 1; min-height: 0; }
+.hweek { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+.hday { flex: 1; min-height: 0; width: 100%; border-radius: 3px; background: #1a1c1e; cursor: pointer; }
 .hday:hover { transform: scale(1.6); position: relative; z-index: 3; }
 .hday[data-l="1"] { background: #5a3a35; }
 .hday[data-l="2"] { background: #9a5648; }
@@ -301,6 +326,7 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
 .stuff-item .ic svg { width: 13px; height: 13px; stroke: var(--text); fill: none; stroke-width: 1.7; }
 .stuff-item:hover .ic { border-color: var(--accent); }
 .stuff-item:hover .ic svg { stroke: var(--accent); }
+.stuff-item small { font-size: 10.5px; color: var(--text-faint); }
 
 /* SOCIALS */
 .socials { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }

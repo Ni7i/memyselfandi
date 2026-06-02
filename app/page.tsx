@@ -296,25 +296,25 @@ const RECITERS = [
     name: "Muhammad Ayyub",     ar: "محمد أيوب",
     mosque: "Al-Nabawi · Madinah",
     surahs: [{ tr: "Al-Mulk", num: "67" }, { tr: "Al-Wāqiʿah", num: "56" }, { tr: "An-Naba'", num: "78" }],
-    g1: "#163424", g2: "#08160e", pat: "rings",
+    img: "/reciters/ayyub.jpg",
   },
   {
     name: "Yasser Al-Dosari",   ar: "ياسر الدوسري",
     mosque: "King Khalid · Riyadh",
     surahs: [{ tr: "Ar-Raḥmān", num: "55" }, { tr: "Al-Baqarah", num: "2" }, { tr: "Al-Kahf", num: "18" }],
-    g1: "#341618", g2: "#16080a", pat: "star8",
+    img: "/reciters/dosari.jpg",
   },
   {
     name: "Ali Jabir",          ar: "علي جابر",
     mosque: "Al-Haram · Makkah",
     surahs: [{ tr: "Al-Fātiḥah", num: "1" }, { tr: "Al-Ikhlāṣ", num: "112" }, { tr: "As-Sajdah", num: "32" }],
-    g1: "#162234", g2: "#080e16", pat: "bloom",
+    img: "/reciters/jabir.jpg",
   },
   {
     name: "Maher Al-Muaiqly",   ar: "ماهر المعيقلي",
     mosque: "Al-Haram · Makkah",
     surahs: [{ tr: "Yā-Sīn", num: "36" }, { tr: "Al-Mulk", num: "67" }, { tr: "Al-Fātiḥah", num: "1" }],
-    g1: "#342a14", g2: "#161108", pat: "minimal",
+    img: "/reciters/muaiqly.svg",
   },
 ];
 
@@ -331,8 +331,7 @@ function RecitingCard({ onOpen }: { onOpen: () => void }) {
         {I.music}Reciting
         <span className="live"><span className="pulse" />Live</span>
       </div>
-      <div className="rec-art" style={{ background: `linear-gradient(150deg, ${r.g1} 0%, ${r.g2} 100%)` }}>
-        <QuranTilePattern variant={r.pat} />
+      <div className="rec-art" style={{ backgroundImage: `url(${r.img})`, backgroundSize: "cover", backgroundPosition: "center" }}>
         <span className="rec-arabic">{r.ar}</span>
       </div>
       <div className="rec-info">

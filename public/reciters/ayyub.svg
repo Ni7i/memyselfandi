@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450">
+  <defs>
+    <radialGradient id="bg" cx="42%" cy="45%" r="75%">
+      <stop offset="0%" stop-color="#1e4a28"/>
+      <stop offset="60%" stop-color="#0d2016"/>
+      <stop offset="100%" stop-color="#050d08"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="rgba(90,160,100,0.18)"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="600" height="450" fill="url(#bg)"/>
+  <rect width="600" height="450" fill="url(#glow)"/>
+  <!-- outer rings -->
+  <circle cx="300" cy="225" r="195" fill="none" stroke="rgba(140,200,120,0.07)" stroke-width="1"/>
+  <circle cx="300" cy="225" r="155" fill="none" stroke="rgba(140,200,120,0.1)" stroke-width="0.8"/>
+  <circle cx="300" cy="225" r="115" fill="none" stroke="rgba(140,200,120,0.13)" stroke-width="0.8"/>
+  <circle cx="300" cy="225" r="78" fill="none" stroke="rgba(140,200,120,0.16)" stroke-width="0.7"/>
+  <!-- 8-pointed star -->
+  <g fill="none" stroke="rgba(180,220,150,0.22)" stroke-width="1">
+    <polygon points="300,90 325,175 415,175 345,228 370,313 300,262 230,313 255,228 185,175 275,175"/>
+    <polygon points="300,118 318,178 378,178 332,212 350,272 300,237 250,272 268,212 222,178 282,178"/>
+  </g>
+  <!-- diagonal lines -->
+  <line x1="140" y1="65" x2="460" y2="385" stroke="rgba(140,200,120,0.06)" stroke-width="0.6"/>
+  <line x1="460" y1="65" x2="140" y2="385" stroke="rgba(140,200,120,0.06)" stroke-width="0.6"/>
+  <line x1="300" y1="30" x2="300" y2="420" stroke="rgba(140,200,120,0.05)" stroke-width="0.5"/>
+  <line x1="80" y1="225" x2="520" y2="225" stroke="rgba(140,200,120,0.05)" stroke-width="0.5"/>
+  <!-- center dot -->
+  <circle cx="300" cy="225" r="3" fill="rgba(160,220,140,0.5)"/>
+</svg>

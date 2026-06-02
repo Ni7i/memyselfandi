@@ -1,7 +1,10 @@
 "use client";
 
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
+import dynamic from "next/dynamic";
 import LoadingScreen from "@/components/LoadingScreen";
+
+const LeafletMap = dynamic(() => import("@/components/MapClient"), { ssr: false });
 
 // ─── Icons ──────────────────────────────────────────────────────────────────
 const I = {
@@ -233,67 +236,64 @@ function ShoutoutsCard() {
 }
 
 // ─── Gallery ─────────────────────────────────────────────────────────────────
+const GALLERY_PHOTOS = [
+  { src: "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=400&h=280&fit=crop", alt: "Lauterbrunnen" },
+  { src: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=280&fit=crop", alt: "Grindelwald" },
+  { src: "https://images.unsplash.com/photo-1548345680-f5475ea5df84?w=400&h=280&fit=crop", alt: "Zürichsee" },
+];
+
 function GalleryCard() {
   return (
     <div className="card gallery gd-gallery">
       <div className="card-h">{I.image}Gallery</div>
       <div className="gallery-stack">
-        <div className="gallery-photo alps"><div className="ph">Alps</div></div>
-        <div className="gallery-photo code"><div className="ph">Setup</div></div>
-        <div className="gallery-photo cay"><div className="ph">Çay</div></div>
+        {GALLERY_PHOTOS.map((p, i) => (
+          <div key={i} className={`gallery-photo p${i + 1}`}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={p.src} alt={p.alt} />
+          </div>
+        ))}
       </div>
-      <div className="gallery-vid">
-        <iframe
-          src="https://www.youtube.com/embed/sbSDGjnRqek?controls=0&modestbranding=1&rel=0&playsinline=1"
-          title="Istanbul"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
-      </div>
+      <div className="gallery-label">Switzerland · 2024</div>
     </div>
   );
 }
 
 // ─── Reciting ─────────────────────────────────────────────────────────────────
+const TRACKS = [
+  { reciter: "Muhammad Ayyub",   surah: "Al-Mulk",    num: "67", ar: "الملك",   g1: "#b84a32", g2: "#4a1808" },
+  { reciter: "Yasser Al-Dosari", surah: "Ar-Raḥmān",  num: "55", ar: "الرحمن", g1: "#1e6040", g2: "#071f14" },
+  { reciter: "Ali Jabir",        surah: "Al-Kahf",    num: "18", ar: "الكهف",  g1: "#1a406e", g2: "#08162a" },
+  { reciter: "Maher Al-Muaiqly", surah: "Al-Fātiḥah", num: "01", ar: "الفاتحة",g1: "#6e5018", g2: "#241a06" },
+];
+
 function RecitingCard({ onOpen }: { onOpen: () => void }) {
-  const tracks = [
-    { reciter: "Muhammad Ayyub",   surah: "Al-Mulk",   num: "67" },
-    { reciter: "Yasser Al-Dosari", surah: "Ar-Rahman", num: "55" },
-    { reciter: "Ali Jabir",        surah: "Al-Kahf",    num: "18" },
-    { reciter: "Maher Al-Muaiqly", surah: "Al-Mulk",   num: "67" },
-  ];
   const [idx, setIdx] = useState(0);
   useEffect(() => {
-    const t = setInterval(() => setIdx((i) => (i + 1) % tracks.length), 5500);
+    const t = setInterval(() => setIdx((i) => (i + 1) % TRACKS.length), 5500);
     return () => clearInterval(t);
-  }, [tracks.length]);
-  const t = tracks[idx];
+  }, []);
+  const t = TRACKS[idx];
   return (
     <div className="card reciting gd-reciting" onClick={onOpen}>
       <div className="card-h">
-        <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>{I.music}Reciting</span>
-        <span className="live"><span className="pulse" /><span>Live</span></span>
+        {I.music}Reciting
+        <span className="live"><span className="pulse" />Live</span>
       </div>
-      <div className="reciting-art">
-        <svg className="geo" viewBox="-50 -50 100 100">
-          <g fill="none" stroke="rgba(240,142,127,0.3)" strokeWidth="0.5">
-            <circle r="44" /><circle r="34" /><circle r="24" />
-            <polygon points="0,-34 9,-9 34,0 9,9 0,34 -9,9 -34,0 -9,-9" stroke="rgba(240,142,127,0.55)" strokeWidth="0.7" />
-            {[0,30,60,90,120,150,180,210,240,270,300,330].map((a) => {
-              const r = (a * Math.PI) / 180;
-              return <line key={a} x1={0} y1={0} x2={44 * Math.cos(r)} y2={44 * Math.sin(r)} />;
-            })}
-          </g>
-        </svg>
-        <div className="arabic">ﷲ</div>
+      <div
+        className="rec-art"
+        style={{ background: `linear-gradient(150deg, ${t.g1} 0%, ${t.g2} 100%)` }}
+      >
+        <span className="rec-arabic">{t.ar}</span>
       </div>
-      <div className="reciting-surah">
-        {t.surah}<span className="num"> · {t.num}</span>
+      <div className="rec-meta">
+        <div className="rec-surah">{t.surah}<span className="rec-num"> · {t.num}</span></div>
+        <div className="rec-reciter">{t.reciter}</div>
       </div>
-      <div className="reciting-reciter">{t.reciter}</div>
-      <div className="reciting-cta">
-        <span>Open Library</span>
-        <span>→</span>
+      <div className="rec-dots">
+        {TRACKS.map((_, i) => (
+          <span key={i} className={`rec-dot${i === idx ? " active" : ""}`} />
+        ))}
       </div>
     </div>
   );
@@ -381,60 +381,13 @@ function ProjectsCard() {
 
 // ─── Map ──────────────────────────────────────────────────────────────────────
 function MapCard() {
-  const pins = [
-    { x: 50, y: 42, label: "Rudolfstetten · Home", home: true },
-    { x: 56, y: 34, label: "Zürich" },
-    { x: 40, y: 50, label: "Bern" },
-    { x: 30, y: 56, label: "Genève" },
-    { x: 64, y: 64, label: "Lugano" },
-  ];
-  const thumbs = [
-    { x: 56, y: 24, cls: "zh", rot: -5, label: "ZRH" },
-    { x: 32, y: 64, cls: "br", rot: 4,  label: "BRN" },
-    { x: 72, y: 58, cls: "ti", rot: -2, label: "TI"  },
-  ];
   return (
     <div className="card map gd-map">
-      <div className="map-inner">
-        <div className="map-tag">
-          <span className="dot" />Switzerland · Home
-        </div>
-        <svg className="map-svg" viewBox="0 0 100 65" preserveAspectRatio="xMidYMid slice">
-          <rect className="water" width="100" height="65" />
-          <path className="land" d="M 0 0 L 100 0 L 100 22 L 90 24 L 78 22 L 66 20 L 54 22 L 40 24 L 28 26 L 14 28 L 0 30 Z" />
-          <path className="land" d="M 0 50 L 12 46 L 22 50 L 36 54 L 50 58 L 64 60 L 78 56 L 92 54 L 100 56 L 100 65 L 0 65 Z" />
-          <path className="land" d="M 0 30 L 0 50 L 8 38 Z" />
-          <path className="land" d="M 92 24 L 100 22 L 100 56 L 92 54 Z" />
-          <path className="land ch" d="M 8 38 L 14 30 L 22 28 L 30 30 L 36 26 L 44 24 L 52 22 L 60 20 L 68 22 L 76 24 L 84 28 L 90 34 L 88 42 L 84 48 L 78 52 L 72 56 L 64 58 L 56 60 L 50 56 L 44 58 L 36 56 L 28 54 L 20 50 L 12 44 L 8 38 Z" />
-          <path className="border" d="M 8 38 L 14 30 L 22 28 L 30 30 L 36 26 L 44 24 L 52 22 L 60 20 L 68 22 L 76 24 L 84 28 L 90 34 L 88 42 L 84 48 L 78 52 L 72 56 L 64 58 L 56 60 L 50 56 L 44 58 L 36 56 L 28 54 L 20 50 L 12 44 L 8 38 Z" />
-          <path className="contour" d="M 18 36 Q 38 30, 58 32 T 86 38" />
-          <path className="contour" d="M 22 42 Q 42 38, 62 40 T 84 44" />
-          <path className="contour" d="M 28 48 Q 48 46, 64 48 T 80 50" />
-          <ellipse className="lake" cx="54" cy="38" rx="4" ry="1.3" />
-          <ellipse className="lake" cx="40" cy="46" rx="3" ry="1.1" />
-          <ellipse className="lake" cx="64" cy="46" rx="2.2" ry="0.9" />
-          <text x="56" y="33">Zürich</text>
-          <text x="40" y="49">Bern</text>
-          <text x="30" y="55">Genève</text>
-          <text x="64" y="63">Lugano</text>
-        </svg>
-        {thumbs.map((th, i) => (
-          <div key={i} className={`map-thumb ${th.cls}`}
-            style={{ left: `${th.x}%`, top: `${th.y}%`, ["--rot" as string]: `${th.rot}deg` }}>
-            <div className="ph">{th.label}</div>
-          </div>
-        ))}
-        {pins.map((p, i) => (
-          <div key={i} className={`map-pin${p.home ? " home" : ""}`} style={{ left: `${p.x}%`, top: `${p.y}%` }}>
-            <div className="head" />
-            {!p.home && <div className="ripple" />}
-            <div className="tip">{p.label}</div>
-          </div>
-        ))}
-        <div className="map-controls">
-          <button aria-label="zoom in">+</button>
-          <button aria-label="zoom out">−</button>
-        </div>
+      <div className="map-tag">
+        <span className="dot" />Switzerland · Home
+      </div>
+      <div className="leaflet-stage">
+        <LeafletMap />
       </div>
     </div>
   );

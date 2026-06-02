@@ -199,10 +199,8 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
 .reciting .live { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); font-family: var(--font-mono), monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; }
 .reciting .live .pulse { width: 5px; height: 5px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 8px var(--accent); animation: pulse 1.6s ease-in-out infinite; }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-.rec-art { flex: 1; min-height: 0; border-radius: 10px; display: grid; place-items: center; position: relative; overflow: hidden; margin-bottom: 10px; transition: background 1s ease; }
-.rec-art::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 35% 28%, rgba(255,255,255,0.16), transparent 60%); pointer-events: none; z-index: 1; }
-.rec-art .pattern { position: absolute; inset: 0; opacity: 0.22; z-index: 0; }
-.rec-art .pattern svg { width: 100%; height: 100%; }
+.rec-art { flex: 1; min-height: 0; border-radius: 10px; display: grid; place-items: end end; position: relative; overflow: hidden; margin-bottom: 10px; }
+.rec-art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.6) 100%); pointer-events: none; z-index: 1; border-radius: 10px; }
 .rec-arabic { font-family: var(--font-arabic), serif; font-size: clamp(28px, 3vw, 48px); color: rgba(255,255,255,0.92); text-shadow: 0 4px 24px rgba(0,0,0,0.6); position: relative; z-index: 2; }
 .rec-info { flex-shrink: 0; margin-bottom: 8px; }
 .rec-name { font-size: 13.5px; font-weight: 600; color: var(--text); letter-spacing: -0.01em; }

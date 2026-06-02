@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="75%">
+      <stop offset="0%" stop-color="#3a2808"/>
+      <stop offset="55%" stop-color="#1e1404"/>
+      <stop offset="100%" stop-color="#080601"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="rgba(220,170,60,0.18)"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="600" height="450" fill="url(#bg)"/>
+  <rect width="600" height="450" fill="url(#glow)"/>
+  <!-- arabesque grid: rotated squares -->
+  <g fill="none" stroke="rgba(220,170,60,0.1)" stroke-width="0.7">
+    <!-- large diamond grid -->
+    <polygon points="300,60  490,225 300,390 110,225"/>
+    <polygon points="300,95  455,225 300,355 145,225"/>
+    <polygon points="300,130 420,225 300,320 180,225"/>
+    <polygon points="300,165 385,225 300,285 215,225"/>
+  </g>
+  <!-- rotated 45° second set -->
+  <g fill="none" stroke="rgba(220,170,60,0.07)" stroke-width="0.6">
+    <rect x="190" y="115" width="220" height="220" rx="0" transform="rotate(45 300 225)"/>
+    <rect x="220" y="145" width="160" height="160" rx="0" transform="rotate(45 300 225)"/>
+    <rect x="250" y="175" width="100" height="100" rx="0" transform="rotate(45 300 225)"/>
+  </g>
+  <!-- horizontal/vertical guides -->
+  <line x1="60"  y1="225" x2="540" y2="225" stroke="rgba(220,170,60,0.06)" stroke-width="0.5"/>
+  <line x1="300" y1="30"  x2="300" y2="420" stroke="rgba(220,170,60,0.06)" stroke-width="0.5"/>
+  <!-- corner accents -->
+  <circle cx="300" cy="60"  r="2.5" fill="rgba(220,170,60,0.4)"/>
+  <circle cx="490" cy="225" r="2.5" fill="rgba(220,170,60,0.4)"/>
+  <circle cx="300" cy="390" r="2.5" fill="rgba(220,170,60,0.4)"/>
+  <circle cx="110" cy="225" r="2.5" fill="rgba(220,170,60,0.4)"/>
+  <!-- center -->
+  <circle cx="300" cy="225" r="5"   fill="none" stroke="rgba(220,170,60,0.5)" stroke-width="1"/>
+  <circle cx="300" cy="225" r="2.5" fill="rgba(240,190,80,0.7)"/>
+</svg>

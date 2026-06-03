@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import dynamic from "next/dynamic";
 import LoadingScreen from "@/components/LoadingScreen";
 
@@ -161,7 +161,6 @@ function QuranView({ onClose }: { onClose: () => void }) {
             <div className="inner">
               <QuranTilePattern variant={s.pat} />
               <span className="num">Surah · {s.num}</span>
-              <div className="ar">{s.ar}</div>
               <div className="tr">{s.tr}</div>
               <span className="reciter">{s.reciter}</span>
             </div>
@@ -174,16 +173,10 @@ function QuranView({ onClose }: { onClose: () => void }) {
 
 // ─── About ────────────────────────────────────────────────────────────────────
 function AboutCard() {
-  const facts = [
-    { de: "Coden", ar: "" },
-    { de: "Islam", ar: "إسلام" },
-    { de: "Sport", ar: "" },
-    { de: "Familie", ar: "عائلة" },
-    { de: "Kochen", ar: "" },
-  ];
+  const facts = ["Coden", "Islam", "Velo", "Familie", "Sport"];
   const ascii = `         ╱╲\n        ╱  ╲\n       ╱ ╱╲ ╲\n      ╱ ╱  ╲ ╲\n     ╱_╱____╲_╲`;
   return (
-    <div className="card about gd-about">
+    <div className="card about gd-about" data-card="About">
       <div className="card-h">{I.wave}About Me</div>
       <h1>Hi, I&apos;m<span className="italic">Enis</span></h1>
       <p className="bio">
@@ -196,10 +189,7 @@ function AboutCard() {
       <div className="label-row">{I.spark} Things I love</div>
       <ul>
         {facts.map((f, i) => (
-          <li key={i}>
-            {f.de}
-            {f.ar && <span className="ar">{f.ar}</span>}
-          </li>
+          <li key={i}>{f}</li>
         ))}
       </ul>
       <pre className="about-ascii">{ascii}</pre>
@@ -237,9 +227,9 @@ function ShoutoutsCard() {
 
 // ─── Gallery ─────────────────────────────────────────────────────────────────
 const GALLERY_PHOTOS = [
-  { src: "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=400&h=280&fit=crop", full: "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=1600&q=90", alt: "Lauterbrunnen, Bern" },
-  { src: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=280&fit=crop", full: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=90", alt: "Grindelwald, Bern" },
-  { src: "https://images.unsplash.com/photo-1548345680-f5475ea5df84?w=400&h=280&fit=crop", full: "https://images.unsplash.com/photo-1548345680-f5475ea5df84?w=1600&q=90", alt: "Zürichsee, Zurich" },
+  { src: "https://images.unsplash.com/photo-1564769625905-50e93615e769?w=400&h=280&fit=crop", full: "https://images.unsplash.com/photo-1564769625905-50e93615e769?w=1600&q=90", alt: "Masjid al-Haram, Mecca" },
+  { src: "https://images.unsplash.com/photo-1541862438-f02c53e4eced?w=400&h=280&fit=crop", full: "https://images.unsplash.com/photo-1541862438-f02c53e4eced?w=1600&q=90", alt: "Blue Mosque, Istanbul" },
+  { src: "https://images.unsplash.com/photo-1553484771-898ed465e931?w=400&h=280&fit=crop", full: "https://images.unsplash.com/photo-1553484771-898ed465e931?w=1600&q=90", alt: "Camel, Arabian Desert" },
 ];
 
 function GalleryCard() {
@@ -258,7 +248,7 @@ function GalleryCard() {
 
   return (
     <>
-      <div className="card gallery gd-gallery">
+      <div className="card gallery gd-gallery" data-card="Gallery">
         <div className="card-h">{I.image}Gallery</div>
         <div className="gallery-stack">
           {GALLERY_PHOTOS.map((p, i) => (
@@ -268,7 +258,7 @@ function GalleryCard() {
             </div>
           ))}
         </div>
-        <div className="gallery-label">Switzerland · tap to open</div>
+        <div className="gallery-label">tap to open</div>
       </div>
 
       {open !== null && (
@@ -326,25 +316,29 @@ function RecitingCard({ onOpen }: { onOpen: () => void }) {
   }, []);
   const r = RECITERS[idx];
   return (
-    <div className="card reciting gd-reciting" onClick={onOpen}>
-      <div className="card-h">
-        {I.music}Reciting
-        <span className="live"><span className="pulse" />Live</span>
-      </div>
-      <div className="rec-art" style={{ backgroundImage: `url(${r.img})`, backgroundSize: "cover", backgroundPosition: "center" }}>
-        <span className="rec-arabic">{r.ar}</span>
-      </div>
-      <div className="rec-info">
-        <div className="rec-name">{r.name}</div>
-        <div className="rec-mosque">{r.mosque}</div>
-        <div className="rec-chips">
-          {r.surahs.map(s => (
-            <span key={s.num} className="rec-chip">{s.tr}<span className="rec-chip-num"> · {s.num}</span></span>
-          ))}
+    <div className="card reciting gd-reciting" onClick={onOpen} data-card="Recitations">
+      <div className="card-h">{I.music}Recitations</div>
+      <div className="rec-art" style={{ backgroundImage: `url(${r.img})`, backgroundSize: "cover", backgroundPosition: "center top" }}>
+        <div className="rec-art-overlay">
+          <div className="rec-name-big">{r.name}</div>
+          <div className="rec-mosque-label">{r.mosque}</div>
         </div>
       </div>
-      <div className="rec-dots">
-        {RECITERS.map((_, i) => <span key={i} className={`rec-dot${i === idx ? " active" : ""}`} />)}
+      <div className="rec-chips">
+        {r.surahs.map(s => (
+          <span key={s.num} className="rec-chip">{s.tr}<span className="rec-chip-num"> · {s.num}</span></span>
+        ))}
+      </div>
+      <div className="rec-thumbs">
+        {RECITERS.map((rc, i) => (
+          <div
+            key={i}
+            className={`rec-thumb${i === idx ? " active" : ""}`}
+            style={{ backgroundImage: `url(${rc.img})` }}
+            onClick={e => { e.stopPropagation(); setIdx(i); }}
+            title={rc.name}
+          />
+        ))}
       </div>
     </div>
   );
@@ -359,7 +353,7 @@ function NavCard({ onOpenQuran }: { onOpenQuran: () => void }) {
     { label: "GitHub",   icon: I.git,    action: () => window.open("https://github.com/Ni7i", "_blank", "noopener") },
   ];
   return (
-    <div className="card nav gd-nav">
+    <div className="card nav gd-nav" data-card="Navigation">
       <div className="card-h">{I.compass}Navigation</div>
       <div className="nav-list">
         {items.map((it, i) => (
@@ -376,6 +370,7 @@ function NavCard({ onOpenQuran }: { onOpenQuran: () => void }) {
 
 // ─── Projects ─────────────────────────────────────────────────────────────────
 const REPOS = [
+  { name: "StockRendite",        lang: "C# / Blazor", year: "2026 →", desc: "Track holdings, see actual returns — active dev" },
   { name: "whiteplayer",         lang: "C# / WPF",    year: "2026", desc: "Minimal music player with custom WPF UI" },
   { name: "Quizlot",             lang: "TypeScript",  year: "2026", desc: "Quiz platform" },
   { name: "ICT-Regios-2026",     lang: "JavaScript",  year: "2026", desc: "ICT Regios competition project" },
@@ -400,24 +395,10 @@ const LANG_COLOR: Record<string, string> = {
 
 function ProjectsCard() {
   return (
-    <div className="card projects gd-projects">
+    <div className="card projects gd-projects" data-card="Projects">
       <div className="card-h">
         {I.folder}Projects
         <span className="right">GitHub · @Ni7i</span>
-      </div>
-      <div className="featured">
-        <div>
-          <div className="featured-head">
-            <h3>Stock Rendite</h3>
-            <span className="date">2026 — present</span>
-          </div>
-          <p>Track your holdings, see the actual return, learn the patterns. C#, .NET, Blazor — private project in active development.</p>
-          <div className="tag-row">
-            <span className="tag">C#</span><span className="tag">.NET</span>
-            <span className="tag">Blazor</span><span className="tag">PostgreSQL</span>
-          </div>
-        </div>
-        <div className="featured-art">S</div>
       </div>
       <div className="proj-scroll">
         {REPOS.map((r) => (
@@ -440,9 +421,9 @@ function ProjectsCard() {
 // ─── Map ──────────────────────────────────────────────────────────────────────
 function MapCard() {
   return (
-    <div className="card map gd-map">
+    <div className="card map gd-map" data-card="Map">
       <div className="map-tag">
-        <span className="dot" />Switzerland · Home
+        Switzerland · Home
       </div>
       <div className="leaflet-stage">
         <LeafletMap />
@@ -452,8 +433,12 @@ function MapCard() {
 }
 
 // ─── GitHub ───────────────────────────────────────────────────────────────────
+type GHEvent = { type: string; created_at: string; payload?: { commits?: unknown[] } };
+
 function GithubCard() {
-  const weeks = useMemo(() => {
+  const [weeks, setWeeks] = useState<number[][] | null>(null);
+
+  const fallback = useMemo(() => {
     const arr: number[][] = [];
     let seed = 11;
     for (let w = 0; w < 26; w++) {
@@ -475,18 +460,66 @@ function GithubCard() {
     }
     return arr;
   }, []);
-  const months = ["Dec", "Jan", "Feb", "Mar", "Apr", "May"];
+
+  useEffect(() => {
+    fetch("https://api.github.com/users/Ni7i/events?per_page=100")
+      .then(r => r.json())
+      .then((events: GHEvent[]) => {
+        if (!Array.isArray(events)) return;
+        const counts: Record<string, number> = {};
+        events
+          .filter(e => e.type === "PushEvent")
+          .forEach(e => {
+            const day = e.created_at?.slice(0, 10);
+            if (day) counts[day] = (counts[day] || 0) + (e.payload?.commits?.length || 1);
+          });
+        const today = new Date();
+        const grid: number[][] = [];
+        for (let w = 25; w >= 0; w--) {
+          const week: number[] = [];
+          for (let d = 6; d >= 0; d--) {
+            const dt = new Date(today);
+            dt.setDate(today.getDate() - (w * 7 + d));
+            const key = dt.toISOString().slice(0, 10);
+            const c = counts[key] || 0;
+            let level = 0;
+            if (c >= 1) level = 1;
+            if (c >= 3) level = 2;
+            if (c >= 6) level = 3;
+            if (c >= 10) level = 4;
+            week.push(level);
+          }
+          grid.push(week);
+        }
+        setWeeks(grid);
+      })
+      .catch(() => {});
+  }, []);
+
+  const display = weeks ?? fallback;
+
+  const getMonthLabels = () => {
+    const labels: string[] = [];
+    const today = new Date();
+    for (let w = 25; w >= 0; w -= 4) {
+      const dt = new Date(today);
+      dt.setDate(today.getDate() - w * 7);
+      labels.push(dt.toLocaleString("en", { month: "short" }));
+    }
+    return labels.slice(0, 6);
+  };
+
   return (
-    <div className="card github gd-github">
+    <div className="card github gd-github" data-card="GitHub">
       <div className="label-row">
         <div className="card-h" style={{ margin: 0 }}>{I.git}GitHub</div>
         <span className="handle">@Ni7i</span>
       </div>
       <div className="month-row">
-        {months.map((m, i) => <span key={i}>{m}</span>)}
+        {getMonthLabels().map((m, i) => <span key={i}>{m}</span>)}
       </div>
       <div className="heatmap">
-        {weeks.map((week, wi) => (
+        {display.map((week, wi) => (
           <div className="hweek" key={wi}>
             {week.map((lvl, di) => (
               <div className="hday" key={di} data-l={lvl} />
@@ -507,68 +540,189 @@ function GithubCard() {
   );
 }
 
-// ─── Board ────────────────────────────────────────────────────────────────────
-interface Msg { id: number; who: string; when: string; text: string; }
+// ─── Contact ──────────────────────────────────────────────────────────────────
+function ContactCard() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [msg, setMsg] = useState("");
+  const [sent, setSent] = useState(false);
 
-function BoardCard() {
-  const [msgs, setMsgs] = useState<Msg[]>([]);
-  const [input, setInput] = useState("");
-
-  useEffect(() => {
-    try {
-      const s = localStorage.getItem("enis.board");
-      if (s) setMsgs(JSON.parse(s));
-    } catch { /* */ }
-  }, []);
-
-  const send = () => {
-    const text = input.trim();
-    if (!text) return;
-    const msg: Msg = { id: Date.now(), who: "Anonymous", when: "just now", text };
-    const updated = [msg, ...msgs].slice(0, 50);
-    setMsgs(updated);
-    setInput("");
-    try { localStorage.setItem("enis.board", JSON.stringify(updated)); } catch { /* */ }
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const sub = encodeURIComponent(`Kontakt von ${name}`);
+    const body = encodeURIComponent(`Von: ${name}\nE-Mail: ${email}\n\n${msg}`);
+    window.open(`mailto:enis.shorra3@hotmail.com?subject=${sub}&body=${body}`);
+    setSent(true);
+    setTimeout(() => { setName(""); setEmail(""); setMsg(""); setSent(false); }, 4000);
   };
 
   return (
-    <div className="card board gd-board">
-      <div className="card-h">{I.chat}Message Board</div>
-      <div className="board-list">
-        {msgs.length === 0
-          ? <div className="board-empty">be the first to leave a note —<br />anonymous is fine</div>
-          : msgs.map((m) => (
-            <div className="msg" key={m.id}>
-              <div className="head">
-                <span className="who">{m.who}</span>
-                <span className="when">{m.when}</span>
-              </div>
-              <div className="text">{m.text}</div>
+    <div className="card contact gd-board" data-card="Kontakt">
+      <div className="card-h">{I.mail}Kontakt</div>
+      {sent ? (
+        <div className="contact-sent">Danke — E-Mail wird geöffnet.</div>
+      ) : (
+        <form className="contact-form" onSubmit={handleSubmit}>
+          <input value={name} onChange={e => setName(e.target.value)} placeholder="Name" required />
+          <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="E-Mail" required />
+          <textarea value={msg} onChange={e => setMsg(e.target.value)} placeholder="Nachricht…" required rows={3} />
+          <button type="submit">
+            <span className="btn-icon">{I.send}</span>Senden
+          </button>
+        </form>
+      )}
+    </div>
+  );
+}
+
+// ─── Device Popups ────────────────────────────────────────────────────────────
+function MacBookVisual({ rotation }: { rotation: number }) {
+  const r = rotation % 360;
+  const abs = Math.abs(((r % 360) + 360) % 360);
+  const showBack = abs > 90 && abs < 270;
+  return (
+    <div className="macbook-3d" style={{ transform: `rotateY(${r}deg)` }}>
+      <div className="mb-lid">
+        {showBack ? (
+          <div className="mb-back-face">
+            <div className="mb-apple-back">✦</div>
+          </div>
+        ) : (
+          <div className="mb-screen-face">
+            <div className="mb-notch" />
+            <div className="mb-screen-inner">
+              <div className="mb-screen-text">M4 MacBook Pro</div>
             </div>
-          ))
-        }
+          </div>
+        )}
       </div>
-      <div className="board-input">
-        <input
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && send()}
-          placeholder="Leave a message…"
-          aria-label="Message input"
-        />
-        <button onClick={send} aria-label="Send message">{I.send}</button>
+      <div className="mb-hinge" />
+      <div className="mb-base">
+        <div className="mb-keyboard" />
+        <div className="mb-trackpad" />
+      </div>
+    </div>
+  );
+}
+
+function GamingPCVisual({ rotation }: { rotation: number }) {
+  const r = rotation % 360;
+  return (
+    <div className="gaming-pc-3d" style={{ transform: `rotateY(${r}deg)` }}>
+      <div className="pc-tower">
+        <div className="pc-top-bar" />
+        <div className="pc-window">
+          <div className="pc-fan"><div className="pc-fan-blade" /><div className="pc-fan-blade" /><div className="pc-fan-blade" /></div>
+          <div className="pc-fan"><div className="pc-fan-blade" /><div className="pc-fan-blade" /><div className="pc-fan-blade" /></div>
+        </div>
+        <div className="pc-bottom-row">
+          <div className="pc-led-strip" />
+          <div className="pc-drive-bays">
+            <div className="pc-bay" /><div className="pc-bay" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DevicePopup({ type, onClose }: { type: "macos" | "linux"; onClose: () => void }) {
+  const [rotation, setRotation] = useState(0);
+  const [dragging, setDragging] = useState(false);
+  const startX = useRef(0);
+  const startRot = useRef(0);
+  const rafId = useRef<number>(0);
+
+  useEffect(() => {
+    const esc = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", esc);
+    return () => window.removeEventListener("keydown", esc);
+  }, [onClose]);
+
+  useEffect(() => {
+    if (dragging) return;
+    let last = performance.now();
+    const tick = (now: number) => {
+      const dt = now - last; last = now;
+      setRotation(r => r + dt * 0.04);
+      rafId.current = requestAnimationFrame(tick);
+    };
+    rafId.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafId.current);
+  }, [dragging]);
+
+  const onMD = (e: React.MouseEvent) => {
+    setDragging(true);
+    startX.current = e.clientX;
+    startRot.current = rotation;
+  };
+  const onMM = (e: React.MouseEvent) => {
+    if (!dragging) return;
+    setRotation(startRot.current + (e.clientX - startX.current) * 0.6);
+  };
+  const onMU = () => setDragging(false);
+
+  return (
+    <div className="device-overlay" onClick={onClose}>
+      <div className="device-modal" onClick={e => e.stopPropagation()}>
+        <button className="device-close" onClick={onClose}>×</button>
+        <div
+          className="device-scene"
+          onMouseDown={onMD}
+          onMouseMove={onMM}
+          onMouseUp={onMU}
+          onMouseLeave={onMU}
+          style={{ cursor: dragging ? "grabbing" : "grab" }}
+        >
+          {type === "macos" ? <MacBookVisual rotation={rotation} /> : <GamingPCVisual rotation={rotation} />}
+        </div>
+        <div className="device-info">
+          {type === "macos" ? (
+            <>
+              <h3>M4 MacBook Pro</h3>
+              <div className="device-specs">
+                <span>Apple M4 Pro · 24 GB Unified Memory</span>
+                <span>512 GB SSD · 16″ Liquid Retina XDR</span>
+                <span>macOS Sequoia</span>
+              </div>
+            </>
+          ) : (
+            <>
+              <h3>Custom Gaming PC</h3>
+              <div className="device-specs">
+                <span>AMD Ryzen 7 · RTX 4070</span>
+                <span>32 GB DDR5 · 1 TB NVMe SSD</span>
+                <span>Windows 11 Pro · Ubuntu dual-boot</span>
+              </div>
+            </>
+          )}
+        </div>
+        <div className="device-hint">drag to rotate</div>
       </div>
     </div>
   );
 }
 
 // ─── Stuff ────────────────────────────────────────────────────────────────────
+const TECH_GITHUB: Record<string, string> = {
+  "C#":          "https://github.com/Ni7i?tab=repositories&language=c%23",
+  "Python":      "https://github.com/Ni7i?tab=repositories&language=python",
+  "JavaScript":  "https://github.com/Ni7i?tab=repositories&language=javascript",
+  "TypeScript":  "https://github.com/Ni7i?tab=repositories&language=typescript",
+  ".NET / Blazor": "https://github.com/Ni7i/StockRendite",
+  "Next.js":     "https://github.com/Ni7i/memyselfandi",
+  "React":       "https://github.com/Ni7i?tab=repositories&language=typescript",
+  "WPF":         "https://github.com/Ni7i/whiteplayer",
+};
+
 function StuffCard() {
+  const [popup, setPopup] = useState<null | "macos" | "linux">(null);
+
   const sections = [
     {
       title: "Languages",
       items: [
-        { label: "C#", sub: "durch und durch", icon: I.cs },
+        { label: "C#", sub: "primary", icon: I.cs },
         { label: "Python", icon: I.py },
         { label: "SQL", icon: I.code },
         { label: "JavaScript", icon: I.brand },
@@ -586,29 +740,44 @@ function StuffCard() {
     {
       title: "Environment",
       items: [
-        { label: "macOS", icon: I.apple },
-        { label: "Linux", icon: I.linux },
-        { label: "Windows", icon: I.windows },
+        { label: "macOS", sub: "M4 Pro", icon: I.apple },
+        { label: "Linux", sub: "Gaming PC", icon: I.linux },
+        { label: "Windows", sub: "11 Pro", icon: I.windows },
       ],
     },
   ];
+
+  const handleClick = (label: string) => {
+    if (label === "macOS") { setPopup("macos"); return; }
+    if (label === "Linux") { setPopup("linux"); return; }
+    const url = TECH_GITHUB[label];
+    if (url) window.open(url, "_blank", "noopener");
+  };
+
   return (
-    <div className="card stuff gd-stuff">
-      <div className="card-h">{I.tool}Stuff I Use</div>
-      {sections.map((sec) => (
-        <div className="stuff-section" key={sec.title}>
-          <h4>{sec.title}</h4>
-          <div className="stuff-grid">
-            {sec.items.map((it) => (
-              <div className="stuff-item" key={it.label}>
-                <span className="ic">{it.icon}</span>
-                <span>{it.label}{it.sub && <small> · {it.sub}</small>}</span>
-              </div>
-            ))}
+    <>
+      {popup && <DevicePopup type={popup} onClose={() => setPopup(null)} />}
+      <div className="card stuff gd-stuff" data-card="Stuff I Use">
+        <div className="card-h">{I.tool}Stuff I Use</div>
+        {sections.map((sec) => (
+          <div className="stuff-section" key={sec.title}>
+            <h4>{sec.title}</h4>
+            <div className="stuff-grid">
+              {sec.items.map((it) => (
+                <div
+                  className={`stuff-item${TECH_GITHUB[it.label] || it.label === "macOS" || it.label === "Linux" ? " clickable" : ""}`}
+                  key={it.label}
+                  onClick={() => handleClick(it.label)}
+                >
+                  <span className="ic">{it.icon}</span>
+                  <span>{it.label}{it.sub && <small> · {it.sub}</small>}</span>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+    </>
   );
 }
 
@@ -639,35 +808,78 @@ function SocialsRow() {
 export default function Home() {
   const [loading, setLoading] = useState(true);
   const [quranOpen, setQuranOpen] = useState(false);
+  const cursorDot = useRef<HTMLDivElement | null>(null);
+  const cursorRing = useRef<HTMLDivElement | null>(null);
+  const cursorTooltip = useRef<HTMLDivElement | null>(null);
+  const ringX = useRef(-200);
+  const ringY = useRef(-200);
+  const rafRef = useRef<number>(0);
 
-  // mouse-tracked glow on .card and .social
+  // custom cursor
   useEffect(() => {
-    const handler = (e: MouseEvent) => {
+    const dot = document.createElement("div");
+    dot.className = "cursor-dot";
+    const ring = document.createElement("div");
+    ring.className = "cursor-ring";
+    const tip = document.createElement("div");
+    tip.className = "cursor-tooltip";
+    document.body.appendChild(dot);
+    document.body.appendChild(ring);
+    document.body.appendChild(tip);
+    cursorDot.current = dot;
+    cursorRing.current = ring;
+    cursorTooltip.current = tip;
+
+    let mx = -200, my = -200;
+
+    const onMove = (e: MouseEvent) => {
+      mx = e.clientX;
+      my = e.clientY;
+      dot.style.transform = `translate(${mx}px, ${my}px)`;
+      tip.style.transform = `translate(${mx + 14}px, ${my - 22}px)`;
+
+      // tooltip: find hovered card label
+      const card = (e.target as HTMLElement)?.closest<HTMLElement>("[data-card]");
+      const label = card?.dataset.card ?? "";
+      if (label) {
+        tip.textContent = label;
+        tip.classList.add("visible");
+      } else {
+        tip.classList.remove("visible");
+      }
+
+      // glow on cards
       const els = document.querySelectorAll<HTMLElement>(".card, .social");
       els.forEach((el) => {
         const r = el.getBoundingClientRect();
-        if (e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) {
-          el.style.setProperty("--mx", `${e.clientX - r.left}px`);
-          el.style.setProperty("--my", `${e.clientY - r.top}px`);
+        if (mx >= r.left && mx <= r.right && my >= r.top && my <= r.bottom) {
+          el.style.setProperty("--mx", `${mx - r.left}px`);
+          el.style.setProperty("--my", `${my - r.top}px`);
         }
       });
-    };
-    window.addEventListener("mousemove", handler);
-    return () => window.removeEventListener("mousemove", handler);
-  }, []);
 
-  // heatmap twinkle
-  useEffect(() => {
-    if (loading) return;
-    const t = setInterval(() => {
-      const days = document.querySelectorAll<HTMLElement>(".hday");
-      if (!days.length) return;
-      const pick = days[Math.floor(Math.random() * days.length)];
-      pick.classList.add("twinkle");
-      setTimeout(() => pick.classList.remove("twinkle"), 1200);
-    }, 1100);
-    return () => clearInterval(t);
-  }, [loading]);
+      // ring hover expand
+      const isInteractive = !!(e.target as HTMLElement)?.closest("a, button, [data-card]");
+      ring.className = isInteractive ? "cursor-ring expanded" : "cursor-ring";
+    };
+
+    const animate = () => {
+      ringX.current += (mx - ringX.current) * 0.12;
+      ringY.current += (my - ringY.current) * 0.12;
+      ring.style.transform = `translate(${ringX.current}px, ${ringY.current}px)`;
+      rafRef.current = requestAnimationFrame(animate);
+    };
+    rafRef.current = requestAnimationFrame(animate);
+
+    window.addEventListener("mousemove", onMove);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      cancelAnimationFrame(rafRef.current);
+      if (dot.parentNode) dot.parentNode.removeChild(dot);
+      if (ring.parentNode) ring.parentNode.removeChild(ring);
+      if (tip.parentNode) tip.parentNode.removeChild(tip);
+    };
+  }, []);
 
   return (
     <>
@@ -684,7 +896,7 @@ export default function Home() {
             <MapCard />
             <StuffCard />
             <GithubCard />
-            <BoardCard />
+            <ContactCard />
           </div>
           <SocialsRow />
         </div>

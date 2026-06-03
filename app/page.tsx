@@ -174,21 +174,19 @@ function QuranView({ onClose }: { onClose: () => void }) {
 }
 
 // ─── About ────────────────────────────────────────────────────────────────────
-function AboutCard({ onFocus }: { onFocus: () => void }) {
+function AboutCard() {
   const stats = [
-    { val: "17",   label: "Jahre" },
-    { val: "110",  label: "WPM" },
-    { val: "~1450",label: "ELO" },
-    { val: "2+",   label: "Yrs Dev" },
+    { val: "17",  label: "Jahre" },
+    { val: "2+",  label: "Yrs Dev" },
   ];
   const facts = [
     "Coden", "Islam", "Velo fahren", "Familie",
-    "Gym", "Quran", "Chess", "Kosovo",
-    "Schweiz", "C# first", "110 WPM", "ICT",
+    "Gym", "Quran", "Kosovo", "Schweiz",
+    "C# first", "ICT", "Bilal Sonses",
   ];
   const ascii = `         ╱╲\n        ╱  ╲\n       ╱ ╱╲ ╲\n      ╱ ╱  ╲ ╲\n     ╱_╱____╲_╲`;
   return (
-    <div className="card about gd-about" data-card="About" onClick={onFocus}>
+    <div className="card about gd-about" data-card="About">
       <div className="card-h">{I.wave}About Me</div>
       <h1>Hi, I&apos;m<br /><span className="italic">Enis</span></h1>
       <p className="bio">
@@ -217,13 +215,20 @@ function AboutCard({ onFocus }: { onFocus: () => void }) {
 
 // ─── Gallery ─────────────────────────────────────────────────────────────────
 const GALLERY_PHOTOS = [
-  { src: "https://images.unsplash.com/photo-1564769625905-50e93615e769?w=400&h=280&fit=crop", full: "https://images.unsplash.com/photo-1564769625905-50e93615e769?w=1600&q=90", alt: "Masjid al-Haram, Mecca" },
-  { src: "https://images.unsplash.com/photo-1541862438-f02c53e4eced?w=400&h=280&fit=crop", full: "https://images.unsplash.com/photo-1541862438-f02c53e4eced?w=1600&q=90", alt: "Blue Mosque, Istanbul" },
-  { src: "https://images.unsplash.com/photo-1553484771-898ed465e931?w=400&h=280&fit=crop", full: "https://images.unsplash.com/photo-1553484771-898ed465e931?w=1600&q=90", alt: "Camel, Arabian Desert" },
+  { src: "https://images.unsplash.com/photo-1564769625905-50e93615e769?w=600&h=400&fit=crop", full: "https://images.unsplash.com/photo-1564769625905-50e93615e769?w=1600&q=90", alt: "Masjid al-Haram, Mecca" },
+  { src: "https://images.unsplash.com/photo-1541862438-f02c53e4eced?w=600&h=400&fit=crop", full: "https://images.unsplash.com/photo-1541862438-f02c53e4eced?w=1600&q=90", alt: "Blue Mosque, Istanbul" },
+  { src: "https://images.unsplash.com/photo-1553484771-898ed465e931?w=600&h=400&fit=crop", full: "https://images.unsplash.com/photo-1553484771-898ed465e931?w=1600&q=90", alt: "Camel, Arabian Desert" },
 ];
 
-function GalleryCard({ onFocus }: { onFocus: () => void }) {
+function GalleryCard() {
+  const [idx, setIdx] = useState(0);
   const [open, setOpen] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (open !== null) return;
+    const t = setInterval(() => setIdx(i => (i + 1) % GALLERY_PHOTOS.length), 5000);
+    return () => clearInterval(t);
+  }, [open]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -236,19 +241,25 @@ function GalleryCard({ onFocus }: { onFocus: () => void }) {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
+  const p = GALLERY_PHOTOS[idx];
+
   return (
     <>
-      <div className="card gallery gd-gallery" data-card="Gallery" onClick={onFocus}>
-        <div className="card-h">{I.image}Gallery</div>
-        <div className="gallery-stack">
-          {GALLERY_PHOTOS.map((p, i) => (
-            <div key={i} className={`gallery-photo p${i + 1}`} onClick={e => { e.stopPropagation(); setOpen(i); }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={p.src} alt={p.alt} />
-            </div>
+      <div className="card gallery gd-gallery" data-card="Gallery">
+        <div className="gallery-single" onClick={() => setOpen(idx)}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={p.src} alt={p.alt} />
+          <div className="gallery-overlay">
+            <span className="gallery-caption">{p.alt}</span>
+            <span className="gallery-open">↗</span>
+          </div>
+        </div>
+        <div className="gallery-dots">
+          {GALLERY_PHOTOS.map((_, i) => (
+            <button key={i} className={`gallery-dot${i === idx ? " active" : ""}`}
+              onClick={() => setIdx(i)} aria-label={`Photo ${i + 1}`} />
           ))}
         </div>
-        <div className="gallery-label">tap to open</div>
       </div>
 
       {open !== null && (
@@ -272,10 +283,34 @@ function GalleryCard({ onFocus }: { onFocus: () => void }) {
 
 // ─── Reciting / Now Playing ───────────────────────────────────────────────────
 const RECITERS = [
-  { name: "Muhammad Ayyub",     mosque: "Al-Nabawi · Madinah",      surahs: [{ tr: "Al-Mulk", num: "67" }, { tr: "Al-Wāqiʿah", num: "56" }, { tr: "An-Naba'", num: "78" }],  img: "/reciters/ayyub.jpg"    },
-  { name: "Yasser Al-Dosari",   mosque: "King Khalid · Riyadh",     surahs: [{ tr: "Ar-Raḥmān", num: "55" }, { tr: "Al-Baqarah", num: "2" }, { tr: "Al-Kahf", num: "18" }],   img: "/reciters/dosari.jpg"   },
-  { name: "Ali Jabir",          mosque: "Al-Haram · Makkah",        surahs: [{ tr: "Al-Fātiḥah", num: "1" }, { tr: "Al-Ikhlāṣ", num: "112" }, { tr: "As-Sajdah", num: "32" }],img: "/reciters/jabir.jpg"    },
-  { name: "Maher Al-Muaiqly",   mosque: "Al-Haram · Makkah",        surahs: [{ tr: "Yā-Sīn", num: "36" }, { tr: "Al-Mulk", num: "67" }, { tr: "Al-Fātiḥah", num: "1" }],     img: "/reciters/muaiqly.svg"  },
+  {
+    name: "Muhammad Ayyub",
+    mosque: "Al-Nabawi · Madinah",
+    surahs: [{ tr: "Al-Mulk", num: "67" }, { tr: "Al-Wāqiʿah", num: "56" }, { tr: "An-Naba'", num: "78" }],
+    bg: "linear-gradient(135deg, #1e3a2a 0%, #0d1f16 100%)",
+    thumbBg: "#2a4a3a",
+  },
+  {
+    name: "Yasser Al-Dosari",
+    mosque: "King Khalid · Riyadh",
+    surahs: [{ tr: "Ar-Raḥmān", num: "55" }, { tr: "Al-Baqarah", num: "2" }, { tr: "Al-Kahf", num: "18" }],
+    bg: "linear-gradient(135deg, #1e2a3a 0%, #0d1520 100%)",
+    thumbBg: "#2a3a4a",
+  },
+  {
+    name: "Ali Jabir",
+    mosque: "Al-Haram · Makkah",
+    surahs: [{ tr: "Al-Fātiḥah", num: "1" }, { tr: "Al-Ikhlāṣ", num: "112" }, { tr: "As-Sajdah", num: "32" }],
+    bg: "linear-gradient(135deg, #3a1e1e 0%, #200d0d 100%)",
+    thumbBg: "#4a2a2a",
+  },
+  {
+    name: "Maher Al-Muaiqly",
+    mosque: "Al-Haram · Makkah",
+    surahs: [{ tr: "Yā-Sīn", num: "36" }, { tr: "Al-Mulk", num: "67" }, { tr: "Al-Fātiḥah", num: "1" }],
+    bg: "linear-gradient(135deg, #2a1e3a 0%, #160d20 100%)",
+    thumbBg: "#3a2a4a",
+  },
 ];
 
 interface NowPlaying {
@@ -299,7 +334,7 @@ function useLastFm(): NowPlaying {
   return data;
 }
 
-function RecitingCard({ onOpen, onFocus }: { onOpen: () => void; onFocus: () => void }) {
+function RecitingCard({ onOpen }: { onOpen: () => void }) {
   const [idx, setIdx] = useState(0);
   const lastfm = useLastFm();
 
@@ -314,7 +349,7 @@ function RecitingCard({ onOpen, onFocus }: { onOpen: () => void; onFocus: () => 
   if (lastfm.playing && lastfm.track) {
     const t = lastfm.track;
     return (
-      <div className="card reciting gd-reciting" data-card="Now Playing" onClick={onFocus}>
+      <div className="card reciting gd-reciting" data-card="Now Playing">
         <div className="card-h">
           {I.music}What I&apos;m Hearing
           <span className="np-badge">live</span>
@@ -332,8 +367,11 @@ function RecitingCard({ onOpen, onFocus }: { onOpen: () => void; onFocus: () => 
         <div className="rec-thumbs">
           {RECITERS.map((rc, i) => (
             <div key={i} className={`rec-thumb${i === idx ? " active" : ""}`}
-              style={{ backgroundImage: `url(${rc.img})` }}
-              onClick={e => { e.stopPropagation(); onOpen(); }} title={rc.name} />
+              style={{ background: rc.thumbBg }}
+              onClick={e => { e.stopPropagation(); onOpen(); }}
+              title={rc.name}>
+              <span className="rec-thumb-init">{rc.name.split(" ").slice(0, 2).map(w => w[0]).join("")}</span>
+            </div>
           ))}
         </div>
       </div>
@@ -341,9 +379,18 @@ function RecitingCard({ onOpen, onFocus }: { onOpen: () => void; onFocus: () => 
   }
 
   return (
-    <div className="card reciting gd-reciting" onClick={onOpen} data-card="What I'm Hearing">
+    <div className="card reciting gd-reciting" data-card="What I'm Hearing" onClick={onOpen}>
       <div className="card-h">{I.music}What I&apos;m Hearing</div>
-      <div className="rec-art" style={{ backgroundImage: `url(${r.img})`, backgroundSize: "cover", backgroundPosition: "center top" }}>
+      <div className="rec-art" style={{ background: r.bg }}>
+        <div className="rec-art-pattern">
+          <svg viewBox="0 0 200 200" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" opacity="0.07">
+            {[20,40,60,80,100].map(r2 => <circle key={r2} cx="100" cy="160" r={r2} fill="none" stroke="#fff" strokeWidth="1"/>)}
+            {[0,30,60,90,120,150].map((a,i) => {
+              const rad = a * Math.PI / 180;
+              return <line key={i} x1="100" y1="160" x2={100 + 110*Math.cos(rad)} y2={160 + 110*Math.sin(rad)} stroke="#fff" strokeWidth="0.5"/>;
+            })}
+          </svg>
+        </div>
         <div className="rec-art-overlay">
           <div className="rec-name-big">{r.name}</div>
           <div className="rec-mosque-label">{r.mosque}</div>
@@ -357,8 +404,11 @@ function RecitingCard({ onOpen, onFocus }: { onOpen: () => void; onFocus: () => 
       <div className="rec-thumbs">
         {RECITERS.map((rc, i) => (
           <div key={i} className={`rec-thumb${i === idx ? " active" : ""}`}
-            style={{ backgroundImage: `url(${rc.img})` }}
-            onClick={e => { e.stopPropagation(); setIdx(i); }} title={rc.name} />
+            style={{ background: rc.thumbBg }}
+            onClick={e => { e.stopPropagation(); setIdx(i); }}
+            title={rc.name}>
+            <span className="rec-thumb-init">{rc.name.split(" ").slice(0, 2).map(w => w[0]).join("")}</span>
+          </div>
         ))}
       </div>
     </div>
@@ -404,41 +454,49 @@ const STAR_DATA = REPOS.map((r, i) => {
   };
 });
 
-function ConstellationCard({ onFocus }: { onFocus: () => void }) {
+function ConstellationCard() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
   const hoveredRef = useRef<number | null>(null);
   const [hovered, setHovered] = useState<number | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    const wrap = wrapRef.current;
+    if (!canvas || !wrap) return;
     let raf: number;
     let t = 0;
 
     const resize = () => {
-      canvas.width = canvas.offsetWidth * (window.devicePixelRatio || 1);
-      canvas.height = canvas.offsetHeight * (window.devicePixelRatio || 1);
+      const dpr = window.devicePixelRatio || 1;
+      const w = wrap.clientWidth;
+      const h = wrap.clientHeight;
+      if (w === 0 || h === 0) return;
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
     };
+
     resize();
     const obs = new ResizeObserver(resize);
-    obs.observe(canvas);
+    obs.observe(wrap);
 
     const draw = () => {
       const ctx = canvas.getContext("2d");
-      if (!ctx) return;
+      if (!ctx) { raf = requestAnimationFrame(draw); return; }
       const W = canvas.width;
       const H = canvas.height;
+      if (W === 0 || H === 0) { raf = requestAnimationFrame(draw); return; }
       const dpr = window.devicePixelRatio || 1;
 
       ctx.clearRect(0, 0, W, H);
 
-      // Tiny background stars
+      // Background ambient stars
       for (let i = 0; i < 60; i++) {
         const sx = ((i * 137.5 * 19) % W);
         const sy = ((i * 137.5 * 31) % H);
-        const sa = 0.2 + 0.1 * Math.sin(t * 0.3 + i);
+        const sa = 0.3 + 0.15 * Math.sin(t * 0.3 + i);
         ctx.beginPath();
-        ctx.arc(sx, sy, 0.8 * dpr, 0, Math.PI * 2);
+        ctx.arc(sx, sy, 1.2 * dpr, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(255,255,255,${sa})`;
         ctx.fill();
       }
@@ -454,8 +512,8 @@ function ConstellationCard({ onFocus }: { onFocus: () => void }) {
           ctx.beginPath();
           ctx.moveTo(x1, y1);
           ctx.lineTo(x2, y2);
-          ctx.strokeStyle = `${star.color}20`;
-          ctx.lineWidth = 0.8 * dpr;
+          ctx.strokeStyle = `${star.color}25`;
+          ctx.lineWidth = 1 * dpr;
           ctx.stroke();
         });
       });
@@ -464,25 +522,31 @@ function ConstellationCard({ onFocus }: { onFocus: () => void }) {
       STAR_DATA.forEach((star, i) => {
         const x = star.nx * W;
         const y = star.ny * H;
-        const twinkle = 0.7 + 0.3 * Math.sin(t * 0.9 + star.phase);
+        const twinkle = 0.75 + 0.25 * Math.sin(t * 0.9 + star.phase);
         const isHov = hoveredRef.current === i;
-        const baseR = (star.stars + 1) * dpr;
-        const r = baseR * (isHov ? 2.2 : 1) * twinkle;
+        const baseR = (star.stars + 2) * dpr;
+        const r = baseR * (isHov ? 2.0 : 1) * twinkle;
 
-        // Glow
-        const grd = ctx.createRadialGradient(x, y, 0, x, y, r * 5);
-        grd.addColorStop(0, star.color + "88");
-        grd.addColorStop(0.4, star.color + "22");
+        // Glow halo
+        const grd = ctx.createRadialGradient(x, y, 0, x, y, r * 4);
+        grd.addColorStop(0, star.color + "cc");
+        grd.addColorStop(0.35, star.color + "44");
         grd.addColorStop(1, "transparent");
         ctx.beginPath();
-        ctx.arc(x, y, r * 5, 0, Math.PI * 2);
+        ctx.arc(x, y, r * 4, 0, Math.PI * 2);
         ctx.fillStyle = grd;
         ctx.fill();
 
-        // Core
+        // Core dot — bright and solid
         ctx.beginPath();
         ctx.arc(x, y, r, 0, Math.PI * 2);
-        ctx.fillStyle = star.color;
+        ctx.fillStyle = isHov ? "#ffffff" : star.color;
+        ctx.fill();
+
+        // White highlight center
+        ctx.beginPath();
+        ctx.arc(x - r * 0.25, y - r * 0.25, r * 0.35, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${isHov ? 0.9 : 0.55})`;
         ctx.fill();
       });
 
@@ -492,14 +556,14 @@ function ConstellationCard({ onFocus }: { onFocus: () => void }) {
         const x = star.nx * W;
         const y = star.ny * H;
         const pad = 8 * dpr;
-        const nameW = Math.min(star.name.length * 6.5 * dpr + pad * 2, 170 * dpr);
+        const nameW = Math.min(star.name.length * 7 * dpr + pad * 2, 180 * dpr);
         let tx = x + 14 * dpr;
         let ty = y - 14 * dpr - 38 * dpr;
         if (tx + nameW > W - 4 * dpr) tx = x - nameW - 10 * dpr;
         if (ty < 4 * dpr) ty = y + 14 * dpr;
 
         ctx.fillStyle = "rgba(20,20,24,0.95)";
-        ctx.strokeStyle = star.color + "55";
+        ctx.strokeStyle = star.color + "66";
         ctx.lineWidth = 1 * dpr;
         const rr = 4 * dpr;
         ctx.beginPath();
@@ -508,7 +572,7 @@ function ConstellationCard({ onFocus }: { onFocus: () => void }) {
         ctx.stroke();
 
         ctx.fillStyle = "#e8e6e0";
-        ctx.font = `${600} ${11 * dpr}px monospace`;
+        ctx.font = `600 ${11 * dpr}px monospace`;
         ctx.fillText(star.name, tx + pad, ty + 14 * dpr);
         ctx.fillStyle = "#95918a";
         ctx.font = `${9.5 * dpr}px monospace`;
@@ -554,8 +618,6 @@ function ConstellationCard({ onFocus }: { onFocus: () => void }) {
       const star = STAR_DATA[hoveredRef.current];
       const url = (star as { url?: string }).url ?? `https://github.com/Ni7i/${star.name}`;
       window.open(url, "_blank", "noopener");
-    } else {
-      onFocus();
     }
   };
 
@@ -565,23 +627,25 @@ function ConstellationCard({ onFocus }: { onFocus: () => void }) {
         {I.spark}Projects · Constellation
         <span className="con-hint">hover stars</span>
       </div>
-      <canvas
-        ref={canvasRef}
-        className="constellation-canvas"
-        style={{ cursor: hovered !== null ? "pointer" : "crosshair" }}
-      />
+      <div ref={wrapRef} className="constellation-wrap">
+        <canvas
+          ref={canvasRef}
+          className="constellation-canvas"
+          style={{ cursor: hovered !== null ? "pointer" : "crosshair" }}
+        />
+      </div>
     </div>
   );
 }
 
 // ─── Map ──────────────────────────────────────────────────────────────────────
-function MapCard({ onFocus, countries }: { onFocus: () => void; countries: Record<string, number> }) {
+function MapCard({ countries }: { countries: Record<string, number> }) {
   const topCountries = Object.entries(countries)
     .sort(([, a], [, b]) => b - a)
     .slice(0, 3);
 
   return (
-    <div className="card map gd-map" data-card="Map" onClick={onFocus}>
+    <div className="card map gd-map" data-card="Map">
       <div className="map-tag">Switzerland · Home</div>
       {topCountries.length > 0 && (
         <div className="map-visitors">
@@ -598,7 +662,7 @@ function MapCard({ onFocus, countries }: { onFocus: () => void; countries: Recor
 // ─── GitHub ───────────────────────────────────────────────────────────────────
 type GHEvent = { type: string; created_at: string; payload?: { commits?: unknown[] } };
 
-function GithubCard({ onFocus }: { onFocus: () => void }) {
+function GithubCard() {
   const [weeks, setWeeks] = useState<number[][] | null>(null);
   const [totalReal, setTotalReal] = useState<number | null>(null);
 
@@ -677,7 +741,7 @@ function GithubCard({ onFocus }: { onFocus: () => void }) {
   };
 
   return (
-    <div className="card github gd-github" data-card="GitHub" onClick={onFocus}>
+    <div className="card github gd-github" data-card="GitHub">
       <div className="label-row">
         <div className="card-h" style={{ margin: 0 }}>{I.git}GitHub</div>
         <span className="handle">@Ni7i</span>
@@ -714,23 +778,20 @@ const TESTIMONIALS = [
     quote: "Enis lieferte unser Projekt schneller als jeder Freelancer, mit dem ich je gearbeitet habe. Sauberer Code, kein Hin und Her.",
     name: "Luca M.",
     role: "Founder, TechStartup Basel",
-    lang: "de",
   },
   {
     quote: "Absolute attention to detail in UI. The app looked exactly like the Figma mockup — no approximations, no excuses.",
     name: "Sophie K.",
     role: "Product Designer, Zürich",
-    lang: "en",
   },
   {
     quote: "He spots problems before you explain them. Reliable, sharp, and fast. I'd work with him again without hesitation.",
     name: "Noah T.",
     role: "Developer, Berlin",
-    lang: "en",
   },
 ];
 
-function TestimonialsCard({ onFocus }: { onFocus: () => void }) {
+function TestimonialsCard() {
   const [idx, setIdx] = useState(0);
   const [fade, setFade] = useState(true);
 
@@ -748,11 +809,10 @@ function TestimonialsCard({ onFocus }: { onFocus: () => void }) {
   const tes = TESTIMONIALS[idx];
 
   return (
-    <div className="card testimonials gd-tes" data-card="Testimonials" onClick={onFocus}>
+    <div className="card testimonials gd-tes" data-card="Testimonials">
       <div className="card-h">{I.spark}Testimonials</div>
       <div className={`tes-body${fade ? " visible" : ""}`}>
-        <div className="tes-quote-mark">"</div>
-        <p className="tes-text">{tes.quote}</p>
+        <p className="tes-text">&ldquo;{tes.quote}&rdquo;</p>
         <div className="tes-meta">
           <span className="tes-name">{tes.name}</span>
           <span className="tes-role">{tes.role}</span>
@@ -769,7 +829,7 @@ function TestimonialsCard({ onFocus }: { onFocus: () => void }) {
 }
 
 // ─── Contact ──────────────────────────────────────────────────────────────────
-function ContactCard({ onFocus }: { onFocus: () => void }) {
+function ContactCard() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [msg, setMsg] = useState("");
@@ -785,7 +845,7 @@ function ContactCard({ onFocus }: { onFocus: () => void }) {
   };
 
   return (
-    <div className="card contact gd-board" data-card="Kontakt" onClick={onFocus}>
+    <div className="card contact gd-board" data-card="Kontakt">
       <div className="card-h">{I.mail}Kontakt</div>
       {sent ? (
         <div className="contact-sent">Danke — E-Mail wird geöffnet.</div>
@@ -806,25 +866,33 @@ function ContactCard({ onFocus }: { onFocus: () => void }) {
 // ─── Device Popups ────────────────────────────────────────────────────────────
 function MacBookVisual({ rotation }: { rotation: number }) {
   const r = rotation % 360;
-  const abs = Math.abs(((r % 360) + 360) % 360);
+  const abs = ((r % 360) + 360) % 360;
   const showBack = abs > 90 && abs < 270;
   return (
     <div className="macbook-3d" style={{ transform: `rotateY(${r}deg)` }}>
       <div className="mb-lid">
         {showBack ? (
-          <div className="mb-back-face"><div className="mb-apple-back">✦</div></div>
+          <div className="mb-back-face">
+            <div className="mb-apple-back">✦</div>
+          </div>
         ) : (
           <div className="mb-screen-face">
             <div className="mb-notch" />
             <div className="mb-screen-inner">
-              <div className="mb-screen-text">M4 MacBook Pro</div>
+              <div className="mb-screen-lines">
+                <div className="mb-sl mb-sl-1" /><div className="mb-sl mb-sl-2" />
+                <div className="mb-sl mb-sl-3" /><div className="mb-sl mb-sl-4" />
+              </div>
+              <div className="mb-screen-label">M4 Pro</div>
             </div>
           </div>
         )}
       </div>
       <div className="mb-hinge" />
       <div className="mb-base">
-        <div className="mb-keyboard" />
+        <div className="mb-keyboard">
+          {Array.from({ length: 30 }).map((_, i) => <div key={i} className="mb-key" />)}
+        </div>
         <div className="mb-trackpad" />
       </div>
     </div>
@@ -834,15 +902,23 @@ function MacBookVisual({ rotation }: { rotation: number }) {
 function GamingPCVisual({ rotation }: { rotation: number }) {
   return (
     <div className="gaming-pc-3d" style={{ transform: `rotateY(${rotation % 360}deg)` }}>
-      <div className="pc-tower">
-        <div className="pc-top-bar" />
-        <div className="pc-window">
-          <div className="pc-fan"><div className="pc-fan-blade" /><div className="pc-fan-blade" /><div className="pc-fan-blade" /></div>
-          <div className="pc-fan"><div className="pc-fan-blade" /><div className="pc-fan-blade" /><div className="pc-fan-blade" /></div>
+      <div className="pc-case">
+        <div className="pc-top-strip" />
+        <div className="pc-window-area">
+          <div className="pc-fan-unit">
+            <div className="pc-fan-ring"><div className="pc-fan-hub" /></div>
+          </div>
+          <div className="pc-fan-unit">
+            <div className="pc-fan-ring"><div className="pc-fan-hub" /></div>
+          </div>
+          <div className="pc-gpu-bar" />
         </div>
-        <div className="pc-bottom-row">
-          <div className="pc-led-strip" />
-          <div className="pc-drive-bays"><div className="pc-bay" /><div className="pc-bay" /></div>
+        <div className="pc-footer">
+          <div className="pc-rgb-strip" />
+          <div className="pc-io">
+            <div className="pc-bay" /><div className="pc-bay" />
+            <div className="pc-usb" /><div className="pc-usb" />
+          </div>
         </div>
       </div>
     </div>
@@ -889,7 +965,7 @@ function DevicePopup({ type, onClose }: { type: "macos" | "linux"; onClose: () =
         <div className="device-info">
           {type === "macos" ? (
             <>
-              <h3>M4 MacBook Pro 16"</h3>
+              <h3>M4 MacBook Pro 16&quot;</h3>
               <div className="device-specs">
                 <span>Apple M4 Pro · 24 GB Unified Memory</span>
                 <span>512 GB SSD · Liquid Retina XDR</span>
@@ -925,7 +1001,7 @@ const TECH_GITHUB: Record<string, string> = {
   "WPF":           "https://github.com/Ni7i/whiteplayer",
 };
 
-function StuffCard({ onFocus }: { onFocus: () => void }) {
+function StuffCard() {
   const [popup, setPopup] = useState<null | "macos" | "linux">(null);
 
   const sections = [
@@ -973,7 +1049,7 @@ function StuffCard({ onFocus }: { onFocus: () => void }) {
   return (
     <>
       {popup && <DevicePopup type={popup} onClose={() => setPopup(null)} />}
-      <div className="card stuff gd-stuff" data-card="Stuff I Use" onClick={onFocus}>
+      <div className="card stuff gd-stuff" data-card="Stuff I Use">
         <div className="card-h">{I.tool}Stuff I Use</div>
         {sections.map((sec) => (
           <div className="stuff-section" key={sec.title}>
@@ -1236,15 +1312,11 @@ function GridSnake() {
         ctx.fill();
       }
 
-      // Head
+      // Head dot — solid, no glow halo
       const [hx, hy] = getPosAt(progress);
-      const grd = ctx.createRadialGradient(hx, hy, 0, hx, hy, 10);
-      grd.addColorStop(0, "rgba(240, 142, 127, 1)");
-      grd.addColorStop(0.5, "rgba(240, 142, 127, 0.4)");
-      grd.addColorStop(1, "transparent");
       ctx.beginPath();
-      ctx.arc(hx, hy, 10, 0, Math.PI * 2);
-      ctx.fillStyle = grd;
+      ctx.arc(hx, hy, 3.5, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(240, 142, 127, 1)";
       ctx.fill();
 
       raf = requestAnimationFrame(draw);
@@ -1263,22 +1335,11 @@ function GridSnake() {
   return <canvas ref={canvasRef} className="grid-snake-canvas" />;
 }
 
-// ─── Card Focus Backdrop ──────────────────────────────────────────────────────
-function CardFocusBackdrop({ onClose }: { onClose: () => void }) {
-  useEffect(() => {
-    const esc = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
-    window.addEventListener("keydown", esc);
-    return () => window.removeEventListener("keydown", esc);
-  }, [onClose]);
-  return <div className="card-focus-backdrop" onClick={onClose} />;
-}
-
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function Home() {
   const [loading, setLoading] = useState(true);
   const [quranOpen, setQuranOpen] = useState(false);
   const [easterEgg, setEasterEgg] = useState(false);
-  const [focusCard, setFocusCard] = useState<string | null>(null);
   const [countries, setCountries] = useState<Record<string, number>>({});
   const konamiSeq = useRef<string[]>([]);
   const KONAMI = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];
@@ -1322,26 +1383,23 @@ export default function Home() {
       .catch(() => {});
   }, []);
 
-  const focus = useCallback((id: string) => setFocusCard(id), []);
-
   return (
     <>
       {loading && <LoadingScreen onDone={() => setLoading(false)} />}
       {quranOpen && <QuranView onClose={() => setQuranOpen(false)} />}
       {easterEgg && <EasterEgg onClose={() => setEasterEgg(false)} />}
-      {focusCard && <CardFocusBackdrop onClose={() => setFocusCard(null)} />}
       {!loading && (
         <div className="app">
           <div id="main-grid" className="grid">
-            <AboutCard       onFocus={() => focus("about")}        />
-            <GalleryCard     onFocus={() => focus("gallery")}      />
-            <RecitingCard    onOpen={() => setQuranOpen(true)}  onFocus={() => focus("reciting")} />
-            <ConstellationCard onFocus={() => focus("constellation")} />
-            <MapCard         onFocus={() => focus("map")} countries={countries} />
-            <GithubCard      onFocus={() => focus("github")}      />
-            <StuffCard       onFocus={() => focus("stuff")}       />
-            <TestimonialsCard onFocus={() => focus("testimonials")} />
-            <ContactCard     onFocus={() => focus("contact")}     />
+            <AboutCard />
+            <GalleryCard />
+            <RecitingCard onOpen={() => setQuranOpen(true)} />
+            <ConstellationCard />
+            <MapCard countries={countries} />
+            <GithubCard />
+            <StuffCard />
+            <TestimonialsCard />
+            <ContactCard />
           </div>
           <SocialsRow />
           <FloatingWidget />

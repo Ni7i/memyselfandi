@@ -467,20 +467,24 @@ function ConstellationCard() {
     let raf: number;
     let t = 0;
 
-    const resize = () => {
+    const syncSize = () => {
+      const rect = wrap.getBoundingClientRect();
       const dpr = window.devicePixelRatio || 1;
-      const w = wrap.clientWidth;
-      const h = wrap.clientHeight;
-      if (w === 0 || h === 0) return;
-      canvas.width = Math.round(w * dpr);
-      canvas.height = Math.round(h * dpr);
+      const w = Math.round(rect.width * dpr);
+      const h = Math.round(rect.height * dpr);
+      if (w > 0 && h > 0 && (canvas.width !== w || canvas.height !== h)) {
+        canvas.width = w;
+        canvas.height = h;
+      }
     };
 
-    resize();
-    const obs = new ResizeObserver(resize);
+    syncSize();
+    const obs = new ResizeObserver(syncSize);
     obs.observe(wrap);
 
     const draw = () => {
+      // Auto-sync on every frame — handles initial layout & resize
+      syncSize();
       const ctx = canvas.getContext("2d");
       if (!ctx) { raf = requestAnimationFrame(draw); return; }
       const W = canvas.width;
@@ -522,10 +526,10 @@ function ConstellationCard() {
       STAR_DATA.forEach((star, i) => {
         const x = star.nx * W;
         const y = star.ny * H;
-        const twinkle = 0.75 + 0.25 * Math.sin(t * 0.9 + star.phase);
+        const twinkle = 0.8 + 0.2 * Math.sin(t * 0.9 + star.phase);
         const isHov = hoveredRef.current === i;
-        const baseR = (star.stars + 2) * dpr;
-        const r = baseR * (isHov ? 2.0 : 1) * twinkle;
+        const baseR = (star.stars + 3) * dpr;
+        const r = baseR * (isHov ? 2.2 : 1) * twinkle;
 
         // Glow halo
         const grd = ctx.createRadialGradient(x, y, 0, x, y, r * 4);

@@ -173,25 +173,30 @@ function QuranView({ onClose }: { onClose: () => void }) {
 
 // ─── About ────────────────────────────────────────────────────────────────────
 function AboutCard() {
-  const facts = ["Coden", "Islam", "Velo", "Familie", "Sport"];
+  const facts = [
+    "Coden", "Islam", "Velo fahren", "Familie",
+    "Gym", "Quran", "Chess", "Kosovo",
+    "Schweiz", "C# first", "110 WPM", "ICT Wettbewerbe",
+  ];
   const ascii = `         ╱╲\n        ╱  ╲\n       ╱ ╱╲ ╲\n      ╱ ╱  ╲ ╲\n     ╱_╱____╲_╲`;
   return (
     <div className="card about gd-about" data-card="About">
       <div className="card-h">{I.wave}About Me</div>
       <h1>Hi, I&apos;m<span className="italic">Enis</span></h1>
       <p className="bio">
-        I&apos;m a 17 y/o coder from Switzerland, currently working on <em>Stock&nbsp;Rendite</em> —
-        learning the markets, one line of code at a time.
+        17 — Kosovo roots, raised in Switzerland.
+        Building with C# and TypeScript, competing in ICT,
+        listening to Quran.
       </p>
       <div className="loc">
         {I.pin} Rudolfstetten, Switzerland
       </div>
       <div className="label-row">{I.spark} Things I love</div>
-      <ul>
+      <div className="about-facts">
         {facts.map((f, i) => (
-          <li key={i}>{f}</li>
+          <span className="about-fact" key={i}>{f}</span>
         ))}
-      </ul>
+      </div>
       <pre className="about-ascii">{ascii}</pre>
     </div>
   );
@@ -410,33 +415,10 @@ function RecitingCard({ onOpen }: { onOpen: () => void }) {
   );
 }
 
-// ─── Nav ──────────────────────────────────────────────────────────────────────
-function NavCard({ onOpenQuran }: { onOpenQuran: () => void }) {
-  const items = [
-    { label: "Projects", icon: I.folder, action: () => {} },
-    { label: "Gallery",  icon: I.image,  action: () => {} },
-    { label: "Qur'an", icon: I.music, action: onOpenQuran },
-    { label: "GitHub",   icon: I.git,    action: () => window.open("https://github.com/Ni7i", "_blank", "noopener") },
-  ];
-  return (
-    <div className="card nav gd-nav" data-card="Navigation">
-      <div className="card-h">{I.compass}Navigation</div>
-      <div className="nav-list">
-        {items.map((it, i) => (
-          <button className="nav-item" key={i} onClick={it.action}>
-            <span className="lead">{it.icon}</span>
-            {it.label}
-            <span className="arrow">→</span>
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-}
 
 // ─── Projects ─────────────────────────────────────────────────────────────────
 const REPOS = [
-  { name: "StockRendite",        lang: "C# / Blazor", year: "2026 →", desc: "Track holdings, see actual returns — active dev" },
+  { name: "StockRendite",        lang: "C# / Blazor", year: "2026 →", desc: "Track holdings, see actual returns — active dev", url: "https://stock-rendite.vercel.app/" },
   { name: "whiteplayer",         lang: "C# / WPF",    year: "2026", desc: "Minimal music player with custom WPF UI" },
   { name: "Quizlot",             lang: "TypeScript",  year: "2026", desc: "Quiz platform" },
   { name: "ICT-Regios-2026",     lang: "JavaScript",  year: "2026", desc: "ICT Regios competition project" },
@@ -468,7 +450,7 @@ function ProjectsCard() {
       </div>
       <div className="proj-scroll">
         {REPOS.map((r) => (
-          <a key={r.name} className="proj-repo" href={`https://github.com/Ni7i/${r.name}`} target="_blank" rel="noopener noreferrer">
+          <a key={r.name} className="proj-repo" href={(r as { url?: string }).url ?? `https://github.com/Ni7i/${r.name}`} target="_blank" rel="noopener noreferrer">
             <div className="proj-repo-meta">
               <span className="proj-repo-name">{r.name}</span>
               <span className="proj-repo-desc">{r.desc}</span>
@@ -564,6 +546,10 @@ function GithubCard() {
 
   const display = weeks ?? fallback;
 
+  const totalCommits = weeks
+    ? display.flat().reduce((acc, lvl) => acc + (lvl === 1 ? 1 : lvl === 2 ? 4 : lvl === 3 ? 7 : lvl === 4 ? 12 : 0), 0)
+    : null;
+
   const getMonthLabels = () => {
     const labels: string[] = [];
     const today = new Date();
@@ -580,6 +566,7 @@ function GithubCard() {
       <div className="label-row">
         <div className="card-h" style={{ margin: 0 }}>{I.git}GitHub</div>
         <span className="handle">@Ni7i</span>
+        {totalCommits !== null && <span className="commit-count">{totalCommits}+ commits</span>}
       </div>
       <div className="month-row">
         {getMonthLabels().map((m, i) => <span key={i}>{m}</span>)}
@@ -874,78 +861,6 @@ function SocialsRow() {
 export default function Home() {
   const [loading, setLoading] = useState(true);
   const [quranOpen, setQuranOpen] = useState(false);
-  const cursorDot = useRef<HTMLDivElement | null>(null);
-  const cursorRing = useRef<HTMLDivElement | null>(null);
-  const cursorTooltip = useRef<HTMLDivElement | null>(null);
-  const ringX = useRef(-200);
-  const ringY = useRef(-200);
-  const rafRef = useRef<number>(0);
-
-  // custom cursor
-  useEffect(() => {
-    const dot = document.createElement("div");
-    dot.className = "cursor-dot";
-    const ring = document.createElement("div");
-    ring.className = "cursor-ring";
-    const tip = document.createElement("div");
-    tip.className = "cursor-tooltip";
-    document.body.appendChild(dot);
-    document.body.appendChild(ring);
-    document.body.appendChild(tip);
-    cursorDot.current = dot;
-    cursorRing.current = ring;
-    cursorTooltip.current = tip;
-
-    let mx = -200, my = -200;
-
-    const onMove = (e: MouseEvent) => {
-      mx = e.clientX;
-      my = e.clientY;
-      dot.style.transform = `translate(${mx}px, ${my}px)`;
-      tip.style.transform = `translate(${mx + 14}px, ${my - 22}px)`;
-
-      // tooltip: find hovered card label
-      const card = (e.target as HTMLElement)?.closest<HTMLElement>("[data-card]");
-      const label = card?.dataset.card ?? "";
-      if (label) {
-        tip.textContent = label;
-        tip.classList.add("visible");
-      } else {
-        tip.classList.remove("visible");
-      }
-
-      // glow on cards
-      const els = document.querySelectorAll<HTMLElement>(".card, .social");
-      els.forEach((el) => {
-        const r = el.getBoundingClientRect();
-        if (mx >= r.left && mx <= r.right && my >= r.top && my <= r.bottom) {
-          el.style.setProperty("--mx", `${mx - r.left}px`);
-          el.style.setProperty("--my", `${my - r.top}px`);
-        }
-      });
-
-      // ring hover expand
-      const isInteractive = !!(e.target as HTMLElement)?.closest("a, button, [data-card]");
-      ring.className = isInteractive ? "cursor-ring expanded" : "cursor-ring";
-    };
-
-    const animate = () => {
-      ringX.current += (mx - ringX.current) * 0.12;
-      ringY.current += (my - ringY.current) * 0.12;
-      ring.style.transform = `translate(${ringX.current}px, ${ringY.current}px)`;
-      rafRef.current = requestAnimationFrame(animate);
-    };
-    rafRef.current = requestAnimationFrame(animate);
-
-    window.addEventListener("mousemove", onMove);
-    return () => {
-      window.removeEventListener("mousemove", onMove);
-      cancelAnimationFrame(rafRef.current);
-      if (dot.parentNode) dot.parentNode.removeChild(dot);
-      if (ring.parentNode) ring.parentNode.removeChild(ring);
-      if (tip.parentNode) tip.parentNode.removeChild(tip);
-    };
-  }, []);
 
   return (
     <>
@@ -957,7 +872,6 @@ export default function Home() {
             <AboutCard />
             <GalleryCard />
             <RecitingCard onOpen={() => setQuranOpen(true)} />
-            <NavCard onOpenQuran={() => setQuranOpen(true)} />
             <ProjectsCard />
             <MapCard />
             <StuffCard />

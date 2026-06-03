@@ -308,13 +308,79 @@ const RECITERS = [
   },
 ];
 
-function RecitingCard({ onOpen }: { onOpen: () => void }) {
-  const [idx, setIdx] = useState(0);
+interface NowPlaying {
+  playing: boolean;
+  track?: { name: string; artist: string; album: string; image: string; url: string };
+}
+
+function useLastFm(): NowPlaying {
+  const [data, setData] = useState<NowPlaying>({ playing: false });
   useEffect(() => {
-    const t = setInterval(() => setIdx(i => (i + 1) % RECITERS.length), 6000);
+    const poll = () => {
+      fetch("/api/lastfm")
+        .then(r => r.json())
+        .then((d: NowPlaying) => setData(d))
+        .catch(() => {});
+    };
+    poll();
+    const t = setInterval(poll, 30_000);
     return () => clearInterval(t);
   }, []);
+  return data;
+}
+
+function RecitingCard({ onOpen }: { onOpen: () => void }) {
+  const [idx, setIdx] = useState(0);
+  const lastfm = useLastFm();
+
+  useEffect(() => {
+    if (lastfm.playing) return;
+    const t = setInterval(() => setIdx(i => (i + 1) % RECITERS.length), 6000);
+    return () => clearInterval(t);
+  }, [lastfm.playing]);
+
   const r = RECITERS[idx];
+
+  if (lastfm.playing && lastfm.track) {
+    const t = lastfm.track;
+    return (
+      <div className="card reciting gd-reciting" data-card="Now Playing">
+        <div className="card-h">
+          {I.music}Now Playing
+          <span className="np-badge">live</span>
+        </div>
+        <a
+          className="rec-art np-art"
+          href={t.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ backgroundImage: t.image ? `url(${t.image})` : undefined }}
+          onClick={e => e.stopPropagation()}
+        >
+          {!t.image && <div className="np-art-placeholder">{I.music}</div>}
+          <div className="rec-art-overlay">
+            <div className="rec-name-big">{t.name}</div>
+            <div className="rec-mosque-label">{t.artist}</div>
+          </div>
+        </a>
+        <div className="np-meta">
+          <span className="np-album">{t.album || "—"}</span>
+        </div>
+        <div className="rec-thumbs">
+          {RECITERS.map((rc, i) => (
+            <div
+              key={i}
+              className={`rec-thumb${i === idx ? " active" : ""}`}
+              style={{ backgroundImage: `url(${rc.img})` }}
+              onClick={onOpen}
+              title={rc.name}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="card reciting gd-reciting" onClick={onOpen} data-card="Recitations">
       <div className="card-h">{I.music}Recitations</div>

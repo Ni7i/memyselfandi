@@ -81,7 +81,7 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
 .card {
   background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
   padding: 16px; position: relative; transition: border-color 0.25s ease;
-  min-height: 100%; overflow: hidden;
+  height: 100%; overflow: hidden;
 }
 .card:hover { border-color: var(--border-strong); }
 .card > * { position: relative; z-index: 1; }
@@ -176,8 +176,8 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
 .rec-thumb-init { font-family: var(--font-mono), monospace; font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.7); letter-spacing: 0; }
 
 /* CONSTELLATION */
-.constellation { padding: 12px; display: flex; flex-direction: column; }
-.constellation .card-h { margin-bottom: 6px; }
+.constellation { padding: 12px; display: flex; flex-direction: column; height: 100%; }
+.constellation .card-h { margin-bottom: 6px; flex-shrink: 0; }
 .con-hint { margin-left: auto; font-family: var(--font-mono), monospace; font-size: 9.5px; color: var(--text-faint); letter-spacing: 0.1em; }
 .constellation-wrap { flex: 1; min-height: 0; position: relative; }
 .constellation-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }

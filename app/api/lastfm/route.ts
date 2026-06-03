@@ -1,5 +1,5 @@
 const API_KEY = process.env.LASTFM_API_KEY ?? "";
-const USERNAME = process.env.LASTFM_USERNAME ?? "n!si";
+const USERNAME = process.env.LASTFM_USERNAME ?? "Ni7i";
 
 export interface LastFmResponse {
   playing: boolean;

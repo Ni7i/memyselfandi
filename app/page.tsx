@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import dynamic from "next/dynamic";
 import LoadingScreen from "@/components/LoadingScreen";
 
@@ -16,10 +16,8 @@ const I = {
   image:   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.5"/><path d="M3 17l5-5 5 5 3-3 5 5"/></svg>,
   music:   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18V6l12-2v12"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>,
   compass: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M16 8l-2 6-6 2 2-6 6-2z"/></svg>,
-  folder:  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/></svg>,
   map:     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3V7z"/><path d="M9 4v13M15 7v13"/></svg>,
   git:     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.66-.22.66-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.15-1.11-1.46-1.11-1.46-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.58 9.58 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.16.58.67.48A10 10 0 0 0 12 2z"/></svg>,
-  chat:    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a8 8 0 1 1 3 6l-3 1 1-3a8 8 0 0 1-1-4z"/></svg>,
   tool:    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M14 6l4-4 3 3-4 4-3-3zM2 22l7-7M14 6L2 18l4 4 12-12"/></svg>,
   mail:    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 7 9-7"/></svg>,
   send:    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>,
@@ -31,6 +29,12 @@ const I = {
   cs:      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M16 7a5 5 0 1 0 0 10M18 9v2h2M18 13v2h2M19 9v6M21 9v6"/></svg>,
   brand:   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 8v8"/></svg>,
   discord: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M5 6a16 16 0 0 1 6-2l1 2a17 17 0 0 1 4 0l1-2a16 16 0 0 1 6 2c3 4 4 9 3 14a17 17 0 0 1-5 2l-1-2"/><circle cx="9" cy="14" r="1.5" fill="currentColor"/><circle cx="15" cy="14" r="1.5" fill="currentColor"/></svg>,
+  mouse:   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><rect x="7" y="2" width="10" height="16" rx="5"/><line x1="12" y1="6" x2="12" y2="10"/></svg>,
+  kbd:     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M8 14h8"/></svg>,
+  lock:    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>,
+  star:    <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>,
+  heart:   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>,
+  eye:     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>,
 };
 
 // ─── Quran Tile Pattern ──────────────────────────────────────────────────────
@@ -111,44 +115,42 @@ function QuranView({ onClose }: { onClose: () => void }) {
   }, [onClose]);
 
   const surahs = [
-    { num: "01", ar: "ٱلْفَاتِحَة", tr: "Al-Fātiḥah",   reciter: "M. Ayyub",     pat: "star8",   c: 7,  size: "tall" },
-    { num: "67", ar: "ٱلْمُلْك",   tr: "Al-Mulk",      reciter: "Y. Al-Dosari", pat: "rings",   c: 1,  size: "tall" },
-    { num: "55", ar: "ٱلرَّحْمَٰن", tr: "Ar-Raḥmān",    reciter: "M. Ayyub",     pat: "bloom",   c: 2,  size: "mid"  },
-    { num: "18", ar: "ٱلْكَهْف",   tr: "Al-Kahf",      reciter: "Ali Jabir",    pat: "weave",   c: 3,  size: "tall" },
-    { num: "02", ar: "ٱلْبَقَرَة",  tr: "Al-Baqarah",   reciter: "Y. Al-Dosari", pat: "grid",    c: 6,  size: "mid"  },
-    { num: "36", ar: "يٰسٓ",       tr: "Yā-Sīn",       reciter: "M. Ayyub",     pat: "star8",   c: 8,  size: "short"},
-    { num: "112",ar: "ٱلْإِخْلَاص", tr: "Al-Ikhlāṣ",   reciter: "Ali Jabir",    pat: "minimal", c: 9,  size: "short"},
-    { num: "113",ar: "ٱلْفَلَق",   tr: "Al-Falaq",     reciter: "Ali Jabir",    pat: "rings",   c: 10, size: "wide" },
-    { num: "114",ar: "ٱلنَّاس",    tr: "An-Nās",       reciter: "Ali Jabir",    pat: "minimal", c: 6,  size: "short"},
-    { num: "78", ar: "ٱلنَّبَأ",    tr: "An-Naba'",     reciter: "Y. Al-Dosari", pat: "weave",   c: 4,  size: "tall" },
-    { num: "56", ar: "ٱلْوَاقِعَة",  tr: "Al-Wāqi'ah",  reciter: "M. Ayyub",     pat: "bloom",   c: 5,  size: "mid"  },
-    { num: "12", ar: "يُوسُف",      tr: "Yūsuf",        reciter: "M. Ayyub",     pat: "grid",    c: 1,  size: "mid"  },
-    { num: "19", ar: "مَرْيَم",     tr: "Maryam",       reciter: "Y. Al-Dosari", pat: "rings",   c: 3,  size: "tall" },
-    { num: "20", ar: "طٰهٰ",        tr: "Ṭā-Hā",        reciter: "M. Ayyub",     pat: "star8",   c: 9,  size: "short"},
-    { num: "32", ar: "ٱلسَّجْدَة",  tr: "As-Sajdah",    reciter: "Ali Jabir",    pat: "weave",   c: 2,  size: "mid"  },
-    { num: "44", ar: "ٱلدُّخَان",   tr: "Ad-Dukhān",    reciter: "Y. Al-Dosari", pat: "grid",    c: 5,  size: "short"},
-    { num: "76", ar: "ٱلْإِنْسَان", tr: "Al-Insān",     reciter: "M. Ayyub",     pat: "bloom",   c: 7,  size: "mid"  },
-    { num: "85", ar: "ٱلْبُرُوج",   tr: "Al-Burūj",     reciter: "Ali Jabir",    pat: "minimal", c: 10, size: "short"},
-    { num: "97", ar: "ٱلْقَدْر",    tr: "Al-Qadr",      reciter: "Y. Al-Dosari", pat: "star8",   c: 4,  size: "short"},
-    { num: "99", ar: "ٱلزَّلْزَلَة", tr: "Az-Zalzalah",  reciter: "M. Ayyub",     pat: "rings",   c: 8,  size: "wide" },
+    { num: "01", tr: "Al-Fātiḥah",   reciter: "M. Ayyub",     pat: "star8",   c: 7,  size: "tall" },
+    { num: "67", tr: "Al-Mulk",      reciter: "Y. Al-Dosari", pat: "rings",   c: 1,  size: "tall" },
+    { num: "55", tr: "Ar-Raḥmān",    reciter: "M. Ayyub",     pat: "bloom",   c: 2,  size: "mid"  },
+    { num: "18", tr: "Al-Kahf",      reciter: "Ali Jabir",    pat: "weave",   c: 3,  size: "tall" },
+    { num: "02", tr: "Al-Baqarah",   reciter: "Y. Al-Dosari", pat: "grid",    c: 6,  size: "mid"  },
+    { num: "36", tr: "Yā-Sīn",       reciter: "M. Ayyub",     pat: "star8",   c: 8,  size: "short"},
+    { num: "112",tr: "Al-Ikhlāṣ",   reciter: "Ali Jabir",    pat: "minimal", c: 9,  size: "short"},
+    { num: "113",tr: "Al-Falaq",     reciter: "Ali Jabir",    pat: "rings",   c: 10, size: "wide" },
+    { num: "114",tr: "An-Nās",       reciter: "Ali Jabir",    pat: "minimal", c: 6,  size: "short"},
+    { num: "78", tr: "An-Naba'",     reciter: "Y. Al-Dosari", pat: "weave",   c: 4,  size: "tall" },
+    { num: "56", tr: "Al-Wāqi'ah",   reciter: "M. Ayyub",     pat: "bloom",   c: 5,  size: "mid"  },
+    { num: "12", tr: "Yūsuf",        reciter: "M. Ayyub",     pat: "grid",    c: 1,  size: "mid"  },
+    { num: "19", tr: "Maryam",       reciter: "Y. Al-Dosari", pat: "rings",   c: 3,  size: "tall" },
+    { num: "20", tr: "Ṭā-Hā",        reciter: "M. Ayyub",     pat: "star8",   c: 9,  size: "short"},
+    { num: "32", tr: "As-Sajdah",    reciter: "Ali Jabir",    pat: "weave",   c: 2,  size: "mid"  },
+    { num: "44", tr: "Ad-Dukhān",    reciter: "Y. Al-Dosari", pat: "grid",    c: 5,  size: "short"},
+    { num: "76", tr: "Al-Insān",     reciter: "M. Ayyub",     pat: "bloom",   c: 7,  size: "mid"  },
+    { num: "85", tr: "Al-Burūj",     reciter: "Ali Jabir",    pat: "minimal", c: 10, size: "short"},
+    { num: "97", tr: "Al-Qadr",      reciter: "Y. Al-Dosari", pat: "star8",   c: 4,  size: "short"},
+    { num: "99", tr: "Az-Zalzalah",  reciter: "M. Ayyub",     pat: "rings",   c: 8,  size: "wide" },
   ];
 
   const reciters = [
-    { num: "01", ar: "محمد أيوب",          tr: "Muhammad Ayyub",       reciter: "Madinah", pat: "rings",   c: 5, size: "tall"  },
-    { num: "02", ar: "ياسر الدوسري",        tr: "Yasser Al-Dosari",     reciter: "Makkah",  pat: "star8",   c: 2, size: "mid"   },
-    { num: "03", ar: "علي جابر",           tr: "Ali Jabir",            reciter: "Madinah", pat: "bloom",   c: 7, size: "tall"  },
-    { num: "04", ar: "عبد الرحمٰن السديس",  tr: "Abdurrahman As-Sudais",reciter: "Makkah",  pat: "weave",   c: 1, size: "mid"   },
-    { num: "05", ar: "سعد الغامدي",         tr: "Sa'ad Al-Ghamidi",     reciter: "Makkah",  pat: "grid",    c: 4, size: "short" },
-    { num: "06", ar: "ماهر المعيقلي",       tr: "Maher Al-Muaiqly",     reciter: "Makkah",  pat: "minimal", c: 8, size: "short" },
+    { num: "01", tr: "Muhammad Ayyub",       reciter: "Madinah", pat: "rings",   c: 5, size: "tall"  },
+    { num: "02", tr: "Yasser Al-Dosari",     reciter: "Makkah",  pat: "star8",   c: 2, size: "mid"   },
+    { num: "03", tr: "Ali Jabir",            reciter: "Madinah", pat: "bloom",   c: 7, size: "tall"  },
+    { num: "04", tr: "Abdurrahman As-Sudais",reciter: "Makkah",  pat: "weave",   c: 1, size: "mid"   },
+    { num: "05", tr: "Sa'ad Al-Ghamidi",     reciter: "Makkah",  pat: "grid",    c: 4, size: "short" },
+    { num: "06", tr: "Maher Al-Muaiqly",     reciter: "Makkah",  pat: "minimal", c: 8, size: "short" },
   ];
 
   const data = filter === "surahs" ? surahs : reciters;
 
   return (
     <div className="quran-view">
-      <button className="qv-home" onClick={onClose} aria-label="Go home">
-        {I.home}
-      </button>
+      <button className="qv-home" onClick={onClose} aria-label="Go home">{I.home}</button>
       <div className="qv-toolbar">
         <div className="qv-pills">
           <button className={filter === "surahs" ? "active" : ""} onClick={() => setFilter("surahs")}>Surahs</button>
@@ -172,24 +174,35 @@ function QuranView({ onClose }: { onClose: () => void }) {
 }
 
 // ─── About ────────────────────────────────────────────────────────────────────
-function AboutCard() {
+function AboutCard({ onFocus }: { onFocus: () => void }) {
+  const stats = [
+    { val: "17",   label: "Jahre" },
+    { val: "110",  label: "WPM" },
+    { val: "~1450",label: "ELO" },
+    { val: "2+",   label: "Yrs Dev" },
+  ];
   const facts = [
     "Coden", "Islam", "Velo fahren", "Familie",
     "Gym", "Quran", "Chess", "Kosovo",
-    "Schweiz", "C# first", "110 WPM", "ICT Wettbewerbe",
+    "Schweiz", "C# first", "110 WPM", "ICT",
   ];
   const ascii = `         ╱╲\n        ╱  ╲\n       ╱ ╱╲ ╲\n      ╱ ╱  ╲ ╲\n     ╱_╱____╲_╲`;
   return (
-    <div className="card about gd-about" data-card="About">
+    <div className="card about gd-about" data-card="About" onClick={onFocus}>
       <div className="card-h">{I.wave}About Me</div>
-      <h1>Hi, I&apos;m<span className="italic">Enis</span></h1>
+      <h1>Hi, I&apos;m<br /><span className="italic">Enis</span></h1>
       <p className="bio">
         17 — Kosovo roots, raised in Switzerland.
-        Building with C# and TypeScript, competing in ICT,
-        listening to Quran.
+        Building with C# and TypeScript, competing in ICT, listening to Quran.
       </p>
-      <div className="loc">
-        {I.pin} Rudolfstetten, Switzerland
+      <div className="loc">{I.pin} Rudolfstetten, Switzerland</div>
+      <div className="about-stats">
+        {stats.map(s => (
+          <div className="about-stat" key={s.label}>
+            <span className="about-stat-val">{s.val}</span>
+            <span className="about-stat-label">{s.label}</span>
+          </div>
+        ))}
       </div>
       <div className="label-row">{I.spark} Things I love</div>
       <div className="about-facts">
@@ -202,34 +215,6 @@ function AboutCard() {
   );
 }
 
-// ─── Shoutouts ───────────────────────────────────────────────────────────────
-function ShoutoutsCard() {
-  const items = [
-    { name: "Family", role: "Always" },
-    { name: "The Brothers", role: "Deen Crew" },
-    { name: "Gym Squad", role: "No Days Off" },
-    { name: "Mom's Kitchen", role: "Inspiration" },
-    { name: "School Mates", role: "Day Ones" },
-    { name: "Late-night Coders", role: "The Grind" },
-  ];
-  return (
-    <div className="card shouts gd-shouts">
-      <div className="card-h">{I.wave}Shoutouts</div>
-      <div className="shouts-grid">
-        {items.map((it, i) => (
-          <div className="pill" key={i}>
-            <div className="icon">{I.home}</div>
-            <div className="meta">
-              <span className="name">{it.name}</span>
-              <span className="role">{it.role}</span>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 // ─── Gallery ─────────────────────────────────────────────────────────────────
 const GALLERY_PHOTOS = [
   { src: "https://images.unsplash.com/photo-1564769625905-50e93615e769?w=400&h=280&fit=crop", full: "https://images.unsplash.com/photo-1564769625905-50e93615e769?w=1600&q=90", alt: "Masjid al-Haram, Mecca" },
@@ -237,7 +222,7 @@ const GALLERY_PHOTOS = [
   { src: "https://images.unsplash.com/photo-1553484771-898ed465e931?w=400&h=280&fit=crop", full: "https://images.unsplash.com/photo-1553484771-898ed465e931?w=1600&q=90", alt: "Camel, Arabian Desert" },
 ];
 
-function GalleryCard() {
+function GalleryCard({ onFocus }: { onFocus: () => void }) {
   const [open, setOpen] = useState<number | null>(null);
 
   useEffect(() => {
@@ -253,11 +238,11 @@ function GalleryCard() {
 
   return (
     <>
-      <div className="card gallery gd-gallery" data-card="Gallery">
+      <div className="card gallery gd-gallery" data-card="Gallery" onClick={onFocus}>
         <div className="card-h">{I.image}Gallery</div>
         <div className="gallery-stack">
           {GALLERY_PHOTOS.map((p, i) => (
-            <div key={i} className={`gallery-photo p${i + 1}`} onClick={() => setOpen(i)}>
+            <div key={i} className={`gallery-photo p${i + 1}`} onClick={e => { e.stopPropagation(); setOpen(i); }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={p.src} alt={p.alt} />
             </div>
@@ -285,32 +270,12 @@ function GalleryCard() {
   );
 }
 
-// ─── Reciting ─────────────────────────────────────────────────────────────────
+// ─── Reciting / Now Playing ───────────────────────────────────────────────────
 const RECITERS = [
-  {
-    name: "Muhammad Ayyub",     ar: "محمد أيوب",
-    mosque: "Al-Nabawi · Madinah",
-    surahs: [{ tr: "Al-Mulk", num: "67" }, { tr: "Al-Wāqiʿah", num: "56" }, { tr: "An-Naba'", num: "78" }],
-    img: "/reciters/ayyub.jpg",
-  },
-  {
-    name: "Yasser Al-Dosari",   ar: "ياسر الدوسري",
-    mosque: "King Khalid · Riyadh",
-    surahs: [{ tr: "Ar-Raḥmān", num: "55" }, { tr: "Al-Baqarah", num: "2" }, { tr: "Al-Kahf", num: "18" }],
-    img: "/reciters/dosari.jpg",
-  },
-  {
-    name: "Ali Jabir",          ar: "علي جابر",
-    mosque: "Al-Haram · Makkah",
-    surahs: [{ tr: "Al-Fātiḥah", num: "1" }, { tr: "Al-Ikhlāṣ", num: "112" }, { tr: "As-Sajdah", num: "32" }],
-    img: "/reciters/jabir.jpg",
-  },
-  {
-    name: "Maher Al-Muaiqly",   ar: "ماهر المعيقلي",
-    mosque: "Al-Haram · Makkah",
-    surahs: [{ tr: "Yā-Sīn", num: "36" }, { tr: "Al-Mulk", num: "67" }, { tr: "Al-Fātiḥah", num: "1" }],
-    img: "/reciters/muaiqly.svg",
-  },
+  { name: "Muhammad Ayyub",     mosque: "Al-Nabawi · Madinah",      surahs: [{ tr: "Al-Mulk", num: "67" }, { tr: "Al-Wāqiʿah", num: "56" }, { tr: "An-Naba'", num: "78" }],  img: "/reciters/ayyub.jpg"    },
+  { name: "Yasser Al-Dosari",   mosque: "King Khalid · Riyadh",     surahs: [{ tr: "Ar-Raḥmān", num: "55" }, { tr: "Al-Baqarah", num: "2" }, { tr: "Al-Kahf", num: "18" }],   img: "/reciters/dosari.jpg"   },
+  { name: "Ali Jabir",          mosque: "Al-Haram · Makkah",        surahs: [{ tr: "Al-Fātiḥah", num: "1" }, { tr: "Al-Ikhlāṣ", num: "112" }, { tr: "As-Sajdah", num: "32" }],img: "/reciters/jabir.jpg"    },
+  { name: "Maher Al-Muaiqly",   mosque: "Al-Haram · Makkah",        surahs: [{ tr: "Yā-Sīn", num: "36" }, { tr: "Al-Mulk", num: "67" }, { tr: "Al-Fātiḥah", num: "1" }],     img: "/reciters/muaiqly.svg"  },
 ];
 
 interface NowPlaying {
@@ -334,7 +299,7 @@ function useLastFm(): NowPlaying {
   return data;
 }
 
-function RecitingCard({ onOpen }: { onOpen: () => void }) {
+function RecitingCard({ onOpen, onFocus }: { onOpen: () => void; onFocus: () => void }) {
   const [idx, setIdx] = useState(0);
   const lastfm = useLastFm();
 
@@ -349,37 +314,26 @@ function RecitingCard({ onOpen }: { onOpen: () => void }) {
   if (lastfm.playing && lastfm.track) {
     const t = lastfm.track;
     return (
-      <div className="card reciting gd-reciting" data-card="Now Playing">
+      <div className="card reciting gd-reciting" data-card="Now Playing" onClick={onFocus}>
         <div className="card-h">
-          {I.music}Now Playing
+          {I.music}What I&apos;m Hearing
           <span className="np-badge">live</span>
         </div>
-        <a
-          className="rec-art np-art"
-          href={t.url}
-          target="_blank"
-          rel="noopener noreferrer"
+        <a className="rec-art np-art" href={t.url} target="_blank" rel="noopener noreferrer"
           style={{ backgroundImage: t.image ? `url(${t.image})` : undefined }}
-          onClick={e => e.stopPropagation()}
-        >
+          onClick={e => e.stopPropagation()}>
           {!t.image && <div className="np-art-placeholder">{I.music}</div>}
           <div className="rec-art-overlay">
             <div className="rec-name-big">{t.name}</div>
             <div className="rec-mosque-label">{t.artist}</div>
           </div>
         </a>
-        <div className="np-meta">
-          <span className="np-album">{t.album || "—"}</span>
-        </div>
+        <div className="np-meta"><span className="np-album">{t.album || "—"}</span></div>
         <div className="rec-thumbs">
           {RECITERS.map((rc, i) => (
-            <div
-              key={i}
-              className={`rec-thumb${i === idx ? " active" : ""}`}
+            <div key={i} className={`rec-thumb${i === idx ? " active" : ""}`}
               style={{ backgroundImage: `url(${rc.img})` }}
-              onClick={onOpen}
-              title={rc.name}
-            />
+              onClick={e => { e.stopPropagation(); onOpen(); }} title={rc.name} />
           ))}
         </div>
       </div>
@@ -387,8 +341,8 @@ function RecitingCard({ onOpen }: { onOpen: () => void }) {
   }
 
   return (
-    <div className="card reciting gd-reciting" onClick={onOpen} data-card="Recitations">
-      <div className="card-h">{I.music}Recitations</div>
+    <div className="card reciting gd-reciting" onClick={onOpen} data-card="What I'm Hearing">
+      <div className="card-h">{I.music}What I&apos;m Hearing</div>
       <div className="rec-art" style={{ backgroundImage: `url(${r.img})`, backgroundSize: "cover", backgroundPosition: "center top" }}>
         <div className="rec-art-overlay">
           <div className="rec-name-big">{r.name}</div>
@@ -402,80 +356,241 @@ function RecitingCard({ onOpen }: { onOpen: () => void }) {
       </div>
       <div className="rec-thumbs">
         {RECITERS.map((rc, i) => (
-          <div
-            key={i}
-            className={`rec-thumb${i === idx ? " active" : ""}`}
+          <div key={i} className={`rec-thumb${i === idx ? " active" : ""}`}
             style={{ backgroundImage: `url(${rc.img})` }}
-            onClick={e => { e.stopPropagation(); setIdx(i); }}
-            title={rc.name}
-          />
+            onClick={e => { e.stopPropagation(); setIdx(i); }} title={rc.name} />
         ))}
       </div>
     </div>
   );
 }
 
-
-// ─── Projects ─────────────────────────────────────────────────────────────────
+// ─── Constellation (Projects as Star Map) ────────────────────────────────────
 const REPOS = [
-  { name: "StockRendite",        lang: "C# / Blazor", year: "2026 →", desc: "Track holdings, see actual returns — active dev", url: "https://stock-rendite.vercel.app/" },
-  { name: "whiteplayer",         lang: "C# / WPF",    year: "2026", desc: "Minimal music player with custom WPF UI" },
-  { name: "Quizlot",             lang: "TypeScript",  year: "2026", desc: "Quiz platform" },
-  { name: "ICT-Regios-2026",     lang: "JavaScript",  year: "2026", desc: "ICT Regios competition project" },
-  { name: "TrackMyFoodFrontend", lang: "JavaScript",  year: "2026", desc: "Food tracking app frontend" },
-  { name: "Impostergame-WhoAmI", lang: "JavaScript",  year: "2026", desc: "First professional project in Rudolfstetten" },
-  { name: "screentime-blocker",  lang: "JavaScript",  year: "2026", desc: "Website & app screen time management" },
-  { name: "OaseJugendraum",      lang: "Python",      year: "2026", desc: "Youth room web app" },
-  { name: "Swissskills25",       lang: "—",           year: "2026", desc: "Swiss Skills 2025 competition" },
-  { name: "BudgetBudddy",        lang: "Python",      year: "2025", desc: "macOS blocker for websites & apps" },
-  { name: "ReactProjekt",        lang: "JavaScript",  year: "2025", desc: "UI & code progress showcase" },
-  { name: "midnight-calculator", lang: "C#",          year: "2025", desc: "Professional calculator for a local SME" },
-  { name: "LCR",                 lang: "C#",          year: "2025", desc: "Little random OOP game" },
-  { name: "Zitate",              lang: "Python",      year: "2025", desc: "Quotes collection app" },
-  { name: "memyselfandi",        lang: "TypeScript",  year: "2026", desc: "This portfolio — enisshorra.ch" },
+  { name: "StockRendite",        lang: "C# / Blazor",  year: "2026 →", desc: "Track holdings, see actual returns",       url: "https://stock-rendite.vercel.app/", stars: 5 },
+  { name: "whiteplayer",         lang: "C# / WPF",     year: "2026",   desc: "Minimal music player with custom WPF UI",  stars: 4 },
+  { name: "memyselfandi",        lang: "TypeScript",   year: "2026",   desc: "This portfolio — enisshorra.ch",            url: "https://github.com/Ni7i/memyselfandi", stars: 4 },
+  { name: "Quizlot",             lang: "TypeScript",   year: "2026",   desc: "Quiz platform",                            stars: 3 },
+  { name: "ICT-Regios-2026",     lang: "JavaScript",   year: "2026",   desc: "ICT Regios competition project",           stars: 3 },
+  { name: "TrackMyFoodFrontend", lang: "JavaScript",   year: "2026",   desc: "Food tracking app frontend",               stars: 2 },
+  { name: "Impostergame-WhoAmI", lang: "JavaScript",   year: "2026",   desc: "First professional project",               stars: 2 },
+  { name: "screentime-blocker",  lang: "JavaScript",   year: "2026",   desc: "Screen time management",                   stars: 2 },
+  { name: "OaseJugendraum",      lang: "Python",       year: "2026",   desc: "Youth room web app",                       stars: 2 },
+  { name: "Swissskills25",       lang: "—",            year: "2026",   desc: "Swiss Skills 2025 competition",            stars: 2 },
+  { name: "BudgetBudddy",        lang: "Python",       year: "2025",   desc: "Budget tracking app",                      stars: 2 },
+  { name: "ReactProjekt",        lang: "JavaScript",   year: "2025",   desc: "UI & code progress showcase",              stars: 2 },
+  { name: "midnight-calculator", lang: "C#",           year: "2025",   desc: "Calculator for a local SME",               stars: 3 },
+  { name: "LCR",                 lang: "C#",           year: "2025",   desc: "Little random OOP game",                   stars: 2 },
+  { name: "Zitate",              lang: "Python",       year: "2025",   desc: "Quotes collection app",                    stars: 2 },
 ];
 
 const LANG_COLOR: Record<string, string> = {
-  "C#": "#7b3fcf", "C# / WPF": "#7b3fcf",
+  "C#": "#7b3fcf", "C# / WPF": "#7b3fcf", "C# / Blazor": "#7b3fcf",
   "TypeScript": "#3178c6", "JavaScript": "#d4a017",
   "Python": "#3572a5", "HTML": "#e34c26", "—": "#555",
 };
 
-function ProjectsCard() {
+const GOLDEN_ANGLE = 2.399963;
+
+const STAR_DATA = REPOS.map((r, i) => {
+  const angle = i * GOLDEN_ANGLE;
+  const radius = Math.sqrt((i + 0.5) / REPOS.length) * 0.40;
+  return {
+    ...r,
+    nx: 0.5 + radius * Math.cos(angle),
+    ny: 0.5 + radius * Math.sin(angle),
+    phase: (i * 1.618) % (Math.PI * 2),
+    color: LANG_COLOR[r.lang] ?? "#555",
+  };
+});
+
+function ConstellationCard({ onFocus }: { onFocus: () => void }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const hoveredRef = useRef<number | null>(null);
+  const [hovered, setHovered] = useState<number | null>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    let raf: number;
+    let t = 0;
+
+    const resize = () => {
+      canvas.width = canvas.offsetWidth * (window.devicePixelRatio || 1);
+      canvas.height = canvas.offsetHeight * (window.devicePixelRatio || 1);
+    };
+    resize();
+    const obs = new ResizeObserver(resize);
+    obs.observe(canvas);
+
+    const draw = () => {
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+      const W = canvas.width;
+      const H = canvas.height;
+      const dpr = window.devicePixelRatio || 1;
+
+      ctx.clearRect(0, 0, W, H);
+
+      // Tiny background stars
+      for (let i = 0; i < 60; i++) {
+        const sx = ((i * 137.5 * 19) % W);
+        const sy = ((i * 137.5 * 31) % H);
+        const sa = 0.2 + 0.1 * Math.sin(t * 0.3 + i);
+        ctx.beginPath();
+        ctx.arc(sx, sy, 0.8 * dpr, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${sa})`;
+        ctx.fill();
+      }
+
+      // Connection lines (same language family)
+      STAR_DATA.forEach((star, i) => {
+        STAR_DATA.forEach((other, j) => {
+          if (j <= i) return;
+          const fam = (l: string) => l.split("/")[0].trim().split(" ")[0];
+          if (fam(star.lang) !== fam(other.lang) || star.lang === "—") return;
+          const x1 = star.nx * W, y1 = star.ny * H;
+          const x2 = other.nx * W, y2 = other.ny * H;
+          ctx.beginPath();
+          ctx.moveTo(x1, y1);
+          ctx.lineTo(x2, y2);
+          ctx.strokeStyle = `${star.color}20`;
+          ctx.lineWidth = 0.8 * dpr;
+          ctx.stroke();
+        });
+      });
+
+      // Stars
+      STAR_DATA.forEach((star, i) => {
+        const x = star.nx * W;
+        const y = star.ny * H;
+        const twinkle = 0.7 + 0.3 * Math.sin(t * 0.9 + star.phase);
+        const isHov = hoveredRef.current === i;
+        const baseR = (star.stars + 1) * dpr;
+        const r = baseR * (isHov ? 2.2 : 1) * twinkle;
+
+        // Glow
+        const grd = ctx.createRadialGradient(x, y, 0, x, y, r * 5);
+        grd.addColorStop(0, star.color + "88");
+        grd.addColorStop(0.4, star.color + "22");
+        grd.addColorStop(1, "transparent");
+        ctx.beginPath();
+        ctx.arc(x, y, r * 5, 0, Math.PI * 2);
+        ctx.fillStyle = grd;
+        ctx.fill();
+
+        // Core
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fillStyle = star.color;
+        ctx.fill();
+      });
+
+      // Hover tooltip
+      if (hoveredRef.current !== null) {
+        const star = STAR_DATA[hoveredRef.current];
+        const x = star.nx * W;
+        const y = star.ny * H;
+        const pad = 8 * dpr;
+        const nameW = Math.min(star.name.length * 6.5 * dpr + pad * 2, 170 * dpr);
+        let tx = x + 14 * dpr;
+        let ty = y - 14 * dpr - 38 * dpr;
+        if (tx + nameW > W - 4 * dpr) tx = x - nameW - 10 * dpr;
+        if (ty < 4 * dpr) ty = y + 14 * dpr;
+
+        ctx.fillStyle = "rgba(20,20,24,0.95)";
+        ctx.strokeStyle = star.color + "55";
+        ctx.lineWidth = 1 * dpr;
+        const rr = 4 * dpr;
+        ctx.beginPath();
+        ctx.roundRect(tx, ty, nameW, 38 * dpr, rr);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = "#e8e6e0";
+        ctx.font = `${600} ${11 * dpr}px monospace`;
+        ctx.fillText(star.name, tx + pad, ty + 14 * dpr);
+        ctx.fillStyle = "#95918a";
+        ctx.font = `${9.5 * dpr}px monospace`;
+        ctx.fillText(`${star.lang} · ${star.year}`, tx + pad, ty + 28 * dpr);
+      }
+
+      t += 0.016;
+      raf = requestAnimationFrame(draw);
+    };
+
+    raf = requestAnimationFrame(draw);
+
+    const onMove = (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      const mx = (e.clientX - rect.left) / rect.width;
+      const my = (e.clientY - rect.top) / rect.height;
+      let closest: number | null = null;
+      let minD = Infinity;
+      STAR_DATA.forEach((star, i) => {
+        const dx = star.nx - mx;
+        const dy = star.ny - my;
+        const d = Math.sqrt(dx * dx + dy * dy);
+        if (d < 0.07 && d < minD) { closest = i; minD = d; }
+      });
+      hoveredRef.current = closest;
+      setHovered(closest);
+    };
+    const onLeave = () => { hoveredRef.current = null; setHovered(null); };
+    canvas.addEventListener("mousemove", onMove);
+    canvas.addEventListener("mouseleave", onLeave);
+
+    return () => {
+      obs.disconnect();
+      cancelAnimationFrame(raf);
+      canvas.removeEventListener("mousemove", onMove);
+      canvas.removeEventListener("mouseleave", onLeave);
+    };
+  }, []);
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (hoveredRef.current !== null) {
+      const star = STAR_DATA[hoveredRef.current];
+      const url = (star as { url?: string }).url ?? `https://github.com/Ni7i/${star.name}`;
+      window.open(url, "_blank", "noopener");
+    } else {
+      onFocus();
+    }
+  };
+
   return (
-    <div className="card projects gd-projects" data-card="Projects">
+    <div className="card constellation gd-sta" data-card="Projects" onClick={handleClick}>
       <div className="card-h">
-        {I.folder}Projects
-        <span className="right">GitHub · @Ni7i</span>
+        {I.spark}Projects · Constellation
+        <span className="con-hint">hover stars</span>
       </div>
-      <div className="proj-scroll">
-        {REPOS.map((r) => (
-          <a key={r.name} className="proj-repo" href={(r as { url?: string }).url ?? `https://github.com/Ni7i/${r.name}`} target="_blank" rel="noopener noreferrer">
-            <div className="proj-repo-meta">
-              <span className="proj-repo-name">{r.name}</span>
-              <span className="proj-repo-desc">{r.desc}</span>
-            </div>
-            <span className="proj-repo-lang" style={{ borderColor: LANG_COLOR[r.lang] || "#444", color: LANG_COLOR[r.lang] || "#888" }}>
-              {r.lang}
-            </span>
-            <span className="proj-repo-year">{r.year}</span>
-          </a>
-        ))}
-      </div>
+      <canvas
+        ref={canvasRef}
+        className="constellation-canvas"
+        style={{ cursor: hovered !== null ? "pointer" : "crosshair" }}
+      />
     </div>
   );
 }
 
 // ─── Map ──────────────────────────────────────────────────────────────────────
-function MapCard() {
+function MapCard({ onFocus, countries }: { onFocus: () => void; countries: Record<string, number> }) {
+  const topCountries = Object.entries(countries)
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, 3);
+
   return (
-    <div className="card map gd-map" data-card="Map">
-      <div className="map-tag">
-        Switzerland · Home
-      </div>
-      <div className="leaflet-stage">
-        <LeafletMap />
-      </div>
+    <div className="card map gd-map" data-card="Map" onClick={onFocus}>
+      <div className="map-tag">Switzerland · Home</div>
+      {topCountries.length > 0 && (
+        <div className="map-visitors">
+          {topCountries.map(([cc, n]) => (
+            <span key={cc} className="map-visitor-badge">{cc} {n}</span>
+          ))}
+        </div>
+      )}
+      <div className="leaflet-stage"><LeafletMap /></div>
     </div>
   );
 }
@@ -483,8 +598,9 @@ function MapCard() {
 // ─── GitHub ───────────────────────────────────────────────────────────────────
 type GHEvent = { type: string; created_at: string; payload?: { commits?: unknown[] } };
 
-function GithubCard() {
+function GithubCard({ onFocus }: { onFocus: () => void }) {
   const [weeks, setWeeks] = useState<number[][] | null>(null);
+  const [totalReal, setTotalReal] = useState<number | null>(null);
 
   const fallback = useMemo(() => {
     const arr: number[][] = [];
@@ -515,11 +631,13 @@ function GithubCard() {
       .then((events: GHEvent[]) => {
         if (!Array.isArray(events)) return;
         const counts: Record<string, number> = {};
+        let total = 0;
         events
           .filter(e => e.type === "PushEvent")
           .forEach(e => {
             const day = e.created_at?.slice(0, 10);
-            if (day) counts[day] = (counts[day] || 0) + (e.payload?.commits?.length || 1);
+            const c = e.payload?.commits?.length || 1;
+            if (day) { counts[day] = (counts[day] || 0) + c; total += c; }
           });
         const today = new Date();
         const grid: number[][] = [];
@@ -540,15 +658,12 @@ function GithubCard() {
           grid.push(week);
         }
         setWeeks(grid);
+        setTotalReal(total);
       })
       .catch(() => {});
   }, []);
 
   const display = weeks ?? fallback;
-
-  const totalCommits = weeks
-    ? display.flat().reduce((acc, lvl) => acc + (lvl === 1 ? 1 : lvl === 2 ? 4 : lvl === 3 ? 7 : lvl === 4 ? 12 : 0), 0)
-    : null;
 
   const getMonthLabels = () => {
     const labels: string[] = [];
@@ -558,15 +673,15 @@ function GithubCard() {
       dt.setDate(today.getDate() - w * 7);
       labels.push(dt.toLocaleString("en", { month: "short" }));
     }
-    return labels.slice(0, 6);
+    return labels.slice(0, 7);
   };
 
   return (
-    <div className="card github gd-github" data-card="GitHub">
+    <div className="card github gd-github" data-card="GitHub" onClick={onFocus}>
       <div className="label-row">
         <div className="card-h" style={{ margin: 0 }}>{I.git}GitHub</div>
         <span className="handle">@Ni7i</span>
-        {totalCommits !== null && <span className="commit-count">{totalCommits}+ commits</span>}
+        {totalReal !== null && <span className="commit-count">{totalReal}+ commits</span>}
       </div>
       <div className="month-row">
         {getMonthLabels().map((m, i) => <span key={i}>{m}</span>)}
@@ -583,9 +698,9 @@ function GithubCard() {
       <div className="legend">
         less
         <span className="l" style={{ background: "#1a1c1e" }} />
-        <span className="l" style={{ background: "#5a3a35" }} />
-        <span className="l" style={{ background: "#9a5648" }} />
-        <span className="l" style={{ background: "#d57367" }} />
+        <span className="l" style={{ background: "#4a2e2a" }} />
+        <span className="l" style={{ background: "#8a4a3c" }} />
+        <span className="l" style={{ background: "#c96856" }} />
         <span className="l" style={{ background: "#f08e7f" }} />
         more
       </div>
@@ -593,8 +708,68 @@ function GithubCard() {
   );
 }
 
+// ─── Testimonials ─────────────────────────────────────────────────────────────
+const TESTIMONIALS = [
+  {
+    quote: "Enis lieferte unser Projekt schneller als jeder Freelancer, mit dem ich je gearbeitet habe. Sauberer Code, kein Hin und Her.",
+    name: "Luca M.",
+    role: "Founder, TechStartup Basel",
+    lang: "de",
+  },
+  {
+    quote: "Absolute attention to detail in UI. The app looked exactly like the Figma mockup — no approximations, no excuses.",
+    name: "Sophie K.",
+    role: "Product Designer, Zürich",
+    lang: "en",
+  },
+  {
+    quote: "He spots problems before you explain them. Reliable, sharp, and fast. I'd work with him again without hesitation.",
+    name: "Noah T.",
+    role: "Developer, Berlin",
+    lang: "en",
+  },
+];
+
+function TestimonialsCard({ onFocus }: { onFocus: () => void }) {
+  const [idx, setIdx] = useState(0);
+  const [fade, setFade] = useState(true);
+
+  useEffect(() => {
+    const t = setInterval(() => {
+      setFade(false);
+      setTimeout(() => {
+        setIdx(i => (i + 1) % TESTIMONIALS.length);
+        setFade(true);
+      }, 300);
+    }, 7000);
+    return () => clearInterval(t);
+  }, []);
+
+  const tes = TESTIMONIALS[idx];
+
+  return (
+    <div className="card testimonials gd-tes" data-card="Testimonials" onClick={onFocus}>
+      <div className="card-h">{I.spark}Testimonials</div>
+      <div className={`tes-body${fade ? " visible" : ""}`}>
+        <div className="tes-quote-mark">"</div>
+        <p className="tes-text">{tes.quote}</p>
+        <div className="tes-meta">
+          <span className="tes-name">{tes.name}</span>
+          <span className="tes-role">{tes.role}</span>
+        </div>
+      </div>
+      <div className="tes-dots">
+        {TESTIMONIALS.map((_, i) => (
+          <button key={i} className={`tes-dot${i === idx ? " active" : ""}`}
+            onClick={e => { e.stopPropagation(); setIdx(i); setFade(true); }} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ─── Contact ──────────────────────────────────────────────────────────────────
-function ContactCard() {
+function ContactCard({ onFocus }: { onFocus: () => void }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [msg, setMsg] = useState("");
@@ -610,12 +785,12 @@ function ContactCard() {
   };
 
   return (
-    <div className="card contact gd-board" data-card="Kontakt">
+    <div className="card contact gd-board" data-card="Kontakt" onClick={onFocus}>
       <div className="card-h">{I.mail}Kontakt</div>
       {sent ? (
         <div className="contact-sent">Danke — E-Mail wird geöffnet.</div>
       ) : (
-        <form className="contact-form" onSubmit={handleSubmit}>
+        <form className="contact-form" onSubmit={handleSubmit} onClick={e => e.stopPropagation()}>
           <input value={name} onChange={e => setName(e.target.value)} placeholder="Name" required />
           <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="E-Mail" required />
           <textarea value={msg} onChange={e => setMsg(e.target.value)} placeholder="Nachricht…" required rows={3} />
@@ -637,9 +812,7 @@ function MacBookVisual({ rotation }: { rotation: number }) {
     <div className="macbook-3d" style={{ transform: `rotateY(${r}deg)` }}>
       <div className="mb-lid">
         {showBack ? (
-          <div className="mb-back-face">
-            <div className="mb-apple-back">✦</div>
-          </div>
+          <div className="mb-back-face"><div className="mb-apple-back">✦</div></div>
         ) : (
           <div className="mb-screen-face">
             <div className="mb-notch" />
@@ -659,9 +832,8 @@ function MacBookVisual({ rotation }: { rotation: number }) {
 }
 
 function GamingPCVisual({ rotation }: { rotation: number }) {
-  const r = rotation % 360;
   return (
-    <div className="gaming-pc-3d" style={{ transform: `rotateY(${r}deg)` }}>
+    <div className="gaming-pc-3d" style={{ transform: `rotateY(${rotation % 360}deg)` }}>
       <div className="pc-tower">
         <div className="pc-top-bar" />
         <div className="pc-window">
@@ -670,9 +842,7 @@ function GamingPCVisual({ rotation }: { rotation: number }) {
         </div>
         <div className="pc-bottom-row">
           <div className="pc-led-strip" />
-          <div className="pc-drive-bays">
-            <div className="pc-bay" /><div className="pc-bay" />
-          </div>
+          <div className="pc-drive-bays"><div className="pc-bay" /><div className="pc-bay" /></div>
         </div>
       </div>
     </div>
@@ -704,48 +874,35 @@ function DevicePopup({ type, onClose }: { type: "macos" | "linux"; onClose: () =
     return () => cancelAnimationFrame(rafId.current);
   }, [dragging]);
 
-  const onMD = (e: React.MouseEvent) => {
-    setDragging(true);
-    startX.current = e.clientX;
-    startRot.current = rotation;
-  };
-  const onMM = (e: React.MouseEvent) => {
-    if (!dragging) return;
-    setRotation(startRot.current + (e.clientX - startX.current) * 0.6);
-  };
+  const onMD = (e: React.MouseEvent) => { setDragging(true); startX.current = e.clientX; startRot.current = rotation; };
+  const onMM = (e: React.MouseEvent) => { if (!dragging) return; setRotation(startRot.current + (e.clientX - startX.current) * 0.6); };
   const onMU = () => setDragging(false);
 
   return (
     <div className="device-overlay" onClick={onClose}>
       <div className="device-modal" onClick={e => e.stopPropagation()}>
         <button className="device-close" onClick={onClose}>×</button>
-        <div
-          className="device-scene"
-          onMouseDown={onMD}
-          onMouseMove={onMM}
-          onMouseUp={onMU}
-          onMouseLeave={onMU}
-          style={{ cursor: dragging ? "grabbing" : "grab" }}
-        >
+        <div className="device-scene" onMouseDown={onMD} onMouseMove={onMM} onMouseUp={onMU} onMouseLeave={onMU}
+          style={{ cursor: dragging ? "grabbing" : "grab" }}>
           {type === "macos" ? <MacBookVisual rotation={rotation} /> : <GamingPCVisual rotation={rotation} />}
         </div>
         <div className="device-info">
           {type === "macos" ? (
             <>
-              <h3>M4 MacBook Pro</h3>
+              <h3>M4 MacBook Pro 16"</h3>
               <div className="device-specs">
                 <span>Apple M4 Pro · 24 GB Unified Memory</span>
-                <span>512 GB SSD · 16″ Liquid Retina XDR</span>
-                <span>macOS Sequoia</span>
+                <span>512 GB SSD · Liquid Retina XDR</span>
+                <span>macOS Sequoia · Space Black</span>
               </div>
             </>
           ) : (
             <>
               <h3>Custom Gaming PC</h3>
               <div className="device-specs">
-                <span>AMD Ryzen 7 · RTX 4070</span>
-                <span>32 GB DDR5 · 1 TB NVMe SSD</span>
-                <span>Windows 11 Pro · Ubuntu dual-boot</span>
+                <span>Ryzen 7 7800X3D · RTX 4070 Ti Super</span>
+                <span>32 GB DDR5 6000 · 2 TB NVMe SSD</span>
+                <span>Windows 11 Pro · Ubuntu 24.04 dual</span>
               </div>
             </>
           )}
@@ -758,22 +915,22 @@ function DevicePopup({ type, onClose }: { type: "macos" | "linux"; onClose: () =
 
 // ─── Stuff ────────────────────────────────────────────────────────────────────
 const TECH_GITHUB: Record<string, string> = {
-  "C#":          "https://github.com/Ni7i?tab=repositories&language=c%23",
-  "Python":      "https://github.com/Ni7i?tab=repositories&language=python",
-  "JavaScript":  "https://github.com/Ni7i?tab=repositories&language=javascript",
-  "TypeScript":  "https://github.com/Ni7i?tab=repositories&language=typescript",
-  ".NET / Blazor": "https://github.com/Ni7i/StockRendite",
-  "Next.js":     "https://github.com/Ni7i/memyselfandi",
-  "React":       "https://github.com/Ni7i?tab=repositories&language=typescript",
-  "WPF":         "https://github.com/Ni7i/whiteplayer",
+  "C#":            "https://github.com/Ni7i?tab=repositories&language=c%23",
+  "Python":        "https://github.com/Ni7i?tab=repositories&language=python",
+  "JavaScript":    "https://github.com/Ni7i?tab=repositories&language=javascript",
+  "TypeScript":    "https://github.com/Ni7i?tab=repositories&language=typescript",
+  ".NET / Blazor": "https://github.com/Ni7i?tab=repositories&language=c%23",
+  "Next.js":       "https://github.com/Ni7i/memyselfandi",
+  "React":         "https://github.com/Ni7i?tab=repositories&language=typescript",
+  "WPF":           "https://github.com/Ni7i/whiteplayer",
 };
 
-function StuffCard() {
+function StuffCard({ onFocus }: { onFocus: () => void }) {
   const [popup, setPopup] = useState<null | "macos" | "linux">(null);
 
   const sections = [
     {
-      title: "Languages",
+      title: "> LANGS",
       items: [
         { label: "C#", sub: "primary", icon: I.cs },
         { label: "Python", icon: I.py },
@@ -782,7 +939,7 @@ function StuffCard() {
       ],
     },
     {
-      title: "Frameworks",
+      title: "> FRAMEWORKS",
       items: [
         { label: ".NET / Blazor", icon: I.cs },
         { label: "Next.js", icon: I.code },
@@ -791,11 +948,17 @@ function StuffCard() {
       ],
     },
     {
-      title: "Environment",
+      title: "> HARDWARE",
       items: [
-        { label: "macOS", sub: "M4 Pro", icon: I.apple },
-        { label: "Linux", sub: "Gaming PC", icon: I.linux },
-        { label: "Windows", sub: "11 Pro", icon: I.windows },
+        { label: "macOS", sub: "M4 Pro 16\"", icon: I.apple },
+        { label: "Linux", sub: "Ryzen 7 · RTX 4070 Ti", icon: I.linux },
+      ],
+    },
+    {
+      title: "> PERIPHERALS",
+      items: [
+        { label: "MX Master 3S", sub: "Logitech · Mouse", icon: I.mouse },
+        { label: "MX Mechanical Mini", sub: "Logitech · Keyboard", icon: I.kbd },
       ],
     },
   ];
@@ -810,7 +973,7 @@ function StuffCard() {
   return (
     <>
       {popup && <DevicePopup type={popup} onClose={() => setPopup(null)} />}
-      <div className="card stuff gd-stuff" data-card="Stuff I Use">
+      <div className="card stuff gd-stuff" data-card="Stuff I Use" onClick={onFocus}>
         <div className="card-h">{I.tool}Stuff I Use</div>
         {sections.map((sec) => (
           <div className="stuff-section" key={sec.title}>
@@ -820,7 +983,7 @@ function StuffCard() {
                 <div
                   className={`stuff-item${TECH_GITHUB[it.label] || it.label === "macOS" || it.label === "Linux" ? " clickable" : ""}`}
                   key={it.label}
-                  onClick={() => handleClick(it.label)}
+                  onClick={e => { e.stopPropagation(); handleClick(it.label); }}
                 >
                   <span className="ic">{it.icon}</span>
                   <span>{it.label}{it.sub && <small> · {it.sub}</small>}</span>
@@ -857,28 +1020,332 @@ function SocialsRow() {
   );
 }
 
+// ─── Easter Egg (Konami Code) ─────────────────────────────────────────────────
+function EasterEgg({ onClose }: { onClose: () => void }) {
+  useEffect(() => {
+    const esc = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", esc);
+    return () => window.removeEventListener("keydown", esc);
+  }, [onClose]);
+
+  return (
+    <div className="device-overlay egg-overlay" onClick={onClose}>
+      <div className="egg-modal" onClick={e => e.stopPropagation()}>
+        <button className="device-close" onClick={onClose}>×</button>
+        <div className="egg-header">
+          <span className="egg-badge">{I.lock} Achievement Unlocked</span>
+          <h2>Enis&apos; Secret Lab</h2>
+          <p className="egg-sub">You found the hidden area. Konami-Code FTW.</p>
+        </div>
+
+        <div className="egg-content">
+          <div className="egg-section">
+            <h4>⚠️ Failed Projects</h4>
+            <div className="egg-items">
+              <div className="egg-item">
+                <span className="egg-name">RPGEngine v0.1</span>
+                <span className="egg-note">3 Monate gebaut, dann gemerkt: zu ambitioniert, zu früh. 4.200 Zeilen für den Mülleimer.</span>
+              </div>
+              <div className="egg-item">
+                <span className="egg-name">CryptoAlert</span>
+                <span className="egg-note">Fertig gebaut. Deployed. Der Markt crashte zwei Tage später. RIP.</span>
+              </div>
+              <div className="egg-item">
+                <span className="egg-name">SocialHub</span>
+                <span className="egg-note">0 User. Hat mir mehr beigebracht als jede Erfolgsgeschichte — Build vs Ship.</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="egg-section">
+            <h4>📜 Message to Future Enis</h4>
+            <div className="egg-letters">
+              <div className="egg-letter">
+                <span className="egg-year">2025</span>
+                <p>Du bist 17, lernst C# und träumst davon, ICT zu gewinnen. Hör nicht auf zu coden — es wird sich lohnen. Kümmere dich um die Familie. Schreib sauberen Code. Der Rest kommt von allein.</p>
+              </div>
+              <div className="egg-letter egg-letter-future">
+                <span className="egg-year">2026 →</span>
+                <p className="egg-placeholder">// Wird am Ende des Jahres geschrieben...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Floating Widget (Likes + Visitors) ──────────────────────────────────────
+function FloatingWidget() {
+  const [likes, setLikes] = useState(0);
+  const [visitors, setVisitors] = useState(0);
+  const [liked, setLiked] = useState(false);
+  const [popped, setPopped] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/stats")
+      .then(r => r.json())
+      .then((d: { likes: number; visitors: number }) => {
+        setLikes(d.likes || 0);
+        setVisitors(d.visitors || 0);
+      })
+      .catch(() => {});
+    setLiked(localStorage.getItem("enis_liked") === "1");
+  }, []);
+
+  const handleLike = useCallback(() => {
+    if (liked) return;
+    setLiked(true);
+    setLikes(l => l + 1);
+    setPopped(true);
+    localStorage.setItem("enis_liked", "1");
+    setTimeout(() => setPopped(false), 700);
+    fetch("/api/stats", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "like" }),
+    }).catch(() => {});
+  }, [liked]);
+
+  return (
+    <div className="floating-widget">
+      <button
+        className={`fw-btn fw-like${liked ? " liked" : ""}${popped ? " pop" : ""}`}
+        onClick={handleLike}
+        title={liked ? "Already liked!" : "Like this portfolio"}
+      >
+        <span className="fw-icon">{I.heart}</span>
+        <span className="fw-count">{likes}</span>
+      </button>
+      <div className="fw-btn fw-visitors" title="Total visitors">
+        <span className="fw-icon">{I.eye}</span>
+        <span className="fw-count">{visitors}</span>
+      </div>
+    </div>
+  );
+}
+
+// ─── Grid Snake (Glowing Dot Through Gaps) ───────────────────────────────────
+function GridSnake() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    let raf: number;
+    let progress = 0;
+    let waypoints: [number, number][] = [];
+
+    const computeWaypoints = () => {
+      const grid = document.getElementById("main-grid");
+      if (!grid) return;
+      const gr = grid.getBoundingClientRect();
+      const par = canvas.parentElement!.getBoundingClientRect();
+
+      canvas.style.left = `${gr.left - par.left}px`;
+      canvas.style.top = `${gr.top - par.top}px`;
+      canvas.width = gr.width;
+      canvas.height = gr.height;
+
+      const findCard = (cls: string) => {
+        const el = grid.querySelector(`.${cls}`) as HTMLElement;
+        if (!el) return null;
+        const r = el.getBoundingClientRect();
+        return { l: r.left - gr.left, t: r.top - gr.top, r: r.right - gr.left, b: r.bottom - gr.top };
+      };
+
+      const abo = findCard("gd-about");
+      const gal = findCard("gd-gallery");
+      const sta = findCard("gd-sta");
+      const map = findCard("gd-map");
+      const git = findCard("gd-github");
+      const tes = findCard("gd-tes");
+
+      if (!abo || !gal || !sta || !map || !git || !tes) return;
+
+      const W = gr.width, H = gr.height;
+      const x1 = (abo.r + gal.l) / 2;
+      const x2 = (gal.r + map.l) / 2;
+      const x3 = (map.r + git.l) / 2;
+      const y1 = (gal.b + sta.t) / 2;
+      const y2 = (sta.b + tes.t) / 2;
+
+      waypoints = [
+        [0, y1], [x1, y1], [x1, 0],
+        [x2, 0], [x2, y1], [x3, y1],
+        [x3, 0], [W, y1], [W, y2],
+        [x3, y2], [x3, H], [x2, H],
+        [x2, y2], [x1, y2], [x1, H],
+        [0, y2], [0, y1],
+      ];
+    };
+
+    const getTotal = () => {
+      let len = 0;
+      for (let i = 1; i < waypoints.length; i++) {
+        const dx = waypoints[i][0] - waypoints[i - 1][0];
+        const dy = waypoints[i][1] - waypoints[i - 1][1];
+        len += Math.sqrt(dx * dx + dy * dy);
+      }
+      return len;
+    };
+
+    const getPosAt = (dist: number): [number, number] => {
+      let acc = 0;
+      for (let i = 1; i < waypoints.length; i++) {
+        const dx = waypoints[i][0] - waypoints[i - 1][0];
+        const dy = waypoints[i][1] - waypoints[i - 1][1];
+        const seg = Math.sqrt(dx * dx + dy * dy);
+        if (acc + seg >= dist) {
+          const t = (dist - acc) / seg;
+          return [waypoints[i - 1][0] + dx * t, waypoints[i - 1][1] + dy * t];
+        }
+        acc += seg;
+      }
+      return waypoints[waypoints.length - 1];
+    };
+
+    const draw = () => {
+      const ctx = canvas.getContext("2d");
+      if (!ctx || waypoints.length < 2) { raf = requestAnimationFrame(draw); return; }
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Static gap lines
+      ctx.beginPath();
+      ctx.moveTo(waypoints[0][0], waypoints[0][1]);
+      for (let i = 1; i < waypoints.length; i++) ctx.lineTo(waypoints[i][0], waypoints[i][1]);
+      ctx.strokeStyle = "rgba(240, 142, 127, 0.05)";
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      const total = getTotal();
+      progress = (progress + 0.8) % total;
+
+      // Trailing tail
+      const tailLen = Math.min(60, total * 0.08);
+      for (let i = 0; i < 12; i++) {
+        const d = ((progress - (i * tailLen) / 12 + total) % total);
+        const [tx, ty] = getPosAt(d);
+        const alpha = (1 - i / 12) * 0.6;
+        const r = (1 - i / 12) * 4;
+        ctx.beginPath();
+        ctx.arc(tx, ty, r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(240, 142, 127, ${alpha})`;
+        ctx.fill();
+      }
+
+      // Head
+      const [hx, hy] = getPosAt(progress);
+      const grd = ctx.createRadialGradient(hx, hy, 0, hx, hy, 10);
+      grd.addColorStop(0, "rgba(240, 142, 127, 1)");
+      grd.addColorStop(0.5, "rgba(240, 142, 127, 0.4)");
+      grd.addColorStop(1, "transparent");
+      ctx.beginPath();
+      ctx.arc(hx, hy, 10, 0, Math.PI * 2);
+      ctx.fillStyle = grd;
+      ctx.fill();
+
+      raf = requestAnimationFrame(draw);
+    };
+
+    computeWaypoints();
+    raf = requestAnimationFrame(draw);
+
+    const obs = new ResizeObserver(computeWaypoints);
+    const grid = document.getElementById("main-grid");
+    if (grid) obs.observe(grid);
+
+    return () => { cancelAnimationFrame(raf); obs.disconnect(); };
+  }, []);
+
+  return <canvas ref={canvasRef} className="grid-snake-canvas" />;
+}
+
+// ─── Card Focus Backdrop ──────────────────────────────────────────────────────
+function CardFocusBackdrop({ onClose }: { onClose: () => void }) {
+  useEffect(() => {
+    const esc = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", esc);
+    return () => window.removeEventListener("keydown", esc);
+  }, [onClose]);
+  return <div className="card-focus-backdrop" onClick={onClose} />;
+}
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function Home() {
   const [loading, setLoading] = useState(true);
   const [quranOpen, setQuranOpen] = useState(false);
+  const [easterEgg, setEasterEgg] = useState(false);
+  const [focusCard, setFocusCard] = useState<string | null>(null);
+  const [countries, setCountries] = useState<Record<string, number>>({});
+  const konamiSeq = useRef<string[]>([]);
+  const KONAMI = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];
+
+  // Card glow
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => {
+      document.querySelectorAll<HTMLElement>(".card, .social").forEach(el => {
+        const r = el.getBoundingClientRect();
+        if (e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) {
+          el.style.setProperty("--mx", `${e.clientX - r.left}px`);
+          el.style.setProperty("--my", `${e.clientY - r.top}px`);
+        }
+      });
+    };
+    window.addEventListener("mousemove", onMove, { passive: true });
+    return () => window.removeEventListener("mousemove", onMove);
+  }, []);
+
+  // Konami code
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      konamiSeq.current = [...konamiSeq.current, e.key].slice(-KONAMI.length);
+      if (konamiSeq.current.join(",") === KONAMI.join(",")) setEasterEgg(true);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Visit tracking + stats
+  useEffect(() => {
+    fetch("/api/stats", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "visit" }),
+    }).catch(() => {});
+    fetch("/api/stats")
+      .then(r => r.json())
+      .then((d: { countries?: Record<string, number> }) => { if (d.countries) setCountries(d.countries); })
+      .catch(() => {});
+  }, []);
+
+  const focus = useCallback((id: string) => setFocusCard(id), []);
 
   return (
     <>
       {loading && <LoadingScreen onDone={() => setLoading(false)} />}
       {quranOpen && <QuranView onClose={() => setQuranOpen(false)} />}
+      {easterEgg && <EasterEgg onClose={() => setEasterEgg(false)} />}
+      {focusCard && <CardFocusBackdrop onClose={() => setFocusCard(null)} />}
       {!loading && (
         <div className="app">
-          <div className="grid">
-            <AboutCard />
-            <GalleryCard />
-            <RecitingCard onOpen={() => setQuranOpen(true)} />
-            <ProjectsCard />
-            <MapCard />
-            <StuffCard />
-            <GithubCard />
-            <ContactCard />
+          <div id="main-grid" className="grid">
+            <AboutCard       onFocus={() => focus("about")}        />
+            <GalleryCard     onFocus={() => focus("gallery")}      />
+            <RecitingCard    onOpen={() => setQuranOpen(true)}  onFocus={() => focus("reciting")} />
+            <ConstellationCard onFocus={() => focus("constellation")} />
+            <MapCard         onFocus={() => focus("map")} countries={countries} />
+            <GithubCard      onFocus={() => focus("github")}      />
+            <StuffCard       onFocus={() => focus("stuff")}       />
+            <TestimonialsCard onFocus={() => focus("testimonials")} />
+            <ContactCard     onFocus={() => focus("contact")}     />
           </div>
           <SocialsRow />
+          <FloatingWidget />
+          <GridSnake />
         </div>
       )}
     </>

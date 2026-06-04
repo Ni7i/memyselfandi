@@ -37,6 +37,142 @@ const I = {
   eye:     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>,
 };
 
+// ─── Quran Tile Pattern ──────────────────────────────────────────────────────
+function QuranTilePattern({ variant }: { variant: string }) {
+  const patterns: Record<string, React.ReactNode> = {
+    star8: (
+      <svg viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet">
+        <g fill="none" stroke="#fff" strokeWidth="0.4">
+          <polygon points="0,-40 11,-11 40,0 11,11 0,40 -11,11 -40,0 -11,-11" />
+          <polygon points="0,-30 8,-8 30,0 8,8 0,30 -8,8 -30,0 -8,-8" />
+          <circle r="22" /><circle r="14" /><circle r="8" />
+        </g>
+      </svg>
+    ),
+    rings: (
+      <svg viewBox="-50 -50 100 100">
+        <g fill="none" stroke="#fff" strokeWidth="0.35">
+          {[8, 16, 24, 32, 40].map((r, i) => <circle key={i} r={r} />)}
+          {[0, 45, 90, 135].map((a, i) => {
+            const rad = (a * Math.PI) / 180;
+            return <line key={i} x1={-44 * Math.cos(rad)} y1={-44 * Math.sin(rad)} x2={44 * Math.cos(rad)} y2={44 * Math.sin(rad)} />;
+          })}
+        </g>
+      </svg>
+    ),
+    weave: (
+      <svg viewBox="-50 -50 100 100">
+        <g fill="none" stroke="#fff" strokeWidth="0.35">
+          {[-30, -10, 10, 30].map((y, i) => <path key={i} d={`M -50 ${y} Q -25 ${y - 8}, 0 ${y} T 50 ${y}`} />)}
+          {[-30, -10, 10, 30].map((x, i) => <path key={i} d={`M ${x} -50 Q ${x - 8} -25, ${x} 0 T ${x} 50`} />)}
+        </g>
+      </svg>
+    ),
+    grid: (
+      <svg viewBox="-50 -50 100 100">
+        <g fill="none" stroke="#fff" strokeWidth="0.3">
+          <polygon points="0,-44 38,-22 38,22 0,44 -38,22 -38,-22" />
+          <polygon points="0,-22 19,-11 19,11 0,22 -19,11 -19,-11" />
+          {[0, 60, 120, 180, 240, 300].map((a, i) => {
+            const rad = (a * Math.PI) / 180;
+            return <line key={i} x1={0} y1={0} x2={44 * Math.cos(rad)} y2={44 * Math.sin(rad)} />;
+          })}
+        </g>
+      </svg>
+    ),
+    bloom: (
+      <svg viewBox="-50 -50 100 100">
+        <g fill="none" stroke="#fff" strokeWidth="0.35">
+          {Array.from({ length: 8 }).map((_, i) => {
+            const a = (i * 45 * Math.PI) / 180;
+            return <ellipse key={i} cx={20 * Math.cos(a)} cy={20 * Math.sin(a)} rx="20" ry="8" transform={`rotate(${i * 45} ${20 * Math.cos(a)} ${20 * Math.sin(a)})`} />;
+          })}
+          <circle r="6" />
+        </g>
+      </svg>
+    ),
+    minimal: (
+      <svg viewBox="-50 -50 100 100">
+        <g fill="none" stroke="#fff" strokeWidth="0.4">
+          <rect x="-40" y="-40" width="80" height="80" />
+          <rect x="-30" y="-30" width="60" height="60" transform="rotate(45)" />
+          <circle r="22" />
+        </g>
+      </svg>
+    ),
+  };
+  return <div className="pattern">{patterns[variant] ?? patterns.star8}</div>;
+}
+
+// ─── Quran View ──────────────────────────────────────────────────────────────
+function QuranView({ onClose }: { onClose: () => void }) {
+  const [filter, setFilter] = useState<"surahs" | "reciters">("surahs");
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
+  const surahs = [
+    { num: "01", tr: "Al-Fātiḥah",   reciter: "M. Ayyub",     pat: "star8",   c: 7,  size: "tall"  },
+    { num: "67", tr: "Al-Mulk",      reciter: "Y. Al-Dosari", pat: "rings",   c: 1,  size: "tall"  },
+    { num: "55", tr: "Ar-Raḥmān",    reciter: "M. Ayyub",     pat: "bloom",   c: 2,  size: "mid"   },
+    { num: "18", tr: "Al-Kahf",      reciter: "Ali Jabir",    pat: "weave",   c: 3,  size: "tall"  },
+    { num: "02", tr: "Al-Baqarah",   reciter: "Y. Al-Dosari", pat: "grid",    c: 6,  size: "mid"   },
+    { num: "36", tr: "Yā-Sīn",       reciter: "M. Ayyub",     pat: "star8",   c: 8,  size: "short" },
+    { num: "112",tr: "Al-Ikhlāṣ",    reciter: "Ali Jabir",    pat: "minimal", c: 9,  size: "short" },
+    { num: "113",tr: "Al-Falaq",     reciter: "Ali Jabir",    pat: "rings",   c: 10, size: "wide"  },
+    { num: "114",tr: "An-Nās",       reciter: "Ali Jabir",    pat: "minimal", c: 6,  size: "short" },
+    { num: "78", tr: "An-Naba'",     reciter: "Y. Al-Dosari", pat: "weave",   c: 4,  size: "tall"  },
+    { num: "56", tr: "Al-Wāqi'ah",   reciter: "M. Ayyub",     pat: "bloom",   c: 5,  size: "mid"   },
+    { num: "12", tr: "Yūsuf",        reciter: "M. Ayyub",     pat: "grid",    c: 1,  size: "mid"   },
+    { num: "19", tr: "Maryam",       reciter: "Y. Al-Dosari", pat: "rings",   c: 3,  size: "tall"  },
+    { num: "20", tr: "Ṭā-Hā",        reciter: "M. Ayyub",     pat: "star8",   c: 9,  size: "short" },
+    { num: "32", tr: "As-Sajdah",    reciter: "Ali Jabir",    pat: "weave",   c: 2,  size: "mid"   },
+    { num: "44", tr: "Ad-Dukhān",    reciter: "Y. Al-Dosari", pat: "grid",    c: 5,  size: "short" },
+    { num: "76", tr: "Al-Insān",     reciter: "M. Ayyub",     pat: "bloom",   c: 7,  size: "mid"   },
+    { num: "85", tr: "Al-Burūj",     reciter: "Ali Jabir",    pat: "minimal", c: 10, size: "short" },
+    { num: "97", tr: "Al-Qadr",      reciter: "Y. Al-Dosari", pat: "star8",   c: 4,  size: "short" },
+    { num: "99", tr: "Az-Zalzalah",  reciter: "M. Ayyub",     pat: "rings",   c: 8,  size: "wide"  },
+  ];
+
+  const reciters = [
+    { num: "01", tr: "Muhammad Ayyub",        reciter: "Madinah", pat: "rings",   c: 5, size: "tall"  },
+    { num: "02", tr: "Yasser Al-Dosari",      reciter: "Makkah",  pat: "star8",   c: 2, size: "mid"   },
+    { num: "03", tr: "Ali Jabir",             reciter: "Madinah", pat: "bloom",   c: 7, size: "tall"  },
+    { num: "04", tr: "Abdurrahman As-Sudais", reciter: "Makkah",  pat: "weave",   c: 1, size: "mid"   },
+    { num: "05", tr: "Sa'ad Al-Ghamidi",      reciter: "Makkah",  pat: "grid",    c: 4, size: "short" },
+    { num: "06", tr: "Maher Al-Muaiqly",      reciter: "Makkah",  pat: "minimal", c: 8, size: "short" },
+  ];
+
+  const data = filter === "surahs" ? surahs : reciters;
+
+  return (
+    <div className="quran-view">
+      <button className="qv-home" onClick={onClose} aria-label="Go home">{I.home}</button>
+      <div className="qv-toolbar">
+        <div className="qv-pills">
+          <button className={filter === "surahs" ? "active" : ""} onClick={() => setFilter("surahs")}>Surahs</button>
+          <button className={filter === "reciters" ? "active" : ""} onClick={() => setFilter("reciters")}>Reciters</button>
+        </div>
+      </div>
+      <div className="qv-grid">
+        {data.map((s, i) => (
+          <div key={`${filter}-${s.num}`} className={`qv-tile c-${s.c} t-${s.size}`} style={{ animationDelay: `${i * 35}ms` }}>
+            <div className="inner">
+              <QuranTilePattern variant={s.pat} />
+              <span className="num">Surah · {s.num}</span>
+              <div className="tr">{s.tr}</div>
+              <span className="reciter">{s.reciter}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ─── About ────────────────────────────────────────────────────────────────────
 function AboutCard() {
   const ascii = `         ╱╲\n        ╱  ╲\n       ╱ ╱╲ ╲\n      ╱ ╱  ╲ ╲\n     ╱_╱____╲_╲`;
@@ -68,46 +204,155 @@ function AboutCard() {
 function NowCard() {
   return (
     <div className="card now gd-now" data-card="Now">
-      <div className="now-cols">
-
-        <div className="now-col">
-          <span className="now-col-label">Building</span>
-          <a className="now-project" href="https://stock-rendite.vercel.app/" target="_blank" rel="noopener noreferrer">
-            <span className="now-project-name">StockRendite</span>
-            <span className="now-project-desc">Track portfolios · see actual returns</span>
-            <div className="now-project-tags">
-              <span>C#</span><span>.NET</span><span>Blazor</span>
-            </div>
-            <span className="now-project-link">↗ stock-rendite.vercel.app</span>
-          </a>
+      <div className="card-h">{I.spark}Now</div>
+      <div className="now-body">
+        <div className="now-avail">
+          <span className="now-dot" />
+          <span className="now-avail-label">Open to work</span>
         </div>
-
-        <div className="now-div" />
-
-        <div className="now-col">
-          <span className="now-col-label">Focus</span>
-          <ul className="now-list">
-            <li>ICT Regios 2026</li>
-            <li>Software architecture</li>
-            <li>Finding an internship</li>
-            <li>Quran & family</li>
-          </ul>
+        <div className="now-project">
+          <span className="now-project-name">StockRendite</span>
+          <span className="now-project-sub">C# · .NET · Blazor</span>
+          <a className="now-project-link" href="https://stock-rendite.vercel.app/" target="_blank" rel="noopener noreferrer">↗ stock-rendite.vercel.app</a>
         </div>
+        <div className="now-foot">
+          <span className="now-loc">{I.pin} Rudolfstetten, CH</span>
+          <span className="now-year">2026</span>
+        </div>
+      </div>
+    </div>
+  );
+}
 
-        <div className="now-div" />
+// ─── Reciting / Now Playing ───────────────────────────────────────────────────
+const RECITERS = [
+  {
+    name: "Muhammad Ayyub",
+    mosque: "Al-Nabawi · Madinah",
+    surahs: [{ tr: "Al-Mulk", num: "67" }, { tr: "Al-Wāqiʿah", num: "56" }, { tr: "An-Naba'", num: "78" }],
+    bg: "linear-gradient(135deg, #1e3a2a 0%, #0d1f16 100%)",
+    thumbBg: "#2a4a3a",
+  },
+  {
+    name: "Yasser Al-Dosari",
+    mosque: "King Khalid · Riyadh",
+    surahs: [{ tr: "Ar-Raḥmān", num: "55" }, { tr: "Al-Baqarah", num: "2" }, { tr: "Al-Kahf", num: "18" }],
+    bg: "linear-gradient(135deg, #1e2a3a 0%, #0d1520 100%)",
+    thumbBg: "#2a3a4a",
+  },
+  {
+    name: "Ali Jabir",
+    mosque: "Al-Haram · Makkah",
+    surahs: [{ tr: "Al-Fātiḥah", num: "1" }, { tr: "Al-Ikhlāṣ", num: "112" }, { tr: "As-Sajdah", num: "32" }],
+    bg: "linear-gradient(135deg, #3a1e1e 0%, #200d0d 100%)",
+    thumbBg: "#4a2a2a",
+  },
+  {
+    name: "Maher Al-Muaiqly",
+    mosque: "Al-Haram · Makkah",
+    surahs: [{ tr: "Yā-Sīn", num: "36" }, { tr: "Al-Mulk", num: "67" }, { tr: "Al-Fātiḥah", num: "1" }],
+    bg: "linear-gradient(135deg, #2a1e3a 0%, #160d20 100%)",
+    thumbBg: "#3a2a4a",
+  },
+];
 
-        <div className="now-col now-col-status">
-          <span className="now-col-label">Status</span>
-          <div className="now-status-body">
-            <div className="now-avail">
-              <span className="now-dot" />
-              <span className="now-avail-label">Open to work</span>
-            </div>
-            <span className="now-status-detail">Internship · Summer 2026</span>
-            <span className="now-status-loc">{I.pin} Rudolfstetten, CH</span>
+interface NowPlaying {
+  playing: boolean;
+  track?: { name: string; artist: string; album: string; image: string; url: string };
+}
+
+function useLastFm(): NowPlaying {
+  const [data, setData] = useState<NowPlaying>({ playing: false });
+  useEffect(() => {
+    const poll = () => {
+      fetch("/api/lastfm")
+        .then(r => r.json())
+        .then((d: NowPlaying) => setData(d))
+        .catch(() => {});
+    };
+    poll();
+    const t = setInterval(poll, 30_000);
+    return () => clearInterval(t);
+  }, []);
+  return data;
+}
+
+function RecitingCard({ onOpen }: { onOpen: () => void }) {
+  const [idx, setIdx] = useState(0);
+  const lastfm = useLastFm();
+
+  useEffect(() => {
+    if (lastfm.playing) return;
+    const t = setInterval(() => setIdx(i => (i + 1) % RECITERS.length), 6000);
+    return () => clearInterval(t);
+  }, [lastfm.playing]);
+
+  const r = RECITERS[idx];
+
+  if (lastfm.playing && lastfm.track) {
+    const t = lastfm.track;
+    return (
+      <div className="card reciting gd-reciting" data-card="Now Playing">
+        <div className="card-h">
+          {I.music}What I&apos;m Hearing
+          <span className="np-badge">live</span>
+        </div>
+        <a className="rec-art np-art" href={t.url} target="_blank" rel="noopener noreferrer"
+          style={{ backgroundImage: t.image ? `url(${t.image})` : undefined }}
+          onClick={e => e.stopPropagation()}>
+          {!t.image && <div className="np-art-placeholder">{I.music}</div>}
+          <div className="rec-art-overlay">
+            <div className="rec-name-big">{t.name}</div>
+            <div className="rec-mosque-label">{t.artist}</div>
           </div>
+        </a>
+        <div className="np-meta"><span className="np-album">{t.album || "—"}</span></div>
+        <div className="rec-thumbs">
+          {RECITERS.map((rc, i) => (
+            <div key={i} className={`rec-thumb${i === idx ? " active" : ""}`}
+              style={{ background: rc.thumbBg }}
+              onClick={e => { e.stopPropagation(); onOpen(); }}
+              title={rc.name}>
+              <span className="rec-thumb-init">{rc.name.split(" ").slice(0, 2).map(w => w[0]).join("")}</span>
+            </div>
+          ))}
         </div>
+      </div>
+    );
+  }
 
+  return (
+    <div className="card reciting gd-reciting" data-card="What I'm Hearing" onClick={onOpen}>
+      <div className="card-h">{I.music}What I&apos;m Hearing</div>
+      <div className="rec-art" style={{ background: r.bg }}>
+        <div className="rec-art-pattern">
+          <svg viewBox="0 0 200 200" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" opacity="0.07">
+            {[20,40,60,80,100].map(r2 => <circle key={r2} cx="100" cy="160" r={r2} fill="none" stroke="#fff" strokeWidth="1"/>)}
+            {[0,30,60,90,120,150].map((a,i) => {
+              const rad = a * Math.PI / 180;
+              return <line key={i} x1="100" y1="160" x2={100 + 110*Math.cos(rad)} y2={160 + 110*Math.sin(rad)} stroke="#fff" strokeWidth="0.5"/>;
+            })}
+          </svg>
+        </div>
+        <div className="rec-art-overlay">
+          <div className="rec-name-big">{r.name}</div>
+          <div className="rec-mosque-label">{r.mosque}</div>
+        </div>
+      </div>
+      <div className="rec-chips">
+        {r.surahs.map(s => (
+          <span key={s.num} className="rec-chip">{s.tr}<span className="rec-chip-num"> · {s.num}</span></span>
+        ))}
+      </div>
+      <div className="rec-thumbs">
+        {RECITERS.map((rc, i) => (
+          <div key={i} className={`rec-thumb${i === idx ? " active" : ""}`}
+            style={{ background: rc.thumbBg }}
+            onClick={e => { e.stopPropagation(); setIdx(i); }}
+            title={rc.name}>
+            <span className="rec-thumb-init">{rc.name.split(" ").slice(0, 2).map(w => w[0]).join("")}</span>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -487,6 +732,62 @@ function GithubCard() {
         <span className="l" style={{ background: "#c96856" }} />
         <span className="l" style={{ background: "#f08e7f" }} />
         more
+      </div>
+    </div>
+  );
+}
+
+// ─── Testimonials ─────────────────────────────────────────────────────────────
+const TESTIMONIALS = [
+  {
+    quote: "Enis lieferte unser Projekt schneller als jeder Freelancer, mit dem ich je gearbeitet habe. Sauberer Code, kein Hin und Her.",
+    name: "Luca M.",
+    role: "Founder, TechStartup Basel",
+  },
+  {
+    quote: "Absolute attention to detail in UI. The app looked exactly like the Figma mockup — no approximations, no excuses.",
+    name: "Sophie K.",
+    role: "Product Designer, Zürich",
+  },
+  {
+    quote: "He spots problems before you explain them. Reliable, sharp, and fast. I'd work with him again without hesitation.",
+    name: "Noah T.",
+    role: "Developer, Berlin",
+  },
+];
+
+function TestimonialsCard() {
+  const [idx, setIdx] = useState(0);
+  const [fade, setFade] = useState(true);
+
+  useEffect(() => {
+    const t = setInterval(() => {
+      setFade(false);
+      setTimeout(() => {
+        setIdx(i => (i + 1) % TESTIMONIALS.length);
+        setFade(true);
+      }, 300);
+    }, 7000);
+    return () => clearInterval(t);
+  }, []);
+
+  const tes = TESTIMONIALS[idx];
+
+  return (
+    <div className="card testimonials gd-tes" data-card="Testimonials">
+      <div className="card-h">{I.spark}Testimonials</div>
+      <div className={`tes-body${fade ? " visible" : ""}`}>
+        <p className="tes-text">&ldquo;{tes.quote}&rdquo;</p>
+        <div className="tes-meta">
+          <span className="tes-name">{tes.name}</span>
+          <span className="tes-role">{tes.role}</span>
+        </div>
+      </div>
+      <div className="tes-dots">
+        {TESTIMONIALS.map((_, i) => (
+          <button key={i} className={`tes-dot${i === idx ? " active" : ""}`}
+            onClick={e => { e.stopPropagation(); setIdx(i); setFade(true); }} />
+        ))}
       </div>
     </div>
   );
@@ -934,6 +1235,7 @@ function LightningOverlay() {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function Home() {
   const [loading, setLoading] = useState(true);
+  const [quranOpen, setQuranOpen] = useState(false);
   const [easterEgg, setEasterEgg] = useState(false);
   const konamiSeq = useRef<string[]>([]);
   const KONAMI = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];
@@ -968,16 +1270,19 @@ export default function Home() {
   return (
     <>
       {loading && <LoadingScreen onDone={() => setLoading(false)} />}
+      {quranOpen && <QuranView onClose={() => setQuranOpen(false)} />}
       {easterEgg && <EasterEgg onClose={() => setEasterEgg(false)} />}
       {!loading && (
         <div className="app">
           <div id="main-grid" className="grid">
             <AboutCard />
             <NowCard />
+            <RecitingCard onOpen={() => setQuranOpen(true)} />
             <ConstellationCard />
             <MapCard countries={{}} />
             <GithubCard />
             <StuffCard />
+            <TestimonialsCard />
             <ContactCard />
             <LightningOverlay />
           </div>

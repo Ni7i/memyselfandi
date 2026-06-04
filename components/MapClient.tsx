@@ -12,7 +12,7 @@ const HOME: [number, number] = [47.3636, 8.3856];
 function homeIcon() {
   return L.divIcon({
     className: "",
-    html: `<div style="width:10px;height:10px;background:#333;border-radius:50%;border:2px solid rgba(50,50,50,0.4);box-shadow:0 0 0 5px rgba(50,50,50,0.1),0 2px 6px rgba(0,0,0,0.25);"></div>`,
+    html: `<div style="width:10px;height:10px;background:#f08e7f;border-radius:50%;border:2px solid rgba(240,142,127,0.4);box-shadow:0 0 0 5px rgba(240,142,127,0.15),0 2px 6px rgba(0,0,0,0.5);"></div>`,
     iconSize: [10, 10],
     iconAnchor: [5, 5],
   });
@@ -29,12 +29,12 @@ function photoIcon(photo: GalleryPhoto) {
 }
 
 const popupStyle = {
-  background: "#faf9f7",
-  border: "1px solid #ddd",
+  background: "#17171a",
+  border: "1px solid #3e3e48",
   borderRadius: 8,
   padding: "8px 12px",
   fontSize: 11,
-  color: "#333",
+  color: "#e8e6e0",
   minWidth: 120,
 };
 
@@ -56,15 +56,15 @@ export default function MapClient() {
     >
       <ZoomControl position="bottomright" />
       <TileLayer
-        url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+        url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
         subdomains="abcd"
-        attribution='&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        attribution='&copy; <a href="https://openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
       />
       <Marker position={HOME} icon={homeIcon()}>
         <Popup closeButton={false}>
           <div style={popupStyle}>
             <div style={{ fontWeight: 700, marginBottom: 2 }}>Rudolfstetten</div>
-            <div style={{ color: "#c87847", fontSize: 10 }}>🏠 Home</div>
+            <div style={{ color: "#f08e7f", fontSize: 10 }}>🏠 Home</div>
           </div>
         </Popup>
       </Marker>
@@ -73,8 +73,8 @@ export default function MapClient() {
           <Popup closeButton={false}>
             <div style={popupStyle}>
               <div style={{ fontWeight: 700, marginBottom: 2 }}>{photo.title}</div>
-              <div style={{ color: "#c87847", fontSize: 10 }}>📍 {photo.location}</div>
-              <div style={{ color: "#888", fontSize: 10, marginTop: 1 }}>{photo.date}</div>
+              <div style={{ color: "#f08e7f", fontSize: 10 }}>📍 {photo.location}</div>
+              <div style={{ color: "#5f5c56", fontSize: 10, marginTop: 1 }}>{photo.date}</div>
             </div>
           </Popup>
         </Marker>

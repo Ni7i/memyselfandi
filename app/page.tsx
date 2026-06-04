@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo, useRef, useCallback } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import dynamic from "next/dynamic";
 import LoadingScreen from "@/components/LoadingScreen";
 
@@ -671,21 +671,10 @@ function ConstellationCard() {
 }
 
 // ─── Map ──────────────────────────────────────────────────────────────────────
-function MapCard({ countries }: { countries: Record<string, number> }) {
-  const topCountries = Object.entries(countries)
-    .sort(([, a], [, b]) => b - a)
-    .slice(0, 3);
-
+function MapCard({ countries: _ }: { countries: Record<string, number> }) {
   return (
     <div className="card map gd-map" data-card="Map">
       <div className="map-tag">Switzerland · Home</div>
-      {topCountries.length > 0 && (
-        <div className="map-visitors">
-          {topCountries.map(([cc, n]) => (
-            <span key={cc} className="map-visitor-badge">{cc} {n}</span>
-          ))}
-        </div>
-      )}
       <div className="leaflet-stage"><LeafletMap /></div>
     </div>
   );
@@ -1185,55 +1174,6 @@ function EasterEgg({ onClose }: { onClose: () => void }) {
   );
 }
 
-// ─── Floating Widget (Likes + Visitors) ──────────────────────────────────────
-function FloatingWidget() {
-  const [likes, setLikes] = useState(0);
-  const [visitors, setVisitors] = useState(0);
-  const [liked, setLiked] = useState(false);
-  const [popped, setPopped] = useState(false);
-
-  useEffect(() => {
-    fetch("/api/stats")
-      .then(r => r.json())
-      .then((d: { likes: number; visitors: number }) => {
-        setLikes(d.likes || 0);
-        setVisitors(d.visitors || 0);
-      })
-      .catch(() => {});
-    setLiked(localStorage.getItem("enis_liked") === "1");
-  }, []);
-
-  const handleLike = useCallback(() => {
-    if (liked) return;
-    setLiked(true);
-    setLikes(l => l + 1);
-    setPopped(true);
-    localStorage.setItem("enis_liked", "1");
-    setTimeout(() => setPopped(false), 700);
-    fetch("/api/stats", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action: "like" }),
-    }).catch(() => {});
-  }, [liked]);
-
-  return (
-    <div className="floating-widget">
-      <button
-        className={`fw-btn fw-like${liked ? " liked" : ""}${popped ? " pop" : ""}`}
-        onClick={handleLike}
-        title={liked ? "Already liked!" : "Like this portfolio"}
-      >
-        <span className="fw-icon">{I.heart}</span>
-        <span className="fw-count">{likes}</span>
-      </button>
-      <div className="fw-btn fw-visitors" title="Total visitors">
-        <span className="fw-icon">{I.eye}</span>
-        <span className="fw-count">{visitors}</span>
-      </div>
-    </div>
-  );
-}
 
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
@@ -1241,7 +1181,6 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [quranOpen, setQuranOpen] = useState(false);
   const [easterEgg, setEasterEgg] = useState(false);
-  const [countries, setCountries] = useState<Record<string, number>>({});
   const konamiSeq = useRef<string[]>([]);
   const KONAMI = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];
 
@@ -1271,18 +1210,6 @@ export default function Home() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Visit tracking + stats
-  useEffect(() => {
-    fetch("/api/stats", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action: "visit" }),
-    }).catch(() => {});
-    fetch("/api/stats")
-      .then(r => r.json())
-      .then((d: { countries?: Record<string, number> }) => { if (d.countries) setCountries(d.countries); })
-      .catch(() => {});
-  }, []);
 
   return (
     <>
@@ -1296,14 +1223,13 @@ export default function Home() {
             <GalleryCard />
             <RecitingCard onOpen={() => setQuranOpen(true)} />
             <ConstellationCard />
-            <MapCard countries={countries} />
+            <MapCard countries={{}} />
             <GithubCard />
             <StuffCard />
             <TestimonialsCard />
             <ContactCard />
           </div>
           <SocialsRow />
-          <FloatingWidget />
         </div>
       )}
     </>

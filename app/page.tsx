@@ -458,6 +458,7 @@ function ConstellationCard() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   const hoveredRef = useRef<number | null>(null);
+  const mouseRef = useRef<{ nx: number; ny: number } | null>(null);
   const [hovered, setHovered] = useState<number | null>(null);
 
   useEffect(() => {
@@ -483,7 +484,6 @@ function ConstellationCard() {
     obs.observe(wrap);
 
     const draw = () => {
-      // Auto-sync on every frame — handles initial layout & resize
       syncSize();
       const ctx = canvas.getContext("2d");
       if (!ctx) { raf = requestAnimationFrame(draw); return; }
@@ -531,7 +531,6 @@ function ConstellationCard() {
         const baseR = (star.stars + 3) * dpr;
         const r = baseR * (isHov ? 2.2 : 1) * twinkle;
 
-        // Glow halo
         const grd = ctx.createRadialGradient(x, y, 0, x, y, r * 4);
         grd.addColorStop(0, star.color + "cc");
         grd.addColorStop(0.35, star.color + "44");
@@ -541,46 +540,67 @@ function ConstellationCard() {
         ctx.fillStyle = grd;
         ctx.fill();
 
-        // Core dot — bright and solid
         ctx.beginPath();
         ctx.arc(x, y, r, 0, Math.PI * 2);
         ctx.fillStyle = isHov ? "#ffffff" : star.color;
         ctx.fill();
 
-        // White highlight center
         ctx.beginPath();
         ctx.arc(x - r * 0.25, y - r * 0.25, r * 0.35, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(255,255,255,${isHov ? 0.9 : 0.55})`;
         ctx.fill();
       });
 
-      // Hover tooltip
-      if (hoveredRef.current !== null) {
-        const star = STAR_DATA[hoveredRef.current];
-        const x = star.nx * W;
-        const y = star.ny * H;
-        const pad = 8 * dpr;
-        const nameW = Math.min(star.name.length * 7 * dpr + pad * 2, 180 * dpr);
-        let tx = x + 14 * dpr;
-        let ty = y - 14 * dpr - 38 * dpr;
-        if (tx + nameW > W - 4 * dpr) tx = x - nameW - 10 * dpr;
-        if (ty < 4 * dpr) ty = y + 14 * dpr;
+      // Cursor dot + URL-style tooltip
+      const mouse = mouseRef.current;
+      if (mouse) {
+        const mx = mouse.nx * W;
+        const my = mouse.ny * H;
 
-        ctx.fillStyle = "rgba(20,20,24,0.95)";
-        ctx.strokeStyle = star.color + "66";
-        ctx.lineWidth = 1 * dpr;
-        const rr = 4 * dpr;
+        // Subtle cursor dot
         ctx.beginPath();
-        ctx.roundRect(tx, ty, nameW, 38 * dpr, rr);
+        ctx.arc(mx, my, 2.5 * dpr, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(255,255,255,0.28)";
         ctx.fill();
-        ctx.stroke();
 
-        ctx.fillStyle = "#e8e6e0";
-        ctx.font = `600 ${11 * dpr}px monospace`;
-        ctx.fillText(star.name, tx + pad, ty + 14 * dpr);
-        ctx.fillStyle = "#95918a";
-        ctx.font = `${9.5 * dpr}px monospace`;
-        ctx.fillText(`${star.lang} · ${star.year}`, tx + pad, ty + 28 * dpr);
+        if (hoveredRef.current !== null) {
+          const star = STAR_DATA[hoveredRef.current];
+          const rawUrl = (star as { url?: string }).url;
+          const label = rawUrl
+            ? rawUrl.replace(/^https?:\/\//, "").replace(/\/$/, "")
+            : `github.com/Ni7i/${star.name}`;
+
+          const fontSize = 11 * dpr;
+          ctx.font = `${fontSize}px monospace`;
+          const textW = ctx.measureText(label).width;
+          const padX = 11 * dpr;
+          const pillH = 24 * dpr;
+          const pillW = textW + padX * 2;
+
+          let px = mx - pillW / 2;
+          let py = my - pillH - 14 * dpr;
+          if (px < 4 * dpr) px = 4 * dpr;
+          if (px + pillW > W - 4 * dpr) px = W - pillW - 4 * dpr;
+          if (py < 4 * dpr) py = my + 16 * dpr;
+
+          // Pill background
+          ctx.fillStyle = "rgba(13,13,17,0.93)";
+          ctx.beginPath();
+          ctx.roundRect(px, py, pillW, pillH, pillH / 2);
+          ctx.fill();
+
+          // Subtle color accent border
+          ctx.strokeStyle = `${star.color}40`;
+          ctx.lineWidth = 1 * dpr;
+          ctx.beginPath();
+          ctx.roundRect(px, py, pillW, pillH, pillH / 2);
+          ctx.stroke();
+
+          // URL text
+          ctx.fillStyle = "#c4c0ba";
+          ctx.font = `${fontSize}px monospace`;
+          ctx.fillText(label, px + padX, py + pillH * 0.67);
+        }
       }
 
       t += 0.016;
@@ -591,20 +611,25 @@ function ConstellationCard() {
 
     const onMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
-      const mx = (e.clientX - rect.left) / rect.width;
-      const my = (e.clientY - rect.top) / rect.height;
+      const nx = (e.clientX - rect.left) / rect.width;
+      const ny = (e.clientY - rect.top) / rect.height;
+      mouseRef.current = { nx, ny };
       let closest: number | null = null;
       let minD = Infinity;
       STAR_DATA.forEach((star, i) => {
-        const dx = star.nx - mx;
-        const dy = star.ny - my;
+        const dx = star.nx - nx;
+        const dy = star.ny - ny;
         const d = Math.sqrt(dx * dx + dy * dy);
         if (d < 0.07 && d < minD) { closest = i; minD = d; }
       });
       hoveredRef.current = closest;
       setHovered(closest);
     };
-    const onLeave = () => { hoveredRef.current = null; setHovered(null); };
+    const onLeave = () => {
+      hoveredRef.current = null;
+      mouseRef.current = null;
+      setHovered(null);
+    };
     canvas.addEventListener("mousemove", onMove);
     canvas.addEventListener("mouseleave", onLeave);
 

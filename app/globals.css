@@ -59,7 +59,7 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
   grid-template-columns: 1.04fr 1.46fr 1.34fr 1.04fr;
   grid-template-rows: 1.3fr 1fr 0.72fr;
   grid-template-areas:
-    "abo gal rec rec"
+    "abo gal gal gal"
     "abo sta map git"
     "stu sta tes con";
   gap: 8px;
@@ -69,7 +69,6 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
 }
 .gd-about    { grid-area: abo; }
 .gd-gallery  { grid-area: gal; }
-.gd-reciting { grid-area: rec; }
 .gd-sta      { grid-area: sta; }
 .gd-map      { grid-area: map; }
 .gd-stuff    { grid-area: stu; }
@@ -150,30 +149,6 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
 .g-modal-nav:hover { background: rgba(50,40,38,0.95); color: var(--accent); }
 .g-modal-close { position: fixed; top: 20px; right: 20px; width: 40px; height: 40px; border-radius: 50%; background: rgba(30,28,26,0.85); border: 1px solid var(--border-strong); color: var(--text); font-size: 20px; display: grid; place-items: center; cursor: pointer; transition: background 0.2s ease; backdrop-filter: blur(8px); }
 .g-modal-close:hover { background: rgba(50,40,38,0.95); color: var(--accent); }
-
-/* RECITING */
-.reciting { padding: 12px; display: flex; flex-direction: column; }
-.reciting .card-h { margin-bottom: 8px; }
-.rec-art { flex: 1; min-height: 0; border-radius: 8px; position: relative; overflow: hidden; margin-bottom: 8px; }
-.rec-art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.8) 100%); pointer-events: none; z-index: 1; }
-.rec-art-pattern { position: absolute; inset: 0; z-index: 0; }
-.rec-art-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 12px 14px; z-index: 2; }
-.rec-name-big { font-size: 15px; font-weight: 600; color: #fff; letter-spacing: -0.01em; line-height: 1.2; }
-.rec-mosque-label { font-family: var(--font-mono), monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-top: 3px; }
-.rec-chips { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
-.rec-chip { font-family: var(--font-mono), monospace; font-size: 10px; padding: 3px 7px; border-radius: 4px; background: var(--card-2); border: 1px solid var(--border-soft); color: var(--text-dim); }
-.rec-chip-num { color: var(--text-faint); }
-.np-badge { margin-left: auto; font-family: var(--font-mono), monospace; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); background: rgba(240,142,127,0.1); border: 1px solid rgba(240,142,127,0.3); border-radius: 99px; padding: 2px 8px; }
-.np-art { text-decoration: none; display: block; }
-.np-art-placeholder { display: grid; place-items: center; width: 100%; height: 100%; background: var(--card-2); }
-.np-art-placeholder svg { width: 32px; height: 32px; stroke: var(--text-faint); fill: none; stroke-width: 1.5; }
-.np-meta { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
-.np-album { font-family: var(--font-mono), monospace; font-size: 10px; letter-spacing: 0.08em; color: var(--text-faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.rec-thumbs { display: flex; gap: 5px; flex-shrink: 0; }
-.rec-thumb { width: 28px; height: 28px; border-radius: 5px; border: 2px solid var(--border); cursor: pointer; transition: border-color 0.2s ease, transform 0.2s ease; flex-shrink: 0; display: grid; place-items: center; }
-.rec-thumb:hover { transform: scale(1.1); }
-.rec-thumb.active { border-color: var(--accent); }
-.rec-thumb-init { font-family: var(--font-mono), monospace; font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.7); letter-spacing: 0; }
 
 /* CONSTELLATION */
 .constellation { padding: 12px; display: flex; flex-direction: column; height: 100%; }
@@ -476,7 +451,7 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
     flex: none;
     grid-template-areas:
       "abo abo"
-      "gal rec"
+      "gal gal"
       "stu sta"
       "sta sta"
       "map git"
@@ -485,14 +460,12 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
   .socials { grid-template-columns: repeat(2, 1fr); }
   .qv-grid { column-count: 3; }
   .leaflet-stage { min-height: 280px; }
-  .floating-widget { bottom: 14px; right: 14px; }
-  .grid-snake-canvas { display: none; }
 }
 @media (max-width: 640px) {
   .app { padding: 10px; gap: 8px; }
   .grid {
     grid-template-columns: 1fr;
-    grid-template-areas: "abo" "gal" "rec" "sta" "map" "git" "stu" "tes" "con";
+    grid-template-areas: "abo" "gal" "sta" "map" "git" "stu" "tes" "con";
     gap: 8px;
   }
   .socials { grid-template-columns: 1fr; gap: 8px; }

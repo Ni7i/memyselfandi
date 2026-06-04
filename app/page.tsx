@@ -200,27 +200,71 @@ function AboutCard() {
   );
 }
 
-// ─── Now ──────────────────────────────────────────────────────────────────────
-function NowCard() {
+// ─── Gallery ─────────────────────────────────────────────────────────────────
+const GALLERY_PHOTOS = [
+  { src: "/gallery/1.jpg", full: "/gallery/1.jpg", alt: "Photo 1" },
+  { src: "/gallery/2.jpg", full: "/gallery/2.jpg", alt: "Photo 2" },
+  { src: "/gallery/3.jpg", full: "/gallery/3.jpg", alt: "Photo 3" },
+];
+
+function GalleryCard() {
+  const [idx, setIdx] = useState(0);
+  const [open, setOpen] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (open !== null) return;
+    const t = setInterval(() => setIdx(i => (i + 1) % GALLERY_PHOTOS.length), 5000);
+    return () => clearInterval(t);
+  }, [open]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (open === null) return;
+      if (e.key === "Escape") setOpen(null);
+      if (e.key === "ArrowRight") setOpen(o => (o! + 1) % GALLERY_PHOTOS.length);
+      if (e.key === "ArrowLeft")  setOpen(o => (o! - 1 + GALLERY_PHOTOS.length) % GALLERY_PHOTOS.length);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  const p = GALLERY_PHOTOS[idx];
+
   return (
-    <div className="card now gd-now" data-card="Now">
-      <div className="card-h">{I.spark}Now</div>
-      <div className="now-body">
-        <div className="now-avail">
-          <span className="now-dot" />
-          <span className="now-avail-label">Open to work</span>
+    <>
+      <div className="card gallery gd-gallery" data-card="Gallery">
+        <div className="gallery-single" onClick={() => setOpen(idx)}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={p.src} alt={p.alt} />
+          <div className="gallery-overlay">
+            <span className="gallery-caption">{p.alt}</span>
+            <span className="gallery-open">↗</span>
+          </div>
         </div>
-        <div className="now-project">
-          <span className="now-project-name">StockRendite</span>
-          <span className="now-project-sub">C# · .NET · Blazor</span>
-          <a className="now-project-link" href="https://stock-rendite.vercel.app/" target="_blank" rel="noopener noreferrer">↗ stock-rendite.vercel.app</a>
-        </div>
-        <div className="now-foot">
-          <span className="now-loc">{I.pin} Rudolfstetten, CH</span>
-          <span className="now-year">2026</span>
+        <div className="gallery-dots">
+          {GALLERY_PHOTOS.map((_, i) => (
+            <button key={i} className={`gallery-dot${i === idx ? " active" : ""}`}
+              onClick={() => setIdx(i)} aria-label={`Photo ${i + 1}`} />
+          ))}
         </div>
       </div>
-    </div>
+
+      {open !== null && (
+        <div className="g-modal" onClick={() => setOpen(null)}>
+          <div className="g-modal-inner" onClick={e => e.stopPropagation()}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={GALLERY_PHOTOS[open].full} alt={GALLERY_PHOTOS[open].alt} />
+            <div className="g-modal-bar">
+              <span className="g-modal-alt">{GALLERY_PHOTOS[open].alt}</span>
+              <span className="g-modal-count">{open + 1} / {GALLERY_PHOTOS.length}</span>
+            </div>
+          </div>
+          <button className="g-modal-nav g-prev" onClick={e => { e.stopPropagation(); setOpen(o => (o! - 1 + GALLERY_PHOTOS.length) % GALLERY_PHOTOS.length); }}>‹</button>
+          <button className="g-modal-nav g-next" onClick={e => { e.stopPropagation(); setOpen(o => (o! + 1) % GALLERY_PHOTOS.length); }}>›</button>
+          <button className="g-modal-close" onClick={() => setOpen(null)}>×</button>
+        </div>
+      )}
+    </>
   );
 }
 
@@ -1276,7 +1320,7 @@ export default function Home() {
         <div className="app">
           <div id="main-grid" className="grid">
             <AboutCard />
-            <NowCard />
+            <GalleryCard />
             <RecitingCard onOpen={() => setQuranOpen(true)} />
             <ConstellationCard />
             <MapCard countries={{}} />

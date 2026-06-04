@@ -1,8 +1,11 @@
 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
   <rect width="100" height="100" fill="#1b1b21"/>
+  <!-- Outer ring: cream, hole offset upper-left for snail spiral -->
   <circle cx="50" cy="50" r="44" fill="#e0d8ce"/>
   <circle cx="40" cy="40" r="27" fill="#1b1b21"/>
+  <!-- Middle ring: warm gray, positioned lower-right in outer hole -->
   <circle cx="52" cy="53" r="21" fill="#b0a99f"/>
   <circle cx="44" cy="46" r="12" fill="#1b1b21"/>
+  <!-- Inner circle: stone taupe -->
   <circle cx="50" cy="52" r="9" fill="#7e7870"/>
 </svg>

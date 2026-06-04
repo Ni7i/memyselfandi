@@ -39,15 +39,6 @@ const I = {
 
 // ─── About ────────────────────────────────────────────────────────────────────
 function AboutCard() {
-  const stats = [
-    { val: "17",  label: "Jahre" },
-    { val: "2+",  label: "Yrs Dev" },
-  ];
-  const facts = [
-    "Coden", "Islam", "Velo fahren", "Familie",
-    "Gym", "Quran", "Kosovo", "Schweiz",
-    "C# first", "ICT", "Bilal Sonses",
-  ];
   const ascii = `         ╱╲\n        ╱  ╲\n       ╱ ╱╲ ╲\n      ╱ ╱  ╲ ╲\n     ╱_╱____╲_╲`;
   return (
     <div className="card about gd-about" data-card="About">
@@ -59,18 +50,14 @@ function AboutCard() {
       </p>
       <div className="loc">{I.pin} Rudolfstetten, Switzerland</div>
       <div className="about-stats">
-        {stats.map(s => (
-          <div className="about-stat" key={s.label}>
-            <span className="about-stat-val">{s.val}</span>
-            <span className="about-stat-label">{s.label}</span>
-          </div>
-        ))}
-      </div>
-      <div className="label-row">{I.spark} Things I love</div>
-      <div className="about-facts">
-        {facts.map((f, i) => (
-          <span className="about-fact" key={i}>{f}</span>
-        ))}
+        <div className="about-stat">
+          <span className="about-stat-val">17</span>
+          <span className="about-stat-label">Jahre</span>
+        </div>
+        <div className="about-stat">
+          <span className="about-stat-val">2+</span>
+          <span className="about-stat-label">Yrs Dev</span>
+        </div>
       </div>
       <pre className="about-ascii">{ascii}</pre>
     </div>
@@ -79,61 +66,48 @@ function AboutCard() {
 
 // ─── Now ──────────────────────────────────────────────────────────────────────
 function NowCard() {
-  const lines = useMemo(() => [
-    "Building StockRendite — C# · .NET · Blazor",
-    "Competing in ICT Regios 2026",
-    "Reading about software architecture",
-    "Looking for an internship",
-    "Coding every single day",
-  ], []);
-
-  const [lineIdx, setLineIdx] = useState(0);
-  const [displayed, setDisplayed] = useState("");
-  const [erasing, setErasing] = useState(false);
-  const [blink, setBlink] = useState(true);
-
-  useEffect(() => {
-    const t = setInterval(() => setBlink(b => !b), 530);
-    return () => clearInterval(t);
-  }, []);
-
-  useEffect(() => {
-    const full = lines[lineIdx];
-    if (!erasing) {
-      if (displayed.length < full.length) {
-        const t = setTimeout(() => setDisplayed(full.slice(0, displayed.length + 1)), 42);
-        return () => clearTimeout(t);
-      }
-      const t = setTimeout(() => setErasing(true), 2800);
-      return () => clearTimeout(t);
-    } else {
-      if (displayed.length > 0) {
-        const t = setTimeout(() => setDisplayed(d => d.slice(0, -1)), 22);
-        return () => clearTimeout(t);
-      }
-      setLineIdx(i => (i + 1) % lines.length);
-      setErasing(false);
-    }
-  }, [displayed, erasing, lineIdx, lines]);
-
   return (
     <div className="card now gd-now" data-card="Now">
-      <div className="card-h">{I.spark}Now</div>
-      <div className="now-body">
-        <div className="now-avail">
-          <span className="now-dot" />
-          <span className="now-avail-label">Available for internship</span>
+      <div className="now-cols">
+
+        <div className="now-col">
+          <span className="now-col-label">Building</span>
+          <a className="now-project" href="https://stock-rendite.vercel.app/" target="_blank" rel="noopener noreferrer">
+            <span className="now-project-name">StockRendite</span>
+            <span className="now-project-desc">Track portfolios · see actual returns</span>
+            <div className="now-project-tags">
+              <span>C#</span><span>.NET</span><span>Blazor</span>
+            </div>
+            <span className="now-project-link">↗ stock-rendite.vercel.app</span>
+          </a>
         </div>
-        <div className="now-line">
-          <span className="now-chevron">›</span>
-          <span className="now-typed">
-            {displayed}<span className={`now-cur${blink ? " on" : ""}`}>|</span>
-          </span>
+
+        <div className="now-div" />
+
+        <div className="now-col">
+          <span className="now-col-label">Focus</span>
+          <ul className="now-list">
+            <li>ICT Regios 2026</li>
+            <li>Software architecture</li>
+            <li>Finding an internship</li>
+            <li>Quran & family</li>
+          </ul>
         </div>
-        <div className="now-foot">
-          <span className="now-loc">{I.pin} Rudolfstetten, Switzerland</span>
-          <span className="now-year">2026</span>
+
+        <div className="now-div" />
+
+        <div className="now-col now-col-status">
+          <span className="now-col-label">Status</span>
+          <div className="now-status-body">
+            <div className="now-avail">
+              <span className="now-dot" />
+              <span className="now-avail-label">Open to work</span>
+            </div>
+            <span className="now-status-detail">Internship · Summer 2026</span>
+            <span className="now-status-loc">{I.pin} Rudolfstetten, CH</span>
+          </div>
         </div>
+
       </div>
     </div>
   );
@@ -513,62 +487,6 @@ function GithubCard() {
         <span className="l" style={{ background: "#c96856" }} />
         <span className="l" style={{ background: "#f08e7f" }} />
         more
-      </div>
-    </div>
-  );
-}
-
-// ─── Testimonials ─────────────────────────────────────────────────────────────
-const TESTIMONIALS = [
-  {
-    quote: "Enis lieferte unser Projekt schneller als jeder Freelancer, mit dem ich je gearbeitet habe. Sauberer Code, kein Hin und Her.",
-    name: "Luca M.",
-    role: "Founder, TechStartup Basel",
-  },
-  {
-    quote: "Absolute attention to detail in UI. The app looked exactly like the Figma mockup — no approximations, no excuses.",
-    name: "Sophie K.",
-    role: "Product Designer, Zürich",
-  },
-  {
-    quote: "He spots problems before you explain them. Reliable, sharp, and fast. I'd work with him again without hesitation.",
-    name: "Noah T.",
-    role: "Developer, Berlin",
-  },
-];
-
-function TestimonialsCard() {
-  const [idx, setIdx] = useState(0);
-  const [fade, setFade] = useState(true);
-
-  useEffect(() => {
-    const t = setInterval(() => {
-      setFade(false);
-      setTimeout(() => {
-        setIdx(i => (i + 1) % TESTIMONIALS.length);
-        setFade(true);
-      }, 300);
-    }, 7000);
-    return () => clearInterval(t);
-  }, []);
-
-  const tes = TESTIMONIALS[idx];
-
-  return (
-    <div className="card testimonials gd-tes" data-card="Testimonials">
-      <div className="card-h">{I.spark}Testimonials</div>
-      <div className={`tes-body${fade ? " visible" : ""}`}>
-        <p className="tes-text">&ldquo;{tes.quote}&rdquo;</p>
-        <div className="tes-meta">
-          <span className="tes-name">{tes.name}</span>
-          <span className="tes-role">{tes.role}</span>
-        </div>
-      </div>
-      <div className="tes-dots">
-        {TESTIMONIALS.map((_, i) => (
-          <button key={i} className={`tes-dot${i === idx ? " active" : ""}`}
-            onClick={e => { e.stopPropagation(); setIdx(i); setFade(true); }} />
-        ))}
       </div>
     </div>
   );
@@ -1060,7 +978,6 @@ export default function Home() {
             <MapCard countries={{}} />
             <GithubCard />
             <StuffCard />
-            <TestimonialsCard />
             <ContactCard />
             <LightningOverlay />
           </div>

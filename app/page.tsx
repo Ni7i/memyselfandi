@@ -215,9 +215,9 @@ function AboutCard() {
 
 // ─── Gallery ─────────────────────────────────────────────────────────────────
 const GALLERY_PHOTOS = [
-  { src: "https://images.unsplash.com/photo-1564769625905-50e93615e769?w=600&h=400&fit=crop", full: "https://images.unsplash.com/photo-1564769625905-50e93615e769?w=1600&q=90", alt: "Masjid al-Haram, Mecca" },
-  { src: "https://images.unsplash.com/photo-1541862438-f02c53e4eced?w=600&h=400&fit=crop", full: "https://images.unsplash.com/photo-1541862438-f02c53e4eced?w=1600&q=90", alt: "Blue Mosque, Istanbul" },
-  { src: "https://images.unsplash.com/photo-1553484771-898ed465e931?w=600&h=400&fit=crop", full: "https://images.unsplash.com/photo-1553484771-898ed465e931?w=1600&q=90", alt: "Camel, Arabian Desert" },
+  { src: "/gallery/1.jpg", full: "/gallery/1.jpg", alt: "Photo 1" },
+  { src: "/gallery/2.jpg", full: "/gallery/2.jpg", alt: "Photo 2" },
+  { src: "/gallery/3.jpg", full: "/gallery/3.jpg", alt: "Photo 3" },
 ];
 
 function GalleryCard() {
@@ -495,12 +495,13 @@ function ConstellationCard() {
       ctx.clearRect(0, 0, W, H);
 
       // Background ambient stars
-      for (let i = 0; i < 60; i++) {
-        const sx = ((i * 137.5 * 19) % W);
-        const sy = ((i * 137.5 * 31) % H);
-        const sa = 0.3 + 0.15 * Math.sin(t * 0.3 + i);
+      for (let i = 0; i < 160; i++) {
+        const sx = ((i * 137.5 * 19 + i * 73) % W);
+        const sy = ((i * 137.5 * 31 + i * 57) % H);
+        const size = i < 80 ? 1.0 : i < 130 ? 0.7 : 0.4;
+        const sa = 0.25 + 0.2 * Math.sin(t * 0.3 + i * 0.7);
         ctx.beginPath();
-        ctx.arc(sx, sy, 1.2 * dpr, 0, Math.PI * 2);
+        ctx.arc(sx, sy, size * dpr, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(255,255,255,${sa})`;
         ctx.fill();
       }
@@ -577,11 +578,13 @@ function ConstellationCard() {
           const pillH = 24 * dpr;
           const pillW = textW + padX * 2;
 
-          let px = mx - pillW / 2;
-          let py = my - pillH - 14 * dpr;
+          let px = mx + 14 * dpr;
+          let py = my - pillH / 2;
+          // flip left if not enough room on right
+          if (px + pillW > W - 4 * dpr) px = mx - pillW - 14 * dpr;
           if (px < 4 * dpr) px = 4 * dpr;
-          if (px + pillW > W - 4 * dpr) px = W - pillW - 4 * dpr;
-          if (py < 4 * dpr) py = my + 16 * dpr;
+          if (py < 4 * dpr) py = 4 * dpr;
+          if (py + pillH > H - 4 * dpr) py = H - pillH - 4 * dpr;
 
           // Pill background
           ctx.fillStyle = "rgba(13,13,17,0.93)";
@@ -704,13 +707,12 @@ function GithubCard() {
         seed = (seed * 9301 + 49297) % 233280;
         const r = seed / 233280;
         const recency = w / 26;
-        const base = r + recency * 0.4 - 0.15;
-        let level = 0;
-        if (base > 0.18) level = 1;
-        if (base > 0.42) level = 2;
-        if (base > 0.66) level = 3;
-        if (base > 0.86) level = 4;
-        if ((d === 5 || d === 6) && r > 0.6) level = Math.max(0, level - 1);
+        const base = r + recency * 0.55;
+        let level = 1;
+        if (base > 0.35) level = 2;
+        if (base > 0.60) level = 3;
+        if (base > 0.82) level = 4;
+        if (d === 6 && r > 0.7) level = Math.max(1, level - 1);
         week.push(level);
       }
       arr.push(week);
@@ -770,7 +772,9 @@ function GithubCard() {
   };
 
   return (
-    <div className="card github gd-github" data-card="GitHub">
+    <div className="card github gd-github" data-card="GitHub"
+      style={{ cursor: "pointer" }}
+      onClick={() => window.open("https://github.com/Ni7i", "_blank", "noopener")}>
       <div className="label-row">
         <div className="card-h" style={{ margin: 0 }}>{I.git}GitHub</div>
         <span className="handle">@Ni7i</span>
@@ -882,7 +886,7 @@ function ContactCard() {
         <form className="contact-form" onSubmit={handleSubmit} onClick={e => e.stopPropagation()}>
           <input value={name} onChange={e => setName(e.target.value)} placeholder="Name" required />
           <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="E-Mail" required />
-          <textarea value={msg} onChange={e => setMsg(e.target.value)} placeholder="Nachricht…" required rows={3} />
+          <textarea value={msg} onChange={e => setMsg(e.target.value)} placeholder="Nachricht…" required rows={2} />
           <button type="submit">
             <span className="btn-icon">{I.send}</span>Senden
           </button>
@@ -1231,138 +1235,6 @@ function FloatingWidget() {
   );
 }
 
-// ─── Grid Snake (Glowing Dot Through Gaps) ───────────────────────────────────
-function GridSnake() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    let raf: number;
-    let progress = 0;
-    let waypoints: [number, number][] = [];
-
-    const computeWaypoints = () => {
-      const grid = document.getElementById("main-grid");
-      if (!grid) return;
-      const gr = grid.getBoundingClientRect();
-      const par = canvas.parentElement!.getBoundingClientRect();
-
-      canvas.style.left = `${gr.left - par.left}px`;
-      canvas.style.top = `${gr.top - par.top}px`;
-      canvas.width = gr.width;
-      canvas.height = gr.height;
-
-      const findCard = (cls: string) => {
-        const el = grid.querySelector(`.${cls}`) as HTMLElement;
-        if (!el) return null;
-        const r = el.getBoundingClientRect();
-        return { l: r.left - gr.left, t: r.top - gr.top, r: r.right - gr.left, b: r.bottom - gr.top };
-      };
-
-      const abo = findCard("gd-about");
-      const gal = findCard("gd-gallery");
-      const sta = findCard("gd-sta");
-      const map = findCard("gd-map");
-      const git = findCard("gd-github");
-      const tes = findCard("gd-tes");
-
-      if (!abo || !gal || !sta || !map || !git || !tes) return;
-
-      const W = gr.width, H = gr.height;
-      const x1 = (abo.r + gal.l) / 2;
-      const x2 = (gal.r + map.l) / 2;
-      const x3 = (map.r + git.l) / 2;
-      const y1 = (gal.b + sta.t) / 2;
-      const y2 = (sta.b + tes.t) / 2;
-
-      waypoints = [
-        [0, y1], [x1, y1], [x1, 0],
-        [x2, 0], [x2, y1], [x3, y1],
-        [x3, 0], [W, y1], [W, y2],
-        [x3, y2], [x3, H], [x2, H],
-        [x2, y2], [x1, y2], [x1, H],
-        [0, y2], [0, y1],
-      ];
-    };
-
-    const getTotal = () => {
-      let len = 0;
-      for (let i = 1; i < waypoints.length; i++) {
-        const dx = waypoints[i][0] - waypoints[i - 1][0];
-        const dy = waypoints[i][1] - waypoints[i - 1][1];
-        len += Math.sqrt(dx * dx + dy * dy);
-      }
-      return len;
-    };
-
-    const getPosAt = (dist: number): [number, number] => {
-      let acc = 0;
-      for (let i = 1; i < waypoints.length; i++) {
-        const dx = waypoints[i][0] - waypoints[i - 1][0];
-        const dy = waypoints[i][1] - waypoints[i - 1][1];
-        const seg = Math.sqrt(dx * dx + dy * dy);
-        if (acc + seg >= dist) {
-          const t = (dist - acc) / seg;
-          return [waypoints[i - 1][0] + dx * t, waypoints[i - 1][1] + dy * t];
-        }
-        acc += seg;
-      }
-      return waypoints[waypoints.length - 1];
-    };
-
-    const draw = () => {
-      const ctx = canvas.getContext("2d");
-      if (!ctx || waypoints.length < 2) { raf = requestAnimationFrame(draw); return; }
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Static gap lines
-      ctx.beginPath();
-      ctx.moveTo(waypoints[0][0], waypoints[0][1]);
-      for (let i = 1; i < waypoints.length; i++) ctx.lineTo(waypoints[i][0], waypoints[i][1]);
-      ctx.strokeStyle = "rgba(240, 142, 127, 0.05)";
-      ctx.lineWidth = 1;
-      ctx.stroke();
-
-      const total = getTotal();
-      progress = (progress + 0.8) % total;
-
-      // Trailing tail
-      const tailLen = Math.min(60, total * 0.08);
-      for (let i = 0; i < 12; i++) {
-        const d = ((progress - (i * tailLen) / 12 + total) % total);
-        const [tx, ty] = getPosAt(d);
-        const alpha = (1 - i / 12) * 0.6;
-        const r = (1 - i / 12) * 4;
-        ctx.beginPath();
-        ctx.arc(tx, ty, r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(240, 142, 127, ${alpha})`;
-        ctx.fill();
-      }
-
-      // Head dot — solid, no glow halo
-      const [hx, hy] = getPosAt(progress);
-      ctx.beginPath();
-      ctx.arc(hx, hy, 3.5, 0, Math.PI * 2);
-      ctx.fillStyle = "rgba(240, 142, 127, 1)";
-      ctx.fill();
-
-      raf = requestAnimationFrame(draw);
-    };
-
-    computeWaypoints();
-    raf = requestAnimationFrame(draw);
-
-    const obs = new ResizeObserver(computeWaypoints);
-    const grid = document.getElementById("main-grid");
-    if (grid) obs.observe(grid);
-
-    return () => { cancelAnimationFrame(raf); obs.disconnect(); };
-  }, []);
-
-  return <canvas ref={canvasRef} className="grid-snake-canvas" />;
-}
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function Home() {
@@ -1432,7 +1304,6 @@ export default function Home() {
           </div>
           <SocialsRow />
           <FloatingWidget />
-          <GridSnake />
         </div>
       )}
     </>

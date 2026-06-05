@@ -66,7 +66,7 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
   grid-template-areas:
     "abo gal wer wer"
     "abo sta map git"
-    "stu sta tes con";
+    "stu sta map con";
   gap: 8px;
   flex: 1;
   min-height: 0;
@@ -172,7 +172,7 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
 .werdegang { padding: 14px 16px 12px; display: flex; flex-direction: column; }
 .werdegang .card-h { margin-bottom: 4px; }
 .wer-hint { margin-left: auto; font-family: var(--font-mono), monospace; font-size: 9.5px; color: var(--text-faint); letter-spacing: 0.1em; text-transform: uppercase; }
-.wer-stage { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 6px; position: relative; }
+.wer-stage { flex: 1; min-height: 0; display: flex; flex-direction: column; position: relative; }
 .wer-svg { flex: 1; min-height: 0; width: 100%; height: 100%; display: block; }
 .wer-svg .wer-node circle:nth-child(2) { transition: r 0.2s ease, stroke-width 0.2s ease; }
 .wer-svg .wer-node:hover circle:nth-child(2) { stroke-width: 2.4; }
@@ -189,6 +189,13 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
 .wer-info-sub { font-size: 11px; color: var(--text-dim); }
 .wer-cta-link { display: inline-block; margin-top: 4px; font-family: var(--font-mono), monospace; font-size: 9.5px; letter-spacing: 0.08em; color: var(--accent); text-decoration: none; transition: letter-spacing 0.15s; }
 .wer-cta-link:hover { letter-spacing: 0.14em; }
+.wer-tooltip { position: absolute; z-index: 10; background: rgba(10,10,14,0.96); border: 1px solid rgba(255,255,255,0.11); border-radius: 10px; padding: 11px 30px 12px 14px; min-width: 168px; max-width: 210px; backdrop-filter: blur(14px); pointer-events: all; animation: fadeUp 0.15s ease; }
+.wer-tt-top { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; }
+.wer-tt-year { font-family: var(--font-mono), monospace; font-size: 9px; letter-spacing: 0.18em; color: var(--accent); text-transform: uppercase; }
+.wer-tt-title { font-family: var(--font-display), serif; font-style: italic; font-size: 17px; color: var(--text); letter-spacing: -0.01em; line-height: 1.1; margin-bottom: 3px; }
+.wer-tt-sub { font-size: 11px; color: var(--text-dim); line-height: 1.4; }
+.wer-tt-close { position: absolute; top: 5px; right: 7px; background: none; border: none; color: var(--text-faint); font-size: 15px; cursor: pointer; padding: 2px 4px; line-height: 1; }
+.wer-tt-close:hover { color: var(--text); }
 
 /* TESTIMONIALS */
 .testimonials { padding: 14px 16px; display: flex; flex-direction: column; height: auto !important; align-self: start; }
@@ -221,6 +228,11 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
 .map-tag { position: absolute; top: 8px; left: 8px; z-index: 600; display: inline-flex; align-items: center; gap: 6px; background: rgba(20,20,26,0.88); backdrop-filter: blur(10px); border: 1px solid var(--border); padding: 3px 8px; border-radius: 99px; font-family: var(--font-mono), monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); pointer-events: none; }
 
 .leaflet-stage { flex: 1; min-height: 0; width: 100%; }
+.map-review { position: absolute; bottom: 0; left: 0; right: 0; z-index: 600; background: rgba(10,10,14,0.86); backdrop-filter: blur(14px); border-top: 1px solid rgba(255,255,255,0.07); padding: 12px 16px; display: flex; flex-direction: column; gap: 5px; }
+.map-review-text { font-family: var(--font-display), serif; font-style: italic; font-size: 13px; color: var(--text); line-height: 1.45; margin: 0; }
+.map-review-meta { display: flex; align-items: center; gap: 10px; }
+.map-review-name { font-size: 10.5px; font-weight: 600; color: var(--text-dim); }
+.map-review-role { font-family: var(--font-mono), monospace; font-size: 9px; color: var(--text-faint); letter-spacing: 0.06em; }
 .leaflet-container { width: 100% !important; height: 100% !important; background: #0d0d12; }
 .leaflet-control-zoom { border: 1px solid var(--border) !important; border-radius: 8px !important; overflow: hidden; box-shadow: none !important; }
 .leaflet-control-zoom a { background: rgba(20,20,26,0.9) !important; color: var(--text-dim) !important; border-color: var(--border) !important; width: 28px !important; height: 28px !important; line-height: 28px !important; }
@@ -466,7 +478,7 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
       "con sta"
       "sta sta"
       "map git"
-      "tes stu";
+      "stu stu";
   }
   .socials { grid-template-columns: repeat(2, 1fr); }
   .leaflet-stage { min-height: 280px; }
@@ -475,7 +487,7 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
   .app { padding: 10px; gap: 8px; }
   .grid {
     grid-template-columns: 1fr;
-    grid-template-areas: "abo" "gal" "wer" "sta" "map" "git" "con" "tes" "stu";
+    grid-template-areas: "abo" "gal" "wer" "sta" "map" "git" "con" "stu";
     gap: 8px;
   }
   .socials { grid-template-columns: 1fr; gap: 8px; }

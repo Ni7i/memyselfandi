@@ -196,19 +196,18 @@ type Milestone = {
 };
 
 const WERDEGANG: Milestone[] = [
-  { year: "2014", title: "Primary School",   sub: "Rudolfstetten · Grades 1–6",              kind: "school" },
-  { year: "2020", title: "Secondary School", sub: "Aarau · Academic Track",                  kind: "school" },
-  { year: "2023", title: "IMS Baden",        sub: "IT Middle School · Started",              kind: "school" },
-  { year: "2025", title: "ICT Regios",       sub: "Regional Competition · Top 10",           kind: "win"    },
-  { year: "2025", title: "Apprenticeship",   sub: "Looking for a placement · Open now",      kind: "work"   },
-  { year: "2027", title: "IMS Graduation",   sub: "Vocational Baccalaureate · IT",           kind: "school" },
+  { year: "2014", title: "Primary School",   sub: "Rudolfstetten · Grades 1–6",         kind: "school" },
+  { year: "2020", title: "Secondary School", sub: "Aarau · Academic Track",             kind: "school" },
+  { year: "2023", title: "IMS Baden",        sub: "IT Middle School · Started",         kind: "school" },
+  { year: "2025", title: "Apprenticeship",   sub: "Looking for a placement · Open now", kind: "work"   },
+  { year: "2027", title: "IMS Graduation",   sub: "Vocational Baccalaureate · IT",      kind: "school" },
 ];
 
 function WerdegangCard() {
   const [active, setActive] = useState<number | null>(null);
 
-  // Dramatic asymmetric heights: low start → high → deep → PEAK (win) → settle → rise
-  const Y_POSITIONS = [145, 42, 158, 18, 98, 46];
+  // Dramatic curve: school grind → peak at Apprenticeship → graduation settle
+  const Y_POSITIONS = [148, 55, 168, 18, 95];
 
   const nodes = WERDEGANG.map((m, i) => {
     const x = 40 + (520 / (WERDEGANG.length - 1)) * i;
@@ -276,6 +275,11 @@ function WerdegangCard() {
               </div>
               <div className="wer-info-title">{nodes[active].title}</div>
               <div className="wer-info-sub">{nodes[active].sub}</div>
+              {nodes[active].kind === "work" && (
+                <a href="mailto:shorra.enis@hotmail.com" className="wer-cta-link">
+                  Interested? Contact me →
+                </a>
+              )}
             </>
           ) : (
             <div className="wer-info-empty">2014 → today · {WERDEGANG.length} milestones — click a node</div>
@@ -671,12 +675,11 @@ function GithubCard() {
         seed = (seed * 9301 + 49297) % 233280;
         const r = seed / 233280;
         const recency = w / 26;
-        const base = r + recency * 0.75;
-        let level = 1;
-        if (base > 0.25) level = 2;
-        if (base > 0.50) level = 3;
-        if (base > 0.72) level = 4;
-        if (r < 0.08) level = 0;
+        const base = r + recency * 0.4;
+        let level = 4;
+        if (base < 0.55) level = 3;
+        if (base < 0.3) level = 2;
+        if (r < 0.04) level = 1;
         week.push(level);
       }
       arr.push(week);
@@ -773,7 +776,6 @@ function GithubCard() {
 function TestimonialsCard() {
   return (
     <div className="card testimonials gd-tes" data-card="Reviews">
-      <div className="card-h">{I.spark}Reviews</div>
       <div className="tes-body visible">
         <p className="tes-text">&ldquo;Clean code, great planning. Stands out.&rdquo;</p>
         <div className="tes-meta">
@@ -974,13 +976,6 @@ function StuffCard() {
       items: [
         { label: "macOS", sub: "M4 Pro 16\"", icon: I.apple },
         { label: "Linux", sub: "Ryzen 7 · RTX 4070 Ti", icon: I.linux },
-      ],
-    },
-    {
-      title: "> PERIPHERALS",
-      items: [
-        { label: "MX Master 3S", sub: "Logitech · Mouse", icon: I.mouse },
-        { label: "MX Mechanical Mini", sub: "Logitech · Keyboard", icon: I.kbd },
       ],
     },
   ];

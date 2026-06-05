@@ -58,8 +58,8 @@ export default function MapClient() {
 
   return (
     <MapContainer
-      center={[36, 22]}
-      zoom={3}
+      center={[44, 20]}
+      zoom={4}
       style={{ width: "100%", height: "100%" }}
       zoomControl={false}
       attributionControl={true}

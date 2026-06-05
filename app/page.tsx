@@ -67,17 +67,30 @@ function AboutCard() {
 // ─── Gallery ─────────────────────────────────────────────────────────────────
 const GALLERY_PHOTOS = [
   { src: "/gallery/istanbul-2.jpg", full: "/gallery/istanbul-2.jpg", alt: "Taksim Camii" },
-  { src: "/gallery/istanbul-4.jpg", full: "/gallery/istanbul-4.jpg", alt: "Blue Mosque · Sultanahmet" },
+  { src: "/gallery/istanbul-4.jpg", full: "/gallery/istanbul-4.jpg", alt: "Blue Mosque" },
   { src: "/gallery/istanbul-5.jpg", full: "/gallery/istanbul-5.jpg", alt: "İstiklal Caddesi" },
+  { src: "/gallery/new-1.jpg",      full: "/gallery/new-1.jpg",      alt: "Kosovo Sunset" },
+  { src: "/gallery/new-2.jpg",      full: "/gallery/new-2.jpg",      alt: "Vierwaldstättersee" },
+  { src: "/gallery/new-3.jpg",      full: "/gallery/new-3.jpg",      alt: "Roche Tower · Basel" },
+  { src: "/gallery/new-4.jpg",      full: "/gallery/new-4.jpg",      alt: "Kütüphane" },
 ];
+
+const PHOTO_ROTATIONS = [-3.2, 2.8, -1.5, 3.5, -2.1, 4.0, -1.8];
 
 function GalleryCard() {
   const [idx, setIdx] = useState(0);
   const [open, setOpen] = useState<number | null>(null);
+  const [phase, setPhase] = useState<"in" | "out">("in");
 
   useEffect(() => {
     if (open !== null) return;
-    const t = setInterval(() => setIdx(i => (i + 1) % GALLERY_PHOTOS.length), 5000);
+    const t = setInterval(() => {
+      setPhase("out");
+      setTimeout(() => {
+        setIdx(i => (i + 1) % GALLERY_PHOTOS.length);
+        setPhase("in");
+      }, 380);
+    }, 4500);
     return () => clearInterval(t);
   }, [open]);
 
@@ -93,24 +106,27 @@ function GalleryCard() {
   }, [open]);
 
   const p = GALLERY_PHOTOS[idx];
+  const rotation = PHOTO_ROTATIONS[idx % PHOTO_ROTATIONS.length];
 
   return (
     <>
       <div className="card gallery gd-gallery" data-card="Gallery">
-        <div className="gallery-single" onClick={() => setOpen(idx)}>
+        <div className="card-h">{I.image}Gallery</div>
+        <div className="gallery-polaroid-area">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={p.src} alt={p.alt} />
-          <div className="gallery-overlay">
-            <span className="gallery-caption">{p.alt}</span>
-            <span className="gallery-open">↗</span>
+          <div
+            className={`gallery-polaroid${phase === "out" ? " fading" : ""}`}
+            style={{ transform: `rotate(${rotation}deg)` }}
+            onClick={() => setOpen(idx)}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={p.src} alt={p.alt} />
+            <div className="gallery-polaroid-caption">{p.alt}</div>
           </div>
         </div>
-        <div className="gallery-dots">
-          {GALLERY_PHOTOS.map((_, i) => (
-            <button key={i} className={`gallery-dot${i === idx ? " active" : ""}`}
-              onClick={() => setIdx(i)} aria-label={`Photo ${i + 1}`} />
-          ))}
-        </div>
+        <button className="gallery-explore" onClick={e => { e.stopPropagation(); setOpen(idx); }}>
+          Explore →
+        </button>
       </div>
 
       {open !== null && (

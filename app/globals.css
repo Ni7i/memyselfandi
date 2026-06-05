@@ -66,7 +66,7 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
   grid-template-areas:
     "abo gal wer wer"
     "abo sta map git"
-    "stu sta map con";
+    "stu sta tes con";
   gap: 8px;
   flex: 1;
   min-height: 0;
@@ -479,7 +479,7 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
       "con sta"
       "sta sta"
       "map git"
-      "stu stu";
+      "tes stu";
   }
   .socials { grid-template-columns: repeat(2, 1fr); }
   .leaflet-stage { min-height: 280px; }
@@ -488,7 +488,7 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
   .app { padding: 10px; gap: 8px; }
   .grid {
     grid-template-columns: 1fr;
-    grid-template-areas: "abo" "gal" "wer" "sta" "map" "git" "con" "stu";
+    grid-template-areas: "abo" "gal" "wer" "sta" "map" "git" "con" "tes" "stu";
     gap: 8px;
   }
   .socials { grid-template-columns: 1fr; gap: 8px; }

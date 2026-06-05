@@ -67,7 +67,6 @@ function AboutCard() {
 // ─── Gallery ─────────────────────────────────────────────────────────────────
 const GALLERY_PHOTOS = [
   { src: "/gallery/istanbul-2.jpg", full: "/gallery/istanbul-2.jpg", alt: "Taksim Camii" },
-  { src: "/gallery/istanbul-3.jpg", full: "/gallery/istanbul-3.jpg", alt: "Blue Mosque · Courtyard" },
   { src: "/gallery/istanbul-4.jpg", full: "/gallery/istanbul-4.jpg", alt: "Blue Mosque · Sultanahmet" },
   { src: "/gallery/istanbul-5.jpg", full: "/gallery/istanbul-5.jpg", alt: "İstiklal Caddesi" },
 ];

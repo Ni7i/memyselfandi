@@ -66,9 +66,10 @@ function AboutCard() {
 
 // ─── Gallery ─────────────────────────────────────────────────────────────────
 const GALLERY_PHOTOS = [
-  { src: "/gallery/1.jpg", full: "/gallery/1.jpg", alt: "Photo 1" },
-  { src: "/gallery/2.jpg", full: "/gallery/2.jpg", alt: "Photo 2" },
-  { src: "/gallery/3.jpg", full: "/gallery/3.jpg", alt: "Photo 3" },
+  { src: "/gallery/istanbul-2.jpg", full: "/gallery/istanbul-2.jpg", alt: "Taksim Camii" },
+  { src: "/gallery/istanbul-3.jpg", full: "/gallery/istanbul-3.jpg", alt: "Blue Mosque · Courtyard" },
+  { src: "/gallery/istanbul-4.jpg", full: "/gallery/istanbul-4.jpg", alt: "Blue Mosque · Sultanahmet" },
+  { src: "/gallery/istanbul-5.jpg", full: "/gallery/istanbul-5.jpg", alt: "İstiklal Caddesi" },
 ];
 
 function GalleryCard() {
@@ -143,7 +144,7 @@ type Milestone = {
 const WERDEGANG: Milestone[] = [
   { year: "2014", title: "Primarschule",         sub: "Rudolfstetten · 1.–6. Klasse",      kind: "school" },
   { year: "2020", title: "Sekundarschule",       sub: "Bezirksschule · Realgymnasialweg",  kind: "school" },
-  { year: "2023", title: "IMS Aarau",            sub: "Informatikmittelschule · Start",    kind: "school" },
+  { year: "2023", title: "IMS Baden",             sub: "Informatikmittelschule · Start",    kind: "school" },
   { year: "2025", title: "ICT Regios",           sub: "Regionalwettkampf · Top 10",        kind: "win"    },
   { year: "2026", title: "Praktikum",            sub: "Software Engineering · 1 Jahr",     kind: "work"   },
   { year: "2027", title: "IMS-Abschluss",        sub: "Berufsmatura Informatik",           kind: "school" },
@@ -152,20 +153,22 @@ const WERDEGANG: Milestone[] = [
 function WerdegangCard() {
   const [active, setActive] = useState<number | null>(null);
 
+  // Dramatic asymmetric heights: low start → high → deep → PEAK (win) → settle → rise
+  const Y_POSITIONS = [145, 42, 158, 18, 98, 46];
+
   const nodes = WERDEGANG.map((m, i) => {
     const x = 40 + (520 / (WERDEGANG.length - 1)) * i;
-    const y = i === 0 || i === WERDEGANG.length - 1
-      ? 100
-      : i % 2 === 1 ? 55 : 145;
+    const y = Y_POSITIONS[i] ?? 100;
     return { ...m, x, y };
   });
 
-  // Build smooth path through all nodes using cubic Beziers
+  // "Late-hold" cubic Beziers: path stays near prev height for 35%, then snaps to new height
   const path = nodes.reduce((acc, n, i) => {
     if (i === 0) return `M ${n.x} ${n.y}`;
     const prev = nodes[i - 1];
-    const cp1x = prev.x + (n.x - prev.x) * 0.5;
-    const cp2x = prev.x + (n.x - prev.x) * 0.5;
+    const dx = n.x - prev.x;
+    const cp1x = prev.x + dx * 0.32;
+    const cp2x = prev.x + dx * 0.68;
     return `${acc} C ${cp1x} ${prev.y}, ${cp2x} ${n.y}, ${n.x} ${n.y}`;
   }, "");
 
@@ -191,14 +194,19 @@ function WerdegangCard() {
           <path d={path} fill="none" stroke="url(#wer-grad)" strokeWidth="2" strokeLinecap="round" />
           {nodes.map((n, i) => {
             const isActive = active === i;
+            const nodeColor = n.kind === "win" ? "#ffd655" : "#ff7a2f";
+            const labelY = n.y < 85 ? n.y + 30 : n.y - 18;
             return (
               <g key={i} className={`wer-node${isActive ? " active" : ""}`}
                 onClick={() => setActive(isActive ? null : i)}
                 style={{ cursor: "pointer" }}>
-                <circle cx={n.x} cy={n.y} r="20" fill="transparent" />
-                <circle cx={n.x} cy={n.y} r={isActive ? 11 : 8} fill="#1b1b21" stroke="#ff7a2f" strokeWidth="1.6" filter="url(#wer-glow)" />
-                <circle cx={n.x} cy={n.y} r={isActive ? 4 : 2.5} fill="#ff7a2f" />
-                <text x={n.x} y={n.y < 100 ? n.y + 32 : n.y - 18} textAnchor="middle" className="wer-year">{n.year}</text>
+                <circle cx={n.x} cy={n.y} r="22" fill="transparent" />
+                {n.kind === "win" && (
+                  <circle cx={n.x} cy={n.y} r={isActive ? 18 : 14} fill="none" stroke={nodeColor} strokeWidth="0.8" strokeOpacity="0.35" strokeDasharray="3 3" />
+                )}
+                <circle cx={n.x} cy={n.y} r={isActive ? 11 : 8} fill="#1b1b21" stroke={nodeColor} strokeWidth="1.6" filter="url(#wer-glow)" />
+                <circle cx={n.x} cy={n.y} r={isActive ? 4 : 2.5} fill={nodeColor} />
+                <text x={n.x} y={labelY} textAnchor="middle" className="wer-year">{n.year}</text>
               </g>
             );
           })}
@@ -859,17 +867,6 @@ function DevicePopup({ type, onClose }: { type: "macos" | "linux"; onClose: () =
 }
 
 // ─── Stuff ────────────────────────────────────────────────────────────────────
-const TECH_GITHUB: Record<string, string> = {
-  "C#":            "https://github.com/Ni7i?tab=repositories&language=c%23",
-  "Python":        "https://github.com/Ni7i?tab=repositories&language=python",
-  "JavaScript":    "https://github.com/Ni7i?tab=repositories&language=javascript",
-  "TypeScript":    "https://github.com/Ni7i?tab=repositories&language=typescript",
-  ".NET / Blazor": "https://github.com/Ni7i?tab=repositories&language=c%23",
-  "Next.js":       "https://github.com/Ni7i/memyselfandi",
-  "React":         "https://github.com/Ni7i?tab=repositories&language=typescript",
-  "WPF":           "https://github.com/Ni7i/whiteplayer",
-};
-
 function StuffCard() {
   const [popup, setPopup] = useState<null | "macos" | "linux">(null);
 
@@ -879,7 +876,6 @@ function StuffCard() {
       items: [
         { label: "C#", sub: "primary", icon: I.cs },
         { label: "Python", icon: I.py },
-        { label: "SQL", icon: I.code },
         { label: "JavaScript", icon: I.brand },
       ],
     },
@@ -889,6 +885,7 @@ function StuffCard() {
         { label: ".NET / Blazor", icon: I.cs },
         { label: "Next.js", icon: I.code },
         { label: "React", icon: I.brand },
+        { label: "Tailwind CSS", icon: I.code },
         { label: "WPF", icon: I.windows },
       ],
     },
@@ -911,22 +908,20 @@ function StuffCard() {
   const handleClick = (label: string) => {
     if (label === "macOS") { setPopup("macos"); return; }
     if (label === "Linux") { setPopup("linux"); return; }
-    const url = TECH_GITHUB[label];
-    if (url) window.open(url, "_blank", "noopener");
   };
 
   return (
     <>
       {popup && <DevicePopup type={popup} onClose={() => setPopup(null)} />}
-      <div className="card stuff gd-stuff" data-card="Stuff I Use">
-        <div className="card-h">{I.tool}Stuff I Use</div>
+      <div className="card stuff gd-stuff" data-card="Techstack">
+        <div className="card-h">{I.tool}Techstack</div>
         {sections.map((sec) => (
           <div className="stuff-section" key={sec.title}>
             <h4>{sec.title}</h4>
             <div className="stuff-grid">
               {sec.items.map((it) => (
                 <div
-                  className={`stuff-item${TECH_GITHUB[it.label] || it.label === "macOS" || it.label === "Linux" ? " clickable" : ""}`}
+                  className={`stuff-item${it.label === "macOS" || it.label === "Linux" ? " clickable" : ""}`}
                   key={it.label}
                   onClick={e => { e.stopPropagation(); handleClick(it.label); }}
                 >

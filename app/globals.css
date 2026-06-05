@@ -61,7 +61,7 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
   grid-template-areas:
     "abo gal wer wer"
     "abo sta map git"
-    "con sta tes stu";
+    "stu sta tes con";
   gap: 8px;
   flex: 1;
   min-height: 0;

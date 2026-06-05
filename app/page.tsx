@@ -38,28 +38,48 @@ const I = {
 };
 
 // ─── About ────────────────────────────────────────────────────────────────────
+const SKILLS = ["C#", ".NET", "TypeScript", "Next.js", "Python", "WPF", "Tailwind"];
+
 function AboutCard() {
-  const ascii = `         ╱╲\n        ╱  ╲\n       ╱ ╱╲ ╲\n      ╱ ╱  ╲ ╲\n     ╱_╱____╲_╲`;
   return (
     <div className="card about gd-about" data-card="About">
+      <div className="about-status">● Available</div>
       <div className="card-h">{I.wave}About Me</div>
       <h1>Hi, I&apos;m<br /><span className="italic">Enis</span></h1>
       <p className="bio">
         17 — Kosovo roots, raised in Switzerland.
         Building with C# and TypeScript, competing in ICT, listening to Quran.
       </p>
-      <div className="loc">{I.pin} Rudolfstetten, Switzerland</div>
+      <a
+        className="loc"
+        href="https://maps.google.com/?q=Rudolfstetten,Switzerland"
+        target="_blank" rel="noopener noreferrer"
+      >
+        {I.pin}
+        <span>Rudolfstetten, Switzerland</span>
+        <span className="loc-hint">Open Maps →</span>
+      </a>
+      <div className="about-skills">
+        {SKILLS.map(s => <span key={s} className="about-skill">{s}</span>)}
+      </div>
       <div className="about-stats">
         <div className="about-stat">
           <span className="about-stat-val">17</span>
           <span className="about-stat-label">Jahre</span>
         </div>
-        <div className="about-stat">
+        <a href="https://github.com/Ni7i" target="_blank" rel="noopener noreferrer"
+          className="about-stat about-stat-link">
           <span className="about-stat-val">2+</span>
           <span className="about-stat-label">Yrs Dev</span>
-        </div>
+          <span className="about-stat-arrow">↗</span>
+        </a>
+        <a href="https://github.com/Ni7i" target="_blank" rel="noopener noreferrer"
+          className="about-stat about-stat-link">
+          <span className="about-stat-val">540+</span>
+          <span className="about-stat-label">Commits</span>
+          <span className="about-stat-arrow">↗</span>
+        </a>
       </div>
-      <pre className="about-ascii">{ascii}</pre>
     </div>
   );
 }

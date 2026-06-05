@@ -305,11 +305,11 @@ function ConstellationCard() {
     if (!canvas || !wrap) return;
     let raf = 0;
     let t = 0;
+    let lastTs = 0;
     let stopped = false;
 
     const syncSize = () => {
       const rect = wrap.getBoundingClientRect();
-      // Fallback to offsetWidth/Height (still works even when getBoundingClientRect returns 0 in some layout quirks)
       const cssW = rect.width || wrap.offsetWidth || 1;
       const cssH = rect.height || wrap.offsetHeight || 1;
       const dpr = Math.max(1, window.devicePixelRatio || 1);
@@ -326,162 +326,187 @@ function ConstellationCard() {
     obs.observe(wrap);
     window.addEventListener("resize", syncSize);
 
-    const draw = () => {
+    const draw = (ts: number) => {
       if (stopped) return;
-      syncSize();
-      const ctx = canvas.getContext("2d");
-      if (!ctx) { raf = requestAnimationFrame(draw); return; }
-      const W = canvas.width;
-      const H = canvas.height;
-      const dpr = Math.max(1, window.devicePixelRatio || 1);
+      // Delta-time: cap at 100 ms so a paused/hidden tab doesn't cause a huge jump
+      const dt = lastTs === 0 ? 0.016 : Math.min((ts - lastTs) / 1000, 0.1);
+      lastTs = ts;
+      t += dt;
 
-      // Deep-space background gradient
-      const bg = ctx.createLinearGradient(0, 0, 0, H);
-      bg.addColorStop(0, "#0b0a14");
-      bg.addColorStop(1, "#07060c");
-      ctx.fillStyle = bg;
-      ctx.fillRect(0, 0, W, H);
+      try {
+        syncSize();
+        const ctx = canvas.getContext("2d");
+        if (!ctx) { raf = requestAnimationFrame(draw); return; }
+        const W = canvas.width;
+        const H = canvas.height;
+        if (!W || !H) { raf = requestAnimationFrame(draw); return; }
+        const dpr = Math.max(1, window.devicePixelRatio || 1);
 
-      // Nebulae (soft colored clouds)
-      NEBULAE.forEach((n, i) => {
-        const cx = n.nx * W;
-        const cy = n.ny * H;
-        const r = n.r * Math.max(W, H);
-        const pulse = 1 + 0.04 * Math.sin(t * 0.4 + i);
-        const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, r * pulse);
-        grd.addColorStop(0, n.color + "55");
-        grd.addColorStop(0.45, n.color + "1a");
-        grd.addColorStop(1, "transparent");
-        ctx.fillStyle = grd;
+        // Deep-space background gradient
+        const bg = ctx.createLinearGradient(0, 0, 0, H);
+        bg.addColorStop(0, "#0b0a14");
+        bg.addColorStop(1, "#07060c");
+        ctx.fillStyle = bg;
         ctx.fillRect(0, 0, W, H);
-      });
 
-      // Background ambient stars (denser, brighter)
-      BG_STARS.forEach((s) => {
-        const sx = s.nx * W;
-        const sy = s.ny * H;
-        const tw = 0.55 + 0.45 * Math.sin(t * 0.6 + s.twinklePhase);
-        const a = Math.max(0.18, s.baseAlpha * tw);
-        ctx.beginPath();
-        ctx.arc(sx, sy, s.size * dpr, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,250,240,${a})`;
-        ctx.fill();
-        // Subtle halo on the biggest ones
-        if (s.size > 1.2) {
-          const hg = ctx.createRadialGradient(sx, sy, 0, sx, sy, s.size * 5 * dpr);
-          hg.addColorStop(0, `rgba(255,250,240,${a * 0.5})`);
-          hg.addColorStop(1, "transparent");
-          ctx.fillStyle = hg;
-          ctx.beginPath();
-          ctx.arc(sx, sy, s.size * 5 * dpr, 0, Math.PI * 2);
-          ctx.fill();
-        }
-      });
-
-      // Connection lines (same language family)
-      STAR_DATA.forEach((star, i) => {
-        STAR_DATA.forEach((other, j) => {
-          if (j <= i) return;
-          const fam = (l: string) => l.split("/")[0].trim().split(" ")[0];
-          if (fam(star.lang) !== fam(other.lang) || star.lang === "—") return;
-          const x1 = star.nx * W, y1 = star.ny * H;
-          const x2 = other.nx * W, y2 = other.ny * H;
-          ctx.beginPath();
-          ctx.moveTo(x1, y1);
-          ctx.lineTo(x2, y2);
-          ctx.strokeStyle = `${star.color}35`;
-          ctx.lineWidth = 1 * dpr;
-          ctx.stroke();
+        // Nebulae (soft colored clouds)
+        NEBULAE.forEach((n, i) => {
+          const cx = n.nx * W;
+          const cy = n.ny * H;
+          const r = n.r * Math.max(W, H);
+          const pulse = 1 + 0.04 * Math.sin(t * 0.4 + i);
+          const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, r * pulse);
+          grd.addColorStop(0, n.color + "55");
+          grd.addColorStop(0.45, n.color + "1a");
+          grd.addColorStop(1, "transparent");
+          ctx.fillStyle = grd;
+          ctx.fillRect(0, 0, W, H);
         });
-      });
 
-      // Project stars
-      STAR_DATA.forEach((star, i) => {
-        const x = star.nx * W;
-        const y = star.ny * H;
-        const twinkle = 0.85 + 0.15 * Math.sin(t * 0.9 + star.phase);
-        const isHov = hoveredRef.current === i;
-        const isSel = selected === i;
-        const baseR = (star.stars + 3) * dpr;
-        const r = baseR * (isHov || isSel ? 2.2 : 1) * twinkle;
-
-        const grd = ctx.createRadialGradient(x, y, 0, x, y, r * 5);
-        grd.addColorStop(0, star.color + "ee");
-        grd.addColorStop(0.3, star.color + "55");
-        grd.addColorStop(1, "transparent");
-        ctx.beginPath();
-        ctx.arc(x, y, r * 5, 0, Math.PI * 2);
-        ctx.fillStyle = grd;
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.arc(x, y, r, 0, Math.PI * 2);
-        ctx.fillStyle = isHov || isSel ? "#ffffff" : star.color;
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.arc(x - r * 0.25, y - r * 0.25, r * 0.35, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,255,255,${isHov || isSel ? 0.95 : 0.7})`;
-        ctx.fill();
-
-        // Diffraction spikes (only on hover/selected to keep it clean)
-        if (isHov || isSel) {
-          ctx.strokeStyle = `rgba(255,255,255,0.55)`;
-          ctx.lineWidth = 1 * dpr;
+        // Background ambient stars (denser, brighter)
+        BG_STARS.forEach((s) => {
+          const sx = s.nx * W;
+          const sy = s.ny * H;
+          const tw = 0.55 + 0.45 * Math.sin(t * 0.6 + s.twinklePhase);
+          const a = Math.max(0.18, s.baseAlpha * tw);
           ctx.beginPath();
-          ctx.moveTo(x - r * 3, y); ctx.lineTo(x + r * 3, y);
-          ctx.moveTo(x, y - r * 3); ctx.lineTo(x, y + r * 3);
-          ctx.stroke();
-        }
-      });
-
-      // Cursor dot + hover URL pill (small, on hover only when nothing selected)
-      const mouse = mouseRef.current;
-      if (mouse && selected === null) {
-        const mx = mouse.nx * W;
-        const my = mouse.ny * H;
-        ctx.beginPath();
-        ctx.arc(mx, my, 2.5 * dpr, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(255,255,255,0.28)";
-        ctx.fill();
-
-        if (hoveredRef.current !== null) {
-          const star = STAR_DATA[hoveredRef.current];
-          const label = star.name;
-          const fontSize = 11 * dpr;
-          ctx.font = `${fontSize}px monospace`;
-          const textW = ctx.measureText(label).width;
-          const padX = 11 * dpr;
-          const pillH = 24 * dpr;
-          const pillW = textW + padX * 2;
-
-          let px = mx + 14 * dpr;
-          let py = my - pillH / 2;
-          if (px + pillW > W - 4 * dpr) px = mx - pillW - 14 * dpr;
-          if (px < 4 * dpr) px = 4 * dpr;
-          if (py < 4 * dpr) py = 4 * dpr;
-          if (py + pillH > H - 4 * dpr) py = H - pillH - 4 * dpr;
-
-          ctx.fillStyle = "rgba(13,13,17,0.95)";
-          ctx.beginPath();
-          ctx.roundRect(px, py, pillW, pillH, pillH / 2);
+          ctx.arc(sx, sy, s.size * dpr, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255,250,240,${a})`;
           ctx.fill();
-          ctx.strokeStyle = `${star.color}60`;
-          ctx.lineWidth = 1 * dpr;
+          if (s.size > 1.2) {
+            const hg = ctx.createRadialGradient(sx, sy, 0, sx, sy, s.size * 5 * dpr);
+            hg.addColorStop(0, `rgba(255,250,240,${a * 0.5})`);
+            hg.addColorStop(1, "transparent");
+            ctx.fillStyle = hg;
+            ctx.beginPath();
+            ctx.arc(sx, sy, s.size * 5 * dpr, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        });
+
+        // Connection lines (same language family)
+        STAR_DATA.forEach((star, i) => {
+          STAR_DATA.forEach((other, j) => {
+            if (j <= i) return;
+            const fam = (l: string) => l.split("/")[0].trim().split(" ")[0];
+            if (fam(star.lang) !== fam(other.lang) || star.lang === "—") return;
+            const x1 = star.nx * W, y1 = star.ny * H;
+            const x2 = other.nx * W, y2 = other.ny * H;
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.strokeStyle = `${star.color}35`;
+            ctx.lineWidth = 1 * dpr;
+            ctx.stroke();
+          });
+        });
+
+        // Project stars
+        STAR_DATA.forEach((star, i) => {
+          const x = star.nx * W;
+          const y = star.ny * H;
+          const twinkle = 0.85 + 0.15 * Math.sin(t * 0.9 + star.phase);
+          const isHov = hoveredRef.current === i;
+          const isSel = selected === i;
+          const baseR = (star.stars + 3) * dpr;
+          const r = baseR * (isHov || isSel ? 2.2 : 1) * twinkle;
+
+          const grd = ctx.createRadialGradient(x, y, 0, x, y, r * 5);
+          grd.addColorStop(0, star.color + "ee");
+          grd.addColorStop(0.3, star.color + "55");
+          grd.addColorStop(1, "transparent");
           ctx.beginPath();
-          ctx.roundRect(px, py, pillW, pillH, pillH / 2);
-          ctx.stroke();
-          ctx.fillStyle = "#e8e4dc";
-          ctx.font = `${fontSize}px monospace`;
-          ctx.fillText(label, px + padX, py + pillH * 0.67);
+          ctx.arc(x, y, r * 5, 0, Math.PI * 2);
+          ctx.fillStyle = grd;
+          ctx.fill();
+
+          ctx.beginPath();
+          ctx.arc(x, y, r, 0, Math.PI * 2);
+          ctx.fillStyle = isHov || isSel ? "#ffffff" : star.color;
+          ctx.fill();
+
+          ctx.beginPath();
+          ctx.arc(x - r * 0.25, y - r * 0.25, r * 0.35, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255,255,255,${isHov || isSel ? 0.95 : 0.7})`;
+          ctx.fill();
+
+          if (isHov || isSel) {
+            ctx.strokeStyle = `rgba(255,255,255,0.55)`;
+            ctx.lineWidth = 1 * dpr;
+            ctx.beginPath();
+            ctx.moveTo(x - r * 3, y); ctx.lineTo(x + r * 3, y);
+            ctx.moveTo(x, y - r * 3); ctx.lineTo(x, y + r * 3);
+            ctx.stroke();
+          }
+        });
+
+        // Cursor dot + hover name pill
+        const mouse = mouseRef.current;
+        if (mouse && selected === null) {
+          const mx = mouse.nx * W;
+          const my = mouse.ny * H;
+          ctx.beginPath();
+          ctx.arc(mx, my, 2.5 * dpr, 0, Math.PI * 2);
+          ctx.fillStyle = "rgba(255,255,255,0.28)";
+          ctx.fill();
+
+          if (hoveredRef.current !== null) {
+            const star = STAR_DATA[hoveredRef.current];
+            const label = star.name;
+            const fontSize = 11 * dpr;
+            ctx.font = `${fontSize}px monospace`;
+            const textW = ctx.measureText(label).width;
+            const padX = 11 * dpr;
+            const pillH = 24 * dpr;
+            const pillW = textW + padX * 2;
+
+            let px = mx + 14 * dpr;
+            let py = my - pillH / 2;
+            if (px + pillW > W - 4 * dpr) px = mx - pillW - 14 * dpr;
+            if (px < 4 * dpr) px = 4 * dpr;
+            if (py < 4 * dpr) py = 4 * dpr;
+            if (py + pillH > H - 4 * dpr) py = H - pillH - 4 * dpr;
+
+            ctx.fillStyle = "rgba(13,13,17,0.95)";
+            ctx.beginPath();
+            if (typeof ctx.roundRect === "function") {
+              ctx.roundRect(px, py, pillW, pillH, pillH / 2);
+            } else {
+              ctx.rect(px, py, pillW, pillH);
+            }
+            ctx.fill();
+            ctx.strokeStyle = `${star.color}60`;
+            ctx.lineWidth = 1 * dpr;
+            ctx.beginPath();
+            if (typeof ctx.roundRect === "function") {
+              ctx.roundRect(px, py, pillW, pillH, pillH / 2);
+            } else {
+              ctx.rect(px, py, pillW, pillH);
+            }
+            ctx.stroke();
+            ctx.fillStyle = "#e8e4dc";
+            ctx.font = `${fontSize}px monospace`;
+            ctx.fillText(label, px + padX, py + pillH * 0.67);
+          }
         }
+      } catch {
+        // never let a draw error kill the loop
       }
 
-      t += 0.016;
       raf = requestAnimationFrame(draw);
     };
 
     raf = requestAnimationFrame(draw);
+
+    // Restart the loop whenever the tab becomes visible again
+    const onVisible = () => {
+      if (!document.hidden && !stopped) {
+        cancelAnimationFrame(raf);
+        lastTs = 0;
+        raf = requestAnimationFrame(draw);
+      }
+    };
+    document.addEventListener("visibilitychange", onVisible);
 
     const onMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
@@ -512,6 +537,7 @@ function ConstellationCard() {
       stopped = true;
       obs.disconnect();
       window.removeEventListener("resize", syncSize);
+      document.removeEventListener("visibilitychange", onVisible);
       cancelAnimationFrame(raf);
       canvas.removeEventListener("mousemove", onMove);
       canvas.removeEventListener("mouseleave", onLeave);

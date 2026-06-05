@@ -663,13 +663,6 @@ function MapCard({ countries: _ }: { countries: Record<string, number> }) {
     <div className="card map gd-map" data-card="Map">
       <div className="map-tag">Switzerland · Home</div>
       <div className="leaflet-stage"><LeafletMap /></div>
-      <div className="map-review">
-        <p className="map-review-text">&ldquo;Clean code, great planning. Stands out.&rdquo;</p>
-        <div className="map-review-meta">
-          <span className="map-review-name">Mr. Schneider</span>
-          <span className="map-review-role">Teacher · IMS Baden</span>
-        </div>
-      </div>
     </div>
   );
 }
@@ -1281,6 +1274,7 @@ export default function Home() {
             <MapCard countries={{}} />
             <GithubCard />
             <ContactCard />
+            <TestimonialsCard />
             <StuffCard />
             <LightningOverlay />
           </div>

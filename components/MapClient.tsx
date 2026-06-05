@@ -1,11 +1,22 @@
 "use client";
 
 import { useEffect } from "react";
-import { MapContainer, TileLayer, Marker, Popup, ZoomControl } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, ZoomControl, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { galleryPhotos } from "@/lib/data";
 import type { GalleryPhoto } from "@/lib/data";
+
+function MapInvalidator() {
+  const map = useMap();
+  useEffect(() => {
+    const t = setTimeout(() => map.invalidateSize(), 100);
+    const obs = new ResizeObserver(() => map.invalidateSize());
+    obs.observe(map.getContainer());
+    return () => { clearTimeout(t); obs.disconnect(); };
+  }, [map]);
+  return null;
+}
 
 const HOME: [number, number] = [47.3636, 8.3856];
 
@@ -54,6 +65,7 @@ export default function MapClient() {
       attributionControl={true}
       scrollWheelZoom={false}
     >
+      <MapInvalidator />
       <ZoomControl position="bottomright" />
       <TileLayer
         url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"

@@ -43,12 +43,13 @@ const SKILLS = ["C#", ".NET", "TypeScript", "Next.js", "Python", "WPF", "Tailwin
 function AboutCard() {
   return (
     <div className="card about gd-about" data-card="About">
-      <div className="about-status">● Available</div>
+      <div className="about-status">● Available for Apprenticeship</div>
       <div className="card-h">{I.wave}About Me</div>
       <h1>Hi, I&apos;m<br /><span className="italic">Enis</span></h1>
       <p className="bio">
-        17 — Kosovo roots, raised in Switzerland.
-        Building with C# and TypeScript, competing in ICT, listening to Quran.
+        17 · Kosovo roots, raised in Switzerland.
+        I write C# and TypeScript every single day — clean code, strong OOP,
+        obsessed with UI. Competing in ICT, listening to Quran.
       </p>
       <a
         className="loc"
@@ -59,13 +60,22 @@ function AboutCard() {
         <span>Rudolfstetten, Switzerland</span>
         <span className="loc-hint">Open Maps →</span>
       </a>
+      <a
+        className="about-currently"
+        href="https://stock-rendite.vercel.app/"
+        target="_blank" rel="noopener noreferrer"
+      >
+        <span className="about-currently-label">building →</span>
+        <span className="about-currently-val">Stock Rendite · C# / .NET / Blazor</span>
+        <span className="about-currently-hint">↗</span>
+      </a>
       <div className="about-skills">
         {SKILLS.map(s => <span key={s} className="about-skill">{s}</span>)}
       </div>
       <div className="about-stats">
         <div className="about-stat">
           <span className="about-stat-val">17</span>
-          <span className="about-stat-label">Jahre</span>
+          <span className="about-stat-label">Age</span>
         </div>
         <a href="https://github.com/Ni7i" target="_blank" rel="noopener noreferrer"
           className="about-stat about-stat-link">
@@ -144,6 +154,15 @@ function GalleryCard() {
             <div className="gallery-polaroid-caption">{p.alt}</div>
           </div>
         </div>
+        <div className="gallery-dots">
+          {GALLERY_PHOTOS.map((_, i) => (
+            <button
+              key={i}
+              className={`gallery-dot${i === idx ? " active" : ""}`}
+              onClick={e => { e.stopPropagation(); setPhase("out"); setTimeout(() => { setIdx(i); setPhase("in"); }, 300); }}
+            />
+          ))}
+        </div>
         <button className="gallery-explore" onClick={e => { e.stopPropagation(); setOpen(idx); }}>
           Explore →
         </button>
@@ -177,12 +196,12 @@ type Milestone = {
 };
 
 const WERDEGANG: Milestone[] = [
-  { year: "2014", title: "Primarschule",         sub: "Rudolfstetten · 1.–6. Klasse",      kind: "school" },
-  { year: "2020", title: "Sekundarschule",       sub: "Bezirksschule · Realgymnasialweg",  kind: "school" },
-  { year: "2023", title: "IMS Baden",             sub: "Informatikmittelschule · Start",    kind: "school" },
-  { year: "2025", title: "ICT Regios",           sub: "Regionalwettkampf · Top 10",        kind: "win"    },
-  { year: "2026", title: "Praktikum",            sub: "Software Engineering · 1 Jahr",     kind: "work"   },
-  { year: "2027", title: "IMS-Abschluss",        sub: "Berufsmatura Informatik",           kind: "school" },
+  { year: "2014", title: "Primary School",   sub: "Rudolfstetten · Grades 1–6",              kind: "school" },
+  { year: "2020", title: "Secondary School", sub: "Aarau · Academic Track",                  kind: "school" },
+  { year: "2023", title: "IMS Baden",        sub: "IT Middle School · Started",              kind: "school" },
+  { year: "2025", title: "ICT Regios",       sub: "Regional Competition · Top 10",           kind: "win"    },
+  { year: "2025", title: "Apprenticeship",   sub: "Looking for a placement · Open now",      kind: "work"   },
+  { year: "2027", title: "IMS Graduation",   sub: "Vocational Baccalaureate · IT",           kind: "school" },
 ];
 
 function WerdegangCard() {
@@ -208,18 +227,18 @@ function WerdegangCard() {
   }, "");
 
   return (
-    <div className="card werdegang gd-werdegang" data-card="Werdegang">
+    <div className="card werdegang gd-werdegang" data-card="Timeline">
       <div className="card-h">
-        {I.compass}Werdegang
+        {I.compass}Timeline
         <span className="wer-hint">click a milestone</span>
       </div>
       <div className="wer-stage">
         <svg className="wer-svg" viewBox="0 0 600 200" preserveAspectRatio="none">
           <defs>
             <linearGradient id="wer-grad" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stopColor="#ff7a2f" stopOpacity="0.15" />
-              <stop offset="50%" stopColor="#ff7a2f" stopOpacity="0.55" />
-              <stop offset="100%" stopColor="#ff7a2f" stopOpacity="0.15" />
+              <stop offset="0%" stopColor="#8aaec8" stopOpacity="0.1" />
+              <stop offset="50%" stopColor="#8aaec8" stopOpacity="0.4" />
+              <stop offset="100%" stopColor="#8aaec8" stopOpacity="0.1" />
             </linearGradient>
             <filter id="wer-glow">
               <feGaussianBlur stdDeviation="2.5" result="b" />
@@ -229,7 +248,7 @@ function WerdegangCard() {
           <path d={path} fill="none" stroke="url(#wer-grad)" strokeWidth="2" strokeLinecap="round" />
           {nodes.map((n, i) => {
             const isActive = active === i;
-            const nodeColor = n.kind === "win" ? "#ffd655" : "#ff7a2f";
+            const nodeColor = n.kind === "win" ? "#ffd655" : n.kind === "work" ? "#f08e7f" : "#7a9ec4";
             const labelY = n.y < 85 ? n.y + 30 : n.y - 18;
             return (
               <g key={i} className={`wer-node${isActive ? " active" : ""}`}
@@ -252,14 +271,14 @@ function WerdegangCard() {
               <div className="wer-info-year">
                 {nodes[active].year}
                 <span className={`wer-kind k-${nodes[active].kind}`}>
-                  {nodes[active].kind === "school" ? "Schule" : nodes[active].kind === "work" ? "Beruf" : "Wettkampf"}
+                  {nodes[active].kind === "school" ? "School" : nodes[active].kind === "work" ? "Career" : "Competition"}
                 </span>
               </div>
               <div className="wer-info-title">{nodes[active].title}</div>
               <div className="wer-info-sub">{nodes[active].sub}</div>
             </>
           ) : (
-            <div className="wer-info-empty">2014 → heute · {WERDEGANG.length} Stationen — klick einen Punkt</div>
+            <div className="wer-info-empty">2014 → today · {WERDEGANG.length} milestones — click a node</div>
           )}
         </div>
       </div>
@@ -753,13 +772,13 @@ function GithubCard() {
 // ─── Testimonials ─────────────────────────────────────────────────────────────
 function TestimonialsCard() {
   return (
-    <div className="card testimonials gd-tes" data-card="Testimonials">
-      <div className="card-h">{I.spark}Stimmen</div>
+    <div className="card testimonials gd-tes" data-card="Reviews">
+      <div className="card-h">{I.spark}Reviews</div>
       <div className="tes-body visible">
-        <p className="tes-text">&ldquo;Gute Planung und saubere Arbeitsart.&rdquo;</p>
+        <p className="tes-text">&ldquo;Clean code, great planning. Stands out.&rdquo;</p>
         <div className="tes-meta">
-          <span className="tes-name">Herr Schneider</span>
-          <span className="tes-role">Lehrperson · IMS Aarau</span>
+          <span className="tes-name">Mr. Schneider</span>
+          <span className="tes-role">Teacher · IMS Baden</span>
         </div>
       </div>
     </div>
@@ -775,25 +794,25 @@ function ContactCard() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const sub = encodeURIComponent(`Kontakt von ${name}`);
-    const body = encodeURIComponent(`Von: ${name}\nE-Mail: ${email}\n\n${msg}`);
+    const sub = encodeURIComponent(`Message from ${name}`);
+    const body = encodeURIComponent(`From: ${name}\nEmail: ${email}\n\n${msg}`);
     window.open(`mailto:enis.shorra3@hotmail.com?subject=${sub}&body=${body}`);
     setSent(true);
     setTimeout(() => { setName(""); setEmail(""); setMsg(""); setSent(false); }, 4000);
   };
 
   return (
-    <div className="card contact gd-board" data-card="Kontakt">
-      <div className="card-h">{I.mail}Kontakt</div>
+    <div className="card contact gd-board" data-card="Contact">
+      <div className="card-h">{I.mail}Contact</div>
       {sent ? (
-        <div className="contact-sent">Danke — E-Mail wird geöffnet.</div>
+        <div className="contact-sent">Thanks — email client will open.</div>
       ) : (
         <form className="contact-form" onSubmit={handleSubmit} onClick={e => e.stopPropagation()}>
           <input value={name} onChange={e => setName(e.target.value)} placeholder="Name" required />
-          <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="E-Mail" required />
-          <textarea value={msg} onChange={e => setMsg(e.target.value)} placeholder="Nachricht…" required rows={2} />
+          <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" required />
+          <textarea value={msg} onChange={e => setMsg(e.target.value)} placeholder="Message…" required rows={2} />
           <button type="submit">
-            <span className="btn-icon">{I.send}</span>Senden
+            <span className="btn-icon">{I.send}</span>Send
           </button>
         </form>
       )}

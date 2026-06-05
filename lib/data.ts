@@ -163,16 +163,6 @@ export const galleryPhotos: GalleryPhoto[] = [
     date: "2025",
   },
   {
-    id: "blue-mosque-courtyard",
-    src: "/gallery/istanbul-3.jpg",
-    thumb: "/gallery/istanbul-3.jpg",
-    title: "Blue Mosque · Courtyard",
-    location: "Istanbul, Turkey",
-    lat: 41.0054,
-    lng: 28.9768,
-    date: "2025",
-  },
-  {
     id: "blue-mosque-exterior",
     src: "/gallery/istanbul-4.jpg",
     thumb: "/gallery/istanbul-4.jpg",

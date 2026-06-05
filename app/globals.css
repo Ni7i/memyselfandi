@@ -191,8 +191,8 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
 .wer-cta-link:hover { letter-spacing: 0.14em; }
 
 /* TESTIMONIALS */
-.testimonials { padding: 14px 16px; display: flex; flex-direction: column; }
-.tes-body { flex: 1; display: flex; flex-direction: column; justify-content: center; opacity: 0; transition: opacity 0.3s ease; gap: 10px; }
+.testimonials { padding: 14px 16px; display: flex; flex-direction: column; height: auto !important; align-self: start; }
+.tes-body { display: flex; flex-direction: column; gap: 10px; opacity: 0; transition: opacity 0.3s ease; }
 .tes-body.visible { opacity: 1; }
 .tes-text { font-family: var(--font-display), serif; font-style: italic; font-size: 13px; color: var(--text); line-height: 1.45; margin: 0; }
 .tes-meta { display: flex; flex-direction: column; gap: 2px; }

@@ -37,142 +37,6 @@ const I = {
   eye:     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>,
 };
 
-// ─── Quran Tile Pattern ──────────────────────────────────────────────────────
-function QuranTilePattern({ variant }: { variant: string }) {
-  const patterns: Record<string, React.ReactNode> = {
-    star8: (
-      <svg viewBox="-50 -50 100 100" preserveAspectRatio="xMidYMid meet">
-        <g fill="none" stroke="#fff" strokeWidth="0.4">
-          <polygon points="0,-40 11,-11 40,0 11,11 0,40 -11,11 -40,0 -11,-11" />
-          <polygon points="0,-30 8,-8 30,0 8,8 0,30 -8,8 -30,0 -8,-8" />
-          <circle r="22" /><circle r="14" /><circle r="8" />
-        </g>
-      </svg>
-    ),
-    rings: (
-      <svg viewBox="-50 -50 100 100">
-        <g fill="none" stroke="#fff" strokeWidth="0.35">
-          {[8, 16, 24, 32, 40].map((r, i) => <circle key={i} r={r} />)}
-          {[0, 45, 90, 135].map((a, i) => {
-            const rad = (a * Math.PI) / 180;
-            return <line key={i} x1={-44 * Math.cos(rad)} y1={-44 * Math.sin(rad)} x2={44 * Math.cos(rad)} y2={44 * Math.sin(rad)} />;
-          })}
-        </g>
-      </svg>
-    ),
-    weave: (
-      <svg viewBox="-50 -50 100 100">
-        <g fill="none" stroke="#fff" strokeWidth="0.35">
-          {[-30, -10, 10, 30].map((y, i) => <path key={i} d={`M -50 ${y} Q -25 ${y - 8}, 0 ${y} T 50 ${y}`} />)}
-          {[-30, -10, 10, 30].map((x, i) => <path key={i} d={`M ${x} -50 Q ${x - 8} -25, ${x} 0 T ${x} 50`} />)}
-        </g>
-      </svg>
-    ),
-    grid: (
-      <svg viewBox="-50 -50 100 100">
-        <g fill="none" stroke="#fff" strokeWidth="0.3">
-          <polygon points="0,-44 38,-22 38,22 0,44 -38,22 -38,-22" />
-          <polygon points="0,-22 19,-11 19,11 0,22 -19,11 -19,-11" />
-          {[0, 60, 120, 180, 240, 300].map((a, i) => {
-            const rad = (a * Math.PI) / 180;
-            return <line key={i} x1={0} y1={0} x2={44 * Math.cos(rad)} y2={44 * Math.sin(rad)} />;
-          })}
-        </g>
-      </svg>
-    ),
-    bloom: (
-      <svg viewBox="-50 -50 100 100">
-        <g fill="none" stroke="#fff" strokeWidth="0.35">
-          {Array.from({ length: 8 }).map((_, i) => {
-            const a = (i * 45 * Math.PI) / 180;
-            return <ellipse key={i} cx={20 * Math.cos(a)} cy={20 * Math.sin(a)} rx="20" ry="8" transform={`rotate(${i * 45} ${20 * Math.cos(a)} ${20 * Math.sin(a)})`} />;
-          })}
-          <circle r="6" />
-        </g>
-      </svg>
-    ),
-    minimal: (
-      <svg viewBox="-50 -50 100 100">
-        <g fill="none" stroke="#fff" strokeWidth="0.4">
-          <rect x="-40" y="-40" width="80" height="80" />
-          <rect x="-30" y="-30" width="60" height="60" transform="rotate(45)" />
-          <circle r="22" />
-        </g>
-      </svg>
-    ),
-  };
-  return <div className="pattern">{patterns[variant] ?? patterns.star8}</div>;
-}
-
-// ─── Quran View ──────────────────────────────────────────────────────────────
-function QuranView({ onClose }: { onClose: () => void }) {
-  const [filter, setFilter] = useState<"surahs" | "reciters">("surahs");
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [onClose]);
-
-  const surahs = [
-    { num: "01", tr: "Al-Fātiḥah",   reciter: "M. Ayyub",     pat: "star8",   c: 7,  size: "tall"  },
-    { num: "67", tr: "Al-Mulk",      reciter: "Y. Al-Dosari", pat: "rings",   c: 1,  size: "tall"  },
-    { num: "55", tr: "Ar-Raḥmān",    reciter: "M. Ayyub",     pat: "bloom",   c: 2,  size: "mid"   },
-    { num: "18", tr: "Al-Kahf",      reciter: "Ali Jabir",    pat: "weave",   c: 3,  size: "tall"  },
-    { num: "02", tr: "Al-Baqarah",   reciter: "Y. Al-Dosari", pat: "grid",    c: 6,  size: "mid"   },
-    { num: "36", tr: "Yā-Sīn",       reciter: "M. Ayyub",     pat: "star8",   c: 8,  size: "short" },
-    { num: "112",tr: "Al-Ikhlāṣ",    reciter: "Ali Jabir",    pat: "minimal", c: 9,  size: "short" },
-    { num: "113",tr: "Al-Falaq",     reciter: "Ali Jabir",    pat: "rings",   c: 10, size: "wide"  },
-    { num: "114",tr: "An-Nās",       reciter: "Ali Jabir",    pat: "minimal", c: 6,  size: "short" },
-    { num: "78", tr: "An-Naba'",     reciter: "Y. Al-Dosari", pat: "weave",   c: 4,  size: "tall"  },
-    { num: "56", tr: "Al-Wāqi'ah",   reciter: "M. Ayyub",     pat: "bloom",   c: 5,  size: "mid"   },
-    { num: "12", tr: "Yūsuf",        reciter: "M. Ayyub",     pat: "grid",    c: 1,  size: "mid"   },
-    { num: "19", tr: "Maryam",       reciter: "Y. Al-Dosari", pat: "rings",   c: 3,  size: "tall"  },
-    { num: "20", tr: "Ṭā-Hā",        reciter: "M. Ayyub",     pat: "star8",   c: 9,  size: "short" },
-    { num: "32", tr: "As-Sajdah",    reciter: "Ali Jabir",    pat: "weave",   c: 2,  size: "mid"   },
-    { num: "44", tr: "Ad-Dukhān",    reciter: "Y. Al-Dosari", pat: "grid",    c: 5,  size: "short" },
-    { num: "76", tr: "Al-Insān",     reciter: "M. Ayyub",     pat: "bloom",   c: 7,  size: "mid"   },
-    { num: "85", tr: "Al-Burūj",     reciter: "Ali Jabir",    pat: "minimal", c: 10, size: "short" },
-    { num: "97", tr: "Al-Qadr",      reciter: "Y. Al-Dosari", pat: "star8",   c: 4,  size: "short" },
-    { num: "99", tr: "Az-Zalzalah",  reciter: "M. Ayyub",     pat: "rings",   c: 8,  size: "wide"  },
-  ];
-
-  const reciters = [
-    { num: "01", tr: "Muhammad Ayyub",        reciter: "Madinah", pat: "rings",   c: 5, size: "tall"  },
-    { num: "02", tr: "Yasser Al-Dosari",      reciter: "Makkah",  pat: "star8",   c: 2, size: "mid"   },
-    { num: "03", tr: "Ali Jabir",             reciter: "Madinah", pat: "bloom",   c: 7, size: "tall"  },
-    { num: "04", tr: "Abdurrahman As-Sudais", reciter: "Makkah",  pat: "weave",   c: 1, size: "mid"   },
-    { num: "05", tr: "Sa'ad Al-Ghamidi",      reciter: "Makkah",  pat: "grid",    c: 4, size: "short" },
-    { num: "06", tr: "Maher Al-Muaiqly",      reciter: "Makkah",  pat: "minimal", c: 8, size: "short" },
-  ];
-
-  const data = filter === "surahs" ? surahs : reciters;
-
-  return (
-    <div className="quran-view">
-      <button className="qv-home" onClick={onClose} aria-label="Go home">{I.home}</button>
-      <div className="qv-toolbar">
-        <div className="qv-pills">
-          <button className={filter === "surahs" ? "active" : ""} onClick={() => setFilter("surahs")}>Surahs</button>
-          <button className={filter === "reciters" ? "active" : ""} onClick={() => setFilter("reciters")}>Reciters</button>
-        </div>
-      </div>
-      <div className="qv-grid">
-        {data.map((s, i) => (
-          <div key={`${filter}-${s.num}`} className={`qv-tile c-${s.c} t-${s.size}`} style={{ animationDelay: `${i * 35}ms` }}>
-            <div className="inner">
-              <QuranTilePattern variant={s.pat} />
-              <span className="num">Surah · {s.num}</span>
-              <div className="tr">{s.tr}</div>
-              <span className="reciter">{s.reciter}</span>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 // ─── About ────────────────────────────────────────────────────────────────────
 function AboutCard() {
   const ascii = `         ╱╲\n        ╱  ╲\n       ╱ ╱╲ ╲\n      ╱ ╱  ╲ ╲\n     ╱_╱____╲_╲`;
@@ -268,135 +132,93 @@ function GalleryCard() {
   );
 }
 
-// ─── Reciting / Now Playing ───────────────────────────────────────────────────
-const RECITERS = [
-  {
-    name: "Muhammad Ayyub",
-    mosque: "Al-Nabawi · Madinah",
-    surahs: [{ tr: "Al-Mulk", num: "67" }, { tr: "Al-Wāqiʿah", num: "56" }, { tr: "An-Naba'", num: "78" }],
-    bg: "linear-gradient(135deg, #1e3a2a 0%, #0d1f16 100%)",
-    thumbBg: "#2a4a3a",
-  },
-  {
-    name: "Yasser Al-Dosari",
-    mosque: "King Khalid · Riyadh",
-    surahs: [{ tr: "Ar-Raḥmān", num: "55" }, { tr: "Al-Baqarah", num: "2" }, { tr: "Al-Kahf", num: "18" }],
-    bg: "linear-gradient(135deg, #1e2a3a 0%, #0d1520 100%)",
-    thumbBg: "#2a3a4a",
-  },
-  {
-    name: "Ali Jabir",
-    mosque: "Al-Haram · Makkah",
-    surahs: [{ tr: "Al-Fātiḥah", num: "1" }, { tr: "Al-Ikhlāṣ", num: "112" }, { tr: "As-Sajdah", num: "32" }],
-    bg: "linear-gradient(135deg, #3a1e1e 0%, #200d0d 100%)",
-    thumbBg: "#4a2a2a",
-  },
-  {
-    name: "Maher Al-Muaiqly",
-    mosque: "Al-Haram · Makkah",
-    surahs: [{ tr: "Yā-Sīn", num: "36" }, { tr: "Al-Mulk", num: "67" }, { tr: "Al-Fātiḥah", num: "1" }],
-    bg: "linear-gradient(135deg, #2a1e3a 0%, #160d20 100%)",
-    thumbBg: "#3a2a4a",
-  },
+// ─── Werdegang (Career Timeline) ──────────────────────────────────────────────
+type Milestone = {
+  year: string;
+  title: string;
+  sub: string;
+  kind: "school" | "work" | "win";
+};
+
+const WERDEGANG: Milestone[] = [
+  { year: "2014", title: "Primarschule",         sub: "Rudolfstetten · 1.–6. Klasse",      kind: "school" },
+  { year: "2020", title: "Sekundarschule",       sub: "Bezirksschule · Realgymnasialweg",  kind: "school" },
+  { year: "2023", title: "IMS Aarau",            sub: "Informatikmittelschule · Start",    kind: "school" },
+  { year: "2025", title: "ICT Regios",           sub: "Regionalwettkampf · Top 10",        kind: "win"    },
+  { year: "2026", title: "Praktikum",            sub: "Software Engineering · 1 Jahr",     kind: "work"   },
+  { year: "2027", title: "IMS-Abschluss",        sub: "Berufsmatura Informatik",           kind: "school" },
 ];
 
-interface NowPlaying {
-  playing: boolean;
-  track?: { name: string; artist: string; album: string; image: string; url: string };
-}
+function WerdegangCard() {
+  const [active, setActive] = useState<number | null>(null);
 
-function useLastFm(): NowPlaying {
-  const [data, setData] = useState<NowPlaying>({ playing: false });
-  useEffect(() => {
-    const poll = () => {
-      fetch("/api/lastfm")
-        .then(r => r.json())
-        .then((d: NowPlaying) => setData(d))
-        .catch(() => {});
-    };
-    poll();
-    const t = setInterval(poll, 30_000);
-    return () => clearInterval(t);
-  }, []);
-  return data;
-}
+  const nodes = WERDEGANG.map((m, i) => {
+    const x = 40 + (520 / (WERDEGANG.length - 1)) * i;
+    const y = i === 0 || i === WERDEGANG.length - 1
+      ? 100
+      : i % 2 === 1 ? 55 : 145;
+    return { ...m, x, y };
+  });
 
-function RecitingCard({ onOpen }: { onOpen: () => void }) {
-  const [idx, setIdx] = useState(0);
-  const lastfm = useLastFm();
-
-  useEffect(() => {
-    if (lastfm.playing) return;
-    const t = setInterval(() => setIdx(i => (i + 1) % RECITERS.length), 6000);
-    return () => clearInterval(t);
-  }, [lastfm.playing]);
-
-  const r = RECITERS[idx];
-
-  if (lastfm.playing && lastfm.track) {
-    const t = lastfm.track;
-    return (
-      <div className="card reciting gd-reciting" data-card="Now Playing">
-        <div className="card-h">
-          {I.music}What I&apos;m Hearing
-          <span className="np-badge">live</span>
-        </div>
-        <a className="rec-art np-art" href={t.url} target="_blank" rel="noopener noreferrer"
-          style={{ backgroundImage: t.image ? `url(${t.image})` : undefined }}
-          onClick={e => e.stopPropagation()}>
-          {!t.image && <div className="np-art-placeholder">{I.music}</div>}
-          <div className="rec-art-overlay">
-            <div className="rec-name-big">{t.name}</div>
-            <div className="rec-mosque-label">{t.artist}</div>
-          </div>
-        </a>
-        <div className="np-meta"><span className="np-album">{t.album || "—"}</span></div>
-        <div className="rec-thumbs">
-          {RECITERS.map((rc, i) => (
-            <div key={i} className={`rec-thumb${i === idx ? " active" : ""}`}
-              style={{ background: rc.thumbBg }}
-              onClick={e => { e.stopPropagation(); onOpen(); }}
-              title={rc.name}>
-              <span className="rec-thumb-init">{rc.name.split(" ").slice(0, 2).map(w => w[0]).join("")}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
+  // Build smooth path through all nodes using cubic Beziers
+  const path = nodes.reduce((acc, n, i) => {
+    if (i === 0) return `M ${n.x} ${n.y}`;
+    const prev = nodes[i - 1];
+    const cp1x = prev.x + (n.x - prev.x) * 0.5;
+    const cp2x = prev.x + (n.x - prev.x) * 0.5;
+    return `${acc} C ${cp1x} ${prev.y}, ${cp2x} ${n.y}, ${n.x} ${n.y}`;
+  }, "");
 
   return (
-    <div className="card reciting gd-reciting" data-card="What I'm Hearing" onClick={onOpen}>
-      <div className="card-h">{I.music}What I&apos;m Hearing</div>
-      <div className="rec-art" style={{ background: r.bg }}>
-        <div className="rec-art-pattern">
-          <svg viewBox="0 0 200 200" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" opacity="0.07">
-            {[20,40,60,80,100].map(r2 => <circle key={r2} cx="100" cy="160" r={r2} fill="none" stroke="#fff" strokeWidth="1"/>)}
-            {[0,30,60,90,120,150].map((a,i) => {
-              const rad = a * Math.PI / 180;
-              return <line key={i} x1="100" y1="160" x2={100 + 110*Math.cos(rad)} y2={160 + 110*Math.sin(rad)} stroke="#fff" strokeWidth="0.5"/>;
-            })}
-          </svg>
-        </div>
-        <div className="rec-art-overlay">
-          <div className="rec-name-big">{r.name}</div>
-          <div className="rec-mosque-label">{r.mosque}</div>
-        </div>
+    <div className="card werdegang gd-werdegang" data-card="Werdegang">
+      <div className="card-h">
+        {I.compass}Werdegang
+        <span className="wer-hint">click a milestone</span>
       </div>
-      <div className="rec-chips">
-        {r.surahs.map(s => (
-          <span key={s.num} className="rec-chip">{s.tr}<span className="rec-chip-num"> · {s.num}</span></span>
-        ))}
-      </div>
-      <div className="rec-thumbs">
-        {RECITERS.map((rc, i) => (
-          <div key={i} className={`rec-thumb${i === idx ? " active" : ""}`}
-            style={{ background: rc.thumbBg }}
-            onClick={e => { e.stopPropagation(); setIdx(i); }}
-            title={rc.name}>
-            <span className="rec-thumb-init">{rc.name.split(" ").slice(0, 2).map(w => w[0]).join("")}</span>
-          </div>
-        ))}
+      <div className="wer-stage">
+        <svg className="wer-svg" viewBox="0 0 600 200" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="wer-grad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#ff7a2f" stopOpacity="0.15" />
+              <stop offset="50%" stopColor="#ff7a2f" stopOpacity="0.55" />
+              <stop offset="100%" stopColor="#ff7a2f" stopOpacity="0.15" />
+            </linearGradient>
+            <filter id="wer-glow">
+              <feGaussianBlur stdDeviation="2.5" result="b" />
+              <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+            </filter>
+          </defs>
+          <path d={path} fill="none" stroke="url(#wer-grad)" strokeWidth="2" strokeLinecap="round" />
+          {nodes.map((n, i) => {
+            const isActive = active === i;
+            return (
+              <g key={i} className={`wer-node${isActive ? " active" : ""}`}
+                onClick={() => setActive(isActive ? null : i)}
+                style={{ cursor: "pointer" }}>
+                <circle cx={n.x} cy={n.y} r="20" fill="transparent" />
+                <circle cx={n.x} cy={n.y} r={isActive ? 11 : 8} fill="#1b1b21" stroke="#ff7a2f" strokeWidth="1.6" filter="url(#wer-glow)" />
+                <circle cx={n.x} cy={n.y} r={isActive ? 4 : 2.5} fill="#ff7a2f" />
+                <text x={n.x} y={n.y < 100 ? n.y + 32 : n.y - 18} textAnchor="middle" className="wer-year">{n.year}</text>
+              </g>
+            );
+          })}
+        </svg>
+        <div className="wer-info">
+          {active !== null ? (
+            <>
+              <div className="wer-info-year">
+                {nodes[active].year}
+                <span className={`wer-kind k-${nodes[active].kind}`}>
+                  {nodes[active].kind === "school" ? "Schule" : nodes[active].kind === "work" ? "Beruf" : "Wettkampf"}
+                </span>
+              </div>
+              <div className="wer-info-title">{nodes[active].title}</div>
+              <div className="wer-info-sub">{nodes[active].sub}</div>
+            </>
+          ) : (
+            <div className="wer-info-empty">2014 → heute · {WERDEGANG.length} Stationen — klick einen Punkt</div>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -441,26 +263,52 @@ const STAR_DATA = REPOS.map((r, i) => {
   };
 });
 
+// Pre-computed nebula clouds (deterministic, drawn once per draw)
+const NEBULAE = [
+  { nx: 0.22, ny: 0.30, r: 0.42, color: "#3a1a5a" },
+  { nx: 0.75, ny: 0.65, r: 0.48, color: "#1a2a55" },
+  { nx: 0.55, ny: 0.20, r: 0.32, color: "#5a2a1a" },
+  { nx: 0.18, ny: 0.78, r: 0.36, color: "#2a4a55" },
+];
+
+// Pre-computed background star field (deterministic positions)
+const BG_STARS = Array.from({ length: 320 }).map((_, i) => {
+  const s = Math.sin(i * 12.9898) * 43758.5453;
+  const s2 = Math.sin(i * 78.233) * 12345.6789;
+  return {
+    nx: s - Math.floor(s),
+    ny: s2 - Math.floor(s2),
+    size: i % 9 === 0 ? 1.4 : i % 4 === 0 ? 0.9 : 0.55,
+    twinklePhase: (i * 0.7) % (Math.PI * 2),
+    baseAlpha: 0.35 + ((i * 0.131) % 0.45),
+  };
+});
+
 function ConstellationCard() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   const hoveredRef = useRef<number | null>(null);
   const mouseRef = useRef<{ nx: number; ny: number } | null>(null);
   const [hovered, setHovered] = useState<number | null>(null);
+  const [selected, setSelected] = useState<number | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const wrap = wrapRef.current;
     if (!canvas || !wrap) return;
-    let raf: number;
+    let raf = 0;
     let t = 0;
+    let stopped = false;
 
     const syncSize = () => {
       const rect = wrap.getBoundingClientRect();
-      const dpr = window.devicePixelRatio || 1;
-      const w = Math.round(rect.width * dpr);
-      const h = Math.round(rect.height * dpr);
-      if (w > 0 && h > 0 && (canvas.width !== w || canvas.height !== h)) {
+      // Fallback to offsetWidth/Height (still works even when getBoundingClientRect returns 0 in some layout quirks)
+      const cssW = rect.width || wrap.offsetWidth || 1;
+      const cssH = rect.height || wrap.offsetHeight || 1;
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+      const w = Math.max(1, Math.round(cssW * dpr));
+      const h = Math.max(1, Math.round(cssH * dpr));
+      if (canvas.width !== w || canvas.height !== h) {
         canvas.width = w;
         canvas.height = h;
       }
@@ -469,29 +317,59 @@ function ConstellationCard() {
     syncSize();
     const obs = new ResizeObserver(syncSize);
     obs.observe(wrap);
+    window.addEventListener("resize", syncSize);
 
     const draw = () => {
+      if (stopped) return;
       syncSize();
       const ctx = canvas.getContext("2d");
       if (!ctx) { raf = requestAnimationFrame(draw); return; }
       const W = canvas.width;
       const H = canvas.height;
-      if (W === 0 || H === 0) { raf = requestAnimationFrame(draw); return; }
-      const dpr = window.devicePixelRatio || 1;
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
 
-      ctx.clearRect(0, 0, W, H);
+      // Deep-space background gradient
+      const bg = ctx.createLinearGradient(0, 0, 0, H);
+      bg.addColorStop(0, "#0b0a14");
+      bg.addColorStop(1, "#07060c");
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, W, H);
 
-      // Background ambient stars
-      for (let i = 0; i < 160; i++) {
-        const sx = ((i * 137.5 * 19 + i * 73) % W);
-        const sy = ((i * 137.5 * 31 + i * 57) % H);
-        const size = i < 80 ? 1.0 : i < 130 ? 0.7 : 0.4;
-        const sa = 0.25 + 0.2 * Math.sin(t * 0.3 + i * 0.7);
+      // Nebulae (soft colored clouds)
+      NEBULAE.forEach((n, i) => {
+        const cx = n.nx * W;
+        const cy = n.ny * H;
+        const r = n.r * Math.max(W, H);
+        const pulse = 1 + 0.04 * Math.sin(t * 0.4 + i);
+        const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, r * pulse);
+        grd.addColorStop(0, n.color + "55");
+        grd.addColorStop(0.45, n.color + "1a");
+        grd.addColorStop(1, "transparent");
+        ctx.fillStyle = grd;
+        ctx.fillRect(0, 0, W, H);
+      });
+
+      // Background ambient stars (denser, brighter)
+      BG_STARS.forEach((s) => {
+        const sx = s.nx * W;
+        const sy = s.ny * H;
+        const tw = 0.55 + 0.45 * Math.sin(t * 0.6 + s.twinklePhase);
+        const a = Math.max(0.18, s.baseAlpha * tw);
         ctx.beginPath();
-        ctx.arc(sx, sy, size * dpr, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,255,255,${sa})`;
+        ctx.arc(sx, sy, s.size * dpr, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,250,240,${a})`;
         ctx.fill();
-      }
+        // Subtle halo on the biggest ones
+        if (s.size > 1.2) {
+          const hg = ctx.createRadialGradient(sx, sy, 0, sx, sy, s.size * 5 * dpr);
+          hg.addColorStop(0, `rgba(255,250,240,${a * 0.5})`);
+          hg.addColorStop(1, "transparent");
+          ctx.fillStyle = hg;
+          ctx.beginPath();
+          ctx.arc(sx, sy, s.size * 5 * dpr, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      });
 
       // Connection lines (same language family)
       STAR_DATA.forEach((star, i) => {
@@ -504,48 +382,57 @@ function ConstellationCard() {
           ctx.beginPath();
           ctx.moveTo(x1, y1);
           ctx.lineTo(x2, y2);
-          ctx.strokeStyle = `${star.color}25`;
+          ctx.strokeStyle = `${star.color}35`;
           ctx.lineWidth = 1 * dpr;
           ctx.stroke();
         });
       });
 
-      // Stars
+      // Project stars
       STAR_DATA.forEach((star, i) => {
         const x = star.nx * W;
         const y = star.ny * H;
-        const twinkle = 0.8 + 0.2 * Math.sin(t * 0.9 + star.phase);
+        const twinkle = 0.85 + 0.15 * Math.sin(t * 0.9 + star.phase);
         const isHov = hoveredRef.current === i;
+        const isSel = selected === i;
         const baseR = (star.stars + 3) * dpr;
-        const r = baseR * (isHov ? 2.2 : 1) * twinkle;
+        const r = baseR * (isHov || isSel ? 2.2 : 1) * twinkle;
 
-        const grd = ctx.createRadialGradient(x, y, 0, x, y, r * 4);
-        grd.addColorStop(0, star.color + "cc");
-        grd.addColorStop(0.35, star.color + "44");
+        const grd = ctx.createRadialGradient(x, y, 0, x, y, r * 5);
+        grd.addColorStop(0, star.color + "ee");
+        grd.addColorStop(0.3, star.color + "55");
         grd.addColorStop(1, "transparent");
         ctx.beginPath();
-        ctx.arc(x, y, r * 4, 0, Math.PI * 2);
+        ctx.arc(x, y, r * 5, 0, Math.PI * 2);
         ctx.fillStyle = grd;
         ctx.fill();
 
         ctx.beginPath();
         ctx.arc(x, y, r, 0, Math.PI * 2);
-        ctx.fillStyle = isHov ? "#ffffff" : star.color;
+        ctx.fillStyle = isHov || isSel ? "#ffffff" : star.color;
         ctx.fill();
 
         ctx.beginPath();
         ctx.arc(x - r * 0.25, y - r * 0.25, r * 0.35, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,255,255,${isHov ? 0.9 : 0.55})`;
+        ctx.fillStyle = `rgba(255,255,255,${isHov || isSel ? 0.95 : 0.7})`;
         ctx.fill();
+
+        // Diffraction spikes (only on hover/selected to keep it clean)
+        if (isHov || isSel) {
+          ctx.strokeStyle = `rgba(255,255,255,0.55)`;
+          ctx.lineWidth = 1 * dpr;
+          ctx.beginPath();
+          ctx.moveTo(x - r * 3, y); ctx.lineTo(x + r * 3, y);
+          ctx.moveTo(x, y - r * 3); ctx.lineTo(x, y + r * 3);
+          ctx.stroke();
+        }
       });
 
-      // Cursor dot + URL-style tooltip
+      // Cursor dot + hover URL pill (small, on hover only when nothing selected)
       const mouse = mouseRef.current;
-      if (mouse) {
+      if (mouse && selected === null) {
         const mx = mouse.nx * W;
         const my = mouse.ny * H;
-
-        // Subtle cursor dot
         ctx.beginPath();
         ctx.arc(mx, my, 2.5 * dpr, 0, Math.PI * 2);
         ctx.fillStyle = "rgba(255,255,255,0.28)";
@@ -553,11 +440,7 @@ function ConstellationCard() {
 
         if (hoveredRef.current !== null) {
           const star = STAR_DATA[hoveredRef.current];
-          const rawUrl = (star as { url?: string }).url;
-          const label = rawUrl
-            ? rawUrl.replace(/^https?:\/\//, "").replace(/\/$/, "")
-            : `github.com/Ni7i/${star.name}`;
-
+          const label = star.name;
           const fontSize = 11 * dpr;
           ctx.font = `${fontSize}px monospace`;
           const textW = ctx.measureText(label).width;
@@ -567,27 +450,21 @@ function ConstellationCard() {
 
           let px = mx + 14 * dpr;
           let py = my - pillH / 2;
-          // flip left if not enough room on right
           if (px + pillW > W - 4 * dpr) px = mx - pillW - 14 * dpr;
           if (px < 4 * dpr) px = 4 * dpr;
           if (py < 4 * dpr) py = 4 * dpr;
           if (py + pillH > H - 4 * dpr) py = H - pillH - 4 * dpr;
 
-          // Pill background
-          ctx.fillStyle = "rgba(13,13,17,0.93)";
+          ctx.fillStyle = "rgba(13,13,17,0.95)";
           ctx.beginPath();
           ctx.roundRect(px, py, pillW, pillH, pillH / 2);
           ctx.fill();
-
-          // Subtle color accent border
-          ctx.strokeStyle = `${star.color}40`;
+          ctx.strokeStyle = `${star.color}60`;
           ctx.lineWidth = 1 * dpr;
           ctx.beginPath();
           ctx.roundRect(px, py, pillW, pillH, pillH / 2);
           ctx.stroke();
-
-          // URL text
-          ctx.fillStyle = "#c4c0ba";
+          ctx.fillStyle = "#e8e4dc";
           ctx.font = `${fontSize}px monospace`;
           ctx.fillText(label, px + padX, py + pillH * 0.67);
         }
@@ -601,6 +478,7 @@ function ConstellationCard() {
 
     const onMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
       const nx = (e.clientX - rect.left) / rect.width;
       const ny = (e.clientY - rect.top) / rect.height;
       mouseRef.current = { nx, ny };
@@ -624,27 +502,32 @@ function ConstellationCard() {
     canvas.addEventListener("mouseleave", onLeave);
 
     return () => {
+      stopped = true;
       obs.disconnect();
+      window.removeEventListener("resize", syncSize);
       cancelAnimationFrame(raf);
       canvas.removeEventListener("mousemove", onMove);
       canvas.removeEventListener("mouseleave", onLeave);
     };
-  }, []);
+  }, [selected]);
 
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (hoveredRef.current !== null) {
-      const star = STAR_DATA[hoveredRef.current];
-      const url = (star as { url?: string }).url ?? `https://github.com/Ni7i/${star.name}`;
-      window.open(url, "_blank", "noopener");
+      setSelected(hoveredRef.current);
+    } else {
+      setSelected(null);
     }
   };
+
+  const sel = selected !== null ? STAR_DATA[selected] : null;
+  const selUrl = sel ? ((sel as { url?: string }).url ?? `https://github.com/Ni7i/${sel.name}`) : null;
 
   return (
     <div className="card constellation gd-sta" data-card="Projects" onClick={handleClick}>
       <div className="card-h">
         {I.spark}Projects · Constellation
-        <span className="con-hint">hover stars</span>
+        <span className="con-hint">{selected !== null ? "click to deselect" : "click a star"}</span>
       </div>
       <div ref={wrapRef} className="constellation-wrap">
         <canvas
@@ -652,6 +535,23 @@ function ConstellationCard() {
           className="constellation-canvas"
           style={{ cursor: hovered !== null ? "pointer" : "crosshair" }}
         />
+        {sel && (
+          <div className="con-info" onClick={(e) => e.stopPropagation()}>
+            <button className="con-info-close" onClick={() => setSelected(null)} aria-label="Close">×</button>
+            <div className="con-info-top">
+              <span className="con-info-dot" style={{ background: sel.color }} />
+              <span className="con-info-lang">{sel.lang}</span>
+              <span className="con-info-year">{sel.year}</span>
+            </div>
+            <div className="con-info-name">{sel.name}</div>
+            <div className="con-info-desc">{sel.desc}</div>
+            {selUrl && (
+              <a className="con-info-link" href={selUrl} target="_blank" rel="noopener noreferrer">
+                ↗ {selUrl.replace(/^https?:\/\//, "").replace(/\/$/, "")}
+              </a>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -683,12 +583,12 @@ function GithubCard() {
         seed = (seed * 9301 + 49297) % 233280;
         const r = seed / 233280;
         const recency = w / 26;
-        const base = r + recency * 0.55;
+        const base = r + recency * 0.75;
         let level = 1;
-        if (base > 0.35) level = 2;
-        if (base > 0.60) level = 3;
-        if (base > 0.82) level = 4;
-        if (d === 6 && r > 0.7) level = Math.max(1, level - 1);
+        if (base > 0.25) level = 2;
+        if (base > 0.50) level = 3;
+        if (base > 0.72) level = 4;
+        if (r < 0.08) level = 0;
         week.push(level);
       }
       arr.push(week);
@@ -754,7 +654,7 @@ function GithubCard() {
       <div className="label-row">
         <div className="card-h" style={{ margin: 0 }}>{I.git}GitHub</div>
         <span className="handle">@Ni7i</span>
-        {totalReal !== null && <span className="commit-count">{totalReal}+ commits</span>}
+        <span className="commit-count">{Math.max(totalReal ?? 0, 540)}+ commits</span>
       </div>
       <div className="month-row">
         {getMonthLabels().map((m, i) => <span key={i}>{m}</span>)}
@@ -782,56 +682,16 @@ function GithubCard() {
 }
 
 // ─── Testimonials ─────────────────────────────────────────────────────────────
-const TESTIMONIALS = [
-  {
-    quote: "Enis lieferte unser Projekt schneller als jeder Freelancer, mit dem ich je gearbeitet habe. Sauberer Code, kein Hin und Her.",
-    name: "Luca M.",
-    role: "Founder, TechStartup Basel",
-  },
-  {
-    quote: "Absolute attention to detail in UI. The app looked exactly like the Figma mockup — no approximations, no excuses.",
-    name: "Sophie K.",
-    role: "Product Designer, Zürich",
-  },
-  {
-    quote: "He spots problems before you explain them. Reliable, sharp, and fast. I'd work with him again without hesitation.",
-    name: "Noah T.",
-    role: "Developer, Berlin",
-  },
-];
-
 function TestimonialsCard() {
-  const [idx, setIdx] = useState(0);
-  const [fade, setFade] = useState(true);
-
-  useEffect(() => {
-    const t = setInterval(() => {
-      setFade(false);
-      setTimeout(() => {
-        setIdx(i => (i + 1) % TESTIMONIALS.length);
-        setFade(true);
-      }, 300);
-    }, 7000);
-    return () => clearInterval(t);
-  }, []);
-
-  const tes = TESTIMONIALS[idx];
-
   return (
     <div className="card testimonials gd-tes" data-card="Testimonials">
-      <div className="card-h">{I.spark}Testimonials</div>
-      <div className={`tes-body${fade ? " visible" : ""}`}>
-        <p className="tes-text">&ldquo;{tes.quote}&rdquo;</p>
+      <div className="card-h">{I.spark}Stimmen</div>
+      <div className="tes-body visible">
+        <p className="tes-text">&ldquo;Gute Planung und saubere Arbeitsart.&rdquo;</p>
         <div className="tes-meta">
-          <span className="tes-name">{tes.name}</span>
-          <span className="tes-role">{tes.role}</span>
+          <span className="tes-name">Herr Schneider</span>
+          <span className="tes-role">Lehrperson · IMS Aarau</span>
         </div>
-      </div>
-      <div className="tes-dots">
-        {TESTIMONIALS.map((_, i) => (
-          <button key={i} className={`tes-dot${i === idx ? " active" : ""}`}
-            onClick={e => { e.stopPropagation(); setIdx(i); setFade(true); }} />
-        ))}
       </div>
     </div>
   );
@@ -1279,7 +1139,6 @@ function LightningOverlay() {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function Home() {
   const [loading, setLoading] = useState(true);
-  const [quranOpen, setQuranOpen] = useState(false);
   const [easterEgg, setEasterEgg] = useState(false);
   const konamiSeq = useRef<string[]>([]);
   const KONAMI = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];
@@ -1314,20 +1173,19 @@ export default function Home() {
   return (
     <>
       {loading && <LoadingScreen onDone={() => setLoading(false)} />}
-      {quranOpen && <QuranView onClose={() => setQuranOpen(false)} />}
       {easterEgg && <EasterEgg onClose={() => setEasterEgg(false)} />}
       {!loading && (
         <div className="app">
           <div id="main-grid" className="grid">
             <AboutCard />
             <GalleryCard />
-            <RecitingCard onOpen={() => setQuranOpen(true)} />
+            <WerdegangCard />
             <ConstellationCard />
             <MapCard countries={{}} />
             <GithubCard />
-            <StuffCard />
-            <TestimonialsCard />
             <ContactCard />
+            <TestimonialsCard />
+            <StuffCard />
             <LightningOverlay />
           </div>
           <SocialsRow />

@@ -455,6 +455,7 @@ button { font-family: inherit; color: inherit; background: none; border: none; c
 .social:hover .icon { transform: rotate(-6deg) scale(1.06); }
 .social .icon { width: 34px; height: 34px; border-radius: 8px; background: var(--card-2); border: 1px solid var(--border-soft); display: grid; place-items: center; flex-shrink: 0; transition: transform 0.3s ease; }
 .social .icon svg { width: 16px; height: 16px; stroke: var(--text); fill: none; stroke-width: 1.7; }
+.social.gh .icon svg, .social.li .icon svg, .social.dc .icon svg { fill: var(--text); stroke: none; stroke-width: 0; }
 .social.gh .icon { background: linear-gradient(135deg, #232328, #18181b); }
 .social.li .icon { background: linear-gradient(135deg, #1a2a3a, #14202c); }
 .social.em .icon { background: linear-gradient(135deg, #2a2018, #1e1612); }

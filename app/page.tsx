@@ -264,27 +264,35 @@ function WerdegangCard() {
             );
           })}
         </svg>
-        <div className="wer-info">
-          {active !== null ? (
-            <>
-              <div className="wer-info-year">
-                {nodes[active].year}
-                <span className={`wer-kind k-${nodes[active].kind}`}>
-                  {nodes[active].kind === "school" ? "School" : nodes[active].kind === "work" ? "Career" : "Competition"}
+        {active !== null && (() => {
+          const n = nodes[active];
+          const lp = (n.x / 600) * 100;
+          const tp = (n.y / 200) * 100;
+          const above = n.y > 95;
+          const xShift = n.x > 480 ? "-88%" : n.x < 120 ? "0%" : "-50%";
+          return (
+            <div
+              className="wer-tooltip"
+              style={{ left: `${lp}%`, top: `${tp}%`, transform: `translate(${xShift}, ${above ? "calc(-100% - 14px)" : "14px"})` }}
+              onClick={e => e.stopPropagation()}
+            >
+              <button className="wer-tt-close" onClick={() => setActive(null)}>×</button>
+              <div className="wer-tt-top">
+                <span className="wer-tt-year">{n.year}</span>
+                <span className={`wer-kind k-${n.kind}`}>
+                  {n.kind === "school" ? "School" : n.kind === "work" ? "Career" : "Competition"}
                 </span>
               </div>
-              <div className="wer-info-title">{nodes[active].title}</div>
-              <div className="wer-info-sub">{nodes[active].sub}</div>
-              {nodes[active].kind === "work" && (
-                <a href="mailto:shorra.enis@hotmail.com" className="wer-cta-link">
+              <div className="wer-tt-title">{n.title}</div>
+              <div className="wer-tt-sub">{n.sub}</div>
+              {n.kind === "work" && (
+                <a href="mailto:shorra.enis@hotmail.com" className="wer-cta-link" onClick={e => e.stopPropagation()}>
                   Interested? Contact me →
                 </a>
               )}
-            </>
-          ) : (
-            <div className="wer-info-empty">2014 → today · {WERDEGANG.length} milestones — click a node</div>
-          )}
-        </div>
+            </div>
+          );
+        })()}
       </div>
     </div>
   );
@@ -655,6 +663,13 @@ function MapCard({ countries: _ }: { countries: Record<string, number> }) {
     <div className="card map gd-map" data-card="Map">
       <div className="map-tag">Switzerland · Home</div>
       <div className="leaflet-stage"><LeafletMap /></div>
+      <div className="map-review">
+        <p className="map-review-text">&ldquo;Clean code, great planning. Stands out.&rdquo;</p>
+        <div className="map-review-meta">
+          <span className="map-review-name">Mr. Schneider</span>
+          <span className="map-review-role">Teacher · IMS Baden</span>
+        </div>
+      </div>
     </div>
   );
 }
@@ -1254,7 +1269,6 @@ export default function Home() {
             <MapCard countries={{}} />
             <GithubCard />
             <ContactCard />
-            <TestimonialsCard />
             <StuffCard />
             <LightningOverlay />
           </div>

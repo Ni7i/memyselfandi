@@ -166,6 +166,18 @@ function GalleryCard() {
         <button className="gallery-explore" onClick={e => { e.stopPropagation(); setOpen(idx); }}>
           Explore →
         </button>
+        <div className="gallery-strip">
+          {GALLERY_PHOTOS.map((p, i) => (
+            <button
+              key={i}
+              className={`gallery-strip-th${i === idx ? " active" : ""}`}
+              onClick={e => { e.stopPropagation(); setPhase("out"); setTimeout(() => { setIdx(i); setPhase("in"); }, 300); }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={p.src} alt={p.alt} />
+            </button>
+          ))}
+        </div>
       </div>
 
       {open !== null && (
@@ -206,24 +218,8 @@ const WERDEGANG: Milestone[] = [
 function WerdegangCard() {
   const [active, setActive] = useState<number | null>(null);
 
-  // Dramatic curve: school grind → peak at Apprenticeship → graduation settle
-  const Y_POSITIONS = [148, 55, 168, 18, 95];
-
-  const nodes = WERDEGANG.map((m, i) => {
-    const x = 40 + (520 / (WERDEGANG.length - 1)) * i;
-    const y = Y_POSITIONS[i] ?? 100;
-    return { ...m, x, y };
-  });
-
-  // "Late-hold" cubic Beziers: path stays near prev height for 35%, then snaps to new height
-  const path = nodes.reduce((acc, n, i) => {
-    if (i === 0) return `M ${n.x} ${n.y}`;
-    const prev = nodes[i - 1];
-    const dx = n.x - prev.x;
-    const cp1x = prev.x + dx * 0.32;
-    const cp2x = prev.x + dx * 0.68;
-    return `${acc} C ${cp1x} ${prev.y}, ${cp2x} ${n.y}, ${n.x} ${n.y}`;
-  }, "");
+  const getColor = (kind: string) =>
+    kind === "win" ? "#ffd655" : kind === "work" ? "#f08e7f" : "#7a9ec4";
 
   return (
     <div className="card werdegang gd-werdegang" data-card="Timeline">
@@ -231,68 +227,58 @@ function WerdegangCard() {
         {I.compass}Timeline
         <span className="wer-hint">click a milestone</span>
       </div>
-      <div className="wer-stage">
-        <svg className="wer-svg" viewBox="0 0 600 200" preserveAspectRatio="none">
-          <defs>
-            <linearGradient id="wer-grad" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stopColor="#8aaec8" stopOpacity="0.1" />
-              <stop offset="50%" stopColor="#8aaec8" stopOpacity="0.4" />
-              <stop offset="100%" stopColor="#8aaec8" stopOpacity="0.1" />
-            </linearGradient>
-            <filter id="wer-glow">
-              <feGaussianBlur stdDeviation="2.5" result="b" />
-              <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
-            </filter>
-          </defs>
-          <path d={path} fill="none" stroke="url(#wer-grad)" strokeWidth="2" strokeLinecap="round" />
-          {nodes.map((n, i) => {
+      <div className="wer-stage" onClick={() => setActive(null)}>
+        <div className="wer-track">
+          {WERDEGANG.map((m, i) => {
+            const above = i % 2 === 0;
+            const c = getColor(m.kind);
             const isActive = active === i;
-            const nodeColor = n.kind === "win" ? "#ffd655" : n.kind === "work" ? "#f08e7f" : "#7a9ec4";
-            const labelY = n.y < 85 ? n.y + 30 : n.y - 18;
             return (
-              <g key={i} className={`wer-node${isActive ? " active" : ""}`}
-                onClick={() => setActive(isActive ? null : i)}
-                style={{ cursor: "pointer" }}>
-                <circle cx={n.x} cy={n.y} r="22" fill="transparent" />
-                {n.kind === "win" && (
-                  <circle cx={n.x} cy={n.y} r={isActive ? 18 : 14} fill="none" stroke={nodeColor} strokeWidth="0.8" strokeOpacity="0.35" strokeDasharray="3 3" />
-                )}
-                <circle cx={n.x} cy={n.y} r={isActive ? 11 : 8} fill="#1b1b21" stroke={nodeColor} strokeWidth="1.6" filter="url(#wer-glow)" />
-                <circle cx={n.x} cy={n.y} r={isActive ? 4 : 2.5} fill={nodeColor} />
-                <text x={n.x} y={labelY} textAnchor="middle" className="wer-year">{n.year}</text>
-              </g>
+              <div
+                key={i}
+                className={`wer-col${isActive ? " act" : ""}`}
+                onClick={e => { e.stopPropagation(); setActive(isActive ? null : i); }}
+              >
+                <div className={`wer-lbl top${above ? " show" : ""}`}>
+                  <span className="wer-lbl-title" style={isActive ? { color: c } : {}}>{m.title}</span>
+                  <span className="wer-lbl-sub">{m.sub}</span>
+                </div>
+                <div className="wer-node-row">
+                  <div className="wer-seg-line" />
+                  <div className="wer-node" style={{ borderColor: c, boxShadow: isActive ? `0 0 0 4px ${c}30` : undefined }}>
+                    <div className="wer-node-core" style={{ background: c }} />
+                  </div>
+                  <div className="wer-seg-line" />
+                </div>
+                <div className="wer-node-yr" style={isActive ? { color: c } : {}}>{m.year}</div>
+                <div className={`wer-lbl bot${!above ? " show" : ""}`}>
+                  <span className="wer-lbl-title" style={isActive ? { color: c } : {}}>{m.title}</span>
+                  <span className="wer-lbl-sub">{m.sub}</span>
+                </div>
+              </div>
             );
           })}
-        </svg>
-        {active !== null && (() => {
-          const n = nodes[active];
-          const lp = (n.x / 600) * 100;
-          const tp = (n.y / 200) * 100;
-          const above = n.y > 95;
-          const xShift = n.x > 480 ? "-88%" : n.x < 120 ? "0%" : "-50%";
-          return (
-            <div
-              className="wer-tooltip"
-              style={{ left: `${lp}%`, top: `${tp}%`, transform: `translate(${xShift}, ${above ? "calc(-100% - 14px)" : "14px"})` }}
-              onClick={e => e.stopPropagation()}
-            >
-              <button className="wer-tt-close" onClick={() => setActive(null)}>×</button>
-              <div className="wer-tt-top">
-                <span className="wer-tt-year">{n.year}</span>
-                <span className={`wer-kind k-${n.kind}`}>
-                  {n.kind === "school" ? "School" : n.kind === "work" ? "Career" : "Competition"}
-                </span>
-              </div>
-              <div className="wer-tt-title">{n.title}</div>
-              <div className="wer-tt-sub">{n.sub}</div>
-              {n.kind === "work" && (
-                <a href="mailto:shorra.enis@hotmail.com" className="wer-cta-link" onClick={e => e.stopPropagation()}>
-                  Interested? Contact me →
-                </a>
-              )}
+        </div>
+        {active !== null && (
+          <div className="wer-info-bar" onClick={e => e.stopPropagation()}>
+            <div className="wer-ib-left">
+              <span className="wer-tt-year">{WERDEGANG[active].year}</span>
+              <span className={`wer-kind k-${WERDEGANG[active].kind}`}>
+                {WERDEGANG[active].kind === "school" ? "School" : WERDEGANG[active].kind === "work" ? "Career" : "Competition"}
+              </span>
             </div>
-          );
-        })()}
+            <div className="wer-ib-mid">
+              <span className="wer-tt-title">{WERDEGANG[active].title}</span>
+              <span className="wer-tt-sub">{WERDEGANG[active].sub}</span>
+            </div>
+            {WERDEGANG[active].kind === "work" && (
+              <a href="mailto:shorra.enis@hotmail.com" className="wer-cta-link" onClick={e => e.stopPropagation()}>
+                Contact →
+              </a>
+            )}
+            <button className="wer-tt-close" onClick={() => setActive(null)}>×</button>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -965,6 +951,7 @@ function StuffCard() {
       title: "> LANGS",
       items: [
         { label: "C#", sub: "primary", icon: I.cs },
+        { label: "TypeScript", icon: I.code },
         { label: "Python", icon: I.py },
         { label: "JavaScript", icon: I.brand },
       ],
@@ -984,6 +971,15 @@ function StuffCard() {
       items: [
         { label: "macOS", sub: "M4 Pro 16\"", icon: I.apple },
         { label: "Linux", sub: "Ryzen 7 · RTX 4070 Ti", icon: I.linux },
+      ],
+    },
+    {
+      title: "> TOOLS",
+      items: [
+        { label: "Git", icon: I.git },
+        { label: "Figma", icon: I.brand },
+        { label: "VS Code", icon: I.code },
+        { label: "SQL", icon: I.tool },
       ],
     },
   ];

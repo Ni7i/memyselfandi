@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo, useRef, createContext, useContext } from "react";
 import dynamic from "next/dynamic";
 import LoadingScreen from "@/components/LoadingScreen";
 
@@ -37,20 +37,101 @@ const I = {
   eye:     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>,
 };
 
+// ─── Language Context + Translations ────────────────────────────────────────
+const LangCtx = createContext<"en" | "de">("en");
+function useLang() { return useContext(LangCtx); }
+
+const TR: Record<string, { en: string; de: string }> = {
+  "card.about":        { en: "About Me",       de: "Über mich" },
+  "card.gallery":      { en: "Gallery",         de: "Galerie" },
+  "card.timeline":     { en: "Timeline",        de: "Werdegang" },
+  "card.projects":     { en: "Projects",        de: "Projekte" },
+  "card.techstack":    { en: "Techstack",       de: "Tech-Stack" },
+  "card.github":       { en: "GitHub",          de: "GitHub" },
+  "card.contact":      { en: "Contact",         de: "Kontakt" },
+  "gallery.explore":   { en: "Explore →",       de: "Entdecken →" },
+  "gallery.photos":    { en: "photos",          de: "Fotos" },
+  "timeline.hint":     { en: "click a milestone", de: "Meilenstein klicken" },
+  "con.hint.def":      { en: "click a star",    de: "Stern klicken" },
+  "con.hint.sel":      { en: "click to deselect", de: "Klicken zum Abwählen" },
+  "contact.name":      { en: "Name",            de: "Name" },
+  "contact.email":     { en: "Email",           de: "E-Mail" },
+  "contact.msg":       { en: "Message…",        de: "Nachricht…" },
+  "contact.send":      { en: "Send",            de: "Senden" },
+  "contact.sent":      { en: "Thanks — email client will open.", de: "Danke — E-Mail-Client wird geöffnet." },
+  "map.tag":           { en: "Switzerland · Home", de: "Schweiz · Heimat" },
+  "set.lang":          { en: "Language",        de: "Sprache" },
+  "set.accent":        { en: "Accent",          de: "Akzent" },
+};
+
+function t(lang: "en" | "de", key: string): string {
+  return TR[key]?.[lang] ?? key;
+}
+
+// ─── Traits ──────────────────────────────────────────────────────────────────
+const TRAITS = [
+  {
+    key: "fast",
+    emoji: "⚡",
+    label: { en: "Fast Learner", de: "Schnell Lernend" },
+    desc: { en: "New tech? I pick it up in days and apply it right away.", de: "Neue Technologie? In Tagen drauf, sofort angewandt." },
+  },
+  {
+    key: "reliable",
+    emoji: "🎯",
+    label: { en: "Reliable", de: "Zuverlässig" },
+    desc: { en: "If I commit to something, it gets done.", de: "Wenn ich etwas zusage, wird es erledigt." },
+  },
+  {
+    key: "detail",
+    emoji: "🔬",
+    label: { en: "Detail-Oriented", de: "Detailorientiert" },
+    desc: { en: "Clean code, pixel-perfect UI — small things matter as much as the big picture.", de: "Sauberer Code, pixel-perfekte UI — Details zählen genauso wie das Gesamtbild." },
+  },
+  {
+    key: "team",
+    emoji: "🤝",
+    label: { en: "Team Player", de: "Teamplayer" },
+    desc: { en: "I enjoy collaborating and lifting the people around me.", de: "Ich arbeite gerne im Team und helfe anderen, besser zu werden." },
+  },
+  {
+    key: "perfect",
+    emoji: "♾️",
+    label: { en: "Perfectionist", de: "Perfektionist" },
+    desc: { en: "I sometimes spend longer than planned getting things right — the result is always something I'm proud of.", de: "Ich brauche manchmal länger als geplant — das Ergebnis ist immer etwas, das ich stolz präsentiere." },
+    weak: true,
+  },
+];
+
 // ─── About ────────────────────────────────────────────────────────────────────
 const SKILLS = ["C#", ".NET", "TypeScript", "Next.js", "Python", "WPF", "Tailwind"];
 
 function AboutCard() {
+  const [activeTrait, setActiveTrait] = useState<string | null>(null);
+  const lang = useLang();
+
   return (
     <div className="card about gd-about" data-card="About">
-      <div className="about-status">● Available for Apprenticeship</div>
-      <div className="card-h">{I.wave}About Me</div>
+      <div className="card-h">{I.wave}{t(lang, "card.about")}</div>
       <h1>Hi, I&apos;m<br /><span className="italic">Enis</span></h1>
       <p className="bio">
         17 · Kosovo roots, raised in Switzerland.
         I write C# and TypeScript every single day — clean code, strong OOP,
-        obsessed with UI. Competing in ICT, listening to Quran.
+        obsessed with UI.
       </p>
+      <div className="about-traits">
+        {TRAITS.map(tr => (
+          <button
+            key={tr.key}
+            className={`about-trait${tr.weak ? " weak" : ""}${activeTrait === tr.key ? " open" : ""}`}
+            onClick={() => setActiveTrait(activeTrait === tr.key ? null : tr.key)}
+          >
+            <span className="trait-em">{tr.emoji}</span>
+            <span className="trait-lbl">{tr.label[lang]}</span>
+            {activeTrait === tr.key && <span className="trait-desc">{tr.desc[lang]}</span>}
+          </button>
+        ))}
+      </div>
       <a
         className="loc"
         href="https://maps.google.com/?q=Rudolfstetten,Switzerland"
@@ -83,12 +164,13 @@ function AboutCard() {
           <span className="about-stat-label">Yrs Dev</span>
           <span className="about-stat-arrow">↗</span>
         </a>
-        <a href="https://github.com/Ni7i" target="_blank" rel="noopener noreferrer"
-          className="about-stat about-stat-link">
-          <span className="about-stat-val">540+</span>
-          <span className="about-stat-label">Commits</span>
-          <span className="about-stat-arrow">↗</span>
-        </a>
+      </div>
+      <div className="about-testimonial">
+        <p className="tes-text">&ldquo;Clean code, great planning. Stands out.&rdquo;</p>
+        <div className="tes-meta">
+          <span className="tes-name">Mr. Schneider</span>
+          <span className="tes-role">Teacher · IMS Baden</span>
+        </div>
       </div>
     </div>
   );
@@ -111,6 +193,7 @@ function GalleryCard() {
   const [idx, setIdx] = useState(0);
   const [open, setOpen] = useState<number | null>(null);
   const [phase, setPhase] = useState<"in" | "out">("in");
+  const lang = useLang();
 
   useEffect(() => {
     if (open !== null) return;
@@ -141,7 +224,7 @@ function GalleryCard() {
   return (
     <>
       <div className="card gallery gd-gallery" data-card="Gallery">
-        <div className="card-h">{I.image}Gallery</div>
+        <div className="card-h">{I.image}{t(lang, "card.gallery")}</div>
         <div className="gallery-polaroid-area">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <div
@@ -154,6 +237,10 @@ function GalleryCard() {
             <div className="gallery-polaroid-caption">{p.alt}</div>
           </div>
         </div>
+        <div className="gallery-meta">
+          <span>{GALLERY_PHOTOS.length} {t(lang, "gallery.photos")}</span>
+          <span className="gallery-meta-locs">Istanbul · Prizren · Basel · Lucerne</span>
+        </div>
         <div className="gallery-dots">
           {GALLERY_PHOTOS.map((_, i) => (
             <button
@@ -164,20 +251,8 @@ function GalleryCard() {
           ))}
         </div>
         <button className="gallery-explore" onClick={e => { e.stopPropagation(); setOpen(idx); }}>
-          Explore →
+          {t(lang, "gallery.explore")}
         </button>
-        <div className="gallery-strip">
-          {GALLERY_PHOTOS.map((p, i) => (
-            <button
-              key={i}
-              className={`gallery-strip-th${i === idx ? " active" : ""}`}
-              onClick={e => { e.stopPropagation(); setPhase("out"); setTimeout(() => { setIdx(i); setPhase("in"); }, 300); }}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={p.src} alt={p.alt} />
-            </button>
-          ))}
-        </div>
       </div>
 
       {open !== null && (
@@ -217,6 +292,7 @@ const WERDEGANG: Milestone[] = [
 
 function WerdegangCard() {
   const [active, setActive] = useState<number | null>(null);
+  const lang = useLang();
 
   const getColor = (kind: string) =>
     kind === "win" ? "#ffd655" : kind === "work" ? "#f08e7f" : "#7a9ec4";
@@ -224,8 +300,8 @@ function WerdegangCard() {
   return (
     <div className="card werdegang gd-werdegang" data-card="Timeline">
       <div className="card-h">
-        {I.compass}Timeline
-        <span className="wer-hint">click a milestone</span>
+        {I.compass}{t(lang, "card.timeline")}
+        <span className="wer-hint">{t(lang, "timeline.hint")}</span>
       </div>
       <div className="wer-stage" onClick={() => setActive(null)}>
         <div className="wer-track">
@@ -314,11 +390,18 @@ const GOLDEN_ANGLE = 2.399963;
 const STAR_DATA = REPOS.map((r, i) => {
   const angle = i * GOLDEN_ANGLE;
   const radius = Math.sqrt((i + 0.5) / REPOS.length) * 0.40;
+  const baseNx = 0.5 + radius * Math.cos(angle);
+  const baseNy = 0.5 + radius * Math.sin(angle);
   return {
     ...r,
-    nx: 0.5 + radius * Math.cos(angle),
-    ny: 0.5 + radius * Math.sin(angle),
+    nx: baseNx,
+    ny: baseNy,
+    baseNx,
+    baseNy,
     phase: (i * 1.618) % (Math.PI * 2),
+    orbitR: 0.007 + (i % 8) * 0.003,
+    orbitSpeed: 0.022 + (i % 6) * 0.008,
+    orbitPhase: (i * 1.9) % (Math.PI * 2),
     color: LANG_COLOR[r.lang] ?? "#555",
   };
 });
@@ -351,6 +434,8 @@ function ConstellationCard() {
   const mouseRef = useRef<{ nx: number; ny: number } | null>(null);
   const [hovered, setHovered] = useState<number | null>(null);
   const [selected, setSelected] = useState<number | null>(null);
+  const lang = useLang();
+  const livePosRef = useRef(STAR_DATA.map(s => ({ nx: s.baseNx, ny: s.baseNy })));
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -443,8 +528,8 @@ function ConstellationCard() {
             if (j <= i) return;
             const fam = (l: string) => l.split("/")[0].trim().split(" ")[0];
             if (fam(star.lang) !== fam(other.lang) || star.lang === "—") return;
-            const x1 = star.nx * W, y1 = star.ny * H;
-            const x2 = other.nx * W, y2 = other.ny * H;
+            const x1 = livePosRef.current[i].nx * W, y1 = livePosRef.current[i].ny * H;
+            const x2 = livePosRef.current[j].nx * W, y2 = livePosRef.current[j].ny * H;
             ctx.beginPath();
             ctx.moveTo(x1, y1);
             ctx.lineTo(x2, y2);
@@ -456,8 +541,12 @@ function ConstellationCard() {
 
         // Project stars
         STAR_DATA.forEach((star, i) => {
-          const x = star.nx * W;
-          const y = star.ny * H;
+          const cx = (star.baseNx + star.orbitR * Math.cos(t * star.orbitSpeed + star.orbitPhase)) * W;
+          const cy = (star.baseNy + star.orbitR * Math.sin(t * star.orbitSpeed + star.orbitPhase)) * H;
+          livePosRef.current[i] = { nx: cx / W, ny: cy / H };
+
+          const x = cx;
+          const y = cy;
           const twinkle = 0.85 + 0.15 * Math.sin(t * 0.9 + star.phase);
           const isHov = hoveredRef.current === i;
           const isSel = selected === i;
@@ -569,9 +658,9 @@ function ConstellationCard() {
       mouseRef.current = { nx, ny };
       let closest: number | null = null;
       let minD = Infinity;
-      STAR_DATA.forEach((star, i) => {
-        const dx = star.nx - nx;
-        const dy = star.ny - ny;
+      STAR_DATA.forEach((_star, i) => {
+        const dx = livePosRef.current[i].nx - nx;
+        const dy = livePosRef.current[i].ny - ny;
         const d = Math.sqrt(dx * dx + dy * dy);
         if (d < 0.07 && d < minD) { closest = i; minD = d; }
       });
@@ -612,8 +701,8 @@ function ConstellationCard() {
   return (
     <div className="card constellation gd-sta" data-card="Projects" onClick={handleClick}>
       <div className="card-h">
-        {I.spark}Projects · Constellation
-        <span className="con-hint">{selected !== null ? "click to deselect" : "click a star"}</span>
+        {I.spark}{t(lang, "card.projects")} · Constellation
+        <span className="con-hint">{t(lang, selected !== null ? "con.hint.sel" : "con.hint.def")}</span>
       </div>
       <div ref={wrapRef} className="constellation-wrap">
         <canvas
@@ -645,9 +734,10 @@ function ConstellationCard() {
 
 // ─── Map ──────────────────────────────────────────────────────────────────────
 function MapCard({ countries: _ }: { countries: Record<string, number> }) {
+  const lang = useLang();
   return (
     <div className="card map gd-map" data-card="Map">
-      <div className="map-tag">Switzerland · Home</div>
+      <div className="map-tag">{t(lang, "map.tag")}</div>
       <div className="leaflet-stage"><LeafletMap /></div>
     </div>
   );
@@ -739,7 +829,7 @@ function GithubCard() {
       <div className="label-row">
         <div className="card-h" style={{ margin: 0 }}>{I.git}GitHub</div>
         <span className="handle">@Ni7i</span>
-        <span className="commit-count">{Math.max(totalReal ?? 0, 540)}+ commits</span>
+        <span className="commit-count">{(totalReal ?? 0) > 0 ? `${totalReal}+` : "—"} commits</span>
       </div>
       <div className="month-row">
         {getMonthLabels().map((m, i) => <span key={i}>{m}</span>)}
@@ -787,28 +877,35 @@ function ContactCard() {
   const [email, setEmail] = useState("");
   const [msg, setMsg] = useState("");
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const lang = useLang();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const sub = encodeURIComponent(`Message from ${name}`);
     const body = encodeURIComponent(`From: ${name}\nEmail: ${email}\n\n${msg}`);
-    window.open(`mailto:enis.shorra3@hotmail.com?subject=${sub}&body=${body}`);
-    setSent(true);
-    setTimeout(() => { setName(""); setEmail(""); setMsg(""); setSent(false); }, 4000);
+    const mailto = `mailto:enis.shorra3@hotmail.com?subject=${sub}&body=${body}`;
+    setSending(true);
+    setTimeout(() => {
+      window.open(mailto);
+      setSending(false);
+      setSent(true);
+      setTimeout(() => { setName(""); setEmail(""); setMsg(""); setSent(false); }, 4000);
+    }, 800);
   };
 
   return (
     <div className="card contact gd-board" data-card="Contact">
-      <div className="card-h">{I.mail}Contact</div>
+      <div className="card-h">{I.mail}{t(lang, "card.contact")}</div>
       {sent ? (
-        <div className="contact-sent">Thanks — email client will open.</div>
+        <div className="contact-sent">{t(lang, "contact.sent")}</div>
       ) : (
         <form className="contact-form" onSubmit={handleSubmit} onClick={e => e.stopPropagation()}>
-          <input value={name} onChange={e => setName(e.target.value)} placeholder="Name" required />
-          <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" required />
-          <textarea value={msg} onChange={e => setMsg(e.target.value)} placeholder="Message…" required rows={2} />
-          <button type="submit">
-            <span className="btn-icon">{I.send}</span>Send
+          <input value={name} onChange={e => setName(e.target.value)} placeholder={t(lang, "contact.name")} required />
+          <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder={t(lang, "contact.email")} required />
+          <textarea value={msg} onChange={e => setMsg(e.target.value)} placeholder={t(lang, "contact.msg")} required rows={2} />
+          <button type="submit" className={sending ? "sending" : ""} disabled={sending}>
+            <span className="btn-icon">{I.send}</span>{t(lang, "contact.send")}
           </button>
         </form>
       )}
@@ -945,6 +1042,7 @@ function DevicePopup({ type, onClose }: { type: "macos" | "linux"; onClose: () =
 // ─── Stuff ────────────────────────────────────────────────────────────────────
 function StuffCard() {
   const [popup, setPopup] = useState<null | "macos" | "linux">(null);
+  const lang = useLang();
 
   const sections = [
     {
@@ -954,6 +1052,8 @@ function StuffCard() {
         { label: "TypeScript", icon: I.code },
         { label: "Python", icon: I.py },
         { label: "JavaScript", icon: I.brand },
+        { label: "SQL", icon: I.tool },
+        { label: "HTML / CSS", icon: I.code },
       ],
     },
     {
@@ -964,6 +1064,8 @@ function StuffCard() {
         { label: "React", icon: I.brand },
         { label: "Tailwind CSS", icon: I.code },
         { label: "WPF", icon: I.windows },
+        { label: "EF Core", icon: I.cs },
+        { label: "Supabase", icon: I.brand },
       ],
     },
     {
@@ -979,10 +1081,13 @@ function StuffCard() {
         { label: "Git", icon: I.git },
         { label: "Figma", icon: I.brand },
         { label: "VS Code", icon: I.code },
-        { label: "SQL", icon: I.tool },
+        { label: "Rider", icon: I.tool },
       ],
     },
   ];
+
+  // Suppress unused variable warning
+  void lang;
 
   const handleClick = (label: string) => {
     if (label === "macOS") { setPopup("macos"); return; }
@@ -993,7 +1098,7 @@ function StuffCard() {
     <>
       {popup && <DevicePopup type={popup} onClose={() => setPopup(null)} />}
       <div className="card stuff gd-stuff" data-card="Techstack">
-        <div className="card-h">{I.tool}Techstack</div>
+        <div className="card-h">{I.tool}{t(lang, "card.techstack")}</div>
         {sections.map((sec) => (
           <div className="stuff-section" key={sec.title}>
             <h4>{sec.title}</h4>
@@ -1005,7 +1110,7 @@ function StuffCard() {
                   onClick={e => { e.stopPropagation(); handleClick(it.label); }}
                 >
                   <span className="ic">{it.icon}</span>
-                  <span>{it.label}{it.sub && <small> · {it.sub}</small>}</span>
+                  <span>{it.label}{"sub" in it && it.sub && <small> · {it.sub}</small>}</span>
                 </div>
               ))}
             </div>
@@ -1047,6 +1152,52 @@ function SocialsRow() {
           </div>
         </a>
       ))}
+    </div>
+  );
+}
+
+// ─── Settings Panel ───────────────────────────────────────────────────────────
+const ACCENTS = [
+  { label: "Salmon", value: "#f08e7f" },
+  { label: "Blue",   value: "#6eb3f5" },
+  { label: "Green",  value: "#7acc8a" },
+  { label: "Purple", value: "#a78bfa" },
+];
+
+function SettingsPanel({ lang, setLang, accent, setAccent }: {
+  lang: "en" | "de";
+  setLang: (l: "en" | "de") => void;
+  accent: string;
+  setAccent: (a: string) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="settings-wrap">
+      <button className="settings-toggle" onClick={() => setOpen(o => !o)} title="Settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
+          <circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+      </button>
+      {open && (
+        <div className="settings-panel" onClick={e => e.stopPropagation()}>
+          <div className="settings-row">
+            <span className="settings-lbl">{t(lang, "set.lang")}</span>
+            <div className="settings-btns">
+              <button className={lang === "en" ? "active" : ""} onClick={() => setLang("en")}>EN</button>
+              <button className={lang === "de" ? "active" : ""} onClick={() => setLang("de")}>DE</button>
+            </div>
+          </div>
+          <div className="settings-row">
+            <span className="settings-lbl">{t(lang, "set.accent")}</span>
+            <div className="settings-swatches">
+              {ACCENTS.map(a => (
+                <button key={a.value} className={`swatch${accent === a.value ? " active" : ""}`}
+                  style={{ background: a.value }} onClick={() => setAccent(a.value)} title={a.label} />
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -1226,6 +1377,8 @@ function LightningOverlay() {
 export default function Home() {
   const [loading, setLoading] = useState(true);
   const [easterEgg, setEasterEgg] = useState(false);
+  const [lang, setLang] = useState<"en" | "de">("en");
+  const [accent, setAccent] = useState("#f08e7f");
   const konamiSeq = useRef<string[]>([]);
   const KONAMI = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];
 
@@ -1257,26 +1410,28 @@ export default function Home() {
 
 
   return (
-    <>
-      {loading && <LoadingScreen onDone={() => setLoading(false)} />}
-      {easterEgg && <EasterEgg onClose={() => setEasterEgg(false)} />}
-      {!loading && (
-        <div className="app">
-          <div id="main-grid" className="grid">
-            <AboutCard />
-            <GalleryCard />
-            <WerdegangCard />
-            <ConstellationCard />
-            <MapCard countries={{}} />
-            <GithubCard />
-            <ContactCard />
-            <TestimonialsCard />
-            <StuffCard />
-            <LightningOverlay />
+    <LangCtx.Provider value={lang}>
+      <>
+        {loading && <LoadingScreen onDone={() => setLoading(false)} />}
+        {easterEgg && <EasterEgg onClose={() => setEasterEgg(false)} />}
+        {!loading && (
+          <div className="app" style={{ ["--accent" as string]: accent }}>
+            <div id="main-grid" className="grid">
+              <AboutCard />
+              <GalleryCard />
+              <WerdegangCard />
+              <ConstellationCard />
+              <MapCard countries={{}} />
+              <GithubCard />
+              <ContactCard />
+              <StuffCard />
+              <LightningOverlay />
+            </div>
+            <SocialsRow />
+            <SettingsPanel lang={lang} setLang={setLang} accent={accent} setAccent={setAccent} />
           </div>
-          <SocialsRow />
-        </div>
-      )}
-    </>
+        )}
+      </>
+    </LangCtx.Provider>
   );
 }

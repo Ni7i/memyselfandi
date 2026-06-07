@@ -72,31 +72,31 @@ function t(lang: "en" | "de", key: string): string {
 const TRAITS = [
   {
     key: "fast",
-    emoji: "⚡",
+    color: "#7a9ec4",
     label: { en: "Fast Learner", de: "Schnell Lernend" },
     desc: { en: "New tech? I pick it up in days and apply it right away.", de: "Neue Technologie? In Tagen drauf, sofort angewandt." },
   },
   {
     key: "reliable",
-    emoji: "🎯",
+    color: "#f08e7f",
     label: { en: "Reliable", de: "Zuverlässig" },
     desc: { en: "If I commit to something, it gets done.", de: "Wenn ich etwas zusage, wird es erledigt." },
   },
   {
     key: "detail",
-    emoji: "🔬",
+    color: "#7acc8a",
     label: { en: "Detail-Oriented", de: "Detailorientiert" },
     desc: { en: "Clean code, pixel-perfect UI — small things matter as much as the big picture.", de: "Sauberer Code, pixel-perfekte UI — Details zählen genauso wie das Gesamtbild." },
   },
   {
     key: "team",
-    emoji: "🤝",
+    color: "#a78bfa",
     label: { en: "Team Player", de: "Teamplayer" },
     desc: { en: "I enjoy collaborating and lifting the people around me.", de: "Ich arbeite gerne im Team und helfe anderen, besser zu werden." },
   },
   {
     key: "perfect",
-    emoji: "♾️",
+    color: "#ffd655",
     label: { en: "Perfectionist", de: "Perfektionist" },
     desc: { en: "I sometimes spend longer than planned getting things right — the result is always something I'm proud of.", de: "Ich brauche manchmal länger als geplant — das Ergebnis ist immer etwas, das ich stolz präsentiere." },
     weak: true,
@@ -126,7 +126,7 @@ function AboutCard() {
             className={`about-trait${tr.weak ? " weak" : ""}${activeTrait === tr.key ? " open" : ""}`}
             onClick={() => setActiveTrait(activeTrait === tr.key ? null : tr.key)}
           >
-            <span className="trait-em">{tr.emoji}</span>
+            <span className="trait-dot" style={{ background: tr.color }} />
             <span className="trait-lbl">{tr.label[lang]}</span>
             {activeTrait === tr.key && <span className="trait-desc">{tr.desc[lang]}</span>}
           </button>
@@ -164,13 +164,6 @@ function AboutCard() {
           <span className="about-stat-label">Yrs Dev</span>
           <span className="about-stat-arrow">↗</span>
         </a>
-      </div>
-      <div className="about-testimonial">
-        <p className="tes-text">&ldquo;Clean code, great planning. Stands out.&rdquo;</p>
-        <div className="tes-meta">
-          <span className="tes-name">Mr. Schneider</span>
-          <span className="tes-role">Teacher · IMS Baden</span>
-        </div>
       </div>
     </div>
   );
@@ -295,66 +288,47 @@ function WerdegangCard() {
   const lang = useLang();
 
   const getColor = (kind: string) =>
-    kind === "win" ? "#ffd655" : kind === "work" ? "#f08e7f" : "#7a9ec4";
+    kind === "win" ? "#ffd655" : kind === "work" ? "var(--accent)" : "#7a9ec4";
 
   return (
-    <div className="card werdegang gd-werdegang" data-card="Timeline">
-      <div className="card-h">
-        {I.compass}{t(lang, "card.timeline")}
-        <span className="wer-hint">{t(lang, "timeline.hint")}</span>
-      </div>
-      <div className="wer-stage" onClick={() => setActive(null)}>
-        <div className="wer-track">
-          {WERDEGANG.map((m, i) => {
-            const above = i % 2 === 0;
-            const c = getColor(m.kind);
-            const isActive = active === i;
-            return (
-              <div
-                key={i}
-                className={`wer-col${isActive ? " act" : ""}`}
-                onClick={e => { e.stopPropagation(); setActive(isActive ? null : i); }}
-              >
-                <div className={`wer-lbl top${above ? " show" : ""}`}>
-                  <span className="wer-lbl-title" style={isActive ? { color: c } : {}}>{m.title}</span>
-                  <span className="wer-lbl-sub">{m.sub}</span>
+    <div className="card werdegang gd-werdegang" data-card="Timeline" onClick={() => setActive(null)}>
+      <div className="card-h">{I.compass}{t(lang, "card.timeline")}</div>
+      <div className="wer-list">
+        {WERDEGANG.map((m, i) => {
+          const isActive = active === i;
+          const isLast = i === WERDEGANG.length - 1;
+          const color = getColor(m.kind);
+          return (
+            <div
+              key={i}
+              className={`wer-entry${isActive ? " act" : ""}`}
+              style={{ animationDelay: `${i * 0.07}s` }}
+              onClick={e => { e.stopPropagation(); setActive(isActive ? null : i); }}
+            >
+              <div className="wer-entry-left">
+                <div className="wer-entry-dot" style={{ borderColor: color }}>
+                  <div className="wer-entry-core" style={{ background: color }} />
                 </div>
-                <div className="wer-node-row">
-                  <div className="wer-seg-line" />
-                  <div className="wer-node" style={{ borderColor: c, boxShadow: isActive ? `0 0 0 4px ${c}30` : undefined }}>
-                    <div className="wer-node-core" style={{ background: c }} />
-                  </div>
-                  <div className="wer-seg-line" />
+                {!isLast && <div className="wer-entry-line" />}
+              </div>
+              <div className="wer-entry-content">
+                <div className="wer-entry-header">
+                  <span className="wer-entry-year">{m.year}</span>
+                  <span className="wer-entry-title" style={isActive ? { color } : {}}>{m.title}</span>
+                  {m.kind === "work" && <span className="wer-open-badge">OPEN</span>}
                 </div>
-                <div className="wer-node-yr" style={isActive ? { color: c } : {}}>{m.year}</div>
-                <div className={`wer-lbl bot${!above ? " show" : ""}`}>
-                  <span className="wer-lbl-title" style={isActive ? { color: c } : {}}>{m.title}</span>
-                  <span className="wer-lbl-sub">{m.sub}</span>
+                <div className={`wer-entry-sub${isActive ? " visible" : ""}`}>
+                  <span className="wer-sub-text">{m.sub}</span>
+                  {m.kind === "work" && isActive && (
+                    <a href="mailto:shorra.enis@hotmail.com" className="wer-cta-link" onClick={e => e.stopPropagation()}>
+                      Contact →
+                    </a>
+                  )}
                 </div>
               </div>
-            );
-          })}
-        </div>
-        {active !== null && (
-          <div className="wer-info-bar" onClick={e => e.stopPropagation()}>
-            <div className="wer-ib-left">
-              <span className="wer-tt-year">{WERDEGANG[active].year}</span>
-              <span className={`wer-kind k-${WERDEGANG[active].kind}`}>
-                {WERDEGANG[active].kind === "school" ? "School" : WERDEGANG[active].kind === "work" ? "Career" : "Competition"}
-              </span>
             </div>
-            <div className="wer-ib-mid">
-              <span className="wer-tt-title">{WERDEGANG[active].title}</span>
-              <span className="wer-tt-sub">{WERDEGANG[active].sub}</span>
-            </div>
-            {WERDEGANG[active].kind === "work" && (
-              <a href="mailto:shorra.enis@hotmail.com" className="wer-cta-link" onClick={e => e.stopPropagation()}>
-                Contact →
-              </a>
-            )}
-            <button className="wer-tt-close" onClick={() => setActive(null)}>×</button>
-          </div>
-        )}
+          );
+        })}
       </div>
     </div>
   );
@@ -436,6 +410,11 @@ function ConstellationCard() {
   const [selected, setSelected] = useState<number | null>(null);
   const lang = useLang();
   const livePosRef = useRef(STAR_DATA.map(s => ({ nx: s.baseNx, ny: s.baseNy })));
+  const viewOffsetRef = useRef({ x: 0, y: 0 });
+  const isDraggingRef = useRef(false);
+  const dragStartRef = useRef({ nx: 0, ny: 0, baseX: 0, baseY: 0 });
+  const didDragRef = useRef(false);
+  const [isDragging, setIsDragging] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -541,8 +520,8 @@ function ConstellationCard() {
 
         // Project stars
         STAR_DATA.forEach((star, i) => {
-          const cx = (star.baseNx + star.orbitR * Math.cos(t * star.orbitSpeed + star.orbitPhase)) * W;
-          const cy = (star.baseNy + star.orbitR * Math.sin(t * star.orbitSpeed + star.orbitPhase)) * H;
+          const cx = (star.baseNx + viewOffsetRef.current.x + star.orbitR * Math.cos(t * star.orbitSpeed + star.orbitPhase)) * W;
+          const cy = (star.baseNy + viewOffsetRef.current.y + star.orbitR * Math.sin(t * star.orbitSpeed + star.orbitPhase)) * H;
           livePosRef.current[i] = { nx: cx / W, ny: cy / H };
 
           const x = cx;
@@ -655,13 +634,23 @@ function ConstellationCard() {
       if (rect.width === 0 || rect.height === 0) return;
       const nx = (e.clientX - rect.left) / rect.width;
       const ny = (e.clientY - rect.top) / rect.height;
+      if (isDraggingRef.current) {
+        const dx = nx - dragStartRef.current.nx;
+        const dy = ny - dragStartRef.current.ny;
+        viewOffsetRef.current = { x: dragStartRef.current.baseX + dx, y: dragStartRef.current.baseY + dy };
+        if (Math.abs(dx) > 0.005 || Math.abs(dy) > 0.005) didDragRef.current = true;
+        hoveredRef.current = null;
+        mouseRef.current = null;
+        setHovered(null);
+        return;
+      }
       mouseRef.current = { nx, ny };
       let closest: number | null = null;
       let minD = Infinity;
       STAR_DATA.forEach((_star, i) => {
-        const dx = livePosRef.current[i].nx - nx;
-        const dy = livePosRef.current[i].ny - ny;
-        const d = Math.sqrt(dx * dx + dy * dy);
+        const ddx = livePosRef.current[i].nx - nx;
+        const ddy = livePosRef.current[i].ny - ny;
+        const d = Math.sqrt(ddx * ddx + ddy * ddy);
         if (d < 0.07 && d < minD) { closest = i; minD = d; }
       });
       hoveredRef.current = closest;
@@ -670,24 +659,46 @@ function ConstellationCard() {
     const onLeave = () => {
       hoveredRef.current = null;
       mouseRef.current = null;
+      isDraggingRef.current = false;
+      setIsDragging(false);
       setHovered(null);
+    };
+    const onMouseDown = (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
+      const nx = (e.clientX - rect.left) / rect.width;
+      const ny = (e.clientY - rect.top) / rect.height;
+      isDraggingRef.current = true;
+      setIsDragging(true);
+      dragStartRef.current = { nx, ny, baseX: viewOffsetRef.current.x, baseY: viewOffsetRef.current.y };
+      didDragRef.current = false;
+    };
+    const onMouseUp = () => {
+      isDraggingRef.current = false;
+      setIsDragging(false);
     };
     canvas.addEventListener("mousemove", onMove);
     canvas.addEventListener("mouseleave", onLeave);
+    canvas.addEventListener("mousedown", onMouseDown);
+    canvas.addEventListener("mouseup", onMouseUp);
 
     return () => {
       stopped = true;
+      isDraggingRef.current = false;
       obs.disconnect();
       window.removeEventListener("resize", syncSize);
       document.removeEventListener("visibilitychange", onVisible);
       cancelAnimationFrame(raf);
       canvas.removeEventListener("mousemove", onMove);
       canvas.removeEventListener("mouseleave", onLeave);
+      canvas.removeEventListener("mousedown", onMouseDown);
+      canvas.removeEventListener("mouseup", onMouseUp);
     };
   }, [selected]);
 
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+    if (didDragRef.current) { didDragRef.current = false; return; }
     if (hoveredRef.current !== null) {
       setSelected(hoveredRef.current);
     } else {
@@ -708,7 +719,7 @@ function ConstellationCard() {
         <canvas
           ref={canvasRef}
           className="constellation-canvas"
-          style={{ cursor: hovered !== null ? "pointer" : "crosshair" }}
+          style={{ cursor: isDragging ? "grabbing" : hovered !== null ? "pointer" : "grab" }}
         />
         {sel && (
           <div className="con-info" onClick={(e) => e.stopPropagation()}>
@@ -1260,142 +1271,16 @@ function EasterEgg({ onClose }: { onClose: () => void }) {
 
 
 
-// ─── Lightning Overlay ────────────────────────────────────────────────────────
-function LightningOverlay() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    let raf: number;
-
-    interface Bolt {
-      pts: [number, number][];
-      born: number;
-      life: number;
-    }
-    const bolts: Bolt[] = [];
-
-    const spawn = () => {
-      const w = canvas.offsetWidth;
-      const h = canvas.offsetHeight;
-      if (!w || !h) return;
-      const x1 = 20 + Math.random() * (w - 40);
-      const y1 = 20 + Math.random() * (h - 40);
-      const angle = (Math.random() - 0.5) * Math.PI * 0.9;
-      const len = 70 + Math.random() * 160;
-      const x2 = x1 + Math.cos(angle) * len;
-      const y2 = y1 + Math.sin(angle) * len;
-      const segs = 5 + Math.floor(Math.random() * 5);
-      const dx = x2 - x1, dy = y2 - y1;
-      const perpX = -dy / len, perpY = dx / len;
-      const pts: [number, number][] = [[x1, y1]];
-      for (let i = 1; i < segs; i++) {
-        const t = i / segs;
-        const jitter = (Math.random() - 0.5) * 28;
-        pts.push([x1 + dx * t + perpX * jitter, y1 + dy * t + perpY * jitter]);
-      }
-      pts.push([x2, y2]);
-      bolts.push({ pts, born: performance.now(), life: 90 + Math.random() * 70 });
-    };
-
-    const draw = (now: number) => {
-      const dpr = window.devicePixelRatio || 1;
-      const cw = Math.round(canvas.offsetWidth * dpr);
-      const ch = Math.round(canvas.offsetHeight * dpr);
-      if (canvas.width !== cw || canvas.height !== ch) {
-        canvas.width = cw;
-        canvas.height = ch;
-      }
-      const ctx = canvas.getContext("2d");
-      if (!ctx || !cw || !ch) { raf = requestAnimationFrame(draw); return; }
-
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
-
-      for (let i = bolts.length - 1; i >= 0; i--) {
-        const b = bolts[i];
-        const age = now - b.born;
-        if (age > b.life) { bolts.splice(i, 1); continue; }
-        const p = age / b.life;
-        const alpha = p < 0.15 ? p / 0.15 : 1 - (p - 0.15) / 0.85;
-
-        // Glow pass
-        ctx.save();
-        ctx.globalAlpha = alpha * 0.22;
-        ctx.strokeStyle = "#ff6a1a";
-        ctx.lineWidth = 3;
-        ctx.shadowColor = "#ff6a1a";
-        ctx.shadowBlur = 10;
-        ctx.beginPath();
-        ctx.moveTo(b.pts[0][0], b.pts[0][1]);
-        for (let j = 1; j < b.pts.length; j++) ctx.lineTo(b.pts[j][0], b.pts[j][1]);
-        ctx.stroke();
-        ctx.restore();
-
-        // Core bolt
-        ctx.save();
-        ctx.globalAlpha = alpha;
-        ctx.strokeStyle = "#ffb060";
-        ctx.lineWidth = 0.8;
-        ctx.shadowColor = "#ff8030";
-        ctx.shadowBlur = 4;
-        ctx.beginPath();
-        ctx.moveTo(b.pts[0][0], b.pts[0][1]);
-        for (let j = 1; j < b.pts.length; j++) ctx.lineTo(b.pts[j][0], b.pts[j][1]);
-        ctx.stroke();
-        ctx.restore();
-      }
-
-      raf = requestAnimationFrame(draw);
-    };
-    raf = requestAnimationFrame(draw);
-
-    let tid: ReturnType<typeof setTimeout>;
-    const schedule = () => {
-      const delay = 7000 + Math.random() * 13000;
-      tid = setTimeout(() => {
-        spawn();
-        if (Math.random() < 0.25) setTimeout(spawn, 80 + Math.random() * 120);
-        schedule();
-      }, delay);
-    };
-    tid = setTimeout(() => { spawn(); schedule(); }, 4000 + Math.random() * 4000);
-
-    return () => { clearTimeout(tid); cancelAnimationFrame(raf); };
-  }, []);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 20 }}
-    />
-  );
-}
-
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function Home() {
   const [loading, setLoading] = useState(true);
   const [easterEgg, setEasterEgg] = useState(false);
   const [lang, setLang] = useState<"en" | "de">("en");
   const [accent, setAccent] = useState("#f08e7f");
+  const [ripples, setRipples] = useState<{ x: number; y: number; id: number }[]>([]);
+  const rippleIdRef = useRef(0);
   const konamiSeq = useRef<string[]>([]);
   const KONAMI = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];
-
-  // Card glow
-  useEffect(() => {
-    const onMove = (e: MouseEvent) => {
-      document.querySelectorAll<HTMLElement>(".card, .social").forEach(el => {
-        const r = el.getBoundingClientRect();
-        if (e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) {
-          el.style.setProperty("--mx", `${e.clientX - r.left}px`);
-          el.style.setProperty("--my", `${e.clientY - r.top}px`);
-        }
-      });
-    };
-    window.addEventListener("mousemove", onMove, { passive: true });
-    return () => window.removeEventListener("mousemove", onMove);
-  }, []);
 
   // Konami code
   useEffect(() => {
@@ -1415,7 +1300,14 @@ export default function Home() {
         {loading && <LoadingScreen onDone={() => setLoading(false)} />}
         {easterEgg && <EasterEgg onClose={() => setEasterEgg(false)} />}
         {!loading && (
-          <div className="app" style={{ ["--accent" as string]: accent }}>
+          <div className="app" style={{ ["--accent" as string]: accent }} onClick={(e) => {
+            const id = ++rippleIdRef.current;
+            setRipples(prev => [...prev, { x: e.clientX, y: e.clientY, id }]);
+            setTimeout(() => setRipples(prev => prev.filter(r => r.id !== id)), 600);
+          }}>
+            {ripples.map(r => (
+              <div key={r.id} className="click-ripple" style={{ left: r.x, top: r.y }} />
+            ))}
             <div id="main-grid" className="grid">
               <AboutCard />
               <GalleryCard />
@@ -1425,7 +1317,7 @@ export default function Home() {
               <GithubCard />
               <ContactCard />
               <StuffCard />
-              <LightningOverlay />
+              <TestimonialsCard />
             </div>
             <SocialsRow />
             <SettingsPanel lang={lang} setLang={setLang} accent={accent} setAccent={setAccent} />

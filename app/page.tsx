@@ -61,7 +61,21 @@ const TR: Record<string, { en: string; de: string }> = {
   "contact.sent":      { en: "Thanks — email client will open.", de: "Danke — E-Mail-Client wird geöffnet." },
   "map.tag":           { en: "Switzerland · Home", de: "Schweiz · Heimat" },
   "set.lang":          { en: "Language",        de: "Sprache" },
-  "set.accent":        { en: "Accent",          de: "Akzent" },
+  "set.theme":         { en: "Theme",           de: "Design" },
+  "set.dark":          { en: "Dark",            de: "Dunkel" },
+  "set.light":         { en: "Light",           de: "Hell" },
+  "about.greeting":    { en: "Hi, I'm",         de: "Hi, ich bin" },
+  "about.bio":         {
+    en: "17 · Kosovo roots, raised in Switzerland. I write C# and TypeScript every single day — clean code, strong OOP, obsessed with UI.",
+    de: "17 · Kosovarische Wurzeln, aufgewachsen in der Schweiz. Ich schreibe jeden Tag C# und TypeScript — sauberer Code, starkes OOP, besessen von UI.",
+  },
+  "about.building":    { en: "building →",      de: "baue gerade →" },
+  "about.age":         { en: "Age",             de: "Alter" },
+  "about.yrsdev":      { en: "Yrs Dev",         de: "Jahre Dev" },
+  "about.openmaps":    { en: "Open Maps →",     de: "Karte öffnen →" },
+  "tes.text":          { en: "Clean code, great planning. Stands out.", de: "Sauberer Code, gute Planung. Sticht heraus." },
+  "tes.role":          { en: "Teacher · IMS Baden", de: "Lehrer · IMS Baden" },
+  "con.deselect":      { en: "click to deselect", de: "Klicken zum Abwählen" },
 };
 
 function t(lang: "en" | "de", key: string): string {
@@ -113,12 +127,8 @@ function AboutCard() {
   return (
     <div className="card about gd-about" data-card="About">
       <div className="card-h">{I.wave}{t(lang, "card.about")}</div>
-      <h1>Hi, I&apos;m<br /><span className="italic">Enis</span></h1>
-      <p className="bio">
-        17 · Kosovo roots, raised in Switzerland.
-        I write C# and TypeScript every single day — clean code, strong OOP,
-        obsessed with UI.
-      </p>
+      <h1>{t(lang, "about.greeting")}<br /><span className="italic">Enis</span></h1>
+      <p className="bio">{t(lang, "about.bio")}</p>
       <div className="about-traits">
         {TRAITS.map(tr => (
           <button
@@ -139,14 +149,14 @@ function AboutCard() {
       >
         {I.pin}
         <span>Rudolfstetten, Switzerland</span>
-        <span className="loc-hint">Open Maps →</span>
+        <span className="loc-hint">{t(lang, "about.openmaps")}</span>
       </a>
       <a
         className="about-currently"
         href="https://stock-rendite.vercel.app/"
         target="_blank" rel="noopener noreferrer"
       >
-        <span className="about-currently-label">building →</span>
+        <span className="about-currently-label">{t(lang, "about.building")}</span>
         <span className="about-currently-val">Stock Rendite · C# / .NET / Blazor</span>
         <span className="about-currently-hint">↗</span>
       </a>
@@ -156,12 +166,12 @@ function AboutCard() {
       <div className="about-stats">
         <div className="about-stat">
           <span className="about-stat-val">17</span>
-          <span className="about-stat-label">Age</span>
+          <span className="about-stat-label">{t(lang, "about.age")}</span>
         </div>
         <a href="https://github.com/Ni7i" target="_blank" rel="noopener noreferrer"
           className="about-stat about-stat-link">
           <span className="about-stat-val">2+</span>
-          <span className="about-stat-label">Yrs Dev</span>
+          <span className="about-stat-label">{t(lang, "about.yrsdev")}</span>
           <span className="about-stat-arrow">↗</span>
         </a>
       </div>
@@ -270,25 +280,32 @@ function GalleryCard() {
 // ─── Werdegang (Career Timeline) ──────────────────────────────────────────────
 type Milestone = {
   year: string;
-  title: string;
-  sub: string;
+  title: { en: string; de: string };
+  sub: { en: string; de: string };
   kind: "school" | "work" | "win";
 };
 
 const WERDEGANG: Milestone[] = [
-  { year: "2014", title: "Primary School",   sub: "Rudolfstetten · Grades 1–6",         kind: "school" },
-  { year: "2020", title: "Secondary School", sub: "Aarau · Academic Track",             kind: "school" },
-  { year: "2023", title: "IMS Baden",        sub: "IT Middle School · Started",         kind: "school" },
-  { year: "2025", title: "Apprenticeship",   sub: "Looking for a placement · Open now", kind: "work"   },
-  { year: "2027", title: "IMS Graduation",   sub: "Vocational Baccalaureate · IT",      kind: "school" },
+  { year: "2014", title: { en: "Primary School",   de: "Primarschule" },    sub: { en: "Rudolfstetten · Grades 1–6",         de: "Rudolfstetten · Klasse 1–6" },         kind: "school" },
+  { year: "2020", title: { en: "Secondary School", de: "Sekundarschule" },  sub: { en: "Aarau · Academic Track",             de: "Aarau · Bezirksschule" },              kind: "school" },
+  { year: "2023", title: { en: "IMS Baden",        de: "IMS Baden" },       sub: { en: "IT Middle School · Started",         de: "Informatikmittelschule · Start" },     kind: "school" },
+  { year: "2025", title: { en: "Apprenticeship",   de: "Lehrstelle" },      sub: { en: "Looking for a placement · Open now", de: "Suche eine Lehrstelle · Offen" },      kind: "work"   },
+  { year: "2027", title: { en: "IMS Graduation",   de: "IMS Abschluss" },   sub: { en: "Vocational Baccalaureate · IT",      de: "Berufsmaturität · Informatik" },       kind: "school" },
 ];
 
 function WerdegangCard() {
   const [active, setActive] = useState<number | null>(null);
+  const [pulse, setPulse] = useState<number | null>(null);
   const lang = useLang();
 
   const getColor = (kind: string) =>
     kind === "win" ? "#ffd655" : kind === "work" ? "var(--accent)" : "#7a9ec4";
+
+  const onEntry = (i: number, isActive: boolean) => {
+    setActive(isActive ? null : i);
+    setPulse(i);
+    setTimeout(() => setPulse(p => (p === i ? null : p)), 450);
+  };
 
   return (
     <div className="card werdegang gd-werdegang" data-card="Timeline" onClick={() => setActive(null)}>
@@ -302,11 +319,11 @@ function WerdegangCard() {
             <div
               key={i}
               className={`wer-entry${isActive ? " act" : ""}`}
-              style={{ animationDelay: `${i * 0.07}s` }}
-              onClick={e => { e.stopPropagation(); setActive(isActive ? null : i); }}
+              style={{ animationDelay: `${i * 0.06}s` }}
+              onClick={e => { e.stopPropagation(); onEntry(i, isActive); }}
             >
               <div className="wer-entry-left">
-                <div className="wer-entry-dot" style={{ borderColor: color }}>
+                <div className={`wer-entry-dot${pulse === i ? " pulse" : ""}`} style={{ borderColor: color, color }}>
                   <div className="wer-entry-core" style={{ background: color }} />
                 </div>
                 {!isLast && <div className="wer-entry-line" />}
@@ -314,11 +331,11 @@ function WerdegangCard() {
               <div className="wer-entry-content">
                 <div className="wer-entry-header">
                   <span className="wer-entry-year">{m.year}</span>
-                  <span className="wer-entry-title" style={isActive ? { color } : {}}>{m.title}</span>
+                  <span className="wer-entry-title" style={isActive ? { color } : {}}>{m.title[lang]}</span>
                   {m.kind === "work" && <span className="wer-open-badge">OPEN</span>}
                 </div>
                 <div className={`wer-entry-sub${isActive ? " visible" : ""}`}>
-                  <span className="wer-sub-text">{m.sub}</span>
+                  <span className="wer-sub-text">{m.sub[lang]}</span>
                   {m.kind === "work" && isActive && (
                     <a href="mailto:shorra.enis@hotmail.com" className="wer-cta-link" onClick={e => e.stopPropagation()}>
                       Contact →
@@ -336,21 +353,21 @@ function WerdegangCard() {
 
 // ─── Constellation (Projects as Star Map) ────────────────────────────────────
 const REPOS = [
-  { name: "StockRendite",        lang: "C# / Blazor",  year: "2026 →", desc: "Track holdings, see actual returns",       url: "https://stock-rendite.vercel.app/", stars: 5 },
-  { name: "whiteplayer",         lang: "C# / WPF",     year: "2026",   desc: "Minimal music player with custom WPF UI",  stars: 4 },
-  { name: "memyselfandi",        lang: "TypeScript",   year: "2026",   desc: "This portfolio — enisshorra.ch",            url: "https://github.com/Ni7i/memyselfandi", stars: 4 },
-  { name: "Quizlot",             lang: "TypeScript",   year: "2026",   desc: "Quiz platform",                            stars: 3 },
-  { name: "ICT-Regios-2026",     lang: "JavaScript",   year: "2026",   desc: "ICT Regios competition project",           stars: 3 },
-  { name: "TrackMyFoodFrontend", lang: "JavaScript",   year: "2026",   desc: "Food tracking app frontend",               stars: 2 },
-  { name: "Impostergame-WhoAmI", lang: "JavaScript",   year: "2026",   desc: "First professional project",               stars: 2 },
-  { name: "screentime-blocker",  lang: "JavaScript",   year: "2026",   desc: "Screen time management",                   stars: 2 },
-  { name: "OaseJugendraum",      lang: "Python",       year: "2026",   desc: "Youth room web app",                       stars: 2 },
-  { name: "Swissskills25",       lang: "—",            year: "2026",   desc: "Swiss Skills 2025 competition",            stars: 2 },
-  { name: "BudgetBudddy",        lang: "Python",       year: "2025",   desc: "Budget tracking app",                      stars: 2 },
-  { name: "ReactProjekt",        lang: "JavaScript",   year: "2025",   desc: "UI & code progress showcase",              stars: 2 },
-  { name: "midnight-calculator", lang: "C#",           year: "2025",   desc: "Calculator for a local SME",               stars: 3 },
-  { name: "LCR",                 lang: "C#",           year: "2025",   desc: "Little random OOP game",                   stars: 2 },
-  { name: "Zitate",              lang: "Python",       year: "2025",   desc: "Quotes collection app",                    stars: 2 },
+  { name: "StockRendite",        lang: "C# / Blazor",  year: "2026 →", desc: { en: "Track holdings, see actual returns",      de: "Aktien verfolgen, echte Renditen sehen" },      url: "https://stock-rendite.vercel.app/", stars: 5 },
+  { name: "whiteplayer",         lang: "C# / WPF",     year: "2026",   desc: { en: "Minimal music player with custom WPF UI", de: "Minimalistischer Musikplayer mit WPF-UI" },     stars: 4 },
+  { name: "memyselfandi",        lang: "TypeScript",   year: "2026",   desc: { en: "This portfolio — enisshorra.ch",          de: "Dieses Portfolio — enisshorra.ch" },            url: "https://github.com/Ni7i/memyselfandi", stars: 4 },
+  { name: "Quizlot",             lang: "TypeScript",   year: "2026",   desc: { en: "Quiz platform",                          de: "Quiz-Plattform" },                              stars: 3 },
+  { name: "ICT-Regios-2026",     lang: "JavaScript",   year: "2026",   desc: { en: "ICT Regios competition project",         de: "ICT-Regios Wettbewerbsprojekt" },               stars: 3 },
+  { name: "TrackMyFoodFrontend", lang: "JavaScript",   year: "2026",   desc: { en: "Food tracking app frontend",             de: "Frontend einer Food-Tracking-App" },            stars: 2 },
+  { name: "Impostergame-WhoAmI", lang: "JavaScript",   year: "2026",   desc: { en: "First professional project",             de: "Erstes professionelles Projekt" },              stars: 2 },
+  { name: "screentime-blocker",  lang: "JavaScript",   year: "2026",   desc: { en: "Screen time management",                 de: "Bildschirmzeit-Verwaltung" },                   stars: 2 },
+  { name: "OaseJugendraum",      lang: "Python",       year: "2026",   desc: { en: "Youth room web app",                     de: "Web-App für den Jugendraum" },                  stars: 2 },
+  { name: "Swissskills25",       lang: "—",            year: "2026",   desc: { en: "Swiss Skills 2025 competition",          de: "Swiss Skills 2025 Wettbewerb" },                stars: 2 },
+  { name: "BudgetBudddy",        lang: "Python",       year: "2025",   desc: { en: "Budget tracking app",                    de: "App zum Budget verfolgen" },                    stars: 2 },
+  { name: "ReactProjekt",        lang: "JavaScript",   year: "2025",   desc: { en: "UI & code progress showcase",            de: "UI- & Code-Fortschritt" },                      stars: 2 },
+  { name: "midnight-calculator", lang: "C#",           year: "2025",   desc: { en: "Calculator for a local SME",             de: "Rechner für ein lokales KMU" },                 stars: 3 },
+  { name: "LCR",                 lang: "C#",           year: "2025",   desc: { en: "Little random OOP game",                 de: "Kleines zufälliges OOP-Spiel" },                stars: 2 },
+  { name: "Zitate",              lang: "Python",       year: "2025",   desc: { en: "Quotes collection app",                  de: "App für Zitate-Sammlung" },                     stars: 2 },
 ];
 
 const LANG_COLOR: Record<string, string> = {
@@ -459,6 +476,11 @@ function ConstellationCard() {
         if (!W || !H) { raf = requestAnimationFrame(draw); return; }
         const dpr = Math.max(1, window.devicePixelRatio || 1);
 
+        // Universe offset = slow self-drift + drag-pan. Stars stay fixed
+        // relative to each other; only the whole universe moves.
+        const gx = viewOffsetRef.current.x + 0.018 * Math.cos(t * 0.045);
+        const gy = viewOffsetRef.current.y + 0.013 * Math.sin(t * 0.05);
+
         // Deep-space background gradient
         const bg = ctx.createLinearGradient(0, 0, 0, H);
         bg.addColorStop(0, "#0b0a14");
@@ -466,10 +488,10 @@ function ConstellationCard() {
         ctx.fillStyle = bg;
         ctx.fillRect(0, 0, W, H);
 
-        // Nebulae (soft colored clouds)
+        // Nebulae (soft colored clouds) — parallax with the universe
         NEBULAE.forEach((n, i) => {
-          const cx = n.nx * W;
-          const cy = n.ny * H;
+          const cx = (n.nx + gx * 0.4) * W;
+          const cy = (n.ny + gy * 0.4) * H;
           const r = n.r * Math.max(W, H);
           const pulse = 1 + 0.04 * Math.sin(t * 0.4 + i);
           const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, r * pulse);
@@ -480,10 +502,12 @@ function ConstellationCard() {
           ctx.fillRect(0, 0, W, H);
         });
 
-        // Background ambient stars (denser, brighter)
+        // Background ambient stars (denser, brighter) — drift & wrap
         BG_STARS.forEach((s) => {
-          const sx = s.nx * W;
-          const sy = s.ny * H;
+          const wnx = ((s.nx + gx * 0.6) % 1 + 1) % 1;
+          const wny = ((s.ny + gy * 0.6) % 1 + 1) % 1;
+          const sx = wnx * W;
+          const sy = wny * H;
           const tw = 0.55 + 0.45 * Math.sin(t * 0.6 + s.twinklePhase);
           const a = Math.max(0.18, s.baseAlpha * tw);
           ctx.beginPath();
@@ -518,10 +542,10 @@ function ConstellationCard() {
           });
         });
 
-        // Project stars
+        // Project stars — fixed relative to each other, move with the universe
         STAR_DATA.forEach((star, i) => {
-          const cx = (star.baseNx + viewOffsetRef.current.x + star.orbitR * Math.cos(t * star.orbitSpeed + star.orbitPhase)) * W;
-          const cy = (star.baseNy + viewOffsetRef.current.y + star.orbitR * Math.sin(t * star.orbitSpeed + star.orbitPhase)) * H;
+          const cx = (star.baseNx + gx) * W;
+          const cy = (star.baseNy + gy) * H;
           livePosRef.current[i] = { nx: cx / W, ny: cy / H };
 
           const x = cx;
@@ -730,7 +754,7 @@ function ConstellationCard() {
               <span className="con-info-year">{sel.year}</span>
             </div>
             <div className="con-info-name">{sel.name}</div>
-            <div className="con-info-desc">{sel.desc}</div>
+            <div className="con-info-desc">{sel.desc[lang]}</div>
             {selUrl && (
               <a className="con-info-link" href={selUrl} target="_blank" rel="noopener noreferrer">
                 ↗ {selUrl.replace(/^https?:\/\//, "").replace(/\/$/, "")}
@@ -869,13 +893,14 @@ function GithubCard() {
 
 // ─── Testimonials ─────────────────────────────────────────────────────────────
 function TestimonialsCard() {
+  const lang = useLang();
   return (
     <div className="card testimonials gd-tes" data-card="Reviews">
       <div className="tes-body visible">
-        <p className="tes-text">&ldquo;Clean code, great planning. Stands out.&rdquo;</p>
+        <p className="tes-text">&ldquo;{t(lang, "tes.text")}&rdquo;</p>
         <div className="tes-meta">
           <span className="tes-name">Mr. Schneider</span>
-          <span className="tes-role">Teacher · IMS Baden</span>
+          <span className="tes-role">{t(lang, "tes.role")}</span>
         </div>
       </div>
     </div>
@@ -934,17 +959,19 @@ function MacBookVisual({ rotation }: { rotation: number }) {
       <div className="mb-lid">
         {showBack ? (
           <div className="mb-back-face">
-            <div className="mb-apple-back">✦</div>
+            <div className="mb-apple-logo" />
           </div>
         ) : (
           <div className="mb-screen-face">
             <div className="mb-notch" />
-            <div className="mb-screen-inner">
-              <div className="mb-screen-lines">
-                <div className="mb-sl mb-sl-1" /><div className="mb-sl mb-sl-2" />
-                <div className="mb-sl mb-sl-3" /><div className="mb-sl mb-sl-4" />
+            <div className="mb-wallpaper">
+              <div className="mb-menubar">
+                <span className="mb-apple-mini" />
+                <span className="mb-menu-dot" /><span className="mb-menu-dot" /><span className="mb-menu-dot" />
               </div>
-              <div className="mb-screen-label">M4 Pro</div>
+              <div className="mb-dock">
+                {Array.from({ length: 7 }).map((_, i) => <span key={i} className="mb-dock-icon" />)}
+              </div>
             </div>
           </div>
         )}
@@ -952,7 +979,7 @@ function MacBookVisual({ rotation }: { rotation: number }) {
       <div className="mb-hinge" />
       <div className="mb-base">
         <div className="mb-keyboard">
-          {Array.from({ length: 30 }).map((_, i) => <div key={i} className="mb-key" />)}
+          {Array.from({ length: 60 }).map((_, i) => <div key={i} className="mb-key" />)}
         </div>
         <div className="mb-trackpad" />
       </div>
@@ -964,22 +991,21 @@ function GamingPCVisual({ rotation }: { rotation: number }) {
   return (
     <div className="gaming-pc-3d" style={{ transform: `rotateY(${rotation % 360}deg)` }}>
       <div className="pc-case">
-        <div className="pc-top-strip" />
-        <div className="pc-window-area">
-          <div className="pc-fan-unit">
-            <div className="pc-fan-ring"><div className="pc-fan-hub" /></div>
+        <div className="pc-glass">
+          <div className="pc-glass-glare" />
+          <div className="pc-fans">
+            <div className="pc-fan"><div className="pc-fan-blades" /><div className="pc-fan-hub" /></div>
+            <div className="pc-fan"><div className="pc-fan-blades" /><div className="pc-fan-hub" /></div>
+            <div className="pc-fan"><div className="pc-fan-blades" /><div className="pc-fan-hub" /></div>
           </div>
-          <div className="pc-fan-unit">
-            <div className="pc-fan-ring"><div className="pc-fan-hub" /></div>
+          <div className="pc-gpu">
+            <span className="pc-gpu-label">RTX</span>
+            <div className="pc-gpu-fans"><span /><span /></div>
           </div>
-          <div className="pc-gpu-bar" />
-        </div>
-        <div className="pc-footer">
           <div className="pc-rgb-strip" />
-          <div className="pc-io">
-            <div className="pc-bay" /><div className="pc-bay" />
-            <div className="pc-usb" /><div className="pc-usb" />
-          </div>
+        </div>
+        <div className="pc-wood">
+          {Array.from({ length: 9 }).map((_, i) => <div key={i} className="pc-slat" />)}
         </div>
       </div>
     </div>
@@ -1076,7 +1102,6 @@ function StuffCard() {
         { label: "Tailwind CSS", icon: I.code },
         { label: "WPF", icon: I.windows },
         { label: "EF Core", icon: I.cs },
-        { label: "Supabase", icon: I.brand },
       ],
     },
     {
@@ -1092,7 +1117,6 @@ function StuffCard() {
         { label: "Git", icon: I.git },
         { label: "Figma", icon: I.brand },
         { label: "VS Code", icon: I.code },
-        { label: "Rider", icon: I.tool },
       ],
     },
   ];
@@ -1168,18 +1192,11 @@ function SocialsRow() {
 }
 
 // ─── Settings Panel ───────────────────────────────────────────────────────────
-const ACCENTS = [
-  { label: "Salmon", value: "#f08e7f" },
-  { label: "Blue",   value: "#6eb3f5" },
-  { label: "Green",  value: "#7acc8a" },
-  { label: "Purple", value: "#a78bfa" },
-];
-
-function SettingsPanel({ lang, setLang, accent, setAccent }: {
+function SettingsPanel({ lang, setLang, theme, setTheme }: {
   lang: "en" | "de";
   setLang: (l: "en" | "de") => void;
-  accent: string;
-  setAccent: (a: string) => void;
+  theme: "dark" | "light";
+  setTheme: (t: "dark" | "light") => void;
 }) {
   const [open, setOpen] = useState(false);
   return (
@@ -1199,12 +1216,10 @@ function SettingsPanel({ lang, setLang, accent, setAccent }: {
             </div>
           </div>
           <div className="settings-row">
-            <span className="settings-lbl">{t(lang, "set.accent")}</span>
-            <div className="settings-swatches">
-              {ACCENTS.map(a => (
-                <button key={a.value} className={`swatch${accent === a.value ? " active" : ""}`}
-                  style={{ background: a.value }} onClick={() => setAccent(a.value)} title={a.label} />
-              ))}
+            <span className="settings-lbl">{t(lang, "set.theme")}</span>
+            <div className="settings-btns">
+              <button className={theme === "dark" ? "active" : ""} onClick={() => setTheme("dark")}>{t(lang, "set.dark")}</button>
+              <button className={theme === "light" ? "active" : ""} onClick={() => setTheme("light")}>{t(lang, "set.light")}</button>
             </div>
           </div>
         </div>
@@ -1276,9 +1291,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [easterEgg, setEasterEgg] = useState(false);
   const [lang, setLang] = useState<"en" | "de">("en");
-  const [accent, setAccent] = useState("#f08e7f");
-  const [ripples, setRipples] = useState<{ x: number; y: number; id: number }[]>([]);
-  const rippleIdRef = useRef(0);
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
   const konamiSeq = useRef<string[]>([]);
   const KONAMI = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];
 
@@ -1300,27 +1313,22 @@ export default function Home() {
         {loading && <LoadingScreen onDone={() => setLoading(false)} />}
         {easterEgg && <EasterEgg onClose={() => setEasterEgg(false)} />}
         {!loading && (
-          <div className="app" style={{ ["--accent" as string]: accent }} onClick={(e) => {
-            const id = ++rippleIdRef.current;
-            setRipples(prev => [...prev, { x: e.clientX, y: e.clientY, id }]);
-            setTimeout(() => setRipples(prev => prev.filter(r => r.id !== id)), 600);
-          }}>
-            {ripples.map(r => (
-              <div key={r.id} className="click-ripple" style={{ left: r.x, top: r.y }} />
-            ))}
+          <div className={`app${theme === "light" ? " light" : ""}`}>
             <div id="main-grid" className="grid">
               <AboutCard />
               <GalleryCard />
               <WerdegangCard />
               <ConstellationCard />
-              <MapCard countries={{}} />
+              <div className="map-zone gd-mz">
+                <MapCard countries={{}} />
+                <TestimonialsCard />
+              </div>
               <GithubCard />
               <ContactCard />
               <StuffCard />
-              <TestimonialsCard />
             </div>
             <SocialsRow />
-            <SettingsPanel lang={lang} setLang={setLang} accent={accent} setAccent={setAccent} />
+            <SettingsPanel lang={lang} setLang={setLang} theme={theme} setTheme={setTheme} />
           </div>
         )}
       </>

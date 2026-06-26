@@ -7,7 +7,7 @@
 <meta name="description" content="Enis Shorra · 17 · Developer · Switzerland · Looking for internship" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <style>
 :root{
   --bg:#07080f;
@@ -22,7 +22,7 @@
   --accent:#60a5fa;
   --accent-s:#93c5fd;
   --green:#34d399;
-  --sans:'Inter',system-ui,sans-serif;
+  --sans:'Space Grotesk',system-ui,sans-serif;
   --mono:'JetBrains Mono',monospace;
 }
 *{margin:0;padding:0;box-sizing:border-box}
@@ -43,25 +43,20 @@ button{font-family:var(--sans);background:none;border:none;cursor:pointer}
 ::-webkit-scrollbar-track{background:var(--bg)}
 ::-webkit-scrollbar-thumb{background:#1a1d30;border-radius:3px}
 
-/* grain */
 .grain{position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.022;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
-/* progress */
 .prog{position:fixed;top:0;left:0;height:1px;width:0;z-index:9998;
   background:linear-gradient(90deg,var(--accent),var(--accent-s))}
 
-/* starfield canvas sits behind body content */
 #stars{position:fixed;inset:0;z-index:0;pointer-events:none}
 
-/* layout */
 .wrap{max-width:1040px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
 @media(max-width:580px){.wrap{padding:0 18px}}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media(max-width:660px){.g2{grid-template-columns:1fr}}
 footer{position:relative;z-index:1}
 
-/* nav */
 .nav{position:fixed;top:0;left:0;right:0;z-index:900;
   border-bottom:1px solid transparent;transition:background .3s,border-color .3s}
 .nav.sc{background:rgba(7,8,15,.94);backdrop-filter:blur(20px);border-bottom-color:var(--border)}
@@ -78,32 +73,22 @@ footer{position:relative;z-index:1}
 .lang-btn.active{color:var(--accent)}
 .lang-sep{color:var(--faint);font-size:10px;font-family:var(--mono)}
 
-/* ─── LOADER ─── */
 .loader{position:fixed;inset:0;z-index:9000}
 .ld-l,.ld-r{position:absolute;top:0;bottom:0;width:50%;background:var(--bg)}
 .ld-l{left:0}.ld-r{right:0}
 .ld-mid{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;
   align-items:center;justify-content:center;gap:28px;pointer-events:none}
-.ld-coord{font-family:var(--mono);font-size:clamp(16px,3.5vw,36px);letter-spacing:.06em;
-  color:var(--fg);line-height:1.5;text-align:center}
-.ld-coord span{display:block;opacity:0;transform:translateY(12px)}
-.ld-coord .sub{font-size:clamp(10px,1.6vw,14px);letter-spacing:.22em;text-transform:uppercase;
-  color:var(--faint);margin-top:6px}
 .ld-prog{width:min(36vw,200px);height:1px;background:var(--border2);position:relative;overflow:hidden}
 .ld-prog i{position:absolute;left:0;top:0;height:100%;width:0;
   background:linear-gradient(90deg,var(--accent),var(--accent-s))}
 
-/* ─── HERO ─── */
 .hero{padding-top:106px;padding-bottom:56px}
 .avail{display:inline-flex;align-items:center;gap:8px;margin-bottom:22px;
   font-family:var(--mono);font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim)}
-.avail i{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;
-  animation:ping 2s infinite;box-shadow:0 0 0 0 rgba(52,211,153,.4)}
-@keyframes ping{70%{box-shadow:0 0 0 7px rgba(52,211,153,0)}100%{box-shadow:0 0 0 0 rgba(52,211,153,0)}}
 
 .hero-intro{margin-bottom:12px}
 .hi{display:block;font-size:clamp(16px,3vw,26px);font-weight:400;color:var(--dim);letter-spacing:-.01em}
-.hero-name{font-size:clamp(60px,12.5vw,122px);font-weight:900;letter-spacing:-.05em;line-height:.88}
+.hero-name{font-size:clamp(56px,11.5vw,112px);font-weight:700;letter-spacing:-.04em;line-height:.9}
 .hero-name .fn{
   display:block;font-style:italic;
   background:linear-gradient(120deg,#60a5fa 10%,#a78bfa 90%);
@@ -116,29 +101,17 @@ footer{position:relative;z-index:1}
 .hero-bio{max-width:520px;color:var(--dim);font-size:15px;line-height:1.8;margin-bottom:22px}
 .hero-bio strong{color:var(--fg);font-weight:500}
 
-/* traits */
 .traits{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:22px}
-.trait{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;
-  padding:5px 12px;border:1px solid var(--border2);border-radius:999px;
+.trait{display:inline-flex;align-items:center;font-size:12px;font-weight:500;
+  padding:5px 13px;border:1px solid var(--border2);border-radius:999px;
   color:var(--dim);background:var(--card);transition:.2s;white-space:nowrap;cursor:default}
 .trait:hover{color:var(--fg);border-color:rgba(230,232,245,.22);background:var(--bg3)}
-.t-dot{width:5px;height:5px;border-radius:50%;background:var(--tc,var(--accent));
-  flex-shrink:0;transition:transform .2s}
-.trait:hover .t-dot{transform:scale(1.5)}
-
-/* stats */
-.hero-stats{display:flex;gap:0;margin-bottom:22px;width:fit-content;
-  border:1px solid var(--border);border-radius:5px;overflow:hidden}
-.stat{padding:12px 26px;text-align:center;background:var(--card)}
-.stat+.stat{border-left:1px solid var(--border)}
-.stat-n{font-size:30px;font-weight:800;letter-spacing:-.04em;color:var(--fg);line-height:1}
-.stat-lbl{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--faint);margin-top:4px}
 
 .skills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:22px}
 .skill{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;
   padding:4px 10px;border:1px solid var(--border2);border-radius:3px;color:var(--dim);transition:.22s}
 .skill:hover{border-color:rgba(96,165,250,.45);color:var(--fg)}
+.skill.hi{border-color:rgba(96,165,250,.42);color:var(--accent-s)}
 
 .currents{display:grid;grid-template-columns:repeat(3,auto);width:fit-content;
   border:1px solid var(--border);border-radius:5px;overflow:hidden;margin-bottom:24px}
@@ -160,7 +133,6 @@ footer{position:relative;z-index:1}
 .btn.p{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
 .btn.p:hover{background:#7ab8fd;border-color:#7ab8fd}
 
-/* ─── SECTIONS ─── */
 .sec{padding:36px 0}
 .sec+.sec{padding-top:0}
 .slbl{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;
@@ -168,7 +140,6 @@ footer{position:relative;z-index:1}
 .slbl::after{content:'';flex:1;height:1px;
   background:linear-gradient(90deg,var(--border2),transparent)}
 
-/* ─── FEATURED PROJECTS ─── */
 .fp{display:block;border:1px solid var(--border);border-radius:6px;padding:24px;
   transition:border-color .25s,background .25s,box-shadow .25s}
 .fp:hover{border-color:rgba(96,165,250,.25);background:var(--card);
@@ -177,7 +148,6 @@ footer{position:relative;z-index:1}
 .fp-name{font-size:17px;font-weight:700;letter-spacing:-.02em}
 .fp-tag{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;
   padding:3px 7px;border:1px solid var(--border2);border-radius:3px;color:var(--dim)}
-.fp-tag.live{border-color:rgba(52,211,153,.35);color:var(--green)}
 .fp-desc{font-size:14px;color:var(--dim);line-height:1.68;margin-bottom:14px}
 .fp-chips{display:flex;flex-wrap:wrap;gap:5px}
 .fp-chip{font-family:var(--mono);font-size:10px;letter-spacing:.04em;
@@ -185,7 +155,6 @@ footer{position:relative;z-index:1}
 .fp-foot{margin-top:12px;font-family:var(--mono);font-size:11px;color:var(--faint);transition:color .2s}
 .fp:hover .fp-foot{color:var(--accent)}
 
-/* ─── OTHER PROJECTS ─── */
 .op-wrap{border:1px solid var(--border);border-radius:6px;overflow:hidden}
 .op{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:14px;
   padding:13px 20px;border-bottom:1px solid var(--border);
@@ -203,14 +172,10 @@ footer{position:relative;z-index:1}
 @media(max-width:640px){.op{grid-template-columns:1fr auto}.op-tech{display:none}}
 @media(max-width:480px){.op-d{display:none}}
 
-/* ─── TIMELINE ─── */
 .tl{border-left:1px solid var(--border);margin-left:6px;padding-left:24px}
 .tl-row{position:relative;padding-bottom:26px}
 .tl-row:last-child{padding-bottom:0}
-.tl-dot{position:absolute;left:-31px;top:5px;width:12px;height:12px;border-radius:50%;
-  border:2px solid var(--faint);background:var(--bg);transition:.3s}
-.tl-row.on .tl-dot{border-color:var(--accent);background:var(--accent);
-  box-shadow:0 0 0 5px rgba(96,165,250,.12),0 0 12px rgba(96,165,250,.3)}
+.tl-dot{display:none}
 .tl-yr{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.1em;margin-bottom:2px}
 .tl-t{font-size:17px;font-weight:700;letter-spacing:-.02em}
 .tl-s{font-size:13px;color:var(--dim);margin-top:2px}
@@ -218,7 +183,6 @@ footer{position:relative;z-index:1}
   letter-spacing:.12em;text-transform:uppercase;padding:2px 7px;
   border:1px solid rgba(52,211,153,.35);color:var(--green);border-radius:3px;vertical-align:middle}
 
-/* ─── PERSONAL / BEYOND ─── */
 .personal-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start}
 @media(max-width:760px){.personal-grid{grid-template-columns:1fr}}
 .personal-text p{font-size:15px;color:var(--dim);line-height:1.82;margin-bottom:18px}
@@ -233,19 +197,22 @@ footer{position:relative;z-index:1}
   color:var(--accent);margin-bottom:8px}
 .p-card p{font-size:13px;color:var(--dim);line-height:1.72}
 
-/* tech stack */
-.stack-tier{border:1px solid var(--border);border-radius:5px;padding:16px 18px;
-  background:var(--card);margin-bottom:10px}
+.stack-tier{margin-bottom:18px}
 .stack-tier:last-child{margin-bottom:0}
 .stack-tier-lbl{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;
   color:var(--faint);margin-bottom:10px}
-.stack-items{display:flex;flex-wrap:wrap;gap:5px}
-.stack-item{font-family:var(--mono);font-size:11px;padding:3px 8px;
-  border:1px solid var(--border2);border-radius:3px;color:var(--dim)}
-.stack-item.hi{border-color:rgba(96,165,250,.3);color:var(--accent-s)}
-.stack-item.lo{border-color:var(--border);color:var(--faint);opacity:.65}
+.stack-items{display:flex;flex-wrap:wrap;gap:8px}
+.stack-item{display:flex;flex-direction:column;align-items:center;gap:6px;
+  padding:12px 8px;border:1px solid var(--border);border-radius:6px;
+  background:var(--card);width:70px;cursor:default;transition:border-color .2s,background .2s}
+.stack-item:hover{border-color:var(--border2);background:var(--bg3)}
+.stack-item img{width:26px;height:26px;object-fit:contain}
+.stack-item span{font-family:var(--mono);font-size:9px;letter-spacing:.03em;
+  color:var(--dim);text-align:center;line-height:1.3;word-break:break-word}
+.stack-item.lo{opacity:.4}
+.stack-item.lo:hover{opacity:.7}
+.stack-item.inv img{filter:invert(1) brightness(.85)}
 
-/* ─── REFS ─── */
 .tes{border:1px solid var(--border);border-radius:6px;padding:24px;
   background:var(--card);transition:border-color .25s,box-shadow .25s}
 .tes:hover{border-color:rgba(96,165,250,.18);
@@ -255,13 +222,9 @@ footer{position:relative;z-index:1}
 .tes-q::before{content:'"';position:absolute;left:0;top:-4px;font-size:26px;
   color:var(--accent);opacity:.6;line-height:1;font-style:normal}
 .tes-who{display:flex;align-items:center;gap:11px}
-.tes-av{width:34px;height:34px;border-radius:50%;flex-shrink:0;font-size:12px;font-weight:700;
-  display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(135deg,#60a5fa,#a78bfa);color:#fff}
 .tes-n{font-size:14px;font-weight:600}
 .tes-r{font-size:12px;color:var(--dim);font-family:var(--mono)}
 
-/* ─── CONTACT ─── */
 .cg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media(max-width:700px){.cg{grid-template-columns:1fr}}
 .card{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:20px}
@@ -285,8 +248,15 @@ footer{position:relative;z-index:1}
   padding:11px 0;border-bottom:1px solid var(--border);text-decoration:none;transition:.2s}
 .soc:last-child{border-bottom:none}
 .soc:hover .soc-k{color:var(--fg)}.soc:hover .soc-v{color:var(--accent)}
-.soc-k{font-size:14px;font-weight:500;transition:color .2s}
+.soc-k{font-size:14px;font-weight:500;transition:color .2s;display:flex;align-items:center;gap:9px}
 .soc-v{font-family:var(--mono);font-size:12px;color:var(--dim);transition:color .2s}
+.soc-ico{width:22px;height:22px;border-radius:5px;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0}
+.soc-ico svg{width:12px;height:12px}
+.soc-ico.gh{background:#1b1f23;color:#fff}
+.soc-ico.li{background:#0a66c2;color:#fff}
+.soc-ico.dc{background:#5865f2;color:#fff}
+.soc-ico.em{background:var(--bg3);color:var(--dim);border:1px solid var(--border2)}
 .edu-card{border:1px solid var(--border);border-radius:5px;padding:18px 20px;margin-top:10px}
 .edu-lbl{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;
   color:var(--faint);margin-bottom:10px}
@@ -294,18 +264,15 @@ footer{position:relative;z-index:1}
 .edu-sub{font-size:13px;color:var(--dim)}
 .edu-yr{font-family:var(--mono);font-size:11px;color:var(--faint);margin-top:4px}
 
-/* ─── FOOTER ─── */
 footer{border-top:1px solid var(--border);padding:20px 0;margin-top:20px}
 .foot{max-width:1040px;margin:0 auto;padding:0 28px;
   display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;
   font-family:var(--mono);font-size:11px;color:var(--faint)}
 @media(max-width:580px){.foot{padding:0 18px;flex-direction:column;gap:6px;text-align:center}}
 
-/* ─── SCROLL REVEAL ─── */
 .fi{opacity:0;transform:translateY(14px);transition:opacity .42s ease,transform .42s ease}
 .fi.in{opacity:1;transform:none}
 
-/* ─── IMS MODAL ─── */
 .modal-overlay{position:fixed;inset:0;z-index:8500;display:flex;align-items:center;
   justify-content:center;padding:20px;background:rgba(7,8,15,.88);
   backdrop-filter:blur(14px);opacity:0;pointer-events:none;transition:opacity .3s}
@@ -320,38 +287,26 @@ footer{border-top:1px solid var(--border);padding:20px 0;margin-top:20px}
 .modal-close:hover{color:var(--fg)}
 .modal-tag{font-family:var(--mono);font-size:9px;letter-spacing:.22em;text-transform:uppercase;
   color:var(--accent);margin-bottom:8px}
-.modal-title{font-size:22px;font-weight:800;letter-spacing:-.03em;margin-bottom:28px;color:var(--fg)}
+.modal-title{font-size:22px;font-weight:700;letter-spacing:-.03em;margin-bottom:28px;color:var(--fg)}
 .modal-sect{padding-bottom:22px;margin-bottom:22px;border-bottom:1px solid var(--border)}
 .modal-sect:last-child{padding-bottom:0;margin-bottom:0;border-bottom:none}
 .modal-sect-lbl{font-family:var(--mono);font-size:9px;letter-spacing:.18em;
   text-transform:uppercase;color:var(--faint);margin-bottom:10px}
 .modal-sect p{font-size:14px;color:var(--dim);line-height:1.78}
 .modal-sect strong{color:var(--fg);font-weight:500}
-/* timeline clickable hint */
 .tl-info-btn{display:inline-flex;align-items:center;gap:4px;margin-left:10px;
   font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;
   padding:2px 8px;border:1px solid rgba(96,165,250,.28);color:var(--accent);
   border-radius:3px;vertical-align:middle;cursor:pointer;transition:.2s}
 .tl-info-btn:hover{background:rgba(96,165,250,.1)}
-.skill.hi{border-color:rgba(96,165,250,.42);color:var(--accent-s)}
-/* ── LOADER NAME ── */
-#ld-name{position:fixed;top:50%;left:50%;font-family:var(--sans);font-weight:900;
-  font-size:clamp(60px,12.5vw,122px);letter-spacing:-.05em;line-height:.88;
+#ld-name{position:fixed;top:50%;left:50%;font-family:var(--sans);font-weight:700;
+  font-size:clamp(56px,11.5vw,112px);letter-spacing:-.04em;line-height:.9;
   z-index:9001;pointer-events:none;opacity:0}
 #ld-name .fn{display:block;font-style:italic;
   background:linear-gradient(120deg,#60a5fa 10%,#a78bfa 90%);
   -webkit-background-clip:text;background-clip:text;color:transparent}
 #ld-name .ln{display:block;color:var(--fg)}
 .hero-name{opacity:0}
-/* ── SOCIAL ICONS ── */
-.soc-k{font-size:14px;font-weight:500;transition:color .2s;display:flex;align-items:center;gap:9px}
-.soc-ico{width:22px;height:22px;border-radius:5px;display:flex;align-items:center;
-  justify-content:center;flex-shrink:0}
-.soc-ico svg{width:12px;height:12px}
-.soc-ico.gh{background:#1b1f23;color:#fff}
-.soc-ico.li{background:#0a66c2;color:#fff}
-.soc-ico.dc{background:#5865f2;color:#fff}
-.soc-ico.em{background:var(--bg3);color:var(--dim);border:1px solid var(--border2)}
 </style>
 </head>
 <body>
@@ -361,7 +316,6 @@ footer{border-top:1px solid var(--border);padding:20px 0;margin-top:20px}
 <div class="prog" id="prog"></div>
 <div id="ld-name"><span class="fn">Enis</span><span class="ln">Shorra</span></div>
 
-<!-- ─── LOADER ─── -->
 <div class="loader" id="loader">
   <div class="ld-l"></div><div class="ld-r"></div>
   <div class="ld-mid">
@@ -369,7 +323,6 @@ footer{border-top:1px solid var(--border);padding:20px 0;margin-top:20px}
   </div>
 </div>
 
-<!-- ─── NAV ─── -->
 <nav class="nav" id="nav">
   <div class="nav-in">
     <a href="#top" class="nav-logo" aria-label="Home">
@@ -393,10 +346,9 @@ footer{border-top:1px solid var(--border);padding:20px 0;margin-top:20px}
   </div>
 </nav>
 
-<!-- ─── HERO ─── -->
 <div class="wrap" id="top">
 <section class="hero">
-  <div class="avail"><i></i><span data-i18n="hero.badge">Open to internship · 2027–2028</span></div>
+  <div class="avail"><span data-i18n="hero.badge">Open to internship · 2027–2028</span></div>
 
   <div class="hero-intro">
     <span class="hi" data-i18n="hero.hi">Hi, I'm</span>
@@ -409,20 +361,15 @@ footer{border-top:1px solid var(--border);padding:20px 0;margin-top:20px}
   <p class="hero-sub" data-i18n="hero.sub">17 · Kosovo roots, raised in Switzerland · Rudolfstetten, CH</p>
 
   <p class="hero-bio" data-i18n="hero.bio">
-    CS student at IMS Baden. I have experience across a lot of languages — but the ones I'm genuinely strong in are <strong>C#</strong>, <strong>Python</strong>, and <strong>HTML/CSS</strong>. I care about clean code, strong OOP, and UI that actually feels right. Not the kind of person who ships something and moves on.
+    CS student at IMS Baden. I have experience across a lot of languages — but the ones I'm genuinely strong in are <strong>C#</strong>, <strong>Python</strong>, and <strong>HTML/CSS</strong>. I care about clean code, strong OOP, and UI that actually feels right.
   </p>
 
   <div class="traits">
-    <span class="trait"><i class="t-dot" style="--tc:#60a5fa"></i><span data-i18n="trait.fast">Fast Learner</span></span>
-    <span class="trait"><i class="t-dot" style="--tc:#a78bfa"></i><span data-i18n="trait.reliable">Reliable</span></span>
-    <span class="trait"><i class="t-dot" style="--tc:#34d399"></i><span data-i18n="trait.detail">Detail-Oriented</span></span>
-    <span class="trait"><i class="t-dot" style="--tc:#f472b6"></i><span data-i18n="trait.team">Team Player</span></span>
-    <span class="trait"><i class="t-dot" style="--tc:#fbbf24"></i><span data-i18n="trait.perf">Perfectionist</span></span>
-  </div>
-
-  <div class="hero-stats">
-    <div class="stat"><div class="stat-n">17</div><div class="stat-lbl" data-i18n="stat.age">age</div></div>
-    <div class="stat"><div class="stat-n">2+</div><div class="stat-lbl" data-i18n="stat.yrsdev">yrs dev</div></div>
+    <span class="trait"><span data-i18n="trait.fast">Fast Learner</span></span>
+    <span class="trait"><span data-i18n="trait.reliable">Reliable</span></span>
+    <span class="trait"><span data-i18n="trait.detail">Detail-Oriented</span></span>
+    <span class="trait"><span data-i18n="trait.team">Team Player</span></span>
+    <span class="trait"><span data-i18n="trait.perf">Perfectionist</span></span>
   </div>
 
   <div class="skills" id="skills"></div>
@@ -440,12 +387,11 @@ footer{border-top:1px solid var(--border);padding:20px 0;margin-top:20px}
   </div>
 </section>
 
-<!-- ─── FEATURED PROJECTS ─── -->
 <section class="sec" id="projects">
   <div class="slbl" data-i18n="slbl.projects">Featured Projects</div>
   <div class="g2 fi">
     <a class="fp" href="https://stock-rendite.vercel.app/" target="_blank" rel="noopener">
-      <div class="fp-row"><span class="fp-name">Stock Rendite</span><span class="fp-tag live">Live ↗</span></div>
+      <div class="fp-row"><span class="fp-name">Stock Rendite</span></div>
       <p class="fp-desc" data-i18n="fp.stock.d"></p>
       <div class="fp-chips"><span class="fp-chip">C#</span><span class="fp-chip">.NET</span><span class="fp-chip">Blazor</span><span class="fp-chip">Vercel</span></div>
       <div class="fp-foot">→ stock-rendite.vercel.app</div>
@@ -459,73 +405,21 @@ footer{border-top:1px solid var(--border);padding:20px 0;margin-top:20px}
   </div>
 </section>
 
-<!-- ─── OTHER PROJECTS ─── -->
 <section class="sec">
   <div class="slbl" data-i18n="slbl.other">Other Projects</div>
   <div class="op-wrap fi" id="op-list"></div>
 </section>
 
-<!-- ─── TIMELINE ─── -->
 <section class="sec">
   <div class="slbl" data-i18n="slbl.timeline">Timeline</div>
   <div class="tl fi" id="tl"></div>
 </section>
 
-<!-- ─── STACK ─── -->
 <section class="sec">
   <div class="slbl" data-i18n="slbl.stack">Stack</div>
-  <div class="fi" style="margin-top:14px">
-    <div class="stack-tier">
-      <div class="stack-tier-lbl" data-i18n="stack.strong">Stark darin</div>
-      <div class="stack-items">
-        <span class="stack-item hi">C#</span>
-        <span class="stack-item hi">Python</span>
-        <span class="stack-item hi">HTML / CSS</span>
-      </div>
-    </div>
-    <div class="stack-tier">
-      <div class="stack-tier-lbl" data-i18n="stack.worked">Damit gearbeitet</div>
-      <div class="stack-items">
-        <span class="stack-item">.NET / Blazor</span>
-        <span class="stack-item">TypeScript</span>
-        <span class="stack-item">JavaScript</span>
-        <span class="stack-item">SQL</span>
-        <span class="stack-item">WPF</span>
-        <span class="stack-item">Next.js</span>
-        <span class="stack-item">React</span>
-        <span class="stack-item">Tailwind CSS</span>
-        <span class="stack-item">EF Core</span>
-        <span class="stack-item">SQL Server</span>
-        <span class="stack-item">MongoDB</span>
-        <span class="stack-item">Git</span>
-        <span class="stack-item">GitHub</span>
-        <span class="stack-item">VS Code</span>
-        <span class="stack-item">Visual Studio</span>
-        <span class="stack-item">Postman</span>
-        <span class="stack-item">Figma</span>
-        <span class="stack-item">npm</span>
-        <span class="stack-item">pnpm</span>
-        <span class="stack-item">Vercel</span>
-      </div>
-    </div>
-    <div class="stack-tier">
-      <div class="stack-tier-lbl" data-i18n="stack.first">Erste Erfahrungen</div>
-      <div class="stack-items">
-        <span class="stack-item lo">PostgreSQL</span>
-        <span class="stack-item lo">SQLite</span>
-        <span class="stack-item lo">Redis</span>
-        <span class="stack-item lo">Docker</span>
-        <span class="stack-item lo">Azure</span>
-        <span class="stack-item lo">Rider</span>
-        <span class="stack-item lo">SSMS</span>
-        <span class="stack-item lo">WSL</span>
-        <span class="stack-item lo">Linux / Ubuntu</span>
-      </div>
-    </div>
-  </div>
+  <div id="stack-wrap" class="fi" style="margin-top:14px"></div>
 </section>
 
-<!-- ─── REFS ─── -->
 <section class="sec" id="refs">
   <div class="slbl" data-i18n="slbl.refs">References</div>
   <div class="g2 fi">
@@ -544,39 +438,25 @@ footer{border-top:1px solid var(--border);padding:20px 0;margin-top:20px}
   </div>
 </section>
 
-<!-- ─── PERSONAL ─── -->
 <section class="sec" id="about">
   <div class="slbl" data-i18n="slbl.about">Beyond the Code</div>
   <div class="personal-grid fi">
     <div class="personal-text">
-      <p data-i18n="about.p1">I grew up between two worlds — <strong>Kosovo roots</strong>, Swiss upbringing. That probably explains why I'm drawn to things that bridge gaps: between logic and design, between an idea and something you can actually ship.</p>
-      <p data-i18n="about.p2">My father always wanted me to go into IT — so I was in contact with computers from a very early age, and they have played an important role in every chapter of my life.</p>
-      <p data-i18n="about.p3">I started coding at 15 when I joined IMS and picked it up quickly. School gave me the foundation — but the projects I care most about are the ones I built on my own outside of class.</p>
-      <p data-i18n="about.p4">I still have a lot to learn, and I know it. What I bring is the drive to actually do that learning — not just wait to be taught, but go and figure things out.</p>
-      <p data-i18n="about.p6">I ask questions early, communicate when something's unclear, and I don't go quiet when things get hard.</p>
+      <p data-i18n="about.p1"></p>
+      <p data-i18n="about.p2"></p>
+      <p data-i18n="about.p3"></p>
+      <p data-i18n="about.p4"></p>
+      <p data-i18n="about.p6"></p>
     </div>
     <div class="p-cards">
-      <div class="p-card">
-        <div class="p-card-lbl" data-i18n="pcard.drives.lbl">What drives me</div>
-        <p data-i18n="pcard.drives.p">I can't leave things half-finished. If something works but looks sloppy or breaks in edge cases, it bothers me until I fix it. I care about what I put my name on.</p>
-      </div>
-      <div class="p-card">
-        <div class="p-card-lbl" data-i18n="pcard.work.lbl">How I work</div>
-        <p data-i18n="pcard.work.p">I look things up before assuming. I name things clearly. I don't leave TODOs that never get fixed. If I'm unsure, I say so instead of guessing and hoping nobody notices.</p>
-      </div>
-      <div class="p-card">
-        <div class="p-card-lbl" data-i18n="pcard.now.lbl">Right now</div>
-        <p data-i18n="pcard.now.p">Finishing year 3 at IMS Baden, building Stock Rendite on the side, looking for an internship where I can contribute from day one — not just watch from the sidelines.</p>
-      </div>
-      <div class="p-card">
-        <div class="p-card-lbl" data-i18n="pcard.goal.lbl">Goal</div>
-        <p data-i18n="pcard.goal.p">Build products people actually open every day. Not internal tools that exist because someone asked for a dashboard. Somewhere where quality matters.</p>
-      </div>
+      <div class="p-card"><div class="p-card-lbl" data-i18n="pcard.drives.lbl"></div><p data-i18n="pcard.drives.p"></p></div>
+      <div class="p-card"><div class="p-card-lbl" data-i18n="pcard.work.lbl"></div><p data-i18n="pcard.work.p"></p></div>
+      <div class="p-card"><div class="p-card-lbl" data-i18n="pcard.now.lbl"></div><p data-i18n="pcard.now.p"></p></div>
+      <div class="p-card"><div class="p-card-lbl" data-i18n="pcard.goal.lbl"></div><p data-i18n="pcard.goal.p"></p></div>
     </div>
   </div>
 </section>
 
-<!-- ─── CONTACT ─── -->
 <section class="sec" id="contact">
   <div class="slbl" data-i18n="slbl.contact">Get in Touch</div>
   <div class="cg fi">
@@ -599,7 +479,6 @@ footer{border-top:1px solid var(--border);padding:20px 0;margin-top:20px}
           <a class="soc" href="mailto:shorra.enis@hotmail.com">
             <span class="soc-k"><span class="soc-ico em"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>Email</span>
             <span class="soc-v">shorra.enis@hotmail.com</span></a>
-
           <a class="soc" href="https://github.com/Ni7i" target="_blank" rel="noopener">
             <span class="soc-k"><span class="soc-ico gh"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg></span>GitHub</span>
             <span class="soc-v">github.com/Ni7i</span></a>
@@ -622,27 +501,14 @@ footer{border-top:1px solid var(--border);padding:20px 0;margin-top:20px}
 </section>
 </div>
 
-<!-- ─── IMS MODAL ─── -->
 <div class="modal-overlay" id="ims-modal" aria-hidden="true">
   <div class="modal-card">
     <button class="modal-close" id="ims-close">✕</button>
     <div class="modal-tag">IMS Baden · 2023–2027</div>
     <h2 class="modal-title">Informatikmittelschule</h2>
-
-    <div class="modal-sect">
-      <div class="modal-sect-lbl" data-i18n="modal.s1.lbl">What is IMS?</div>
-      <p data-i18n="modal.s1.p"></p>
-    </div>
-
-    <div class="modal-sect">
-      <div class="modal-sect-lbl" data-i18n="modal.s2.lbl">What the internship offers</div>
-      <p data-i18n="modal.s2.p"></p>
-    </div>
-
-    <div class="modal-sect">
-      <div class="modal-sect-lbl" data-i18n="modal.s3.lbl">Why I'm the right person</div>
-      <p data-i18n="modal.s3.p"></p>
-    </div>
+    <div class="modal-sect"><div class="modal-sect-lbl" data-i18n="modal.s1.lbl"></div><p data-i18n="modal.s1.p"></p></div>
+    <div class="modal-sect"><div class="modal-sect-lbl" data-i18n="modal.s2.lbl"></div><p data-i18n="modal.s2.p"></p></div>
+    <div class="modal-sect"><div class="modal-sect-lbl" data-i18n="modal.s3.lbl"></div><p data-i18n="modal.s3.p"></p></div>
   </div>
 </div>
 
@@ -657,119 +523,155 @@ footer{border-top:1px solid var(--border);padding:20px 0;margin-top:20px}
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 <script>
-/* ── RELOAD DETECTION ── */
 const isReload=performance.getEntriesByType?.('navigation')?.[0]?.type==='reload';
 
-/* ── STARFIELD ── */
 (function(){
   const cvs=document.getElementById('stars');
   const cx=cvs.getContext('2d');
   let stars=[],shooters=[],W=0,H=0,raf;
-
   function init(){
-    W=cvs.width=window.innerWidth;
-    H=cvs.height=window.innerHeight;
+    W=cvs.width=window.innerWidth;H=cvs.height=window.innerHeight;
     stars=[];shooters=[];
     const n=Math.round(W*H/4200);
     for(let i=0;i<n;i++){
       const big=Math.random()<.06;
       const r=big?Math.random()*.7+.9:Math.random()*.5+.15;
-      stars.push({
-        x:Math.random()*W,y:Math.random()*H,r,
+      stars.push({x:Math.random()*W,y:Math.random()*H,r,
         baseA:big?Math.random()*.4+.4:Math.random()*.4+.08,
-        dy:r*0.042+0.018,
-        dx:(Math.random()-.5)*0.026,
-        blue:Math.random()<.3,
-        tw:Math.random()<.18,
-        twS:Math.random()*0.018+0.004,
-        twP:Math.random()*6.28,
-      });
+        dy:r*0.042+0.018,dx:(Math.random()-.5)*0.026,
+        blue:Math.random()<.3,tw:Math.random()<.18,
+        twS:Math.random()*0.018+0.004,twP:Math.random()*6.28});
     }
   }
-
   function spawnShooter(){
-    const ang=(Math.random()*35+20)*Math.PI/180;
-    const spd=Math.random()*7+8;
-    shooters.push({
-      x:Math.random()*W*.75,y:Math.random()*H*.4,
-      vx:Math.cos(ang)*spd,vy:Math.sin(ang)*spd,
-      len:Math.random()*90+55,ang,
-      a:.9,da:Math.random()*.012+.009,
-    });
+    const ang=(Math.random()*35+20)*Math.PI/180,spd=Math.random()*7+8;
+    shooters.push({x:Math.random()*W*.75,y:Math.random()*H*.4,
+      vx:Math.cos(ang)*spd,vy:Math.sin(ang)*spd,len:Math.random()*90+55,ang,
+      a:.9,da:Math.random()*.012+.009});
   }
-
   function frame(t){
     cx.clearRect(0,0,W,H);
     const ts=t*0.001;
     for(const s of stars){
       s.x+=s.dx;s.y+=s.dy;
-      if(s.x<0)s.x+=W; else if(s.x>W)s.x-=W;
-      if(s.y>H)s.y-=H; else if(s.y<0)s.y+=H;
+      if(s.x<0)s.x+=W;else if(s.x>W)s.x-=W;
+      if(s.y>H)s.y-=H;else if(s.y<0)s.y+=H;
       const a=s.tw?s.baseA*(0.65+0.35*Math.sin(ts*s.twS*60+s.twP)):s.baseA;
       cx.beginPath();cx.arc(s.x,s.y,s.r,0,6.2832);
-      cx.fillStyle=s.blue?`rgba(180,210,255,${a})`:`rgba(220,225,255,${a})`;
-      cx.fill();
+      cx.fillStyle=s.blue?`rgba(180,210,255,${a})`:`rgba(220,225,255,${a})`;cx.fill();
     }
-    if(Math.random()<.0015) spawnShooter();
+    if(Math.random()<.0015)spawnShooter();
     cx.save();
     for(let i=shooters.length-1;i>=0;i--){
       const s=shooters[i];
-      const tx=s.x-Math.cos(s.ang)*s.len;
-      const ty=s.y-Math.sin(s.ang)*s.len;
+      const tx=s.x-Math.cos(s.ang)*s.len,ty=s.y-Math.sin(s.ang)*s.len;
       const g=cx.createLinearGradient(tx,ty,s.x,s.y);
-      g.addColorStop(0,`rgba(200,225,255,0)`);
-      g.addColorStop(1,`rgba(230,245,255,${s.a})`);
+      g.addColorStop(0,`rgba(200,225,255,0)`);g.addColorStop(1,`rgba(230,245,255,${s.a})`);
       cx.shadowBlur=12;cx.shadowColor=`rgba(180,220,255,${s.a*.7})`;
       cx.beginPath();cx.moveTo(tx,ty);cx.lineTo(s.x,s.y);
       cx.strokeStyle=g;cx.lineWidth=1.5;cx.stroke();
       s.x+=s.vx;s.y+=s.vy;s.a-=s.da;
       if(s.a<=0||s.x>W+200||s.y>H+200)shooters.splice(i,1);
     }
-    cx.restore();
-    raf=requestAnimationFrame(frame);
+    cx.restore();raf=requestAnimationFrame(frame);
   }
-
   window._spawnShooter=spawnShooter;
-  init();
-  raf=requestAnimationFrame(frame);
+  init();raf=requestAnimationFrame(frame);
   let rt;
-  window.addEventListener('resize',()=>{
-    clearTimeout(rt);
-    rt=setTimeout(()=>{cancelAnimationFrame(raf);init();raf=requestAnimationFrame(frame);},200);
-  });
+  window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{cancelAnimationFrame(raf);init();raf=requestAnimationFrame(frame);},200);});
 })();
 
-/* ── DATA ── */
 const SKILLS=[
-  {n:"C#",p:true},{n:".NET"},{n:"TypeScript"},{n:"JavaScript"},
-  {n:"Python",p:true},{n:"HTML/CSS",p:true},{n:"Blazor"},{n:"WPF"},
-  {n:"Next.js"},{n:"React"},{n:"Tailwind"},{n:"Git"},{n:"SQL"},
+  {n:'C#',p:true},{n:'.NET'},{n:'TypeScript'},{n:'JavaScript'},
+  {n:'Python',p:true},{n:'HTML/CSS',p:true},{n:'Blazor'},{n:'WPF'},
+  {n:'Next.js'},{n:'React'},{n:'Tailwind'},{n:'Git'},{n:'SQL'},
 ];
-const GH="https://github.com/Ni7i/";
+const GH='https://github.com/Ni7i/';
 const OTHER=[
-  {n:"devtimer",            s:"devtimer",             l:"C#",          bk:"badge.personal",    dk:"op.devtimer"},
-  {n:"passgen",             s:"passgen",              l:"Python",      bk:"badge.personal",    dk:"op.passgen"},
-  {n:"ip-lookup",           s:"ip-lookup",            l:"TypeScript",  bk:"badge.personal",    dk:"op.iplookup"},
-  {n:"screentime-blocker",  s:"screentime-blocker",   l:"Python",      bk:"badge.personal",    dk:"op.screentime"},
-  {n:"LCR",                 s:"LCR",                  l:"C#",          bk:"badge.personal",    dk:"op.lcr"},
-  {n:"Quizlot",             s:"Quizlot",              l:"React",       bk:"badge.school",      dk:"op.quizlot"},
-  {n:"Impostergame",        s:"Impostergame-WhoAmI",  l:"TypeScript",  bk:"badge.school",      dk:"op.imposter"},
-  {n:"BudgetBuddy",         s:"BudgetBudddy",         l:"HTML/CSS",    bk:"badge.school",      dk:"op.budget"},
-  {n:"OaseJugendraum",      s:"OaseJugendraum",       l:"Python",      bk:"badge.school",      dk:"op.oase"},
-  {n:"TrackMyFood",         s:"TrackMyFoodFrontend",  l:"JavaScript",  bk:"badge.hackathon",   dk:"op.trackmyfood"},
-  {n:"Swissskills25",       s:"Swissskills25",        l:"C#",          bk:"badge.competition", dk:"op.swissskills"},
-  {n:"midnight-calculator", s:"midnight-calculator",  l:"JavaScript",  bk:"badge.client",      dk:"op.midnight"},
-  {n:"memyselfandi",        s:"memyselfandi",         l:"TypeScript",  bk:"badge.personal",    dk:"op.memyselfandi"},
+  {n:'devtimer',           s:'devtimer',            l:'C#',         bk:'badge.personal',    dk:'op.devtimer'},
+  {n:'passgen',            s:'passgen',             l:'Python',     bk:'badge.personal',    dk:'op.passgen'},
+  {n:'ip-lookup',          s:'ip-lookup',           l:'TypeScript', bk:'badge.personal',    dk:'op.iplookup'},
+  {n:'screentime-blocker', s:'screentime-blocker',  l:'Python',     bk:'badge.personal',    dk:'op.screentime'},
+  {n:'LCR',                s:'LCR',                 l:'C#',         bk:'badge.personal',    dk:'op.lcr'},
+  {n:'Quizlot',            s:'Quizlot',             l:'React',      bk:'badge.school',      dk:'op.quizlot'},
+  {n:'Impostergame',       s:'Impostergame-WhoAmI', l:'TypeScript', bk:'badge.school',      dk:'op.imposter'},
+  {n:'BudgetBuddy',        s:'BudgetBudddy',        l:'HTML/CSS',   bk:'badge.school',      dk:'op.budget'},
+  {n:'OaseJugendraum',     s:'OaseJugendraum',      l:'Python',     bk:'badge.school',      dk:'op.oase'},
+  {n:'TrackMyFood',        s:'TrackMyFoodFrontend', l:'JavaScript', bk:'badge.hackathon',   dk:'op.trackmyfood'},
+  {n:'Swissskills25',      s:'Swissskills25',       l:'C#',         bk:'badge.competition', dk:'op.swissskills'},
+  {n:'midnight-calculator',s:'midnight-calculator', l:'JavaScript', bk:'badge.client',      dk:'op.midnight'},
+  {n:'memyselfandi',       s:'memyselfandi',        l:'TypeScript', bk:'badge.personal',    dk:'op.memyselfandi'},
 ];
 const TIMELINE=[
-  {y:"2020",tk:"tl.school.t", sk:"tl.school.s"},
-  {y:"2023",tk:"tl.ims.t",    sk:"tl.ims.s",    info:true},
-  {y:"2027",tk:"tl.intern.t", sk:"tl.intern.s", open:true},
-  {y:"2028",tk:"tl.grad.t",   sk:"tl.grad.s"},
+  {y:'2020',tk:'tl.school.t',sk:'tl.school.s'},
+  {y:'2023',tk:'tl.ims.t',   sk:'tl.ims.s',   info:true},
+  {y:'2027',tk:'tl.intern.t',sk:'tl.intern.s',open:true},
+  {y:'2028',tk:'tl.grad.t',  sk:'tl.grad.s'},
 ];
 
-/* ── RENDER ── */
-document.getElementById('skills').innerHTML=SKILLS.map(s=>`<span class="skill${s.p?' hi':''}">` +s.n+`</span>`).join('');
+const DI='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/';
+const SI='https://cdn.simpleicons.org/';
+const STACK_DATA={
+  strong:[
+    {n:'C#',        ico:'csharp/csharp-original.svg'},
+    {n:'Python',    ico:'python/python-original.svg'},
+    {n:'HTML / CSS',ico:'html5/html5-original.svg'},
+  ],
+  worked:[
+    {n:'.NET',         ico:'dotnetcore/dotnetcore-original.svg'},
+    {n:'Blazor',       ico:'blazor/blazor-original.svg'},
+    {n:'TypeScript',   ico:'typescript/typescript-original.svg'},
+    {n:'JavaScript',   ico:'javascript/javascript-original.svg'},
+    {n:'Next.js',      si:'nextdotjs/e6e8f5'},
+    {n:'React',        ico:'react/react-original.svg'},
+    {n:'Tailwind CSS', ico:'tailwindcss/tailwindcss-original.svg'},
+    {n:'SQL Server',   ico:'microsoftsqlserver/microsoftsqlserver-original.svg'},
+    {n:'MongoDB',      ico:'mongodb/mongodb-original.svg'},
+    {n:'Git',          ico:'git/git-original.svg'},
+    {n:'GitHub',       si:'github/e6e8f5'},
+    {n:'VS Code',      ico:'vscode/vscode-original.svg'},
+    {n:'Visual Studio',ico:'visualstudio/visualstudio-original.svg'},
+    {n:'Postman',      ico:'postman/postman-original.svg'},
+    {n:'Figma',        ico:'figma/figma-original.svg'},
+    {n:'npm',          si:'npm/cb3837'},
+    {n:'pnpm',         si:'pnpm/f69220'},
+    {n:'Vercel',       si:'vercel/e6e8f5'},
+  ],
+  first:[
+    {n:'PostgreSQL',ico:'postgresql/postgresql-original.svg'},
+    {n:'SQLite',    ico:'sqlite/sqlite-original.svg'},
+    {n:'Redis',     ico:'redis/redis-original.svg'},
+    {n:'Docker',    ico:'docker/docker-original.svg'},
+    {n:'Azure',     ico:'azure/azure-original.svg'},
+    {n:'Rider',     ico:'rider/rider-original.svg'},
+    {n:'SSMS',      ico:'microsoftsqlserver/microsoftsqlserver-original.svg'},
+    {n:'Linux',     ico:'linux/linux-original.svg'},
+    {n:'Ubuntu',    ico:'ubuntu/ubuntu-original.svg'},
+  ],
+};
+
+function renderStack(){
+  const wrap=document.getElementById('stack-wrap');
+  if(!wrap)return;
+  const tiers=[
+    {key:'strong',lk:'stack.strong'},
+    {key:'worked',lk:'stack.worked'},
+    {key:'first', lk:'stack.first'},
+  ];
+  wrap.innerHTML=tiers.map(t=>`
+    <div class="stack-tier">
+      <div class="stack-tier-lbl" data-i18n="${t.lk}"></div>
+      <div class="stack-items">
+        ${STACK_DATA[t.key].map(item=>{
+          const url=item.ico?DI+item.ico:SI+item.si;
+          const cls='stack-item'+(t.key==='first'?' lo':'');
+          return `<div class="${cls}"><img src="${url}" alt="${item.n}" loading="lazy" width="26" height="26"><span>${item.n}</span></div>`;
+        }).join('')}
+      </div>
+    </div>`).join('');
+}
+
+document.getElementById('skills').innerHTML=SKILLS.map(s=>`<span class="skill${s.p?' hi':''}">${s.n}</span>`).join('');
 document.getElementById('op-list').innerHTML=OTHER.map(p=>`
   <a class="op" href="${GH+p.s}" target="_blank" rel="noopener">
     <div class="op-l"><span class="op-name">${p.n}</span><span class="op-tag" data-i18n="${p.bk}"></span></div>
@@ -787,50 +689,41 @@ TIMELINE.forEach(m=>{
     </div>
     <div class="tl-s" data-i18n="${m.sk}"></div>`;
   tlEl.appendChild(d);
-  if(m.info) d.querySelector('.tl-info-btn').addEventListener('click',()=>openImsModal());
+  if(m.info)d.querySelector('.tl-info-btn').addEventListener('click',()=>openImsModal());
 });
 
-/* ── CLOCK ── */
 function tick(){
   const t=new Date().toLocaleTimeString('en-GB',{timeZone:'Europe/Zurich',hour:'2-digit',minute:'2-digit',second:'2-digit'});
   const f=document.getElementById('foot-clock');if(f)f.textContent='Zurich · '+t;
 }
 tick();setInterval(tick,1000);
 
-/* ── LOADER ── */
 const ldBar=document.getElementById('ld-bar');
 const ldNameEl=document.getElementById('ld-name');
-
 let ldOffset=0;
-
 function flyNameToHero(){
   const heroName=document.querySelector('.hero-name');
   const from=ldNameEl.getBoundingClientRect();
   const to=heroName.getBoundingClientRect();
-  gsap.to(ldNameEl,{
-    x:'+='+(to.left-from.left),
-    y:'+='+(to.top-from.top),
-    duration:.75,ease:"expo.inOut",
-    onComplete:()=>{heroName.style.opacity='1';ldNameEl.remove();}
-  });
+  gsap.to(ldNameEl,{x:'+='+(to.left-from.left),y:'+='+(to.top-from.top),
+    duration:.75,ease:'expo.inOut',
+    onComplete:()=>{heroName.style.opacity='1';ldNameEl.remove();}});
 }
-
 gsap.set(ldNameEl,{xPercent:-50,yPercent:-50});
 ldOffset=ldNameEl.getBoundingClientRect().height/2+32;
-gsap.fromTo(ldNameEl,{opacity:0,y:-ldOffset-20},{opacity:1,y:-ldOffset,duration:.6,ease:"power2.out",delay:.15});
+gsap.fromTo(ldNameEl,{opacity:0,y:-ldOffset-20},{opacity:1,y:-ldOffset,duration:.6,ease:'power2.out',delay:.15});
 let lp={v:0};
-gsap.to(lp,{v:100,duration:1.5,ease:"power1.inOut",delay:.3,
+gsap.to(lp,{v:100,duration:1.5,ease:'power1.inOut',delay:.3,
   onUpdate:()=>{ldBar.style.width=lp.v+'%';},
   onComplete:()=>{
     gsap.to('.ld-prog',{opacity:0,duration:.25});
     flyNameToHero();
-    gsap.to('.ld-l',{xPercent:-100,duration:.65,ease:"expo.inOut",delay:.15,
+    gsap.to('.ld-l',{xPercent:-100,duration:.65,ease:'expo.inOut',delay:.15,
       onComplete:()=>{document.getElementById('loader').remove();revealPage();}});
-    gsap.to('.ld-r',{xPercent:100,duration:.65,ease:"expo.inOut",delay:.15});
+    gsap.to('.ld-r',{xPercent:100,duration:.65,ease:'expo.inOut',delay:.15});
   }
 });
 
-/* ── PAGE REVEAL ── */
 function revealPage(){
   if(isReload){
     document.querySelectorAll('.fi').forEach(el=>{el.style.transition='none';el.classList.add('in');});
@@ -840,10 +733,9 @@ function revealPage(){
     }));
     return;
   }
-  gsap.fromTo('.hero>*:not(.hero-name)',{opacity:0,y:14},{opacity:1,y:0,duration:.55,ease:"power2.out",stagger:.06});
+  gsap.fromTo('.hero>*:not(.hero-name)',{opacity:0,y:14},{opacity:1,y:0,duration:.55,ease:'power2.out',stagger:.06});
 }
 
-/* ── LENIS ── */
 const lenis=new Lenis({lerp:.13,smoothWheel:true,wheelMultiplier:1.1,touchMultiplier:.9});
 (function r(t){lenis.raf(t);requestAnimationFrame(r);})(0);
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
@@ -851,21 +743,17 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
     e.preventDefault();lenis.scrollTo(h,{offset:-55,duration:.9});}});
 });
 
-/* ── NAV + PROGRESS ── */
 const navEl=document.getElementById('nav'),progEl=document.getElementById('prog');
 lenis.on('scroll',({scroll,limit})=>{
   progEl.style.width=(scroll/limit*100)+'%';
   navEl.classList.toggle('sc',scroll>50);
 });
 
-/* ── SCROLL REVEAL ── */
 const io=new IntersectionObserver(entries=>{
   entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
 },{threshold:.1,rootMargin:'0px 0px -40px 0px'});
 document.querySelectorAll('.fi').forEach(el=>io.observe(el));
 
-
-/* ── KONAMI CODE ── */
 (function(){
   const seq=['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
   let idx=0;
@@ -873,14 +761,10 @@ document.querySelectorAll('.fi').forEach(el=>io.observe(el));
     if(e.key===seq[idx]){idx++;
       if(idx===seq.length){
         idx=0;
-        if(window._spawnShooter)
-          for(let i=0;i<20;i++) setTimeout(window._spawnShooter,i*120);
+        if(window._spawnShooter)for(let i=0;i<20;i++)setTimeout(window._spawnShooter,i*120);
         const t=document.createElement('div');
         t.textContent='★ cheat code activated ★';
-        t.style.cssText=`position:fixed;bottom:40px;left:50%;transform:translateX(-50%);
-          background:#0d1020;border:1px solid rgba(96,165,250,.35);color:#93c5fd;
-          font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.1em;
-          padding:10px 22px;border-radius:4px;z-index:9990;pointer-events:none;white-space:nowrap`;
+        t.style.cssText='position:fixed;bottom:40px;left:50%;transform:translateX(-50%);background:#0d1020;border:1px solid rgba(96,165,250,.35);color:#93c5fd;font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.1em;padding:10px 22px;border-radius:4px;z-index:9990;pointer-events:none;white-space:nowrap';
         document.body.appendChild(t);
         gsap.fromTo(t,{opacity:0,y:10},{opacity:1,y:0,duration:.3});
         setTimeout(()=>gsap.to(t,{opacity:0,y:10,duration:.3,onComplete:()=>t.remove()}),2600);
@@ -889,29 +773,18 @@ document.querySelectorAll('.fi').forEach(el=>io.observe(el));
   });
 })();
 
-/* ── TIMELINE ACTIVE ── */
 const tlio=new IntersectionObserver(entries=>{
   entries.forEach(e=>e.target.classList.toggle('on',e.isIntersecting));
 },{threshold:.6});
 document.querySelectorAll('.tl-row').forEach(el=>tlio.observe(el));
 
-/* ── IMS MODAL ── */
 const imsModal=document.getElementById('ims-modal');
-function openImsModal(){
-  imsModal.classList.add('open');
-  imsModal.removeAttribute('aria-hidden');
-  lenis.stop();
-}
-function closeImsModal(){
-  imsModal.classList.remove('open');
-  imsModal.setAttribute('aria-hidden','true');
-  lenis.start();
-}
+function openImsModal(){imsModal.classList.add('open');imsModal.removeAttribute('aria-hidden');lenis.stop();}
+function closeImsModal(){imsModal.classList.remove('open');imsModal.setAttribute('aria-hidden','true');lenis.start();}
 document.getElementById('ims-close').addEventListener('click',closeImsModal);
 imsModal.addEventListener('click',e=>{if(e.target===imsModal)closeImsModal();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeImsModal();});
 
-/* ── i18n ── */
 const T={
   de:{
     'nav.work':'Projekte','nav.about':'Über mich','nav.refs':'Referenzen','nav.contact':'Kontakt',
@@ -921,7 +794,6 @@ const T={
     'hero.bio':'Ich bin Informatik-Schüler an der IMS Baden — noch am Lernen, und das sage ich offen. Was ich mitbringe: Ich fasse Dinge schnell auf, stelle früh die richtigen Fragen und eigne mir gezielt an, was das Team braucht. Am stärksten bin ich in <strong>C#</strong>, <strong>Python</strong> und <strong>HTML/CSS</strong>. Sauberer Code und Interfaces, die sich wirklich gut anfühlen, liegen mir am Herzen.',
     'hero.building':'In Arbeit','hero.atschool':'Schule','hero.location':'Ort',
     'hero.cta':'Schreib mir',
-    'stat.age':'Jahre alt','stat.yrsdev':'Jahre Code',
     'trait.fast':'Lernt schnell','trait.reliable':'Zuverlässig',
     'trait.detail':'Detailverliebt','trait.team':'Teamplayer','trait.perf':'Neugierig',
     'slbl.projects':'Ausgewählte Projekte','slbl.other':'Weitere Projekte',
@@ -936,7 +808,7 @@ const T={
     'pcard.drives.lbl':'Was mich antreibt','pcard.drives.p':'Ich kann Dinge nicht halbfertig lassen. Ob Schulprojekt oder eigenes Projekt — wenn etwas zwar läuft, aber schlampig aussieht oder bei Grenzfällen bricht, lässt es mir keine Ruhe, bis es wirklich sitzt.',
     'pcard.work.lbl':'Wie ich arbeite','pcard.work.p':'Ich schaue lieber nach, als etwas anzunehmen. Wenn ich unsicher bin, sage ich es — statt zu raten und zu hoffen, dass es niemandem auffällt. Ich will verstehen warum etwas funktioniert, nicht nur dass es funktioniert.',
     'pcard.now.lbl':'Gerade jetzt','pcard.now.p':'3. Jahr an der IMS Baden. Baue nebenbei Stock Rendite. Suche ein Praktikum, wo ich einen echten Beitrag leisten kann, von erfahrenen Entwicklern lerne — und schnell wachse.',
-    'pcard.goal.lbl':'Ziel','pcard.goal.p':'Irgendwo arbeiten, wo Qualität zählt — wo ich von guten Entwicklern lernen und irgendwann Dinge bauen kann, die Menschen wirklich jeden Tag benutzen.',
+    'pcard.goal.lbl':'Ziel','pcard.goal.p':'Bei einem Unternehmen, das Qualität ernst nimmt — von erfahrenen Entwicklern lernen und Dinge bauen, die täglich genutzt werden.',
     'hero.school.v':'IMS Baden · 3. Jahr',
     'fp.stock.d':'Ein Portfolio-Tracker, der deine tatsächliche prozentuale Rendite zeigt — nicht nur den aktuellen Kurs. Entstanden, weil ich wissen wollte, ob ich wirklich Geld verdiene oder es sich nur so anfühlt.',
     'fp.white.d':'Ein kleines Tool, das die islamischen Nachtzeiten berechnet — Mitternacht und die Nachtdrittel — aus den Zeiten von Sonnenuntergang und Morgendämmerung. Es holt die Gebetszeiten automatisch und zeigt die Nacht auf einer übersichtlichen Timeline.',
@@ -962,11 +834,11 @@ const T={
     'tl.grad.t':'IMS-Abschluss','tl.grad.s':'Berufsmaturität · EFZ Informatiker',
     'tl.open':'Offen','tl.about':'Über die IMS ↗',
     'modal.s1.lbl':'Was ist die IMS?',
-    'modal.s1.p':'Die IMS ist ein vierjähriger Bildungsgang, der die <strong>Allgemeinbildung an der Kantonsschule Baden</strong> mit einer intensiven Informatik-Ausbildung an der <strong>BBB IT-School</strong> verbindet. Die ersten drei Jahre decken Programmieren, Datenbanken, Projektarbeit (IDPA) und Wirtschaftsfächer ab — dazu ein vierwöchiger Englisch-Sprachaufenthalt. Das vierte Jahr ist ein verpflichtendes, einjähriges Praktikum in einem echten IT-Betrieb, gefolgt von der eidgenössischen Berufsmaturität und dem EFZ Informatiker. Danach kann man direkt ins Berufsleben einsteigen oder prüfungsfrei an eine Fachhochschule.',
+    'modal.s1.p':'Die IMS ist ein vierjähriger Bildungsgang, der die <strong>Allgemeinbildung an der Kantonsschule Baden</strong> mit einer intensiven Informatik-Ausbildung an der <strong>BBB IT-School</strong> verbindet. Die ersten drei Jahre decken Programmieren, Datenbanken, Projektarbeit (IDPA) und Wirtschaftsfächer ab — dazu ein vierwöchiger Englisch-Sprachaufenthalt. Das vierte Jahr ist ein verpflichtendes, einjähriges Praktikum in einem echten IT-Betrieb, gefolgt von der eidgenössischen Berufsmaturität und dem EFZ Informatiker.',
     'modal.s2.lbl':'Was das Praktikum bietet',
-    'modal.s2.p':'Das Praktikum im vierten Jahr dauert <strong>volle 12 Monate</strong> — kein zweiwöchiges Schnuppern. Bis dahin habe ich drei Jahre kombinierte Schul- und IT-Ausbildung hinter mir, inklusive einer IDPA (interdisziplinäres Projekt), intensiver Programmier-Sprints und Wirtschaft. Es endet mit einer IPA (individuelle praktische Arbeit), die offiziell benotet wird — ich habe also allen Grund, wirklich etwas Solides abzuliefern. Und die Schule bleibt eingebunden: Man nimmt keinen Lernenden auf und steht dann allein da.',
+    'modal.s2.p':'Das Praktikum im vierten Jahr dauert <strong>volle 12 Monate</strong> — kein zweiwöchiges Schnuppern. Es endet mit einer IPA (individuelle praktische Arbeit), die offiziell benotet wird. Und die Schule bleibt eingebunden: Man nimmt keinen Lernenden auf und steht dann allein da.',
     'modal.s3.lbl':'Warum ich der Richtige bin',
-    'modal.s3.p':'Mit 15 habe ich an der IMS zu programmieren begonnen — und es schnell begriffen. Schon im ersten Jahr habe ich eigene Projekte ausserhalb der Schule gebaut. Ich kann <strong>C#</strong> und <strong>Python</strong> gut, und ich bin ehrlich, wo meine Grenzen liegen. Ich werde Betreuung brauchen — das ist normal und ich tue nicht so, als wäre es anders. Was ich versprechen kann: Ich komme vorbereitet, frage nach, bevor ich stecken bleibe, und wenn mir etwas Wichtiges fehlt, eigne ich es mir an. Mir ist die Qualität von dem, was ich abliefere, wichtig — und ich werde nicht still, wenn es schwierig wird.',
+    'modal.s3.p':'Mit 15 habe ich an der IMS zu programmieren begonnen — und es schnell begriffen. Ich kann <strong>C#</strong> und <strong>Python</strong> gut, und ich bin ehrlich, wo meine Grenzen liegen. Ich werde Betreuung brauchen — das ist normal. Was ich versprechen kann: Ich komme vorbereitet, frage nach bevor ich stecken bleibe, und wenn mir etwas fehlt, eigne ich es mir an.',
     'contact.lbl':'Direkt',
     'form.name.lbl':'Name','form.name.ph':'Dein Name',
     'form.email.lbl':'E-Mail','form.email.ph':'deine@email.com',
@@ -978,10 +850,9 @@ const T={
     'hero.badge':'Open to internship · 2027–2028',
     'hero.hi':"Hi, I'm",
     'hero.sub':'17 · Kosovo roots, raised in Switzerland · Rudolfstetten, CH',
-    'hero.bio':"I'm a CS student at IMS Baden — still learning, and honest about it. What I can offer: I pick things up fast, I ask the right questions early, and I actively seek out whatever the team needs. My strongest languages are <strong>C#</strong>, <strong>Python</strong>, and <strong>HTML/CSS</strong>. I care about clean code and interfaces that actually feel right.",
+    'hero.bio':"I'm a CS student at IMS Baden — still learning, and honest about it. I pick things up fast, ask the right questions early, and actively seek out whatever the team needs. My strongest languages are <strong>C#</strong>, <strong>Python</strong>, and <strong>HTML/CSS</strong>. I care about clean code and interfaces that actually feel right.",
     'hero.building':'Building','hero.atschool':'At school','hero.location':'Location',
     'hero.cta':'Get in touch',
-    'stat.age':'age','stat.yrsdev':'yrs dev',
     'trait.fast':'Fast Learner','trait.reliable':'Reliable',
     'trait.detail':'Detail-Oriented','trait.team':'Team Player','trait.perf':'Curious',
     'slbl.projects':'Featured Projects','slbl.other':'Other Projects',
@@ -993,10 +864,10 @@ const T={
     'about.p3':'I started coding at 15 when I joined IMS and picked it up quickly. School gave me the foundation — but the projects I care most about are the ones I built on my own outside of class.',
     'about.p4':'I still have a lot to learn, and I know it. What I bring is the drive to actually do that learning — not just wait to be taught, but go and figure things out.',
     'about.p6':"I ask questions early, say when something's unclear, and don't go quiet when things get difficult.",
-    'pcard.drives.lbl':'What drives me','pcard.drives.p':"I can't leave things half-done. If something works but looks sloppy or breaks in edge cases, it bothers me until it's right. That applies to school projects, personal projects — everything.",
-    'pcard.work.lbl':'How I work','pcard.work.p':"I look things up before assuming. I ask when I'm unsure rather than guessing. I try to understand why something works, not just that it works.",
+    'pcard.drives.lbl':'What drives me','pcard.drives.p':"I can't leave things half-done. If something works but looks sloppy or breaks in edge cases, it bothers me until it's right. School projects, personal projects — everything.",
+    'pcard.work.lbl':'How I work','pcard.work.p':"I look things up before assuming. I ask when I'm unsure rather than guessing. I want to understand why something works, not just that it works.",
     'pcard.now.lbl':'Right now','pcard.now.p':"Year 3 at IMS Baden. Building Stock Rendite on the side. Looking for an internship where I can contribute, learn from people who know more than me, and grow fast.",
-    'pcard.goal.lbl':'Goal','pcard.goal.p':'Work somewhere where quality is taken seriously — where I can learn from strong developers and eventually build things people actually use every day.',
+    'pcard.goal.lbl':'Goal','pcard.goal.p':'At a company that takes quality seriously — learning from experienced developers and building things people actually use.',
     'hero.school.v':'IMS Baden · Year 3',
     'fp.stock.d':'A portfolio tracker that shows your actual percentage returns — not just the current price. Built because I wanted to know if I was really making money or just felt like it.',
     'fp.white.d':'A little tool that works out the Islamic night times — midnight and the night thirds — from the sunset and dawn times. It fetches the prayer times automatically and shows the night on a clean timeline.',
@@ -1022,11 +893,11 @@ const T={
     'tl.grad.t':'IMS Graduation','tl.grad.s':'Vocational Baccalaureate · EFZ Informatiker',
     'tl.open':'Open','tl.about':'About IMS ↗',
     'modal.s1.lbl':'What is IMS?',
-    'modal.s1.p':'The IMS is a four-year program combining full <strong>general education at Kantonsschule Baden</strong> with intensive software development training at <strong>BBB IT-School</strong>. The first three years cover programming, databases, project work (IDPA), and business subjects — plus a four-week English language stay abroad. Year 4 is a mandatory full-year internship at a real IT company, followed by the federal Berufsmaturität and EFZ Informatiker qualification. Graduates can go straight into the workforce or enrol at a university of applied sciences without an entrance exam.',
+    'modal.s1.p':'The IMS is a four-year program combining full <strong>general education at Kantonsschule Baden</strong> with intensive software development training at <strong>BBB IT-School</strong>. The first three years cover programming, databases, project work (IDPA), and business subjects — plus a four-week English language stay abroad. Year 4 is a mandatory full-year internship at a real IT company, followed by the federal Berufsmaturität and EFZ Informatiker qualification.',
     'modal.s2.lbl':'What the internship offers',
-    'modal.s2.p':"The year-4 practical placement is a <strong>full 12 months</strong> — not a two-week shadowing exercise. By then I'll have completed three years of combined school and IT training, including an IDPA (interdisciplinary project), intensive programming sprints, and business economics. It ends with an IPA (individual practical assignment) that gets formally graded, so I have every reason to actually deliver something solid. And the school stays involved: you're not taking on a trainee and then figuring it out alone.",
+    'modal.s2.p':"The year-4 placement is a <strong>full 12 months</strong> — not a two-week shadow. It ends with an IPA (individual practical assignment) that gets formally graded. And the school stays involved: you're not taking on a trainee and then figuring it out alone.",
     'modal.s3.lbl':"Why I'm the right person",
-    'modal.s3.p':"I started coding at 15 when I joined IMS — and picked it up quickly. By the end of the first year I was building projects on my own outside of school. I know <strong>C#</strong> and <strong>Python</strong> well, and I'm honest about where my limits are. I'll need guidance — that's normal and I'm not pretending otherwise. What I can promise: I come prepared, I ask questions before I get stuck, and if there's something I don't know yet that matters to the team, I'll go and learn it. I care about the quality of what I produce and I don't go quiet when things get hard.",
+    'modal.s3.p':"I started coding at 15 when I joined IMS — and picked it up quickly. I know <strong>C#</strong> and <strong>Python</strong> well, and I'm honest about where my limits are. I'll need guidance — that's normal. What I can promise: I come prepared, I ask questions before I get stuck, and if there's something I don't know yet that matters to the team, I'll go and learn it.",
     'contact.lbl':'Direct',
     'form.name.lbl':'Name','form.name.ph':'Your name',
     'form.email.lbl':'Email','form.email.ph':'your@email.com',
@@ -1052,9 +923,9 @@ function setLang(l){
 document.querySelectorAll('.lang-btn').forEach(btn=>{
   btn.addEventListener('click',()=>setLang(btn.dataset.lang));
 });
+renderStack();
 setLang('de');
 
-/* ── CONTACT FORM ── */
 document.getElementById('cform').addEventListener('submit',async ev=>{
   ev.preventDefault();
   const btn=ev.target.querySelector('.send'),st=document.getElementById('cstatus');
@@ -1071,12 +942,8 @@ document.getElementById('cform').addEventListener('submit',async ev=>{
     });
     const data=await res.json().catch(()=>({}));
     const ok=res.ok||data.success==='true';
-    if(ok){
-      st.textContent=isDe?'Gesendet! Ich melde mich bald.':"Sent! I'll reply soon.";
-      ev.target.reset();
-    }else{
-      st.textContent=isDe?'Fehler — schreib mir direkt: shorra.enis@hotmail.com':'Error — email me at shorra.enis@hotmail.com';
-    }
+    if(ok){st.textContent=isDe?'Gesendet! Ich melde mich bald.':"Sent! I'll reply soon.";ev.target.reset();}
+    else{st.textContent=isDe?'Fehler — schreib mir direkt: shorra.enis@hotmail.com':'Error — email me at shorra.enis@hotmail.com';}
   }catch{
     st.textContent=isDe?'Fehler — schreib mir direkt: shorra.enis@hotmail.com':'Error — email me at shorra.enis@hotmail.com';
   }

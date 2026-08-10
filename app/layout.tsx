@@ -1,26 +1,27 @@
 import type { Metadata } from "next";
-import { Archivo, IBM_Plex_Mono } from "next/font/google";
+import { Manrope, Fraunces } from "next/font/google";
 import "./globals.css";
 
-const archivo = Archivo({
+const manrope = Manrope({
   subsets: ["latin"],
-  weight: ["400", "500", "700", "900"],
+  weight: ["300", "400", "500", "700", "800"],
   variable: "--font-sans",
 });
-const mono = IBM_Plex_Mono({
+const fraunces = Fraunces({
   subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-mono",
+  weight: ["300", "400", "600"],
+  style: ["italic", "normal"],
+  variable: "--font-serif",
 });
 
 export const metadata: Metadata = {
-  title: "Enis Shorra — Developer",
-  description: "17. Developer. Switzerland. Ships things.",
+  title: "Enis Shorra",
+  description: "Developer. Switzerland. Seventeen and shipping.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${archivo.variable} ${mono.variable}`}>
+    <html lang="en" className={`${manrope.variable} ${fraunces.variable}`}>
       <body>{children}</body>
     </html>
   );

@@ -41,9 +41,9 @@ export default function Home() {
             <TypedTitle />
           </div>
           <p className="intro-sub">
-            A quiet corner for a seventeen-year-old developer from
-            Switzerland. Personal notes, the things I ship, and the
-            people, places and habits that made them possible.
+            The personal site of a seventeen-year-old developer from
+            Switzerland &mdash; what I build, what I&apos;m into, and
+            where this is going.
           </p>
         </div>
       </section>
@@ -66,23 +66,25 @@ export default function Home() {
                 <div className="chips"><span className="chip">Personal</span></div>
                 <h3>Seventeen, Rudolfstetten, and a lot of caffeine.</h3>
                 <p>
-                  Born to Kosovar parents, grew up in the Aargau countryside.
-                  Started writing C# two years ago on a stubborn afternoon and
-                  never really stopped. Everything since &mdash; the projects,
-                  the competitions, the tools &mdash; is downstream of that one
-                  afternoon.
+                  Kosovar parents, raised in the Aargau. As a kid I clicked
+                  Scratch blocks together like everyone else &mdash; it went
+                  nowhere. Then came the Informatikmittelschule at the KanTi
+                  Baden and BBB Baden, and coding turned from a subject into
+                  the thing I do. C# stuck first. Everything else followed.
                 </p>
-                <span className="meta">Since 2024</span>
+                <span className="meta">IMS Baden &middot; since 2024</span>
               </article>
 
               <article className="card-l">
                 <div className="thumb thumb-2 landscape" />
                 <div className="chips"><span className="chip grey">Long game</span></div>
-                <h3>What I&apos;m actually chasing.</h3>
+                <h3>What I&apos;m working towards.</h3>
                 <p>
-                  Getting quietly good at the things I care about. Ship a
-                  product people use without being told to. Win Regios. Move
-                  slower than the trend but keep every promise I make.
+                  A strong run at ICT Regios. One product with real users,
+                  not just repos. An internship where I learn faster than I
+                  would alone. And enough discipline to keep the gym, the
+                  bike and the family in every week &mdash; not just the
+                  calm ones.
                 </p>
                 <span className="meta">2026 &rarr;</span>
               </article>
@@ -100,10 +102,10 @@ export default function Home() {
                   whiteplayer &mdash; the music player I ended up using every day.
                 </h3>
                 <p className="lead">
-                  I got tired of bloated players so I wrote my own. A quiet,
-                  keyboard-driven WPF app for a big local library &mdash; no ads,
-                  no sync, no telemetry. Started as a weekend project and
-                  quietly took over my desktop.
+                  I got tired of bloated players, so I wrote my own.
+                  Keyboard-driven WPF, plays a local library, starts
+                  instantly. No ads, no account, no telemetry. Began as a
+                  weekend project &mdash; now it runs on my desktop daily.
                 </p>
                 <span className="meta">Windows · 2026</span>
               </article>
@@ -116,9 +118,9 @@ export default function Home() {
                 <div className="chips"><span className="chip grey">Interests</span></div>
                 <h3>Bike, gym, family, food &mdash; in that rotation.</h3>
                 <p>
-                  Rides through the Reuss valley when the weather cooperates.
-                  Lifts most other days. Sundays are for cooking with the family
-                  and pretending I&apos;m off my laptop.
+                  Rides around the Reuss when the weather plays along,
+                  lifting when it doesn&apos;t. Sundays belong to the family
+                  table. The laptop stays closed until it doesn&apos;t.
                 </p>
                 <span className="meta">Weekly</span>
               </article>
@@ -128,9 +130,9 @@ export default function Home() {
                 <div className="chips"><span className="chip grey">On repeat</span></div>
                 <h3>Bilal Sonses, mostly.</h3>
                 <p>
-                  Something about that voice on a long train ride. Also a
-                  soft spot for anything with a slow build and a payoff you
-                  didn&apos;t see coming.
+                  On the train, in the gym, between builds. When a song
+                  fits, it stays for weeks &mdash; ask anyone who has sat
+                  next to me with an aux cable.
                 </p>
                 <span className="meta">Sound</span>
               </article>
@@ -177,40 +179,44 @@ export default function Home() {
 
           <div className="qa">
             <article className="qa-item">
-              <span className="q">Q.&nbsp;&nbsp;What actually got you into coding?</span>
+              <span className="q">Q.&nbsp;&nbsp;So how does someone end up coding at seventeen?</span>
               <p className="a">
-                The Informatikmittelschule at KAnti Baden, and then BBB
-                Baden. Before that it was Scratch and toys &mdash; nothing
-                serious. School was the actual switch. That&apos;s where I
-                first thought this is the thing I want to be quietly good at.
+                Not the garage story, sorry. I clicked Scratch blocks
+                together as a kid and forgot about it. Then I landed at the
+                Informatikmittelschule &mdash; KanTi Baden, BBB Baden &mdash;
+                and somewhere in that first year it stopped being a school
+                subject. Nobody in my family codes. School lit the fuse,
+                I just kept it burning.
               </p>
             </article>
 
             <article className="qa-item">
-              <span className="q">Q.&nbsp;&nbsp;What&apos;s the real goal for 2026?</span>
+              <span className="q">Q.&nbsp;&nbsp;One goal for 2026. Pick one.</span>
               <p className="a">
-                All of it, honestly. A top run at ICT Regios. One product
-                that people actually use. The right internship. And &mdash; the
-                one nobody puts on a portfolio &mdash; being a better person.
-                Gym, focus, family. Same energy across the board.
+                No. I&apos;m taking all four: a real placement at ICT
+                Regios, one product with actual users instead of another
+                dead repo, the right internship &mdash; and staying someone
+                my family recognizes while all that happens. If I have to
+                drop one, ask me in December.
               </p>
             </article>
 
             <article className="qa-item">
-              <span className="q">Q.&nbsp;&nbsp;What would you tell your fifteen-year-old self?</span>
+              <span className="q">Q.&nbsp;&nbsp;Advice for the fifteen-year-old version of you?</span>
               <p className="a">
-                Start earlier. Skip half the tutorials, build the ugly
-                version. Ask more people for help &mdash; the stolz just costs
-                you months. Stop overthinking. Ship the thing. And keep going,
-                especially the weeks it feels pointless.
+                Build your own stuff earlier &mdash; tutorials feel like
+                progress, but they aren&apos;t. Ask for help; the pride
+                costs you months. Ship it ugly, fix it later. And the weeks
+                where nothing works? Those count double. Don&apos;t stop
+                in the middle of one.
               </p>
             </article>
 
             <article className="qa-item">
-              <span className="q">Q.&nbsp;&nbsp;In five years &mdash; what do you want to be true?</span>
+              <span className="q">Q.&nbsp;&nbsp;And in five years?</span>
               <p className="a">
-                A good coder. A good person. In that order? Sometimes.
-                Mostly at the same time.
+                A good coder and a good person. I keep the answer short on
+                purpose &mdash; so I can&apos;t talk my way out of it.
               </p>
             </article>
           </div>

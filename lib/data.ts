@@ -8,7 +8,7 @@ export const personal = {
   linkedin: "https://linkedin.com/in/enis-shorra",
   discord: "enis.shorra",
   bio: "Hey! I'm a 17-year-old CS student who loves building things with C# and .NET. Strong OOP mindset, obsessed with clean UI. Currently looking for an internship.",
-  currently: "Stock Rendite — tracking portfolios with C#, .NET, Blazor",
+  currently: "Building small tools with C#, .NET and Blazor",
   status: "available" as "available" | "busy",
   funfact: "I can touch-type at 110 WPM and I still look at the keyboard sometimes",
 };

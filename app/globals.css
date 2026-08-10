@@ -1,15 +1,16 @@
 :root {
-  --paper:     #ffffff;
-  --paper-2:   #f6f4ef;
-  --paper-3:   #ecebe4;
-  --ink:       #111111;
-  --ink-2:     #333333;
-  --ink-3:     #555555;
-  --dim:       #8a8479;
-  --grey:      #a8a29a;
+  --paper:     #f4f0e6;
+  --paper-2:   #ecead9;
+  --paper-3:   #e4dfcc;
+  --ink:       #131311;
+  --ink-2:     #2e2c26;
+  --ink-3:     #4a4740;
+  --dim:       #7a7469;
+  --grey:      #a29d90;
   --grey-2:    #6a655c;
-  --line:      rgba(17, 17, 17, 0.12);
-  --line-soft: rgba(17, 17, 17, 0.06);
+  --line:      rgba(19, 19, 17, 0.14);
+  --line-soft: rgba(19, 19, 17, 0.07);
+  --accent:    #8a2a1a; /* muted brick red for the odd retro pop */
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -27,6 +28,13 @@ html, body {
   min-height: 100vh;
 }
 
+/* subtle paper grain */
+body {
+  background-image:
+    radial-gradient(rgba(19,19,17,0.028) 1px, transparent 1px);
+  background-size: 3px 3px;
+}
+
 ::selection { background: var(--ink); color: var(--paper); }
 a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; height: auto; }
@@ -38,7 +46,7 @@ img { display: block; max-width: 100%; height: auto; }
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center; gap: 24px;
-  background: rgba(255,255,255,0.85);
+  background: rgba(244,240,230,0.85);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--line);
 }
@@ -62,7 +70,7 @@ img { display: block; max-width: 100%; height: auto; }
   color: var(--ink);
 }
 .nav-links a { transition: color .15s ease; }
-.nav-links a:hover { color: var(--grey-2); }
+.nav-links a:hover { color: var(--accent); }
 
 .nav-cta {
   padding: 10px 18px;
@@ -78,20 +86,20 @@ img { display: block; max-width: 100%; height: auto; }
 
 /* ─────────────── INTRO ─────────────── */
 .intro {
-  padding: 80px 28px 20px;
+  padding: 90px 28px 30px;
 }
 .intro-inner {
   max-width: 1240px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1.4fr 1fr;
+  grid-template-columns: 1.5fr 1fr;
   gap: 60px;
   align-items: end;
 }
 .intro-title {
   font-family: var(--font-serif), Georgia, serif;
   font-weight: 400;
-  font-size: clamp(48px, 6vw, 88px);
+  font-size: clamp(48px, 6.2vw, 92px);
   line-height: 0.98;
   letter-spacing: -0.03em;
   color: var(--ink);
@@ -110,14 +118,26 @@ img { display: block; max-width: 100%; height: auto; }
   padding-bottom: 12px;
 }
 
-/* ─────────────── MAGAZINE (3-col like Conway) ─────────────── */
+/* Little numeric stamp above nothing — vintage tag */
+.stamp {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--paper);
+  background: var(--ink);
+  padding: 3px 7px;
+  border-radius: 2px;
+  margin-bottom: 14px;
+}
+
+/* ─────────────── MAGAZINE (3-col) ─────────────── */
 .mag {
   padding: 60px 28px 90px;
 }
-.mag-inner {
-  max-width: 1240px;
-  margin: 0 auto;
-}
+.mag-inner { max-width: 1240px; margin: 0 auto; }
 .mag-heads {
   display: grid;
   grid-template-columns: 1fr 1.15fr 1fr;
@@ -139,34 +159,39 @@ img { display: block; max-width: 100%; height: auto; }
   gap: 36px;
   align-items: start;
 }
-.tri-col {
-  display: flex;
-  flex-direction: column;
-  gap: 36px;
-}
+.tri-col { display: flex; flex-direction: column; gap: 36px; }
 
-/* Card (light) */
-.card-l {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  color: var(--ink);
-}
+.card-l { display: flex; flex-direction: column; gap: 12px; color: var(--ink); }
+
 .card-l .thumb {
   border-radius: 3px;
   overflow: hidden;
   background-size: cover;
   background-position: center;
   background-color: var(--paper-3);
-  transition: transform .4s ease;
+  transition: transform .4s ease, filter .4s ease;
+  filter:
+    grayscale(45%)
+    sepia(18%)
+    contrast(1.08)
+    brightness(0.96)
+    saturate(0.85);
+  box-shadow: inset 0 0 0 1px rgba(19,19,17,0.05);
 }
-.card-l:hover .thumb { transform: translateY(-2px); }
+.card-l:hover .thumb {
+  transform: translateY(-2px);
+  filter:
+    grayscale(20%)
+    sepia(10%)
+    contrast(1.05)
+    brightness(1)
+    saturate(0.95);
+}
 
-/* Aspect ratios to mirror the Conway reference layout */
-.thumb.portrait  { aspect-ratio: 5 / 6; }   /* left top, right bottom */
-.thumb.landscape { aspect-ratio: 4 / 3; }   /* left bottom */
-.thumb.square    { aspect-ratio: 1 / 1; }   /* right top */
-.thumb.hero      { aspect-ratio: 3 / 4; }   /* center — tall & big */
+.thumb.portrait  { aspect-ratio: 5 / 6; }
+.thumb.landscape { aspect-ratio: 4 / 3; }
+.thumb.square    { aspect-ratio: 1 / 1; }
+.thumb.hero      { aspect-ratio: 3 / 4; }
 
 .card-l h3 {
   font-family: var(--font-sans);
@@ -189,13 +214,13 @@ img { display: block; max-width: 100%; height: auto; }
 .card-l p {
   font-family: var(--font-sans);
   font-size: 14px;
-  line-height: 1.5;
+  line-height: 1.55;
   color: var(--ink-2);
   font-weight: 400;
 }
 .card-l p.lead {
   font-size: 15.5px;
-  line-height: 1.55;
+  line-height: 1.6;
 }
 .card-l .meta {
   font-family: var(--font-sans);
@@ -206,17 +231,16 @@ img { display: block; max-width: 100%; height: auto; }
 }
 .card-l a.card-link { color: var(--ink); }
 .card-l a.card-link:hover h3,
-.card-l a.card-link:hover .title-lg { color: var(--grey-2); }
+.card-l a.card-link:hover .title-lg { color: var(--accent); }
 
-.thumb-me    { background-image: url("/gallery/new-1.jpg"); }
-.thumb-alp   { background-image: url("/gallery/new-2.jpg"); }
-.thumb-view  { background-image: url("/gallery/new-3.jpg"); }
-.thumb-city  { background-image: url("/gallery/new-4.jpg"); }
-.thumb-still { background-image: url("/gallery/new-5.png"); background-color: #ddd6c6; }
-.thumb-ist   { background-image: url("/gallery/istanbul-2.jpg"); }
-.thumb-ist2  { background-image: url("/gallery/istanbul-4.jpg"); }
+.thumb-1 { background-image: url("/photos/1.jpg"); }
+.thumb-2 { background-image: url("/photos/2.jpg"); }
+.thumb-3 { background-image: url("/photos/3.jpg"); }
+.thumb-4 { background-image: url("/photos/4.jpg"); }
+.thumb-5 { background-image: url("/photos/5.jpg"); }
+.thumb-6 { background-image: url("/photos/6.jpg"); }
 
-/* Chip row */
+/* Chips */
 .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
 .chip {
   display: inline-flex;
@@ -231,22 +255,23 @@ img { display: block; max-width: 100%; height: auto; }
   border-radius: 3px;
 }
 .chip.grey { background: var(--grey-2); }
+.chip.red  { background: var(--accent); }
 .chip.hollow { background: transparent; color: var(--ink); border: 1px solid var(--line); }
 
-/* ─────────────── SETUP ─────────────── */
-.setup {
+/* ─────────────── PROJECTS LIST (extra section) ─────────────── */
+.list {
   background: var(--paper-2);
-  padding: 80px 28px;
+  padding: 80px 28px 90px;
   border-top: 1px solid var(--line-soft);
 }
-.setup-inner { max-width: 1240px; margin: 0 auto; }
-.setup-head {
+.list-inner { max-width: 1240px; margin: 0 auto; }
+.list-head {
   display: flex; justify-content: space-between; align-items: baseline;
   gap: 24px; padding-bottom: 20px;
   border-bottom: 1px solid var(--line);
-  margin-bottom: 28px;
+  margin-bottom: 6px;
 }
-.setup-head h2 {
+.list-head h2 {
   font-family: var(--font-serif), serif;
   font-weight: 400;
   font-size: clamp(28px, 3vw, 40px);
@@ -254,40 +279,56 @@ img { display: block; max-width: 100%; height: auto; }
   letter-spacing: -0.025em;
   color: var(--ink);
 }
-.setup-head h2 em { font-style: italic; font-weight: 300; color: var(--grey-2); }
-.setup-head .meta {
+.list-head h2 em { font-style: italic; font-weight: 300; color: var(--grey-2); }
+.list-head .meta {
   font-family: var(--font-sans);
   font-size: 11px; letter-spacing: 0.18em;
   text-transform: uppercase; color: var(--dim);
 }
-.setup-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+.row {
+  display: grid;
+  grid-template-columns: 60px 2fr 1fr 90px;
+  gap: 24px;
+  padding: 18px 4px;
+  align-items: baseline;
+  border-bottom: 1px solid var(--line-soft);
+  transition: background .15s ease, padding .15s ease;
 }
-.setup-item {
-  padding: 20px 22px;
-  background: var(--paper);
-  border-radius: 6px;
-  border: 1px solid var(--line-soft);
-}
-.setup-k {
+.row:hover { background: var(--paper); padding-left: 12px; padding-right: 12px; }
+.row .num {
   font-family: var(--font-sans);
-  font-size: 10.5px; font-weight: 500;
-  letter-spacing: 0.22em; text-transform: uppercase;
-  color: var(--dim); margin-bottom: 10px;
+  font-size: 12px;
+  color: var(--dim);
+  letter-spacing: 0.06em;
 }
-.setup-v {
+.row .name {
   font-family: var(--font-sans);
-  font-weight: 700; font-size: 17px;
-  color: var(--ink); letter-spacing: -0.01em;
-  margin-bottom: 3px;
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--ink);
+  letter-spacing: -0.01em;
 }
-.setup-sub {
+.row .name em {
   font-family: var(--font-serif), serif;
-  font-style: italic; font-weight: 300;
-  font-size: 14px; color: var(--ink-2); line-height: 1.3;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--ink-3);
+  font-size: 16px;
+}
+.row .stack {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--ink-3);
+}
+.row .year {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: var(--dim);
+  text-align: right;
+  letter-spacing: 0.08em;
 }
 
-/* ─────────────── CTA (light) ─────────────── */
+/* ─────────────── CTA ─────────────── */
 .cta {
   padding: 100px 28px 120px;
   border-top: 1px solid var(--line-soft);
@@ -309,13 +350,13 @@ img { display: block; max-width: 100%; height: auto; }
   color: var(--ink);
   max-width: 14ch;
 }
-.cta-title em { font-style: italic; font-weight: 300; color: var(--grey-2); }
+.cta-title em { font-style: italic; font-weight: 300; color: var(--accent); }
 .cta-sub {
   margin-top: 22px;
   font-family: var(--font-sans);
   font-size: 15.5px;
   color: var(--ink-2);
-  line-height: 1.55;
+  line-height: 1.6;
   max-width: 44ch;
 }
 .cta-btn {
@@ -334,13 +375,17 @@ img { display: block; max-width: 100%; height: auto; }
   text-transform: uppercase;
   transition: background .18s ease, transform .18s ease;
 }
-.cta-btn:hover { background: var(--grey-2); transform: translateX(3px); }
+.cta-btn:hover { background: var(--accent); transform: translateX(3px); }
 
 .cta-visual {
   aspect-ratio: 4 / 5;
-  background: url("/gallery/istanbul-1.jpg") center/cover;
+  background: url("/photos/6.jpg") center/cover;
   background-color: var(--paper-3);
   border-radius: 4px;
+  filter:
+    grayscale(45%) sepia(18%) contrast(1.08)
+    brightness(0.96) saturate(0.85);
+  box-shadow: inset 0 0 0 1px rgba(19,19,17,0.05);
 }
 
 /* ─────────────── FOOTER ─────────────── */
@@ -352,7 +397,7 @@ img { display: block; max-width: 100%; height: auto; }
 .foot {
   max-width: 1240px; margin: 0 auto;
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr;
   gap: 40px;
   padding-bottom: 32px;
   border-bottom: 1px solid var(--line);
@@ -365,7 +410,7 @@ img { display: block; max-width: 100%; height: auto; }
 }
 .foot ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
 .foot a { color: var(--ink); font-size: 14px; transition: color .15s ease; }
-.foot a:hover { color: var(--grey-2); }
+.foot a:hover { color: var(--accent); }
 .foot-word {
   font-family: var(--font-serif), serif;
   font-weight: 400; font-size: 22px;
@@ -390,19 +435,21 @@ img { display: block; max-width: 100%; height: auto; }
   .mag-heads { display: none; }
   .tri { grid-template-columns: 1fr; gap: 40px; }
   .cta-inner { grid-template-columns: 1fr; gap: 40px; }
+  .row { grid-template-columns: 40px 1.5fr 1fr 60px; gap: 14px; }
 }
 
 @media (max-width: 720px) {
   .nav { grid-template-columns: auto auto; padding: 14px 18px; gap: 12px; }
   .nav-links { display: none; }
   .intro { padding: 60px 18px 20px; }
-  .mag, .setup, .cta { padding-left: 18px; padding-right: 18px; }
+  .mag, .list, .cta { padding-left: 18px; padding-right: 18px; }
   .mag { padding-top: 40px; padding-bottom: 70px; }
-  .setup { padding-top: 60px; padding-bottom: 60px; }
+  .list { padding-top: 60px; padding-bottom: 60px; }
   .cta { padding-top: 70px; padding-bottom: 80px; }
-  .setup-grid { grid-template-columns: 1fr; }
   .foot { grid-template-columns: 1fr; gap: 24px; padding-bottom: 24px; }
   .foot-bar { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .row { grid-template-columns: 30px 1fr 60px; }
+  .row .stack { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

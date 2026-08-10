@@ -1,144 +1,146 @@
 import Link from "next/link";
 
-const PROJECTS = [
-  { name: "stockrendite",        stack: "c# · blazor",     year: 2026, blurb: "track holdings, see actual returns.", url: "https://stock-rendite.vercel.app/" },
-  { name: "whiteplayer",         stack: "c# · wpf",        year: 2026, blurb: "minimal wpf music player i actually use." },
-  { name: "memyselfandi",        stack: "typescript",      year: 2026, blurb: "this site.",                          url: "https://github.com/Ni7i/memyselfandi" },
-  { name: "quizlot",             stack: "typescript",      year: 2026, blurb: "quiz platform." },
-  { name: "ict-regios-2026",     stack: "javascript",      year: 2026, blurb: "competition project." },
-  { name: "trackmyfood",         stack: "javascript",      year: 2026, blurb: "food tracking, frontend." },
-  { name: "imposter · whoami",   stack: "javascript",      year: 2026, blurb: "first paid job." },
-  { name: "screentime-blocker",  stack: "javascript",      year: 2026, blurb: "less phone. more life." },
-  { name: "oase jugendraum",     stack: "python",          year: 2026, blurb: "web app for a youth room." },
-  { name: "swissskills25",       stack: "—",               year: 2026, blurb: "swiss skills 2025." },
-  { name: "midnight-calculator", stack: "c#",              year: 2025, blurb: "calculator for a local sme." },
-  { name: "budgetbuddy",         stack: "python",          year: 2025, blurb: "budgets." },
-  { name: "reactprojekt",        stack: "javascript",      year: 2025, blurb: "learning ui in public." },
-  { name: "lcr",                 stack: "c#",              year: 2025, blurb: "little random oop game." },
-  { name: "zitate",              stack: "python",          year: 2025, blurb: "quotes." },
-];
-
-const RECITERS = [
-  { name: "muhammad ayyub",    where: "al-nabawi · madinah" },
-  { name: "yasser al-dosari",  where: "king khalid · riyadh" },
-  { name: "ali jabir",         where: "al-haram · makkah" },
-  { name: "maher al-muaiqly",  where: "al-haram · makkah" },
-];
-
-const LINKS = [
-  { label: "mail",     handle: "shorra.enis@hotmail.com", href: "mailto:shorra.enis@hotmail.com" },
-  { label: "github",   handle: "Ni7i",                    href: "https://github.com/Ni7i" },
-  { label: "linkedin", handle: "enis-shorra",             href: "https://linkedin.com/in/enis-shorra" },
-  { label: "discord",  handle: "nisi_17",                 href: "https://discord.com/users/nisi_17" },
-];
-
-function byYear(a: { year: number }, b: { year: number }) { return b.year - a.year; }
-
 export default function Home() {
-  const projects = [...PROJECTS].sort(byYear);
-  const grouped: Record<number, typeof projects> = {};
-  for (const p of projects) (grouped[p.year] ||= []).push(p);
-  const years = Object.keys(grouped).map(Number).sort((a, b) => b - a);
-
   return (
-    <main className="page">
-      <header className="head">
-        <h1>enis shorra</h1>
-        <p className="sub">
-          17. rudolfstetten, ch. kosovo roots. muslim. writes code — mostly c#.
-        </p>
-      </header>
+    <>
+      <h1>Enis Shorra</h1>
+      <p>
+        <small className="meta">
+          Rudolfstetten, Switzerland &middot;{" "}
+          <a href="mailto:shorra.enis@hotmail.com">shorra.enis@hotmail.com</a>
+        </small>
+      </p>
 
-      <section className="block">
-        <span className="marker">now</span>
-        <ul className="notes">
-          <li>apprenticing / competing — ict regios 2026.</li>
-          <li>reading through al-mulk again.</li>
-          <li>gym or bike when i&rsquo;m not at the keyboard.</li>
-        </ul>
-      </section>
+      <p>
+        I&apos;m 17. Born to Kosovar parents, grew up in the Aargau. Muslim.
+        I write code &mdash; mostly C# &mdash; and I&apos;m currently
+        doing an ICT apprenticeship. That&apos;s the short version.
+      </p>
 
-      <section className="block">
-        <span className="marker">code</span>
-        <p>
-          c# is home — .net, blazor, wpf. python for scripts.
-          typescript and react/next for the web. sql when the data won&rsquo;t sit still.
-        </p>
-        <p className="dim">
-          fifteen-ish public repos on{" "}
-          <a href="https://github.com/Ni7i" target="_blank" rel="noreferrer">github/Ni7i</a>.
-        </p>
-      </section>
+      <p>
+        This page is on purpose ugly. I got tired of every portfolio looking
+        like the same designer template, so I threw the design away.
+      </p>
 
-      <section className="block">
-        <span className="marker">things i built</span>
-        {years.map((y) => (
-          <div key={y} className="year">
-            <span className="year-num">{y}</span>
-            <ul className="proj">
-              {grouped[y].map((p) => (
-                <li key={p.name}>
-                  {p.url ? (
-                    <a href={p.url} target="_blank" rel="noreferrer" className="proj-name">{p.name}</a>
-                  ) : (
-                    <span className="proj-name">{p.name}</span>
-                  )}
-                  <span className="proj-stack">{p.stack}</span>
-                  <span className="proj-blurb">{p.blurb}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </section>
+      <h2>What I do</h2>
+      <p>
+        C# is where I live: .NET, Blazor, WPF. I reach for Python when I
+        need a script, TypeScript with React or Next.js when it has to
+        run in a browser, and SQL when the data misbehaves.
+      </p>
+      <p>
+        I&apos;m preparing for the ICT Regios 2026 competition. Before that
+        I did SwissSkills 25. Between school and training I ship stuff on
+        weekends.
+      </p>
 
-      <section className="block">
-        <span className="marker">setup</span>
-        <p>
-          m4 macbook pro 16&Prime; · 24 gb — for work.<br />
-          custom pc — ryzen 7 7800x3d, rtx 4070 ti super, 32 gb ddr5 — for everything else.<br />
-          mx master 3s. mx mechanical mini.
-        </p>
-      </section>
+      <h2>Things I&apos;ve built</h2>
+      <ul>
+        <li>
+          <span className="year">2026</span>
+          <a href="https://stock-rendite.vercel.app/" target="_blank" rel="noreferrer">
+            <b>stockrendite</b>
+          </a>{" "}
+          <span className="tag">C#</span> &mdash; track your holdings, see your
+          actual return (not the one the broker wants you to see).
+        </li>
+        <li>
+          <span className="year">2026</span>
+          <b>whiteplayer</b> <span className="tag">WPF</span> &mdash; a
+          minimal music player. I use it every day.
+        </li>
+        <li>
+          <span className="year">2026</span>
+          <a href="https://github.com/Ni7i/memyselfandi" target="_blank" rel="noreferrer">
+            <b>memyselfandi</b>
+          </a>{" "}
+          <span className="tag">TS</span> &mdash; this website.
+        </li>
+        <li>
+          <span className="year">2026</span>
+          <b>Quizlot</b>, <b>trackmyfood</b>, <b>screentime-blocker</b>,
+          <b> impostergame</b>, <b>ICT-Regios-2026</b>, <b>Oase Jugendraum</b>
+          &mdash; stuff for school, for clients, for fun.
+        </li>
+        <li>
+          <span className="year">2025</span>
+          <b>midnight-calculator</b> <span className="tag">C#</span> &mdash;
+          calculator for a local SME.
+        </li>
+        <li>
+          <span className="year">2025</span>
+          <b>BudgetBuddy</b>, <b>Zitate</b>, <b>LCR</b>, <b>ReactProjekt</b>
+          &mdash; earlier stuff, kept for the diff.
+        </li>
+      </ul>
+      <p>
+        The full list lives on GitHub:{" "}
+        <a href="https://github.com/Ni7i" target="_blank" rel="noreferrer">
+          github.com/Ni7i
+        </a>.
+      </p>
 
-      <section className="block">
-        <span className="marker">on repeat</span>
-        <ul className="notes">
-          {RECITERS.map((r) => (
-            <li key={r.name}>
-              {r.name} <span className="dim">— {r.where}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
+      <h2>Hardware</h2>
+      <table>
+        <tbody>
+          <tr>
+            <td className="k">Laptop</td>
+            <td>MacBook Pro 16&quot;, M4 Pro, 24 GB</td>
+          </tr>
+          <tr>
+            <td className="k">Desktop</td>
+            <td>Ryzen 7 7800X3D &middot; RTX 4070 Ti Super &middot; 32 GB DDR5</td>
+          </tr>
+          <tr>
+            <td className="k">Keyboard</td>
+            <td>Logitech MX Mechanical Mini</td>
+          </tr>
+          <tr>
+            <td className="k">Mouse</td>
+            <td>Logitech MX Master 3S</td>
+          </tr>
+        </tbody>
+      </table>
 
-      <section className="block">
-        <span className="marker">reach me</span>
-        <ul className="links">
-          {LINKS.map((l) => (
-            <li key={l.label}>
-              <span className="link-label">{l.label}</span>
-              <a href={l.href} target="_blank" rel="noreferrer">{l.handle}</a>
-            </li>
-          ))}
-        </ul>
-      </section>
+      <h2>Outside of the screen</h2>
+      <p>
+        Gym, bike, family, food. I listen to Qur&apos;an a lot &mdash;
+        Muhammad Ayyub, Yasser Al-Dosari, Ali Jabir, Maher Al-Muaiqly are on
+        heavy rotation. Right now I&apos;m going through Surah al-Mulk again.
+      </p>
 
-      <section className="block hire">
-        <span className="marker">hiring?</span>
-        <p>
-          17, looking for an ict internship in the zurich/aargau area.
-          i can build, i learn fast, i show up.{" "}
-          <a href="mailto:shorra.enis@hotmail.com">send a mail</a>.
-        </p>
-      </section>
+      <h2>Contact</h2>
+      <table>
+        <tbody>
+          <tr>
+            <td className="k">e-mail</td>
+            <td><a href="mailto:shorra.enis@hotmail.com">shorra.enis@hotmail.com</a></td>
+          </tr>
+          <tr>
+            <td className="k">github</td>
+            <td><a href="https://github.com/Ni7i" target="_blank" rel="noreferrer">Ni7i</a></td>
+          </tr>
+          <tr>
+            <td className="k">linkedin</td>
+            <td><a href="https://linkedin.com/in/enis-shorra" target="_blank" rel="noreferrer">enis-shorra</a></td>
+          </tr>
+          <tr>
+            <td className="k">discord</td>
+            <td><a href="https://discord.com/users/nisi_17" target="_blank" rel="noreferrer">nisi_17</a></td>
+          </tr>
+        </tbody>
+      </table>
 
-      <footer className="foot">
-        <span>last touched · 10 aug 2026</span>
-        <span className="dim">
-          also: <Link href="/blog">blog</Link> · <Link href="/projects">projects</Link>
-        </span>
-      </footer>
-    </main>
+      <div className="warn">
+        <strong>hiring?</strong> I&apos;m 17, open to an ICT internship
+        somewhere between Zurich and Aargau. I can build. I learn fast.
+        Write me: <a href="mailto:shorra.enis@hotmail.com">shorra.enis@hotmail.com</a>.
+      </div>
+
+      <div className="foot">
+        Last updated 10 Aug 2026. Also here: <Link href="/blog">blog</Link>,
+        {" "}<Link href="/projects">projects</Link>.
+      </div>
+    </>
   );
 }

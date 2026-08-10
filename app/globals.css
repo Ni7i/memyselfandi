@@ -1,164 +1,83 @@
-:root {
-  --paper: #f2ede2;
-  --ink: #1c1a17;
-  --ink-2: #2e2b26;
-  --dim: #7a7368;
-  --faint: #b8afa1;
-  --rule: #d9d2c3;
-  --mark: #b1421f;
-  --link: #7a3e1a;
-}
-
-*, *::before, *::after { box-sizing: border-box; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-
 html, body {
-  margin: 0; padding: 0;
-  background: var(--paper);
-  color: var(--ink);
-  font-family: var(--font-body), -apple-system, system-ui, sans-serif;
-  font-size: 17px;
-  line-height: 1.6;
-  letter-spacing: -0.005em;
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+  color: #000000;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 18px;
+  line-height: 1.45;
 }
 
 body {
-  background-image: radial-gradient(rgba(28,26,23,0.035) 1px, transparent 1px);
-  background-size: 3px 3px;
-  min-height: 100vh;
+  max-width: 640px;
+  margin: 40px 20px;
+  padding: 0;
 }
 
-::selection { background: var(--mark); color: var(--paper); }
+a { color: #0000ee; text-decoration: underline; }
+a:visited { color: #551a8b; }
+a:hover { background: #ffff00; color: #000; text-decoration: none; }
 
-a { color: var(--link); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; text-decoration-color: rgba(122,62,26,0.35); transition: text-decoration-color .15s ease; }
-a:hover { text-decoration-color: var(--link); }
-
-.page { max-width: 640px; margin: 0 auto; padding: 88px 28px 120px; }
-
-.head { margin-bottom: 56px; }
-.head h1 {
-  font-family: var(--font-display), Georgia, serif;
-  font-style: italic;
-  font-weight: 400;
-  font-size: 84px;
-  line-height: 0.95;
-  letter-spacing: -0.03em;
-  margin: 0 0 18px;
-  color: var(--ink);
+h1 {
+  font-size: 34px;
+  font-weight: bold;
+  margin: 0 0 4px;
+  letter-spacing: 0;
 }
-.head .sub {
-  font-family: var(--font-mono), ui-monospace, monospace;
+h2 {
+  font-size: 21px;
+  font-weight: bold;
+  margin: 30px 0 6px;
+  border-bottom: 2px solid #000;
+  padding-bottom: 2px;
+}
+p { margin: 0 0 14px; }
+hr { border: none; border-top: 1px dashed #666; margin: 22px 0; }
+
+ul { margin: 0 0 14px; padding-left: 22px; }
+li { margin: 2px 0; }
+
+.tag {
+  display: inline-block;
+  padding: 0 4px;
+  background: #000;
+  color: #fff;
   font-size: 13px;
-  color: var(--ink-2);
-  line-height: 1.65;
-  margin: 0;
-  max-width: 34em;
+  font-family: "Courier New", Courier, monospace;
+  margin-right: 4px;
 }
 
-.block { margin: 44px 0; padding-top: 22px; border-top: 1px solid var(--rule); position: relative; }
-.block p { margin: 0 0 12px; }
-.block p:last-child { margin-bottom: 0; }
-.marker {
-  display: inline-block;
-  font-family: var(--font-mono), monospace;
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--mark);
-  margin-bottom: 14px;
+.year {
+  font-family: "Courier New", Courier, monospace;
+  color: #666;
+  font-size: 15px;
+  margin-right: 6px;
 }
 
-.notes { list-style: none; margin: 0; padding: 0; }
-.notes li { padding: 4px 0 4px 22px; position: relative; }
-.notes li::before {
-  content: "—";
-  position: absolute; left: 0; top: 4px;
-  color: var(--faint);
-  font-family: var(--font-mono), monospace;
-  font-size: 14px;
+.warn {
+  border: 2px solid #000;
+  padding: 10px 14px;
+  background: #fffbcc;
+  margin: 20px 0;
 }
+.warn strong { background: #000; color: #fff; padding: 0 4px; }
 
-.year { margin: 18px 0 22px; }
-.year:first-of-type { margin-top: 6px; }
-.year-num {
-  display: inline-block;
-  font-family: var(--font-mono), monospace;
-  font-size: 12px;
-  color: var(--faint);
-  letter-spacing: 0.08em;
-  margin-bottom: 6px;
-}
-.proj { list-style: none; margin: 0; padding: 0; }
-.proj li {
-  padding: 8px 0;
-  border-bottom: 1px dashed var(--rule);
-  display: grid;
-  grid-template-columns: minmax(140px, 1fr) minmax(100px, auto) 2fr;
-  gap: 14px;
-  align-items: baseline;
-}
-.proj li:last-child { border-bottom: none; }
-.proj-name { font-family: var(--font-mono), monospace; font-size: 14px; color: var(--ink); }
-a.proj-name { color: var(--link); }
-.proj-stack { font-family: var(--font-mono), monospace; font-size: 11px; color: var(--dim); letter-spacing: 0.02em; }
-.proj-blurb { color: var(--ink-2); font-size: 15px; }
+table { border-collapse: collapse; margin: 8px 0 18px; font-size: 16px; }
+td { padding: 3px 14px 3px 0; vertical-align: top; }
+td.k { font-family: "Courier New", Courier, monospace; color: #444; }
 
-.links { list-style: none; margin: 0; padding: 0; }
-.links li {
-  display: grid;
-  grid-template-columns: 90px 1fr;
-  gap: 16px;
-  padding: 5px 0;
-  align-items: baseline;
-}
-.link-label {
-  font-family: var(--font-mono), monospace;
-  font-size: 11px;
-  color: var(--dim);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.hire { padding: 22px 22px 22px; background: transparent; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
-.hire p { font-size: 16px; }
-
-.dim { color: var(--dim); }
+small.meta { color: #666; font-size: 14px; }
 
 .foot {
-  margin-top: 72px;
-  padding-top: 20px;
-  border-top: 1px solid var(--rule);
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 12px;
-  font-family: var(--font-mono), monospace;
-  font-size: 11px;
-  color: var(--dim);
-  letter-spacing: 0.06em;
+  margin-top: 40px;
+  padding-top: 12px;
+  border-top: 1px solid #000;
+  font-size: 14px;
+  color: #444;
 }
-.foot a { color: var(--dim); text-decoration-color: var(--rule); }
-.foot a:hover { color: var(--ink); }
 
 @media (max-width: 620px) {
-  .page { padding: 56px 22px 80px; }
-  .head h1 { font-size: 60px; }
-  .proj li { grid-template-columns: 1fr; gap: 2px; padding: 10px 0; }
-  .proj-stack { font-size: 10.5px; }
-  .foot { flex-direction: column; align-items: flex-start; gap: 4px; }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #14120f;
-    --ink: #efe8d8;
-    --ink-2: #d6cebd;
-    --dim: #8a8272;
-    --faint: #4b463d;
-    --rule: #2b271f;
-    --mark: #e6835c;
-    --link: #e8a880;
-  }
-  body { background-image: radial-gradient(rgba(239,232,216,0.03) 1px, transparent 1px); }
-  a { text-decoration-color: rgba(232,168,128,0.35); }
-  a:hover { text-decoration-color: var(--link); }
+  body { margin: 20px 14px; }
+  h1 { font-size: 28px; }
+  h2 { font-size: 18px; }
 }

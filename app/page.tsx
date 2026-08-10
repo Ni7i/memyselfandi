@@ -1,4 +1,5 @@
 import Link from "next/link";
+import TypedTitle from "./TypedTitle";
 
 const PROJECTS = [
   { name: "whiteplayer",        tag: "a music player I use daily",   stack: "C# · WPF",       year: 2026 },
@@ -25,8 +26,8 @@ export default function Home() {
         </a>
         <div className="nav-links">
           <a href="#about">About</a>
-          <a href="#work">Work</a>
           <a href="#archive">Archive</a>
+          <a href="#me">Me</a>
           <a href="#contact">Contact</a>
         </div>
         <a className="nav-cta" href="mailto:shorra.enis@hotmail.com">Get in touch</a>
@@ -37,9 +38,7 @@ export default function Home() {
         <div className="intro-inner">
           <div>
             <span className="stamp">Est. 2024 · Aargau</span>
-            <h1 className="intro-title">
-              enisshorra<em>.ch</em>
-            </h1>
+            <TypedTitle />
           </div>
           <p className="intro-sub">
             A quiet corner for a seventeen-year-old developer from
@@ -168,6 +167,56 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ─── ME · Q&A ─── */}
+      <section className="me" id="me">
+        <div className="me-inner">
+          <div className="me-head">
+            <h2>Me<em>.</em></h2>
+            <span className="meta">A short interview with myself</span>
+          </div>
+
+          <div className="qa">
+            <article className="qa-item">
+              <span className="q">Q.&nbsp;&nbsp;What actually got you into coding?</span>
+              <p className="a">
+                The Informatikmittelschule at KAnti Baden, and then BBB
+                Baden. Before that it was Scratch and toys &mdash; nothing
+                serious. School was the actual switch. That&apos;s where I
+                first thought this is the thing I want to be quietly good at.
+              </p>
+            </article>
+
+            <article className="qa-item">
+              <span className="q">Q.&nbsp;&nbsp;What&apos;s the real goal for 2026?</span>
+              <p className="a">
+                All of it, honestly. A top run at ICT Regios. One product
+                that people actually use. The right internship. And &mdash; the
+                one nobody puts on a portfolio &mdash; being a better person.
+                Gym, focus, family. Same energy across the board.
+              </p>
+            </article>
+
+            <article className="qa-item">
+              <span className="q">Q.&nbsp;&nbsp;What would you tell your fifteen-year-old self?</span>
+              <p className="a">
+                Start earlier. Skip half the tutorials, build the ugly
+                version. Ask more people for help &mdash; the stolz just costs
+                you months. Stop overthinking. Ship the thing. And keep going,
+                especially the weeks it feels pointless.
+              </p>
+            </article>
+
+            <article className="qa-item">
+              <span className="q">Q.&nbsp;&nbsp;In five years &mdash; what do you want to be true?</span>
+              <p className="a">
+                A good coder. A good person. In that order? Sometimes.
+                Mostly at the same time.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
       {/* ─── CTA ─── */}
       <section className="cta" id="contact">
         <div className="cta-inner">
@@ -184,7 +233,18 @@ export default function Home() {
               Write me &rarr;
             </a>
           </div>
-          <div className="cta-visual" />
+
+          <aside className="cta-card">
+            <span className="cta-stamp">Available &middot; 2026</span>
+            <ul>
+              <li><span>Mail</span><a href="mailto:shorra.enis@hotmail.com">shorra.enis@hotmail.com</a></li>
+              <li><span>GitHub</span><a href="https://github.com/Ni7i" target="_blank" rel="noreferrer">@Ni7i</a></li>
+              <li><span>LinkedIn</span><a href="https://linkedin.com/in/enis-shorra" target="_blank" rel="noreferrer">enis-shorra</a></li>
+              <li><span>Discord</span><a href="https://discord.com/users/nisi_17" target="_blank" rel="noreferrer">nisi_17</a></li>
+              <li><span>Base</span><em>Rudolfstetten, CH</em></li>
+            </ul>
+            <small>Answers usually within 48h.</small>
+          </aside>
         </div>
       </section>
 

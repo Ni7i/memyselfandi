@@ -1,5 +1,6 @@
 import Link from "next/link";
 import TypedTitle from "./TypedTitle";
+import ImageReveal from "./ImageReveal";
 
 const PROJECTS = [
   { name: "whiteplayer",        tag: "a music player I use daily",   stack: "C# · WPF",       year: 2026 },
@@ -18,6 +19,7 @@ const PROJECTS = [
 export default function Home() {
   return (
     <>
+      <ImageReveal />
       {/* ─── NAV ─── */}
       <nav className="nav">
         <a href="/" className="logo" aria-label="Enis Shorra">

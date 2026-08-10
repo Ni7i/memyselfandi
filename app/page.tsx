@@ -1,195 +1,276 @@
 import Link from "next/link";
 
-const PROJECTS = [
-  { name: "stockrendite",        desc: "Track your holdings, see the return your broker won't.", stack: "C# · Blazor", year: 2026, url: "https://stock-rendite.vercel.app/" },
-  { name: "whiteplayer",         desc: "A minimal Windows music player I actually use daily.",   stack: "C# · WPF",    year: 2026 },
-  { name: "memyselfandi",        desc: "This site. Rewritten more times than I'd like to admit.", stack: "TypeScript", year: 2026, url: "https://github.com/Ni7i/memyselfandi" },
-  { name: "Quizlot",             desc: "A quiz platform for classmates who wouldn't pay Quizlet.", stack: "TypeScript", year: 2026 },
-  { name: "ICT Regios 2026",     desc: "Competition build, one weekend, full stack.",              stack: "JavaScript", year: 2026 },
-  { name: "impostergame",        desc: "First paid project. Party game for a youth event.",        stack: "JavaScript", year: 2026 },
-  { name: "screentime-blocker",  desc: "Locks me out of Instagram after 30 minutes.",              stack: "JavaScript", year: 2026 },
-  { name: "Oase Jugendraum",     desc: "Web app for the local youth room, actual users.",          stack: "Python",     year: 2026 },
-  { name: "midnight-calculator", desc: "Custom calculator for a local SME. My first client.",      stack: "C#",         year: 2025 },
-  { name: "BudgetBuddy",         desc: "Budget tracker from when I still thought CLI was cool.",   stack: "Python",     year: 2025 },
+const RECENT = [
+  { name: "stockrendite", desc: "Track your holdings and see returns your broker won't show.", stack: "C# · Blazor", year: 2026, url: "https://stock-rendite.vercel.app/", thumb: "thumb-city" as const },
+  { name: "whiteplayer",  desc: "A minimal Windows music player. I use it every day.",           stack: "C# · WPF",    year: 2026, thumb: "thumb-still" as const },
+];
+
+const OTHER = [
+  { name: "memyselfandi",        stack: "TypeScript",  year: 2026 },
+  { name: "Quizlot",             stack: "TypeScript",  year: 2026 },
+  { name: "ICT Regios 2026",     stack: "JavaScript",  year: 2026 },
+  { name: "impostergame",        stack: "JavaScript",  year: 2026 },
+  { name: "screentime-blocker",  stack: "JavaScript",  year: 2026 },
+  { name: "Oase Jugendraum",     stack: "Python",      year: 2026 },
+  { name: "midnight-calculator", stack: "C#",          year: 2025 },
+  { name: "BudgetBuddy",         stack: "Python",      year: 2025 },
 ];
 
 export default function Home() {
-  const sorted = [...PROJECTS].sort((a, b) => b.year - a.year);
-
   return (
     <>
-      {/* ─── HEADER ─── */}
-      <header className="hdr">
-        <a href="/" className="logo">
-          Enis<sup>ES</sup>
+      {/* ─── NAV ─── */}
+      <nav className="nav">
+        <a href="/" className="logo" aria-label="Enis Shorra">
+          <span className="top">ENIS</span>
+          <span className="bot">SHORRA</span>
         </a>
-        <div className="hdr-right">
-          <a className="pill" href="mailto:shorra.enis@hotmail.com">Enquire</a>
-          <a className="pill ghost" href="#work">Work</a>
+        <div className="nav-links">
+          <a href="#about">About</a>
+          <a href="#work">Work</a>
+          <a href="#setup">Setup</a>
+          <a href="#contact">Contact</a>
         </div>
-      </header>
+        <a className="nav-cta" href="mailto:shorra.enis@hotmail.com">Get in touch</a>
+      </nav>
 
       {/* ─── HERO ─── */}
       <section className="hero">
-        <div className="hero-img" />
         <div className="hero-inner">
-          <h1 className="hero-title">
-            Shipping
-            <span className="em">extraordinary</span>
-          </h1>
-          <div className="hero-sub">Enis Shorra · Developer · Since 2024</div>
+          <div>
+            <h1 className="hero-title">
+              enisshorra<span className="dot">.</span>ch
+            </h1>
+            <p className="hero-sub">
+              A personal corner of the internet for a 17-year-old developer
+              from Switzerland. Notes on the projects I ship, the tools I
+              lean on, and what I&apos;m building next.
+            </p>
+          </div>
+
+          {/* Grey perspective grid + orb art (replaces Conway's orange) */}
+          <div className="hero-art">
+            <svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <radialGradient id="orb1" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#d5cfc0" />
+                  <stop offset="60%" stopColor="#8a857a" />
+                  <stop offset="100%" stopColor="#3a3833" />
+                </radialGradient>
+                <radialGradient id="orb2" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#a8a396" />
+                  <stop offset="100%" stopColor="#242220" />
+                </radialGradient>
+                <linearGradient id="fade" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stopColor="#8a857a" stopOpacity="0.4" />
+                  <stop offset="100%" stopColor="#8a857a" stopOpacity="0" />
+                </linearGradient>
+                <pattern id="dots" x="0" y="0" width="4" height="4" patternUnits="userSpaceOnUse">
+                  <circle cx="1" cy="1" r="0.6" fill="#c7c1b3" />
+                </pattern>
+              </defs>
+
+              {/* Perspective grid (floor) */}
+              <g stroke="#4a4841" strokeWidth="0.6" fill="none" opacity="0.85">
+                {Array.from({ length: 14 }).map((_, i) => (
+                  <line key={`h${i}`}
+                    x1="0" y1={280 + i * 12 * (1 + i * 0.08)}
+                    x2="600" y2={280 + i * 12 * (1 + i * 0.08)} />
+                ))}
+                {Array.from({ length: 22 }).map((_, i) => {
+                  const x = i * (600 / 21);
+                  return <line key={`v${i}`} x1={x} y1="280" x2={300 + (x - 300) * 3.2} y2="450" />;
+                })}
+              </g>
+
+              {/* Back wall grid */}
+              <g stroke="#5a564d" strokeWidth="0.5" fill="none" opacity="0.6">
+                {Array.from({ length: 12 }).map((_, i) => (
+                  <line key={`bh${i}`} x1="140" y1={40 + i * 20} x2="460" y2={40 + i * 20} />
+                ))}
+                {Array.from({ length: 17 }).map((_, i) => (
+                  <line key={`bv${i}`} x1={140 + i * 20} y1="40" x2={140 + i * 20} y2="280" />
+                ))}
+              </g>
+
+              {/* Central dotted rectangle */}
+              <rect x="180" y="90" width="240" height="150" fill="url(#dots)" opacity="0.55" />
+              <rect x="180" y="90" width="240" height="150" fill="none" stroke="#7a7469" strokeWidth="0.8" />
+
+              {/* Central star burst */}
+              <g transform="translate(300 165)" fill="#e6e0d1" opacity="0.9">
+                <path d="M0,-14 L3,-3 L14,0 L3,3 L0,14 L-3,3 L-14,0 L-3,-3 Z" />
+                <circle r="2" fill="#f4f1ea" />
+              </g>
+
+              {/* Orbs */}
+              <circle cx="80" cy="380" r="60" fill="url(#orb1)" opacity="0.85" />
+              <circle cx="80" cy="380" r="60" fill="none" stroke="#7a7469" strokeWidth="0.5" opacity="0.6" />
+
+              <circle cx="530" cy="200" r="18" fill="url(#orb2)" />
+
+              {/* Paper plane bottom-right */}
+              <g transform="translate(500 320) rotate(-15)" stroke="#c7c1b3" strokeWidth="1" fill="none">
+                <path d="M0,0 L60,10 L20,20 L60,10 L30,45 L20,20 Z" />
+              </g>
+
+              {/* Corner accents */}
+              <line x1="20" y1="20" x2="20" y2="60" stroke="#7a7469" strokeWidth="1" />
+              <line x1="20" y1="20" x2="60" y2="20" stroke="#7a7469" strokeWidth="1" />
+              <line x1="580" y1="430" x2="580" y2="390" stroke="#7a7469" strokeWidth="1" />
+              <line x1="580" y1="430" x2="540" y2="430" stroke="#7a7469" strokeWidth="1" />
+            </svg>
+          </div>
         </div>
       </section>
 
-      {/* ─── INTRO ─── */}
-      <section className="band">
-        <div className="intro">
-          <div className="intro-text">
-            <p>
-              I&apos;m a seventeen year old developer based near Zurich. I
-              write C# by default, TypeScript on the web, and Python for
-              anything that needs to move quickly.
-            </p>
-            <p>
-              Currently mid-apprenticeship and preparing for the ICT
-              Regios 2026 — the regional round of the Swiss ICT skills
-              competition. Weekends are for shipping.
-            </p>
-            <a className="link" href="#work">
-              <span className="arr">→</span> See the work
-            </a>
-          </div>
-          <div className="card-img kosovo" aria-hidden="true" />
-        </div>
-      </section>
+      {/* ─── LIGHT MIDDLE: 3-COL LAYOUT ─── */}
+      <section className="light" id="about">
+        <div className="light-inner">
+          <div className="tri">
 
-      {/* ─── FEATURED ─── */}
-      <div className="featured-wrap">
-        <a href="https://stock-rendite.vercel.app/" target="_blank" rel="noreferrer" className="featured">
-          <div className="featured-bg" />
-          <div className="featured-inner">
-            <div className="featured-top">
-              <span className="label">Featured</span>
-              <span className="featured-cat label">Investing · Blazor</span>
-            </div>
-            <div className="featured-bot">
-              <h3 className="featured-title">Stockrendite</h3>
-              <p className="featured-sub">Track your holdings, see the return your broker won&apos;t.</p>
-              <span className="link" style={{ marginTop: 8 }}>
-                <span className="arr">→</span> Visit
-              </span>
-            </div>
-          </div>
-        </a>
-      </div>
+            {/* LEFT: About me */}
+            <div className="tri-col">
+              <h2 className="tri-h">About me</h2>
 
-      {/* ─── SELECTED WORK LIST ─── */}
-      <section className="works" id="work">
-        <div className="works-head">
-          <h2>Selected <span className="it">work.</span></h2>
-          <a className="link" href="https://github.com/Ni7i" target="_blank" rel="noreferrer">
-            <span className="arr">→</span> All on GitHub
-          </a>
-        </div>
-        <ol className="works-list">
-          {sorted.map((p, i) => {
-            const rowProps = p.url
-              ? { as: "a" as const, href: p.url, target: "_blank" as const, rel: "noreferrer" as const }
-              : {};
-            return (
-              <li key={p.name}>
-                {p.url ? (
-                  <a href={p.url} target="_blank" rel="noreferrer" className="work-row link">
-                    <span className="work-num">{String(i + 1).padStart(2, "0")}</span>
-                    <div className="work-name">
-                      {p.name}
-                      <span className="desc">{p.desc}</span>
-                    </div>
-                    <span className="work-stack">{p.stack}</span>
-                    <span className="work-year">{p.year}</span>
-                    <span className="work-arr">↗</span>
-                  </a>
-                ) : (
-                  <div className="work-row" {...rowProps}>
-                    <span className="work-num">{String(i + 1).padStart(2, "0")}</span>
-                    <div className="work-name">
-                      {p.name}
-                      <span className="desc">{p.desc}</span>
-                    </div>
-                    <span className="work-stack">{p.stack}</span>
-                    <span className="work-year">{p.year}</span>
-                    <span className="work-arr">·</span>
+              <article className="card-l">
+                <div className="thumb thumb-me tall" />
+                <div className="chips"><span className="chip">Personal</span></div>
+                <h3>Seventeen, Rudolfstetten, and a lot of caffeine.</h3>
+                <p>
+                  I was born to Kosovar parents and grew up in the Aargau
+                  countryside. I&apos;ve been writing code seriously for
+                  over two years — started with C# and it stuck. When
+                  I&apos;m not at the keyboard, I&apos;m at the gym, on the
+                  bike, or eating with my family.
+                </p>
+                <span className="meta">Since 2024</span>
+              </article>
+
+              <article className="card-l">
+                <div className="thumb thumb-view" />
+                <h3>Things I&apos;m into</h3>
+                <p>
+                  Coding, cycling, Kosovo, my family, the gym, C# for how
+                  boring-in-a-good-way it is, and Bilal Sonses on repeat.
+                </p>
+                <span className="meta">Right now</span>
+              </article>
+            </div>
+
+            {/* CENTER: Featured */}
+            <div className="tri-col center" id="work">
+              <h2 className="tri-h">&nbsp;</h2>
+              <a href="https://stock-rendite.vercel.app/" target="_blank" rel="noreferrer" className="card-link card-l">
+                <div className="thumb thumb-city big" />
+                <div className="chips">
+                  <span className="chip">Featured</span>
+                  <span className="chip hollow">C# · Blazor</span>
+                </div>
+                <h3 className="title-lg">
+                  Stockrendite — the return your broker doesn&apos;t want you to see.
+                </h3>
+                <p className="lead">
+                  A follow-up to every &ldquo;you made 12% this year&rdquo; broker
+                  screen. Stockrendite tracks holdings and computes what you
+                  actually earned after fees, dividends and currency shifts —
+                  not what the app wants you to feel.
+                </p>
+                <span className="meta">Live · updated 2026</span>
+              </a>
+            </div>
+
+            {/* RIGHT: Recent work */}
+            <div className="tri-col" id="recent">
+              <h2 className="tri-h">Recent work</h2>
+
+              {RECENT.map((p) => (
+                <article className="card-l" key={p.name}>
+                  <div className={`thumb ${p.thumb}`} />
+                  <div className="chips">
+                    <span className="chip grey">{p.stack}</span>
                   </div>
-                )}
-              </li>
-            );
-          })}
-        </ol>
-      </section>
+                  {p.url ? (
+                    <a href={p.url} target="_blank" rel="noreferrer" className="card-link">
+                      <h3>{p.name}</h3>
+                    </a>
+                  ) : (
+                    <h3>{p.name}</h3>
+                  )}
+                  <p>{p.desc}</p>
+                  <span className="meta">{p.year}</span>
+                </article>
+              ))}
+            </div>
 
-      {/* ─── PHILOSOPHY ─── */}
-      <div className="philo-wrap">
-        <div className="philo">
-          <div className="philo-left">
-            <span className="label philo-label">Approach</span>
-            <h3>
-              Simple things done well.
-              <span className="it">Not the other way around.</span>
-            </h3>
-            <a className="link" href="mailto:shorra.enis@hotmail.com" style={{ marginTop: 28 }}>
-              <span className="arr">→</span> Get in touch
-            </a>
           </div>
-          <div className="philo-right" aria-hidden="true" />
         </div>
-      </div>
+      </section>
 
       {/* ─── SETUP ─── */}
-      <section className="setup">
-        <div className="setup-head">
-          <h2>What&apos;s on <span className="it">the desk.</span></h2>
-          <span className="label" style={{ color: "var(--cream-dim)" }}>Setup</span>
-        </div>
-        <div className="setup-grid">
-          <div className="setup-item">
-            <div className="setup-k">Laptop</div>
-            <div className="setup-v">MacBook Pro 16&Prime;</div>
-            <div className="setup-sub">Apple M4 Pro · 24 GB unified · Space Black</div>
+      <section className="setup" id="setup">
+        <div className="setup-inner">
+          <div className="setup-head">
+            <h2>What&rsquo;s on the desk.</h2>
+            <span className="meta">Setup — 2026</span>
           </div>
-          <div className="setup-item">
-            <div className="setup-k">Desktop</div>
-            <div className="setup-v">Custom Build</div>
-            <div className="setup-sub">Ryzen 7 7800X3D · RTX 4070 Ti Super · 32 GB DDR5</div>
-          </div>
-          <div className="setup-item">
-            <div className="setup-k">Keyboard</div>
-            <div className="setup-v">MX Mechanical Mini</div>
-            <div className="setup-sub">Tactile · low-profile · quiet</div>
-          </div>
-          <div className="setup-item">
-            <div className="setup-k">Mouse</div>
-            <div className="setup-v">MX Master 3S</div>
-            <div className="setup-sub">Been on this for years now</div>
+          <div className="setup-grid">
+            <div className="setup-item">
+              <div className="setup-k">Laptop</div>
+              <div className="setup-v">MacBook Pro 16&Prime;</div>
+              <div className="setup-sub">M4 Pro · 24 GB unified</div>
+            </div>
+            <div className="setup-item">
+              <div className="setup-k">Desktop</div>
+              <div className="setup-v">Custom Build</div>
+              <div className="setup-sub">Ryzen 7 7800X3D · RTX 4070 Ti Super</div>
+            </div>
+            <div className="setup-item">
+              <div className="setup-k">Keyboard</div>
+              <div className="setup-v">MX Mechanical Mini</div>
+              <div className="setup-sub">Tactile · low-profile</div>
+            </div>
+            <div className="setup-item">
+              <div className="setup-k">Mouse</div>
+              <div className="setup-v">MX Master 3S</div>
+              <div className="setup-sub">Been on it forever</div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ─── CTA ─── */}
-      <div className="cta-wrap">
-        <div className="cta">
+      {/* ─── DARK BOTTOM ─── */}
+      <section className="dark-band" id="contact">
+        <div className="grid-bg" />
+        <div className="dark-band-inner">
           <div>
-            <span className="cta-tag">Now Available</span>
-            <h3 className="cta-title">
-              Looking for an internship.
-              <span className="it">Zurich or Aargau.</span>
-            </h3>
-            <a className="link" href="mailto:shorra.enis@hotmail.com" style={{ marginTop: 32 }}>
-              <span className="arr">→</span> Write me
+            <h2 className="dark-title">
+              Currently looking for the <em>right team.</em>
+            </h2>
+            <p className="dark-sub">
+              I&apos;m mid-apprenticeship and open for an ICT internship near
+              Zurich or Aargau. I ship, I take feedback, I don&apos;t need
+              hand-holding. If that sounds useful, get in touch.
+            </p>
+            <a href="mailto:shorra.enis@hotmail.com" className="dark-btn">
+              Write me →
             </a>
           </div>
-          <div className="cta-right" aria-hidden="true" />
+
+          <div className="floppies">
+            {OTHER.slice(0, 4).map((p, i) => (
+              <div key={p.name} className={`floppy f${i + 1}`}>
+                <div>
+                  <div className="fp-tag">Project · {p.stack}</div>
+                  <div className="fp-name">{p.name}</div>
+                </div>
+                <div className="fp-meta">{p.year}</div>
+                <div className="fp-slot" />
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      </section>
 
       {/* ─── FOOTER ─── */}
       <footer className="foot-wrap">
@@ -197,7 +278,8 @@ export default function Home() {
           <div>
             <h4>Enis Shorra</h4>
             <p className="foot-word">
-              Seventeen. Switzerland. Building things one weekend at a time.
+              Seventeen. Switzerland. Building things,
+              <em> one weekend at a time.</em>
             </p>
           </div>
           <div>
@@ -211,9 +293,17 @@ export default function Home() {
           <div>
             <h4>Reach me</h4>
             <ul>
-              <li><a href="mailto:shorra.enis@hotmail.com">shorra.enis@hotmail.com</a></li>
+              <li><a href="mailto:shorra.enis@hotmail.com">Mail</a></li>
               <li><Link href="/blog">Blog</Link></li>
               <li><Link href="/projects">Projects</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Also built</h4>
+            <ul>
+              {OTHER.slice(0, 5).map((p) => (
+                <li key={p.name}>{p.name}</li>
+              ))}
             </ul>
           </div>
         </div>

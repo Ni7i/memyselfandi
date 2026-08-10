@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 const PROJECTS = [
-  { name: "Stockrendite",       tag: "the return your broker hides", stack: "C# · Blazor",   year: 2026, url: "https://stock-rendite.vercel.app/" },
   { name: "whiteplayer",        tag: "a music player I use daily",   stack: "C# · WPF",       year: 2026 },
   { name: "memyselfandi",       tag: "this website",                 stack: "TypeScript",     year: 2026, url: "https://github.com/Ni7i/memyselfandi" },
   { name: "Quizlot",            tag: "flashcards, done right",       stack: "TypeScript",     year: 2026 },
@@ -92,23 +91,23 @@ export default function Home() {
 
             {/* CENTER — Featured */}
             <div className="tri-col" id="work">
-              <a href="https://stock-rendite.vercel.app/" target="_blank" rel="noreferrer" className="card-link card-l">
+              <article className="card-l">
                 <div className="thumb thumb-3 hero" />
                 <div className="chips">
                   <span className="chip red">Featured</span>
-                  <span className="chip hollow">C# · Blazor</span>
+                  <span className="chip hollow">C# · WPF</span>
                 </div>
                 <h3 className="title-lg">
-                  Stockrendite &mdash; the return your broker doesn&apos;t want you to see.
+                  whiteplayer &mdash; the music player I ended up using every day.
                 </h3>
                 <p className="lead">
-                  Every broker screen shows you a friendly number. Stockrendite
-                  computes the honest one &mdash; after fees, dividends, currency
-                  shifts and the timing of every deposit. Built the way I&apos;d
-                  want to see my own money.
+                  I got tired of bloated players so I wrote my own. A quiet,
+                  keyboard-driven WPF app for a big local library &mdash; no ads,
+                  no sync, no telemetry. Started as a weekend project and
+                  quietly took over my desktop.
                 </p>
-                <span className="meta">Live · updated 2026</span>
-              </a>
+                <span className="meta">Windows · 2026</span>
+              </article>
             </div>
 
             {/* RIGHT COLUMN — Interests */}

@@ -16,6 +16,12 @@ const PROJECTS = [
   { name: "Zitate",             tag: "collected quotes",             stack: "Python",         year: 2025 },
 ];
 
+const GROUPED = PROJECTS.reduce<Record<number, typeof PROJECTS>>((acc, p) => {
+  (acc[p.year] ||= []).push(p);
+  return acc;
+}, {});
+const YEARS = Object.keys(GROUPED).map(Number).sort((a, b) => b - a);
+
 export default function Home() {
   return (
     <>
@@ -144,30 +150,39 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── PROJECTS ARCHIVE ─── */}
-      <section className="list" id="archive">
-        <div className="list-inner">
-          <div className="list-head">
+      {/* ─── PROJECTS INDEX ─── */}
+      <section className="idx" id="archive">
+        <div className="idx-inner">
+          <div className="idx-head">
             <h2>The <em>archive.</em></h2>
-            <span className="meta">{PROJECTS.length} projects · 2025 &ndash; 2026</span>
+            <span className="meta">{PROJECTS.length} projects &middot; an index</span>
           </div>
-          {PROJECTS.map((p, i) => {
-            const inner = (
-              <>
-                <span className="num">{String(i + 1).padStart(2, "0")}</span>
-                <span className="name">
-                  {p.name} <em>&mdash; {p.tag}</em>
-                </span>
-                <span className="stack">{p.stack}</span>
-                <span className="year">{p.year}</span>
-              </>
-            );
-            return p.url ? (
-              <a key={p.name} href={p.url} target="_blank" rel="noreferrer" className="row">{inner}</a>
-            ) : (
-              <div key={p.name} className="row">{inner}</div>
-            );
-          })}
+
+          {YEARS.map((year) => (
+            <div className="idx-year" key={year}>
+              <div className="idx-year-label">{year}</div>
+              <div className="idx-entries">
+                {GROUPED[year].map((p) => {
+                  const inner = (
+                    <>
+                      <span className="e-name">
+                        {p.name}
+                        {p.url && <i className="e-arrow" aria-hidden="true">&#8599;</i>}
+                      </span>
+                      <span className="e-tag">{p.tag}</span>
+                      <span className="e-dots" aria-hidden="true" />
+                      <span className="e-stack">{p.stack}</span>
+                    </>
+                  );
+                  return p.url ? (
+                    <a key={p.name} href={p.url} target="_blank" rel="noreferrer" className="entry">{inner}</a>
+                  ) : (
+                    <div key={p.name} className="entry">{inner}</div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 

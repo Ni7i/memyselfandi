@@ -16,7 +16,7 @@ const fraunces = Fraunces({
 
 export const metadata: Metadata = {
   title: "Enis Shorra",
-  description: "Developer. Switzerland. Seventeen and shipping.",
+  description: "Developer from Switzerland. Eighteen, and building.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

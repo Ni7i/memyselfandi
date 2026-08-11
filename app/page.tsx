@@ -8,7 +8,6 @@ const PROJECTS = [
   { name: "Quizlot",            tag: "flashcards, done right",       stack: "TypeScript",     year: 2026 },
   { name: "ICT Regios",         tag: "regional dev championship · 2× entrant", stack: "Competition", year: 2026 },
   { name: "HPGarage",           tag: "web app for a local garage — a real client job", stack: "C# · ASP.NET", year: 2025 },
-  { name: "FilmFlix",           tag: "one film dataset, two databases — graded 6.0", stack: "C# · Mongo/Neo4j", year: 2025 },
   { name: "impostergame",       tag: "who am I? — party game",       stack: "JavaScript",     year: 2025 },
   { name: "screentime-blocker", tag: "less phone, more life",        stack: "JavaScript",     year: 2025 },
   { name: "Oase Jugendraum",    tag: "web app for a youth room",     stack: "Python",         year: 2025 },
@@ -48,7 +47,7 @@ export default function Home() {
             <TypedTitle />
           </div>
           <p className="intro-sub">
-            The personal site of a seventeen-year-old developer from
+            The personal site of an eighteen-year-old developer from
             Switzerland &mdash; what I build, what I&apos;m into, and
             where this is going.
           </p>
@@ -71,13 +70,14 @@ export default function Home() {
               <article className="card-l">
                 <div className="thumb thumb-1 portrait" />
                 <div className="chips"><span className="chip">Personal</span></div>
-                <h3>Seventeen, Rudolfstetten, and a lot of caffeine.</h3>
+                <h3>Eighteen, from Rudolfstetten.</h3>
                 <p>
-                  Kosovar parents, raised in the Aargau. As a kid I clicked
-                  Scratch blocks together like everyone else &mdash; it went
-                  nowhere. Then came the Informatikmittelschule at the KanTi
-                  Baden and BBB Baden, and coding turned from a subject into
-                  the thing I do. C# stuck first. Everything else followed.
+                  Kosovar parents, raised in the Aargau. As a kid I played
+                  around with Scratch and didn&apos;t think much of it. The
+                  Informatikmittelschule at the Kantonsschule Baden is where
+                  it really started to click, and C# was the first thing that
+                  stuck. Most of what I know since then I picked up by
+                  building, breaking things, and asking when I got stuck.
                 </p>
                 <span className="meta">IMS Baden &middot; since 2024</span>
               </article>
@@ -124,11 +124,12 @@ export default function Home() {
               <article className="card-l">
                 <div className="thumb thumb-4 square" />
                 <div className="chips"><span className="chip grey">Interests</span></div>
-                <h3>Bike, gym, family, food &mdash; in that rotation.</h3>
+                <h3>Bike, gym, family, food.</h3>
                 <p>
-                  Rides around the Reuss when the weather plays along,
-                  lifting when it doesn&apos;t. Sundays belong to the family
-                  table. The laptop stays closed until it doesn&apos;t.
+                  When I&apos;m not coding I&apos;m usually out on the bike
+                  around the Reuss or at the gym. Time with family and a good
+                  meal is what actually recharges me &mdash; the rest is just
+                  keeping a decent balance.
                 </p>
                 <span className="meta">Weekly</span>
               </article>
@@ -136,12 +137,12 @@ export default function Home() {
               <article className="card-l">
                 <div className="thumb thumb-5 portrait" />
                 <div className="chips"><span className="chip grey">Weekends</span></div>
-                <h3>On the pitch with a whistle.</h3>
+                <h3>Refereeing on weekends.</h3>
                 <p>
-                  I hold an AFV referee licence and ref matches around the
-                  Aargau. Twenty-two players, one decision, no replay &mdash;
-                  it&apos;s the fastest feedback loop I know, and it carries
-                  straight back into how I work.
+                  I have an AFV referee licence and ref football matches
+                  around the Aargau. It&apos;s taught me to stay calm, make a
+                  call and take responsibility for it &mdash; which turns out
+                  to be useful well beyond the pitch.
                 </p>
                 <span className="meta">Referee &middot; since 2023</span>
               </article>
@@ -197,38 +198,36 @@ export default function Home() {
 
           <div className="essay">
             <p className="essay-lead">
-              I&apos;m Enis &mdash; seventeen, from Rudolfstetten, with
-              Kosovar roots and a childhood spent between the Mutschellen
-              and a keyboard.
+              I&apos;m Enis &mdash; eighteen, from Rudolfstetten, with
+              Kosovar parents and a Swiss upbringing.
             </p>
             <p>
-              As a kid I snapped Scratch blocks together and figured that
-              was the whole of it. The switch actually flipped at the
+              As a kid I played around with Scratch and didn&apos;t think
+              much of it. Things really started to click at the
               Informatikmittelschule at the Kantonsschule Baden &mdash;
-              somewhere in the first year, code stopped being a subject and
-              started being the thing I do. Nobody in my family writes
-              software; school lit the fuse and I kept it burning.{" "}
-              <strong>C# and .NET are home now</strong>, with TypeScript,
-              SQL and a bit of Docker around the edges.
+              somewhere in the first year, coding went from a class I
+              attended to something I genuinely enjoyed spending my evenings
+              on. No one in my family writes software, so a lot of it I
+              figured out by trying, breaking things and asking when I got
+              stuck. <strong>C# and .NET feel like home now</strong>, and I
+              pick up TypeScript, SQL and Docker as I need them.
             </p>
             <p>
-              I&apos;d rather show it than claim it. <em>FilmFlix</em> &mdash;
-              one film dataset mapped cleanly into both MongoDB and Neo4j
-              behind a single interface &mdash; was graded a 6.0.{" "}
-              <em>HPGarage</em> is a real client job for a local business,
-              from the first requirements call to deployment. At{" "}
-              <em>Baden hackt</em> I finished fourth under time pressure,
-              and I&apos;ve entered the regional dev championship twice. The
-              work I&apos;m proudest of always has someone on the other end
-              of it.
+              I learn best when I&apos;m building something real. <em>HPGarage</em>{" "}
+              was my first proper client project &mdash; a web app for a local
+              garage, from the first conversation about what they needed to
+              putting it live. At <em>Baden hackt</em> I finished fourth, and
+              I&apos;ve taken part in the regional dev championship twice.
+              I&apos;m not the fastest or the loudest person in the room, but
+              I tend to stay with a problem until it actually works.
             </p>
             <p>
-              Away from the screen I&apos;m on the bike or in the gym, at
-              the family table on Sundays, or somewhere on a pitch with a
-              whistle &mdash; I hold a referee licence, and it teaches
-              decisions faster than any codebase. I get by in five
-              languages. Ask me where all of this is heading and I&apos;ll
-              keep it deliberately short:
+              Away from the screen I&apos;m usually on the bike or at the gym,
+              and on weekends I referee football matches around the Aargau. I
+              speak a few languages, which helps more often than I&apos;d
+              expect. Where&apos;s all of this going? Honestly, I just want to
+              keep getting better at what I do &mdash; and stay someone people
+              like working with.
             </p>
             <span className="essay-sign">a good coder, and a good person.</span>
           </div>
@@ -272,7 +271,7 @@ export default function Home() {
           <div>
             <h4>Enis Shorra</h4>
             <p className="foot-word">
-              Seventeen. Switzerland. Building things,
+              Eighteen. Switzerland. Building things,
               <em> one weekend at a time.</em>
             </p>
           </div>

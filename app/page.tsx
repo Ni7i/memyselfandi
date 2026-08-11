@@ -34,7 +34,6 @@ export default function Home() {
           <a href="#about">About</a>
           <a href="#archive">Archive</a>
           <a href="#me">Me</a>
-          <a href="#loop">Loop</a>
           <a href="#contact">Contact</a>
         </div>
         <a className="nav-cta" href="mailto:shorra.enis@hotmail.com">Get in touch</a>
@@ -231,29 +230,6 @@ export default function Home() {
             </p>
             <span className="essay-sign">a good coder, and a good person.</span>
           </div>
-        </div>
-      </section>
-
-      {/* ─── ON LOOP · video ─── */}
-      <section className="reel" id="loop">
-        <div className="reel-inner">
-          <div className="reel-head">
-            <h2>On <em>loop.</em></h2>
-            <span className="meta">What&rsquo;s usually playing while I build</span>
-          </div>
-          <div className="reel-frame">
-            <iframe
-              src="https://www.youtube.com/embed/fXIyGuqpbjo?rel=0"
-              title="Bilal Sonses &amp; Yıldız Tilbe — Hasbelkader"
-              loading="lazy"
-              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-            />
-          </div>
-          <p className="reel-cap">
-            Bilal Sonses has been in my headphones through most of these
-            projects. <span>Turkish pop, more or less on repeat.</span>
-          </p>
         </div>
       </section>
 

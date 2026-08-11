@@ -483,6 +483,67 @@ img { display: block; max-width: 100%; height: auto; }
   color: var(--grey-2);
 }
 
+/* ─────────────── ON LOOP · video ─────────────── */
+.reel {
+  background: var(--paper-2);
+  padding: 80px 28px 90px;
+  border-top: 1px solid var(--line-soft);
+}
+.reel-inner { max-width: 1000px; margin: 0 auto; }
+.reel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 28px;
+}
+.reel-head h2 {
+  font-family: var(--font-serif), serif;
+  font-weight: 400;
+  font-size: clamp(28px, 3vw, 40px);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+}
+.reel-head h2 em { font-style: italic; font-weight: 300; color: var(--accent); }
+.reel-head .meta {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+.reel-frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: #0e0d0c;
+  box-shadow: 0 1px 0 rgba(19,19,17,0.04), 4px 6px 0 rgba(19,19,17,0.05);
+}
+.reel-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+.reel-cap {
+  margin-top: 18px;
+  max-width: 46em;
+  font-family: var(--font-serif), serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.reel-cap span { color: var(--grey-2); }
+
 /* ─────────────── CTA ─────────────── */
 .cta {
   padding: 100px 28px 120px;
@@ -656,10 +717,11 @@ img { display: block; max-width: 100%; height: auto; }
   .nav { grid-template-columns: auto auto; padding: 14px 18px; gap: 12px; }
   .nav-links { display: none; }
   .intro { padding: 60px 18px 20px; }
-  .mag, .idx, .me, .cta { padding-left: 18px; padding-right: 18px; }
+  .mag, .idx, .me, .reel, .cta { padding-left: 18px; padding-right: 18px; }
   .mag { padding-top: 40px; padding-bottom: 70px; }
   .idx { padding-top: 60px; padding-bottom: 60px; }
   .me { padding-top: 70px; padding-bottom: 80px; }
+  .reel { padding-top: 60px; padding-bottom: 60px; }
   .cta { padding-top: 70px; padding-bottom: 80px; }
   .foot { grid-template-columns: 1fr; gap: 24px; padding-bottom: 24px; }
   .foot-bar { flex-direction: column; align-items: flex-start; gap: 10px; }

@@ -3,17 +3,16 @@ import TypedTitle from "./TypedTitle";
 import ImageReveal from "./ImageReveal";
 
 const PROJECTS = [
-  { name: "whiteplayer",        tag: "a music player I use daily",   stack: "C# · WPF",       year: 2026 },
+  { name: "Twinn",              tag: "match a friend by traits — or talk to an AI stand-in", stack: "C# · .NET",    year: 2026 },
   { name: "memyselfandi",       tag: "this website",                 stack: "TypeScript",     year: 2026, url: "https://github.com/Ni7i/memyselfandi" },
   { name: "Quizlot",            tag: "flashcards, done right",       stack: "TypeScript",     year: 2026 },
-  { name: "ICT Regios 2026",    tag: "competition project",          stack: "JavaScript",     year: 2026 },
-  { name: "impostergame",       tag: "who am I? — party game",       stack: "JavaScript",     year: 2026 },
-  { name: "screentime-blocker", tag: "less phone, more life",        stack: "JavaScript",     year: 2026 },
-  { name: "Oase Jugendraum",    tag: "web app for a youth room",     stack: "Python",         year: 2026 },
+  { name: "ICT Regios",         tag: "regional dev championship · 2× entrant", stack: "Competition", year: 2026 },
+  { name: "HPGarage",           tag: "web app for a local garage — a real client job", stack: "C# · ASP.NET", year: 2025 },
+  { name: "FilmFlix",           tag: "one film dataset, two databases — graded 6.0", stack: "C# · Mongo/Neo4j", year: 2025 },
+  { name: "impostergame",       tag: "who am I? — party game",       stack: "JavaScript",     year: 2025 },
+  { name: "screentime-blocker", tag: "less phone, more life",        stack: "JavaScript",     year: 2025 },
+  { name: "Oase Jugendraum",    tag: "web app for a youth room",     stack: "Python",         year: 2025 },
   { name: "midnight-calculator",tag: "calculator for a local SME",   stack: "C#",             year: 2025 },
-  { name: "BudgetBuddy",        tag: "budget tracker",               stack: "Python",         year: 2025 },
-  { name: "LCR",                tag: "little random OOP game",       stack: "C#",             year: 2025 },
-  { name: "Zitate",             tag: "collected quotes",             stack: "Python",         year: 2025 },
 ];
 
 const GROUPED = PROJECTS.reduce<Record<number, typeof PROJECTS>>((acc, p) => {
@@ -89,12 +88,12 @@ export default function Home() {
                 <h3>What I&apos;m working towards.</h3>
                 <p>
                   A strong run at ICT Regios. One product with real users,
-                  not just repos. An internship where I learn faster than I
-                  would alone. And enough discipline to keep the gym, the
-                  bike and the family in every week &mdash; not just the
-                  calm ones.
+                  not just repos. The right Praxisjahr placement for 2027/28,
+                  lined up early on purpose. And enough discipline to keep the
+                  gym, the bike and the family in every week &mdash; not just
+                  the calm ones.
                 </p>
-                <span className="meta">2026 &rarr;</span>
+                <span className="meta">2026 &rarr; 2028</span>
               </article>
             </div>
 
@@ -104,18 +103,19 @@ export default function Home() {
                 <div className="thumb thumb-3 hero" />
                 <div className="chips">
                   <span className="chip red">Featured</span>
-                  <span className="chip hollow">C# · WPF</span>
+                  <span className="chip hollow">C# · .NET</span>
                 </div>
                 <h3 className="title-lg">
-                  whiteplayer &mdash; the music player I ended up using every day.
+                  Twinn &mdash; find your person, or let the app become one.
                 </h3>
                 <p className="lead">
-                  I got tired of bloated players, so I wrote my own.
-                  Keyboard-driven WPF, plays a local library, starts
-                  instantly. No ads, no account, no telemetry. Began as a
-                  weekend project &mdash; now it runs on my desktop daily.
+                  Twinn matches people by the traits they actually put in,
+                  not by a feed. You describe yourself; it looks for someone
+                  who fits. And when nobody does &mdash; the part I&apos;m
+                  proudest of &mdash; it spins up an AI stand-in you can really
+                  talk to, so an empty match is never just a blank screen.
                 </p>
-                <span className="meta">Windows · 2026</span>
+                <span className="meta">C# · .NET · 2026</span>
               </article>
             </div>
 
@@ -135,14 +135,15 @@ export default function Home() {
 
               <article className="card-l">
                 <div className="thumb thumb-5 portrait" />
-                <div className="chips"><span className="chip grey">On repeat</span></div>
-                <h3>Bilal Sonses, mostly.</h3>
+                <div className="chips"><span className="chip grey">Weekends</span></div>
+                <h3>On the pitch with a whistle.</h3>
                 <p>
-                  On the train, in the gym, between builds. When a song
-                  fits, it stays for weeks &mdash; ask anyone who has sat
-                  next to me with an aux cable.
+                  I hold an AFV referee licence and ref matches around the
+                  Aargau. Twenty-two players, one decision, no replay &mdash;
+                  it&apos;s the fastest feedback loop I know, and it carries
+                  straight back into how I work.
                 </p>
-                <span className="meta">Sound</span>
+                <span className="meta">Referee &middot; since 2023</span>
               </article>
             </div>
 
@@ -186,56 +187,50 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── ME · Q&A ─── */}
+      {/* ─── ME · essay ─── */}
       <section className="me" id="me">
         <div className="me-inner">
           <div className="me-head">
             <h2>Me<em>.</em></h2>
-            <span className="meta">A short interview with myself</span>
+            <span className="meta">In my own words</span>
           </div>
 
-          <div className="qa">
-            <article className="qa-item">
-              <span className="q">Q.&nbsp;&nbsp;So how does someone end up coding at seventeen?</span>
-              <p className="a">
-                Not the garage story, sorry. I clicked Scratch blocks
-                together as a kid and forgot about it. Then I landed at the
-                Informatikmittelschule &mdash; KanTi Baden, BBB Baden &mdash;
-                and somewhere in that first year it stopped being a school
-                subject. Nobody in my family codes. School lit the fuse,
-                I just kept it burning.
-              </p>
-            </article>
-
-            <article className="qa-item">
-              <span className="q">Q.&nbsp;&nbsp;One goal for 2026. Pick one.</span>
-              <p className="a">
-                No. I&apos;m taking all four: a real placement at ICT
-                Regios, one product with actual users instead of another
-                dead repo, the right internship &mdash; and staying someone
-                my family recognizes while all that happens. If I have to
-                drop one, ask me in December.
-              </p>
-            </article>
-
-            <article className="qa-item">
-              <span className="q">Q.&nbsp;&nbsp;Advice for the fifteen-year-old version of you?</span>
-              <p className="a">
-                Build your own stuff earlier &mdash; tutorials feel like
-                progress, but they aren&apos;t. Ask for help; the pride
-                costs you months. Ship it ugly, fix it later. And the weeks
-                where nothing works? Those count double. Don&apos;t stop
-                in the middle of one.
-              </p>
-            </article>
-
-            <article className="qa-item">
-              <span className="q">Q.&nbsp;&nbsp;And in five years?</span>
-              <p className="a">
-                A good coder and a good person. I keep the answer short on
-                purpose &mdash; so I can&apos;t talk my way out of it.
-              </p>
-            </article>
+          <div className="essay">
+            <p className="essay-lead">
+              I&apos;m Enis &mdash; seventeen, from Rudolfstetten, with
+              Kosovar roots and a childhood spent between the Mutschellen
+              and a keyboard.
+            </p>
+            <p>
+              As a kid I snapped Scratch blocks together and figured that
+              was the whole of it. The switch actually flipped at the
+              Informatikmittelschule at the Kantonsschule Baden &mdash;
+              somewhere in the first year, code stopped being a subject and
+              started being the thing I do. Nobody in my family writes
+              software; school lit the fuse and I kept it burning.{" "}
+              <strong>C# and .NET are home now</strong>, with TypeScript,
+              SQL and a bit of Docker around the edges.
+            </p>
+            <p>
+              I&apos;d rather show it than claim it. <em>FilmFlix</em> &mdash;
+              one film dataset mapped cleanly into both MongoDB and Neo4j
+              behind a single interface &mdash; was graded a 6.0.{" "}
+              <em>HPGarage</em> is a real client job for a local business,
+              from the first requirements call to deployment. At{" "}
+              <em>Baden hackt</em> I finished fourth under time pressure,
+              and I&apos;ve entered the regional dev championship twice. The
+              work I&apos;m proudest of always has someone on the other end
+              of it.
+            </p>
+            <p>
+              Away from the screen I&apos;m on the bike or in the gym, at
+              the family table on Sundays, or somewhere on a pitch with a
+              whistle &mdash; I hold a referee licence, and it teaches
+              decisions faster than any codebase. I get by in five
+              languages. Ask me where all of this is heading and I&apos;ll
+              keep it deliberately short:
+            </p>
+            <span className="essay-sign">a good coder, and a good person.</span>
           </div>
         </div>
       </section>

@@ -34,6 +34,7 @@ export default function Home() {
           <a href="#about">About</a>
           <a href="#archive">Archive</a>
           <a href="#me">Me</a>
+          <a href="#loop">Loop</a>
           <a href="#contact">Contact</a>
         </div>
         <a className="nav-cta" href="mailto:shorra.enis@hotmail.com">Get in touch</a>
@@ -198,39 +199,61 @@ export default function Home() {
 
           <div className="essay">
             <p className="essay-lead">
-              I&apos;m Enis &mdash; eighteen, from Rudolfstetten, with
-              Kosovar parents and a Swiss upbringing.
+              Everything above is the <em>what</em>. Here&apos;s a bit of the
+              why.
             </p>
             <p>
-              As a kid I played around with Scratch and didn&apos;t think
-              much of it. Things really started to click at the
-              Informatikmittelschule at the Kantonsschule Baden &mdash;
-              somewhere in the first year, coding went from a class I
-              attended to something I genuinely enjoyed spending my evenings
-              on. No one in my family writes software, so a lot of it I
-              figured out by trying, breaking things and asking when I got
-              stuck. <strong>C# and .NET feel like home now</strong>, and I
-              pick up TypeScript, SQL and Docker as I need them.
+              What actually keeps me at the keyboard isn&apos;t the tech for
+              its own sake &mdash; it&apos;s the small moment when a messy idea
+              finally turns into something that runs. I&apos;ve made peace with
+              the hours before that, when nothing works yet, because that&apos;s
+              usually where I end up learning the most.
             </p>
             <p>
-              I learn best when I&apos;m building something real. <em>HPGarage</em>{" "}
-              was my first proper client project &mdash; a web app for a local
-              garage, from the first conversation about what they needed to
-              putting it live. At <em>Baden hackt</em> I finished fourth, and
-              I&apos;ve taken part in the regional dev championship twice.
-              I&apos;m not the fastest or the loudest person in the room, but
-              I tend to stay with a problem until it actually works.
+              I&apos;d rather be reliable than impressive. If I take something
+              on, I want it done properly and handed over clean &mdash; not just
+              working on my own machine. I ask questions early instead of
+              guessing, and I&apos;m fine admitting when I don&apos;t know
+              something yet, usually right before I go and find out.
             </p>
             <p>
-              Away from the screen I&apos;m usually on the bike or at the gym,
-              and on weekends I referee football matches around the Aargau. I
-              speak a few languages, which helps more often than I&apos;d
-              expect. Where&apos;s all of this going? Honestly, I just want to
-              keep getting better at what I do &mdash; and stay someone people
-              like working with.
+              Growing up with Kosovo at home and Switzerland outside the door
+              taught me to move between two worlds and to actually pay
+              attention to people. It&apos;s probably why I care less about
+              being the smartest person in a room and more about being someone
+              others want to work with.
+            </p>
+            <p>
+              And I know I&apos;m still near the start of this. There&apos;s a
+              lot I haven&apos;t done yet &mdash; which is honestly the part
+              I&apos;m looking forward to most: learning next to people further
+              along than me, and closing that gap faster than I could on my own.
             </p>
             <span className="essay-sign">a good coder, and a good person.</span>
           </div>
+        </div>
+      </section>
+
+      {/* ─── ON LOOP · video ─── */}
+      <section className="reel" id="loop">
+        <div className="reel-inner">
+          <div className="reel-head">
+            <h2>On <em>loop.</em></h2>
+            <span className="meta">What&rsquo;s usually playing while I build</span>
+          </div>
+          <div className="reel-frame">
+            <iframe
+              src="https://www.youtube.com/embed/fXIyGuqpbjo?rel=0"
+              title="Bilal Sonses &amp; Yıldız Tilbe — Hasbelkader"
+              loading="lazy"
+              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            />
+          </div>
+          <p className="reel-cap">
+            Bilal Sonses has been in my headphones through most of these
+            projects. <span>Turkish pop, more or less on repeat.</span>
+          </p>
         </div>
       </section>
 

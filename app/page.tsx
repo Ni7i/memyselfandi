@@ -117,6 +117,24 @@ export default function Home() {
                 </p>
                 <span className="meta">C# · .NET · 2026</span>
               </article>
+
+              <article className="card-l">
+                <div className="thumb thumb-quizlot landscape" />
+                <div className="chips">
+                  <span className="chip red">Also peak</span>
+                  <span className="chip hollow">TypeScript</span>
+                </div>
+                <h3 className="title-lg">
+                  Quizlot &mdash; flashcards without the noise.
+                </h3>
+                <p className="lead">
+                  A small learning tool built for the way I actually study
+                  &mdash; quick to fill, fast to review, and nothing on the
+                  screen that isn&apos;t the card in front of you. Started
+                  for my own exam weeks and grew from there.
+                </p>
+                <span className="meta">TypeScript &middot; 2026</span>
+              </article>
             </div>
 
             {/* RIGHT COLUMN — Interests */}

@@ -352,8 +352,8 @@ footer{padding:32px 8vw;border-top:1px solid var(--border);display:flex;justify-
   </h2>
   <div class="about-grid">
     <div>
-      <p class="about-bio">I'm an <strong>18-year-old developer</strong> from <em>Rudolfstetten, Switzerland</em> with Kosovo roots. I work mostly with <strong>C#, .NET and TypeScript</strong> and learn by building my own projects.</p>
-      <p class="about-bio">Currently at <strong>IMS Baden</strong> and looking for the right team for my <em>Praxisjahr in 2027/28</em>.</p>
+      <p class="about-bio">I'm a <strong>17-year-old developer</strong> from <em>Rudolfstetten, Switzerland</em> with Kosovo roots. I code every single day — mostly <strong>C#, .NET and TypeScript</strong>, with a deep obsession for <em>clean code</em> and pixel-perfect interfaces.</p>
+      <p class="about-bio">Currently at <strong>IMS Baden</strong> (IT Middle School), actively looking for an <em>apprenticeship</em>. I build real products, not just tutorials.</p>
       <div class="trait-wrap">
         <span class="trait">Fast Learner</span>
         <span class="trait">Reliable</span>
@@ -364,7 +364,7 @@ footer{padding:32px 8vw;border-top:1px solid var(--border);display:flex;justify-
     </div>
     <div class="about-right" style="display:flex;flex-direction:column;gap:0">
       <div class="about-stat-grid">
-        <div class="astat"><span class="astat-n" data-count="18">0</span><span class="astat-l">Age</span></div>
+        <div class="astat"><span class="astat-n" data-count="17">0</span><span class="astat-l">Age</span></div>
         <div class="astat"><span class="astat-n" data-count="2" data-suffix="+">0</span><span class="astat-l">Years Coding</span></div>
         <div class="astat"><span class="astat-n" data-count="15">0</span><span class="astat-l">Projects</span></div>
         <div class="astat"><span class="astat-n" id="astat-commits" data-count="0" data-suffix="+">—</span><span class="astat-l">Recent Commits</span></div>
@@ -373,6 +373,11 @@ footer{padding:32px 8vw;border-top:1px solid var(--border);display:flex;justify-
         <span class="loc-dot"></span>
         <span>Rudolfstetten, Aargau · Switzerland</span>
       </div>
+      <a href="https://stock-rendite.vercel.app/" target="_blank" class="building-link">
+        <span class="bl-tag">Building →</span>
+        <span>Stock Rendite · C# / Blazor</span>
+        <span class="bl-arr">↗</span>
+      </a>
     </div>
   </div>
 </section>
@@ -450,13 +455,14 @@ footer{padding:32px 8vw;border-top:1px solid var(--border);display:flex;justify-
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 const PROJECTS = [
-  {n:'01', name:'whiteplayer',         lang:'C# / .NET',    year:'2026', desc:'Matches people by their traits and creates an AI friend when no match is available.', url:'https://github.com/Ni7i/whiteplayer'},
-  {n:'02', name:'memyselfandi',        lang:'TypeScript',   year:'2026', desc:'This portfolio — Next.js 16, React 19.',               url:'https://github.com/Ni7i/memyselfandi'},
-  {n:'03', name:'Quizlot',             lang:'TypeScript',   year:'2026', desc:'Full-stack quiz platform.',                             url:'https://github.com/Ni7i/Quizlot'},
-  {n:'04', name:'ICT Regios 2026',     lang:'JavaScript',   year:'2026', desc:'Competition project — ICT Regios 2026.',               url:'https://github.com/Ni7i'},
-  {n:'05', name:'midnight-calculator', lang:'C#',           year:'2025', desc:'Custom calculator built for a local SME.',             url:'https://github.com/Ni7i/midnight-calculator'},
-  {n:'06', name:'TrackMyFood',         lang:'JavaScript',   year:'2026', desc:'Food tracking app frontend.',                          url:'https://github.com/Ni7i/TrackMyFoodFrontend'},
-  {n:'07', name:'OaseJugendraum',      lang:'Python',       year:'2026', desc:'Youth room management web app.',                       url:'https://github.com/Ni7i/OaseJugendraum'},
+  {n:'01', name:'StockRendite',        lang:'C# / Blazor',  year:'2026', desc:'Track stock holdings and see real returns.',            url:'https://stock-rendite.vercel.app/'},
+  {n:'02', name:'whiteplayer',         lang:'C# / WPF',     year:'2026', desc:'Minimal music player with a fully custom WPF UI.',      url:'https://github.com/Ni7i/whiteplayer'},
+  {n:'03', name:'memyselfandi',        lang:'TypeScript',   year:'2026', desc:'This portfolio — Next.js 16, React 19.',               url:'https://github.com/Ni7i/memyselfandi'},
+  {n:'04', name:'Quizlot',             lang:'TypeScript',   year:'2026', desc:'Full-stack quiz platform.',                             url:'https://github.com/Ni7i/Quizlot'},
+  {n:'05', name:'ICT Regios 2026',     lang:'JavaScript',   year:'2026', desc:'Competition project — ICT Regios 2026.',               url:'https://github.com/Ni7i'},
+  {n:'06', name:'midnight-calculator', lang:'C#',           year:'2025', desc:'Custom calculator built for a local SME.',             url:'https://github.com/Ni7i/midnight-calculator'},
+  {n:'07', name:'TrackMyFood',         lang:'JavaScript',   year:'2026', desc:'Food tracking app frontend.',                          url:'https://github.com/Ni7i/TrackMyFoodFrontend'},
+  {n:'08', name:'OaseJugendraum',      lang:'Python',       year:'2026', desc:'Youth room management web app.',                       url:'https://github.com/Ni7i/OaseJugendraum'},
 ];
 
 const TIMELINE = [

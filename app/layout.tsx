@@ -1,16 +1,30 @@
 import type { Metadata } from "next";
-import { Manrope, Fraunces } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const manrope = Manrope({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "700", "800"],
+const manrope = localFont({
+  src: "./fonts/manrope-latin.woff2",
+  weight: "300 800",
+  display: "swap",
+  fallback: ["Arial", "sans-serif"],
   variable: "--font-sans",
 });
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  weight: ["300", "400", "600"],
-  style: ["italic", "normal"],
+const fraunces = localFont({
+  src: [
+    {
+      path: "./fonts/fraunces-latin.woff2",
+      weight: "300 600",
+      style: "normal",
+    },
+    {
+      path: "./fonts/fraunces-latin-italic.woff2",
+      weight: "300 600",
+      style: "italic",
+    },
+  ],
+  display: "swap",
+  fallback: ["Georgia", "serif"],
+  adjustFontFallback: "Times New Roman",
   variable: "--font-serif",
 });
 

@@ -14,25 +14,19 @@ const PROJECTS = [
   { name: "midnight-calculator",tag: "calculator for a local SME",   stack: "C#",             year: 2025 },
 ];
 
-const GROUPED = PROJECTS.reduce<Record<number, typeof PROJECTS>>((acc, p) => {
-  (acc[p.year] ||= []).push(p);
-  return acc;
-}, {});
-const YEARS = Object.keys(GROUPED).map(Number).sort((a, b) => b - a);
-
 export default function Home() {
   return (
     <>
       <ImageReveal />
       {/* ─── NAV ─── */}
       <nav className="nav">
-        <a href="/" className="logo" aria-label="Enis Shorra">
+        <Link href="/" className="logo" aria-label="Enis Shorra">
           <span className="top">ENIS</span>
           <span className="bot">SHORRA</span>
-        </a>
+        </Link>
         <div className="nav-links">
           <a href="#about">About</a>
-          <a href="#archive">Archive</a>
+          <a href="#archive">Projects</a>
           <a href="#me">Me</a>
           <a href="#contact">Contact</a>
         </div>
@@ -170,39 +164,55 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── PROJECTS INDEX ─── */}
+      {/* ─── PROJECTS ARCHIVE ─── */}
       <section className="idx" id="archive">
         <div className="idx-inner">
-          <div className="idx-head">
-            <h2>The <em>archive.</em></h2>
-            <span className="meta">{PROJECTS.length} projects &middot; an index</span>
-          </div>
+          <aside className="idx-intro">
+            <span className="idx-kicker">Selected &amp; ongoing</span>
+            <h2>Things I&apos;ve <em>made.</em></h2>
+            <p>
+              School work, small experiments and projects that started with
+              a real problem. Some are finished, some are still changing.
+            </p>
+            <span className="idx-count">{PROJECTS.length} projects &middot; 2025&ndash;2026</span>
+          </aside>
 
-          {YEARS.map((year) => (
-            <div className="idx-year" key={year}>
-              <div className="idx-year-label">{year}</div>
-              <div className="idx-entries">
-                {GROUPED[year].map((p) => {
-                  const inner = (
-                    <>
-                      <span className="e-name">
-                        {p.name}
-                        {p.url && <i className="e-arrow" aria-hidden="true">&#8599;</i>}
-                      </span>
-                      <span className="e-tag">{p.tag}</span>
-                      <span className="e-dots" aria-hidden="true" />
-                      <span className="e-stack">{p.stack}</span>
-                    </>
-                  );
-                  return p.url ? (
-                    <a key={p.name} href={p.url} target="_blank" rel="noreferrer" className="entry">{inner}</a>
-                  ) : (
-                    <div key={p.name} className="entry">{inner}</div>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
+          <div className="project-shelf">
+            {PROJECTS.map((p) => {
+              const content = (
+                <>
+                  <div className="project-meta">
+                    <span>{p.year}</span>
+                    <span>{p.stack}</span>
+                  </div>
+                  <div className="project-main">
+                    <h3>{p.name}</h3>
+                    <p>{p.tag}</p>
+                  </div>
+                  <div className="project-foot">
+                    <span>Project</span>
+                    <span aria-hidden="true">{p.url ? "↗" : "—"}</span>
+                  </div>
+                </>
+              );
+
+              return p.url ? (
+                <a
+                  className="project-sheet"
+                  href={p.url}
+                  key={p.name}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  {content}
+                </a>
+              ) : (
+                <article className="project-sheet" key={p.name}>
+                  {content}
+                </article>
+              );
+            })}
+          </div>
         </div>
       </section>
 

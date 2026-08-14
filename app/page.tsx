@@ -167,7 +167,7 @@ export default function Home() {
       {/* ─── PROJECTS ARCHIVE ─── */}
       <section className="idx" id="archive">
         <div className="idx-inner">
-          <aside className="idx-intro">
+          <header className="idx-intro">
             <span className="idx-kicker">Selected &amp; ongoing</span>
             <h2>Things I&apos;ve <em>made.</em></h2>
             <p>
@@ -175,30 +175,27 @@ export default function Home() {
               a real problem. Some are finished, some are still changing.
             </p>
             <span className="idx-count">{PROJECTS.length} projects &middot; 2025&ndash;2026</span>
-          </aside>
+          </header>
 
-          <div className="project-shelf">
-            {PROJECTS.map((p) => {
+          <div className="project-board">
+            {PROJECTS.map((p, index) => {
               const content = (
                 <>
                   <div className="project-meta">
                     <span>{p.year}</span>
                     <span>{p.stack}</span>
                   </div>
-                  <div className="project-main">
-                    <h3>{p.name}</h3>
-                    <p>{p.tag}</p>
-                  </div>
-                  <div className="project-foot">
-                    <span>Project</span>
-                    <span aria-hidden="true">{p.url ? "↗" : "—"}</span>
-                  </div>
+                  <h3>{p.name}</h3>
+                  <p>{p.tag}</p>
+                  <span className="project-mark" aria-hidden="true">
+                    {p.url ? "↗" : ""}
+                  </span>
                 </>
               );
 
               return p.url ? (
                 <a
-                  className="project-sheet"
+                  className={`project-tile project-tile-${index + 1}`}
                   href={p.url}
                   key={p.name}
                   rel="noreferrer"
@@ -207,7 +204,7 @@ export default function Home() {
                   {content}
                 </a>
               ) : (
-                <article className="project-sheet" key={p.name}>
+                <article className={`project-tile project-tile-${index + 1}`} key={p.name}>
                   {content}
                 </article>
               );

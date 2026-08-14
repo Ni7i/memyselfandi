@@ -1,326 +1,232 @@
 import Link from "next/link";
-import TypedTitle from "./TypedTitle";
-import ImageReveal from "./ImageReveal";
 
-const PROJECTS = [
-  { name: "Twinn",              tag: "match a friend by traits — or talk to an AI stand-in", stack: "C# · .NET",    year: 2026 },
-  { name: "memyselfandi",       tag: "this website",                 stack: "TypeScript",     year: 2026, url: "https://github.com/Ni7i/memyselfandi" },
-  { name: "Quizlot",            tag: "flashcards, done right",       stack: "TypeScript",     year: 2026 },
-  { name: "ICT Regios",         tag: "regional dev championship · 2× entrant", stack: "Competition", year: 2026 },
-  { name: "HPGarage",           tag: "web app for a local garage — a real client job", stack: "C# · ASP.NET", year: 2025 },
-  { name: "impostergame",       tag: "who am I? — party game",       stack: "JavaScript",     year: 2025 },
-  { name: "screentime-blocker", tag: "less phone, more life",        stack: "JavaScript",     year: 2025 },
-  { name: "Oase Jugendraum",    tag: "web app for a youth room",     stack: "Python",         year: 2025 },
-  { name: "midnight-calculator",tag: "calculator for a local SME",   stack: "C#",             year: 2025 },
+const FEATURED_PROJECTS = [
+  {
+    name: "Twinn",
+    type: "Personal",
+    description:
+      "Twinn matches people based on the traits they enter. If nobody suitable is available, the app creates a fictional AI friend they can talk to.",
+    stack: ["C#", ".NET", "Matching", "AI chat"],
+    year: "2026",
+  },
+  {
+    name: "Quizlot",
+    type: "Personal",
+    description:
+      "A focused flashcard tool built for my own exam weeks. Creating cards is quick, reviewing stays simple, and the interface keeps everything unnecessary out of the way.",
+    stack: ["TypeScript", "Learning tool"],
+    year: "2026",
+  },
+];
+
+const OTHER_PROJECTS = [
+  {
+    name: "memyselfandi",
+    type: "Personal",
+    description: "This portfolio — designed, built and deployed by me.",
+    stack: "TypeScript · Next.js",
+    url: "https://github.com/Ni7i/memyselfandi",
+  },
+  {
+    name: "ICT Regios",
+    type: "Competition",
+    description: "Two participations in the regional software development championship.",
+    stack: "Software development",
+  },
+  {
+    name: "HPGarage",
+    type: "Client work",
+    description: "A web application for a local garage, from requirements to deployment.",
+    stack: "C# · ASP.NET",
+  },
+  {
+    name: "impostergame",
+    type: "Personal",
+    description: "A small party game about finding the impostor in the room.",
+    stack: "JavaScript",
+  },
+  {
+    name: "screentime-blocker",
+    type: "Personal",
+    description: "A practical experiment for spending less time on the phone.",
+    stack: "JavaScript",
+  },
+  {
+    name: "Oase Jugendraum",
+    type: "Community",
+    description: "A web application created for a local youth room.",
+    stack: "Python",
+  },
+  {
+    name: "midnight-calculator",
+    type: "Client work",
+    description: "A purpose-built calculator for a local small business.",
+    stack: "C#",
+  },
+];
+
+const SKILLS = [
+  "C#",
+  ".NET",
+  "ASP.NET Core",
+  "WPF",
+  "SQL / NoSQL",
+  "TypeScript",
+  "Python",
+  "Docker",
+  "Git",
 ];
 
 export default function Home() {
   return (
-    <>
-      <ImageReveal />
-      {/* ─── NAV ─── */}
-      <nav className="nav">
-        <Link href="/" className="logo" aria-label="Enis Shorra">
-          <span className="top">ENIS</span>
-          <span className="bot">SHORRA</span>
-        </Link>
-        <div className="nav-links">
+    <main className="site-shell">
+      <nav className="site-nav" aria-label="Main navigation">
+        <Link href="/" className="wordmark">Enis Shorra</Link>
+        <div className="nav-items">
           <a href="#about">About</a>
-          <a href="#archive">Projects</a>
-          <a href="#me">Me</a>
+          <a href="#projects">Projects</a>
           <a href="#contact">Contact</a>
         </div>
-        <a className="nav-cta" href="mailto:shorra.enis@hotmail.com">Get in touch</a>
       </nav>
 
-      {/* ─── INTRO ─── */}
-      <section className="intro">
-        <div className="intro-inner">
-          <div>
-            <span className="stamp">Est. 2024 · Aargau</span>
-            <TypedTitle />
+      <section className="hero" id="about">
+        <div className="eyebrow">
+          <span className="status-dot" aria-hidden="true" />
+          Application developer · Rudolfstetten, CH
+        </div>
+        <h1>I&apos;m Enis.<br /><span>I build software.</span></h1>
+        <p className="hero-copy">
+          I&apos;m 18 and studying application development at the
+          Informatikmittelschule in Baden. Most of my work is in C# and .NET.
+          I enjoy starting with a rough idea and staying with it until it
+          becomes something useful.
+        </p>
+        <div className="hero-meta">
+          <span>IMS Baden · 2024–2027</span>
+          <span>Praxisjahr · 2027–2028</span>
+          <a href="mailto:shorra.enis@hotmail.com">Available for opportunities ↗</a>
+        </div>
+      </section>
+
+      <section className="overview" aria-label="About Enis">
+        <article className="info-panel">
+          <header className="panel-label">Background</header>
+          <div className="panel-body">
+            <p>
+              I first played around with Scratch as a kid. At the
+              Kantonsschule Baden I started taking programming seriously.
+              Since then I have learned mostly by building, asking questions
+              and staying with a problem until I understand it.
+            </p>
+            <p>
+              I&apos;ve taken part in the IT regional championships twice and
+              placed fourth at Baden hackt. I&apos;m still early in the process,
+              which is exactly why I&apos;m looking for a team where I can learn
+              from people with more experience.
+            </p>
           </div>
-          <p className="intro-sub">
-            The personal site of an eighteen-year-old developer from
-            Switzerland &mdash; what I build, what I&apos;m into, and
-            where this is going.
+          <footer className="panel-footer">
+            <span>EFZ Applikationsentwicklung + BM Wirtschaft</span>
+            <span>2024–2028</span>
+          </footer>
+        </article>
+
+        <article className="info-panel">
+          <header className="panel-label">Outside code</header>
+          <ul className="personal-list">
+            <li><span>Football referee</span><small>AFV licence · since 2023</small></li>
+            <li><span>Bike and gym</span><small>Balance away from the screen</small></li>
+            <li><span>Languages</span><small>German, Albanian, English, Arabic, French</small></li>
+          </ul>
+          <footer className="panel-footer">
+            <span>Kosovar roots · raised in Aargau</span>
+          </footer>
+        </article>
+      </section>
+
+      <section className="skills-section" aria-labelledby="skills-title">
+        <h2 className="section-label" id="skills-title">Stack</h2>
+        <div className="skill-list">
+          {SKILLS.map((skill) => <span key={skill}>{skill}</span>)}
+        </div>
+      </section>
+
+      <section className="projects-section" id="projects" aria-labelledby="projects-title">
+        <h2 className="section-label" id="projects-title">Featured projects</h2>
+        <div className="featured-list">
+          {FEATURED_PROJECTS.map((project) => (
+            <article className="featured-project" key={project.name}>
+              <div className="project-heading">
+                <h3>{project.name}</h3>
+                <span className="project-type">{project.type}</span>
+                <span className="project-year">{project.year}</span>
+              </div>
+              <p>{project.description}</p>
+              <div className="project-bottom">
+                <div className="tag-list">
+                  {project.stack.map((item) => <span key={item}>{item}</span>)}
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <h2 className="section-label other-label">Other projects</h2>
+        <div className="project-rows">
+          {OTHER_PROJECTS.map((project) => {
+            const row = (
+              <>
+                <div className="row-title">
+                  <strong>{project.name}</strong>
+                  <span>{project.type}</span>
+                </div>
+                <p>{project.description}</p>
+                <span className="row-stack">{project.stack}</span>
+                <span className="row-arrow" aria-hidden="true">{project.url ? "↗" : "—"}</span>
+              </>
+            );
+
+            return project.url ? (
+              <a className="project-row" href={project.url} key={project.name} rel="noreferrer" target="_blank">{row}</a>
+            ) : (
+              <article className="project-row" key={project.name}>{row}</article>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="note-section" aria-labelledby="note-title">
+        <h2 className="section-label" id="note-title">How I work</h2>
+        <div className="note-panel">
+          <p>
+            When I don&apos;t know something, I ask. When I take on a task, I want
+            to finish it properly and make it understandable for the next
+            person.
+          </p>
+          <p>
+            I&apos;m still at the beginning and have a lot to learn. That&apos;s why I
+            want to work with people who share their experience and give honest
+            feedback.
           </p>
         </div>
       </section>
 
-      {/* ─── MAGAZINE 3-COL ─── */}
-      <section className="mag" id="about">
-        <div className="mag-inner">
-          <div className="mag-heads">
-            <div className="mag-h">About me</div>
-            <div className="mag-h middle">—</div>
-            <div className="mag-h">Off the keyboard</div>
-          </div>
-
-          <div className="tri">
-
-            {/* LEFT COLUMN — About */}
-            <div className="tri-col">
-              <article className="card-l">
-                <div className="thumb thumb-1 portrait" />
-                <div className="chips"><span className="chip">Personal</span></div>
-                <h3>Eighteen, from Rudolfstetten.</h3>
-                <p>
-                  Kosovar parents, raised in the Aargau. As a kid I played
-                  around with Scratch and didn&apos;t think much of it. The
-                  Informatikmittelschule at the Kantonsschule Baden is where
-                  it really started to click, and C# was the first thing that
-                  stuck. Most of what I know since then I picked up by
-                  building, breaking things, and asking when I got stuck.
-                </p>
-                <span className="meta">IMS Baden &middot; since 2024</span>
-              </article>
-
-              <article className="card-l">
-                <div className="thumb thumb-2 landscape" />
-                <div className="chips"><span className="chip grey">Long game</span></div>
-                <h3>What I&apos;m working towards.</h3>
-                <p>
-                  A strong run at ICT Regios. One product with real users,
-                  not just repos. The right Praxisjahr placement for 2027/28,
-                  lined up early on purpose. And enough discipline to keep the
-                  gym, the bike and the family in every week &mdash; not just
-                  the calm ones.
-                </p>
-                <span className="meta">2026 &rarr; 2028</span>
-              </article>
-            </div>
-
-            {/* CENTER — Featured */}
-            <div className="tri-col" id="work">
-              <article className="card-l">
-                <div className="thumb thumb-3 hero" />
-                <div className="chips">
-                  <span className="chip red">Featured</span>
-                  <span className="chip hollow">C# · .NET</span>
-                </div>
-                <h3 className="title-lg">
-                  Twinn &mdash; find your person, or let the app become one.
-                </h3>
-                <p className="lead">
-                  Twinn matches people by the traits they actually put in,
-                  not by a feed. You describe yourself; it looks for someone
-                  who fits. And when nobody does &mdash; the part I&apos;m
-                  proudest of &mdash; it spins up an AI stand-in you can really
-                  talk to, so an empty match is never just a blank screen.
-                </p>
-                <span className="meta">C# · .NET · 2026</span>
-              </article>
-
-              <article className="card-l">
-                <div className="thumb thumb-quizlot landscape" />
-                <div className="chips">
-                  <span className="chip red">Also peak</span>
-                  <span className="chip hollow">TypeScript</span>
-                </div>
-                <h3 className="title-lg">
-                  Quizlot &mdash; flashcards without the noise.
-                </h3>
-                <p className="lead">
-                  A small learning tool built for the way I actually study
-                  &mdash; quick to fill, fast to review, and nothing on the
-                  screen that isn&apos;t the card in front of you. Started
-                  for my own exam weeks and grew from there.
-                </p>
-                <span className="meta">TypeScript &middot; 2026</span>
-              </article>
-            </div>
-
-            {/* RIGHT COLUMN — Interests */}
-            <div className="tri-col" id="interests">
-              <article className="card-l">
-                <div className="thumb thumb-4 square" />
-                <div className="chips"><span className="chip grey">Interests</span></div>
-                <h3>Bike, gym, family, food.</h3>
-                <p>
-                  When I&apos;m not coding I&apos;m usually out on the bike
-                  around the Reuss or at the gym. Time with family and a good
-                  meal is what actually recharges me &mdash; the rest is just
-                  keeping a decent balance.
-                </p>
-                <span className="meta">Weekly</span>
-              </article>
-
-              <article className="card-l">
-                <div className="thumb thumb-5 portrait" />
-                <div className="chips"><span className="chip grey">Weekends</span></div>
-                <h3>Refereeing on weekends.</h3>
-                <p>
-                  I have an AFV referee licence and ref football matches
-                  around the Aargau. It&apos;s taught me to stay calm, make a
-                  call and take responsibility for it &mdash; which turns out
-                  to be useful well beyond the pitch.
-                </p>
-                <span className="meta">Referee &middot; since 2023</span>
-              </article>
-            </div>
-
-          </div>
+      <section className="contact-section" id="contact">
+        <div>
+          <span className="section-label">Contact</span>
+          <h2>Looking for a Praxisjahr team for 2027/28.</h2>
         </div>
+        <a className="contact-link" href="mailto:shorra.enis@hotmail.com">shorra.enis@hotmail.com ↗</a>
       </section>
 
-      {/* ─── PROJECTS ARCHIVE ─── */}
-      <section className="idx" id="archive">
-        <div className="idx-inner">
-          <header className="idx-intro">
-            <span className="idx-kicker">Selected &amp; ongoing</span>
-            <h2>Things I&apos;ve <em>made.</em></h2>
-            <p>
-              School work, small experiments and projects that started with
-              a real problem. Some are finished, some are still changing.
-            </p>
-            <span className="idx-count">{PROJECTS.length} projects &middot; 2025&ndash;2026</span>
-          </header>
-
-          <div className="project-board">
-            {PROJECTS.map((p, index) => {
-              const content = (
-                <>
-                  <div className="project-meta">
-                    <span>{p.year}</span>
-                    <span>{p.stack}</span>
-                  </div>
-                  <h3>{p.name}</h3>
-                  <p>{p.tag}</p>
-                  <span className="project-mark" aria-hidden="true">
-                    {p.url ? "↗" : ""}
-                  </span>
-                </>
-              );
-
-              return p.url ? (
-                <a
-                  className={`project-tile project-tile-${index + 1}`}
-                  href={p.url}
-                  key={p.name}
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  {content}
-                </a>
-              ) : (
-                <article className={`project-tile project-tile-${index + 1}`} key={p.name}>
-                  {content}
-                </article>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── ME · essay ─── */}
-      <section className="me" id="me">
-        <div className="me-inner">
-          <div className="me-head">
-            <h2>Me<em>.</em></h2>
-            <span className="meta">In my own words</span>
-          </div>
-
-          <div className="essay">
-            <p className="essay-lead">
-              Everything above is the <em>what</em>. Here&apos;s a bit of the
-              why.
-            </p>
-            <p>
-              What actually keeps me at the keyboard isn&apos;t the tech for
-              its own sake &mdash; it&apos;s the small moment when a messy idea
-              finally turns into something that runs. I&apos;ve made peace with
-              the hours before that, when nothing works yet, because that&apos;s
-              usually where I end up learning the most.
-            </p>
-            <p>
-              I&apos;d rather be reliable than impressive. If I take something
-              on, I want it done properly and handed over clean &mdash; not just
-              working on my own machine. I ask questions early instead of
-              guessing, and I&apos;m fine admitting when I don&apos;t know
-              something yet, usually right before I go and find out.
-            </p>
-            <p>
-              Growing up with Kosovo at home and Switzerland outside the door
-              taught me to move between two worlds and to actually pay
-              attention to people. It&apos;s probably why I care less about
-              being the smartest person in a room and more about being someone
-              others want to work with.
-            </p>
-            <p>
-              And I know I&apos;m still near the start of this. There&apos;s a
-              lot I haven&apos;t done yet &mdash; which is honestly the part
-              I&apos;m looking forward to most: learning next to people further
-              along than me, and closing that gap faster than I could on my own.
-            </p>
-            <span className="essay-sign">a good coder, and a good person.</span>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── CTA ─── */}
-      <section className="cta" id="contact">
-        <div className="cta-inner">
-          <div>
-            <h2 className="cta-title">
-              Currently looking for the <em>right team.</em>
-            </h2>
-            <p className="cta-sub">
-              I&apos;m mid-apprenticeship and open for an ICT internship near
-              Zurich or Aargau. I ship, I take feedback, I don&apos;t need
-              hand-holding. If that sounds useful, get in touch.
-            </p>
-            <a href="mailto:shorra.enis@hotmail.com" className="cta-btn">
-              Write me &rarr;
-            </a>
-          </div>
-
-          <aside className="cta-card">
-            <span className="cta-stamp">Available &middot; 2026</span>
-            <ul>
-              <li><span>Mail</span><a href="mailto:shorra.enis@hotmail.com">shorra.enis@hotmail.com</a></li>
-              <li><span>GitHub</span><a href="https://github.com/Ni7i" target="_blank" rel="noreferrer">@Ni7i</a></li>
-              <li><span>LinkedIn</span><a href="https://linkedin.com/in/enis-shorra" target="_blank" rel="noreferrer">enis-shorra</a></li>
-              <li><span>Discord</span><a href="https://discord.com/users/nisi_17" target="_blank" rel="noreferrer">nisi_17</a></li>
-              <li><span>Base</span><em>Rudolfstetten, CH</em></li>
-            </ul>
-            <small>Answers usually within 48h.</small>
-          </aside>
-        </div>
-      </section>
-
-      {/* ─── FOOTER ─── */}
-      <footer className="foot-wrap">
-        <div className="foot">
-          <div>
-            <h4>Enis Shorra</h4>
-            <p className="foot-word">
-              Eighteen. Switzerland. Building things,
-              <em> one weekend at a time.</em>
-            </p>
-          </div>
-          <div>
-            <h4>Elsewhere</h4>
-            <ul>
-              <li><a href="https://github.com/Ni7i" target="_blank" rel="noreferrer">GitHub</a></li>
-              <li><a href="https://linkedin.com/in/enis-shorra" target="_blank" rel="noreferrer">LinkedIn</a></li>
-              <li><a href="https://discord.com/users/nisi_17" target="_blank" rel="noreferrer">Discord</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4>Reach me</h4>
-            <ul>
-              <li><a href="mailto:shorra.enis@hotmail.com">Mail</a></li>
-              <li><Link href="/blog">Blog</Link></li>
-              <li><Link href="/projects">Projects</Link></li>
-            </ul>
-          </div>
-        </div>
-        <div className="foot-bar">
-          <span>&copy; Enis Shorra &middot; 2026</span>
-          <span>Rudolfstetten, Switzerland</span>
+      <footer className="site-footer">
+        <span>© Enis Shorra · 2026</span>
+        <div>
+          <a href="https://github.com/Ni7i" target="_blank" rel="noreferrer">GitHub</a>
+          <a href="https://linkedin.com/in/enis-shorra" target="_blank" rel="noreferrer">LinkedIn</a>
+          <Link href="/blog">Blog</Link>
         </div>
       </footer>
-    </>
+    </main>
   );
 }

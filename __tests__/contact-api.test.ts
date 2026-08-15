@@ -42,6 +42,9 @@ describe("contact API", () => {
 
     expect(response.status).toBe(200);
     await expect(response.json()).resolves.toEqual({ success: true });
-    expect(fetchMock).toHaveBeenCalledOnce();
+    expect(fetchMock).toHaveBeenCalledWith(
+      "https://formsubmit.co/ajax/shorra.enis@hotmail.com",
+      expect.objectContaining({ method: "POST" }),
+    );
   });
 });

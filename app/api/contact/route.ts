@@ -69,15 +69,28 @@ export async function POST(request: Request) {
 
     const result = (await response.json().catch(() => null)) as {
       success?: boolean | string;
+      message?: unknown;
     } | null;
     const sent = result?.success === true || result?.success === "true";
 
     if (!response.ok || !sent) {
+      const providerMessage =
+        typeof result?.message === "string"
+          ? result.message.replaceAll(CONTACT_EMAIL, "[recipient]").slice(0, 300)
+          : "No response message";
+      console.error("Contact provider rejected the submission", {
+        status: response.status,
+        message: providerMessage,
+      });
       return NextResponse.json({ success: false }, { status: 502 });
     }
 
     return NextResponse.json({ success: true });
-  } catch {
+  } catch (error) {
+    console.error(
+      "Contact provider could not be reached",
+      error instanceof Error ? error.name : "Unknown error",
+    );
     return NextResponse.json({ success: false }, { status: 502 });
   }
 }

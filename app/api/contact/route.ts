@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 const CONTACT_EMAIL = process.env.CONTACT_EMAIL ?? "shorra.enis@hotmail.com";
+const SITE_ORIGIN = process.env.NEXT_PUBLIC_SITE_URL ?? "https://enisshorra.ch";
 
 type ContactRequest = {
   name?: unknown;
@@ -52,6 +53,9 @@ export async function POST(request: Request) {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
+          Origin: SITE_ORIGIN,
+          Referer: `${SITE_ORIGIN}/`,
+          "User-Agent": "enisshorra.ch contact form",
         },
         body: JSON.stringify({
           name,

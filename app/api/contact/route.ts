@@ -46,7 +46,7 @@ export async function POST(request: Request) {
 
   try {
     const response = await fetch(
-      `https://formsubmit.co/ajax/${encodeURIComponent(CONTACT_EMAIL)}`,
+      `https://formsubmit.co/ajax/${CONTACT_EMAIL}`,
       {
         method: "POST",
         headers: {

@@ -1,24 +1,92 @@
 import Link from "next/link";
+import ContactForm from "@/components/ContactForm";
 import TypedTitle from "./TypedTitle";
-import ImageReveal from "./ImageReveal";
 
-const PROJECTS = [
-  { name: "Twinn",              tag: "match a friend by traits — or talk to an AI stand-in", stack: "C# · .NET",    year: 2026 },
-  { name: "memyselfandi",       tag: "this website",                 stack: "TypeScript",     year: 2026, url: "https://github.com/Ni7i/memyselfandi" },
-  { name: "Quizlot",            tag: "flashcards, done right",       stack: "TypeScript",     year: 2026 },
-  { name: "ICT Regios",         tag: "regional dev championship · 2× entrant", stack: "Competition", year: 2026 },
-  { name: "HPGarage",           tag: "web app for a local garage — a real client job", stack: "C# · ASP.NET", year: 2025 },
-  { name: "impostergame",       tag: "who am I? — party game",       stack: "JavaScript",     year: 2025 },
-  { name: "screentime-blocker", tag: "less phone, more life",        stack: "JavaScript",     year: 2025 },
-  { name: "Oase Jugendraum",    tag: "web app for a youth room",     stack: "Python",         year: 2025 },
-  { name: "midnight-calculator",tag: "calculator for a local SME",   stack: "C#",             year: 2025 },
+const TOP_PROJECTS = [
+  {
+    name: "screentime-blocker",
+    description: "A macOS menu-bar app that blocks distracting websites and apps behind a personal code.",
+    stack: "Python · macOS · SHA-256",
+    url: "https://github.com/Ni7i/screentime-blocker",
+  },
+  {
+    name: "memyselfandi",
+    description: "This portfolio — designed, built and maintained by me.",
+    stack: "Next.js · TypeScript · React",
+    url: "https://github.com/Ni7i/memyselfandi",
+  },
+  {
+    name: "Quizlot",
+    description: "A focused quiz and flashcard app for creating and reviewing study material.",
+    stack: "React · Vite · JavaScript",
+    url: "https://github.com/Ni7i/Quizlot",
+  },
+];
+
+const MORE_PROJECTS = [
+  {
+    name: "NoteVault",
+    description: "A lightweight REST API for notes, tags and search.",
+    stack: ".NET 8 · C# · Swagger",
+    url: "https://github.com/Ni7i/NoteVault",
+  },
+  {
+    name: "Twinn",
+    description: "A matching app built around finding the right two people.",
+    stack: "C# · Blazor",
+    url: "https://github.com/Ni7i/twinn",
+  },
+  {
+    name: "midnight-calculator",
+    description: "A purpose-built calculator for a local small business.",
+    stack: "JavaScript",
+    url: "https://github.com/Ni7i/midnight-calculator",
+  },
+  {
+    name: "LockBox",
+    description: "A local terminal password manager with an encrypted vault and secure password generation.",
+    stack: "C# · .NET 8 · AES-256",
+    url: "https://github.com/Ni7i/Saveword/tree/main/LockBox-main",
+  },
+  {
+    name: "Oase Jugendraum",
+    description: "A web application created for a local youth room.",
+    stack: "Python · Web app",
+    url: "https://github.com/Ni7i/OaseJugendraum",
+  },
+];
+
+const CERTIFICATES = [
+  {
+    title: "Baden hackt",
+    detail: "4th place · Competition",
+    url: "/certificates/baden-hackt.jpg",
+  },
+  {
+    title: "AFV Referee Diploma",
+    detail: "Football referee qualification",
+    url: "/certificates/afv-referee-diploma.jpg",
+  },
+  {
+    title: "Web APIs with ASP.NET Core 8",
+    detail: "LinkedIn Learning",
+    url: "/certificates/web-apis-aspnet-core-8.png",
+  },
+  {
+    title: "Python Essentials 1",
+    detail: "Cisco Networking Academy",
+    url: "https://www.credly.com/badges/a83657ef-3959-4ced-abf1-cc5dd7ad43d3/linked_in_profile",
+  },
+  {
+    title: "Networking Basics",
+    detail: "Cisco Networking Academy",
+    url: "https://www.credly.com/badges/9905e43b-c420-468e-9b75-b6b1bace4b87",
+  },
 ];
 
 export default function Home() {
   return (
     <>
-      <ImageReveal />
-      {/* ─── NAV ─── */}
       <nav className="nav">
         <Link href="/" className="logo" aria-label="Enis Shorra">
           <span className="top">ENIS</span>
@@ -27,238 +95,134 @@ export default function Home() {
         <div className="nav-links">
           <a href="#about">About</a>
           <a href="#archive">Projects</a>
-          <a href="#me">Me</a>
+          <a href="#certificates">Certificates</a>
           <a href="#contact">Contact</a>
         </div>
-        <a className="nav-cta" href="mailto:shorra.enis@hotmail.com">Get in touch</a>
+        <a className="nav-cta" href="#contact">Get in touch</a>
       </nav>
 
-      {/* ─── INTRO ─── */}
       <section className="intro">
         <div className="intro-inner">
           <div>
-            <span className="stamp">Est. 2024 · Aargau</span>
+            <span className="stamp">Est. 2024 · Limmattal</span>
             <TypedTitle />
           </div>
           <p className="intro-sub">
             The personal site of an eighteen-year-old developer from
-            Switzerland &mdash; what I build, what I&apos;m into, and
-            where this is going.
+            Switzerland &mdash; what I build, what I&apos;m into, and where
+            this is going.
           </p>
         </div>
       </section>
 
-      {/* ─── MAGAZINE 3-COL ─── */}
       <section className="mag" id="about">
         <div className="mag-inner">
-          <div className="mag-heads">
-            <div className="mag-h">About me</div>
-            <div className="mag-h middle">—</div>
-            <div className="mag-h">Off the keyboard</div>
-          </div>
-
-          <div className="tri">
-
-            {/* LEFT COLUMN — About */}
-            <div className="tri-col">
-              <article className="card-l">
-                <div className="thumb thumb-1 portrait" />
-                <div className="chips"><span className="chip">Personal</span></div>
-                <h3>Eighteen, from Rudolfstetten.</h3>
-                <p>
-                  Kosovar parents, raised in the Aargau. As a kid I played
-                  around with Scratch and didn&apos;t think much of it. The
-                  Informatikmittelschule at the Kantonsschule Baden is where
-                  it really started to click, and C# was the first thing that
-                  stuck. Most of what I know since then I picked up by
-                  building, breaking things, and asking when I got stuck.
-                </p>
-                <span className="meta">IMS Baden &middot; since 2024</span>
-              </article>
-
-              <article className="card-l">
-                <div className="thumb thumb-2 landscape" />
-                <div className="chips"><span className="chip grey">Long game</span></div>
-                <h3>What I&apos;m working towards.</h3>
-                <p>
-                  A strong run at ICT Regios. One product with real users,
-                  not just repos. The right Praxisjahr placement for 2027/28,
-                  lined up early on purpose. And enough discipline to keep the
-                  gym, the bike and the family in every week &mdash; not just
-                  the calm ones.
-                </p>
-                <span className="meta">2026 &rarr; 2028</span>
-              </article>
+          <article className="about-sheet">
+            <span className="about-label">About me</span>
+            <div className="about-copy">
+              <p>
+                I&apos;m usually the person who gives a group structure and keeps
+                its energy up. I like knowing what everyone is working on,
+                bringing people together and making sure an idea actually turns
+                into something finished.
+              </p>
+              <p>
+                When a problem refuses to work, I stay with it for a long time.
+                I try every angle I can before asking for help — sometimes until
+                I&apos;m close to giving up. What keeps me going is progress.
+                Competition adds fuel, but seeing something improve is what
+                matters most to me.
+              </p>
+              <p>
+                I take responsibility seriously. Nothing frustrates me faster
+                than someone ignoring the task they agreed to do. I expect
+                reliability from others because I want people to be able to
+                expect the same from me. At the same time, I want to become more
+                open to unfamiliar programming languages and approaches.
+              </p>
+              <p>
+                Outside coding, I spend most of my time with my family. This
+                website is the project I&apos;m proudest of because it feels the
+                most like me. Under stress, I try to slow things down, relax or
+                have a good conversation. I want to be known as someone who is
+                eager to learn, dependable and a good person to ask for advice.
+              </p>
             </div>
-
-            {/* CENTER — Featured */}
-            <div className="tri-col" id="work">
-              <article className="card-l">
-                <div className="thumb thumb-3 hero" />
-                <div className="chips">
-                  <span className="chip red">Featured</span>
-                  <span className="chip hollow">C# · .NET</span>
-                </div>
-                <h3 className="title-lg">
-                  Twinn &mdash; find your person, or let the app become one.
-                </h3>
-                <p className="lead">
-                  Twinn matches people by the traits they actually put in,
-                  not by a feed. You describe yourself; it looks for someone
-                  who fits. And when nobody does &mdash; the part I&apos;m
-                  proudest of &mdash; it spins up an AI stand-in you can really
-                  talk to, so an empty match is never just a blank screen.
-                </p>
-                <span className="meta">C# · .NET · 2026</span>
-              </article>
-
-              <article className="card-l">
-                <div className="thumb thumb-quizlot landscape" />
-                <div className="chips">
-                  <span className="chip red">Also peak</span>
-                  <span className="chip hollow">TypeScript</span>
-                </div>
-                <h3 className="title-lg">
-                  Quizlot &mdash; flashcards without the noise.
-                </h3>
-                <p className="lead">
-                  A small learning tool built for the way I actually study
-                  &mdash; quick to fill, fast to review, and nothing on the
-                  screen that isn&apos;t the card in front of you. Started
-                  for my own exam weeks and grew from there.
-                </p>
-                <span className="meta">TypeScript &middot; 2026</span>
-              </article>
-            </div>
-
-            {/* RIGHT COLUMN — Interests */}
-            <div className="tri-col" id="interests">
-              <article className="card-l">
-                <div className="thumb thumb-4 square" />
-                <div className="chips"><span className="chip grey">Interests</span></div>
-                <h3>Bike, gym, family, food.</h3>
-                <p>
-                  When I&apos;m not coding I&apos;m usually out on the bike
-                  around the Reuss or at the gym. Time with family and a good
-                  meal is what actually recharges me &mdash; the rest is just
-                  keeping a decent balance.
-                </p>
-                <span className="meta">Weekly</span>
-              </article>
-
-              <article className="card-l">
-                <div className="thumb thumb-5 portrait" />
-                <div className="chips"><span className="chip grey">Weekends</span></div>
-                <h3>Refereeing on weekends.</h3>
-                <p>
-                  I have an AFV referee licence and ref football matches
-                  around the Aargau. It&apos;s taught me to stay calm, make a
-                  call and take responsibility for it &mdash; which turns out
-                  to be useful well beyond the pitch.
-                </p>
-                <span className="meta">Referee &middot; since 2023</span>
-              </article>
-            </div>
-
-          </div>
+            <footer className="about-footer">
+              <span>IMS Baden, Berufsmatura + EFZ Informatiker</span>
+              <span>2024–2028</span>
+            </footer>
+          </article>
         </div>
       </section>
 
-      {/* ─── PROJECTS ARCHIVE ─── */}
       <section className="idx" id="archive">
         <div className="idx-inner">
           <header className="idx-intro">
             <span className="idx-kicker">Selected &amp; ongoing</span>
             <h2>Things I&apos;ve <em>made.</em></h2>
             <p>
-              School work, small experiments and projects that started with
-              a real problem. Some are finished, some are still changing.
+              Three projects I&apos;m especially proud of, followed by more work
+              worth opening. Every row links directly to the code.
             </p>
-            <span className="idx-count">{PROJECTS.length} projects &middot; 2025&ndash;2026</span>
+            <span className="idx-count">{TOP_PROJECTS.length + MORE_PROJECTS.length} projects</span>
           </header>
 
-          <div className="project-board">
-            {PROJECTS.map((p, index) => {
-              const content = (
-                <>
-                  <div className="project-meta">
-                    <span>{p.year}</span>
-                    <span>{p.stack}</span>
-                  </div>
-                  <h3>{p.name}</h3>
-                  <p>{p.tag}</p>
-                  <span className="project-mark" aria-hidden="true">
-                    {p.url ? "↗" : ""}
-                  </span>
-                </>
-              );
-
-              return p.url ? (
-                <a
-                  className={`project-tile project-tile-${index + 1}`}
-                  href={p.url}
-                  key={p.name}
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  {content}
+          <div className="archive-group">
+            <span className="archive-label">Top projects</span>
+            <div className="archive-list top-list">
+              {TOP_PROJECTS.map((project, index) => (
+                <a className="archive-row" href={project.url} key={project.name} rel="noreferrer" target="_blank">
+                  <span className="archive-number">0{index + 1}</span>
+                  <h3>{project.name}</h3>
+                  <p>{project.description}</p>
+                  <span className="archive-stack">{project.stack}</span>
+                  <span className="archive-arrow" aria-hidden="true">↗</span>
                 </a>
-              ) : (
-                <article className={`project-tile project-tile-${index + 1}`} key={p.name}>
-                  {content}
-                </article>
-              );
-            })}
+              ))}
+            </div>
+          </div>
+
+          <div className="archive-group more-projects">
+            <span className="archive-label">More work</span>
+            <div className="archive-list">
+              {MORE_PROJECTS.map((project) => (
+                <a className="archive-row" href={project.url} key={project.name} rel="noreferrer" target="_blank">
+                  <h3>{project.name}</h3>
+                  <p>{project.description}</p>
+                  <span className="archive-stack">{project.stack}</span>
+                  <span className="archive-arrow" aria-hidden="true">↗</span>
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ─── ME · essay ─── */}
-      <section className="me" id="me">
-        <div className="me-inner">
+      <section className="me" id="certificates">
+        <div className="me-inner certificates-inner">
           <div className="me-head">
-            <h2>Me<em>.</em></h2>
-            <span className="meta">In my own words</span>
+            <h2>Certificates<em>.</em></h2>
+            <span className="meta">Courses &amp; milestones</span>
           </div>
-
-          <div className="essay">
-            <p className="essay-lead">
-              Everything above is the <em>what</em>. Here&apos;s a bit of the
-              why.
-            </p>
-            <p>
-              What actually keeps me at the keyboard isn&apos;t the tech for
-              its own sake &mdash; it&apos;s the small moment when a messy idea
-              finally turns into something that runs. I&apos;ve made peace with
-              the hours before that, when nothing works yet, because that&apos;s
-              usually where I end up learning the most.
-            </p>
-            <p>
-              I&apos;d rather be reliable than impressive. If I take something
-              on, I want it done properly and handed over clean &mdash; not just
-              working on my own machine. I ask questions early instead of
-              guessing, and I&apos;m fine admitting when I don&apos;t know
-              something yet, usually right before I go and find out.
-            </p>
-            <p>
-              Growing up with Kosovo at home and Switzerland outside the door
-              taught me to move between two worlds and to actually pay
-              attention to people. It&apos;s probably why I care less about
-              being the smartest person in a room and more about being someone
-              others want to work with.
-            </p>
-            <p>
-              And I know I&apos;m still near the start of this. There&apos;s a
-              lot I haven&apos;t done yet &mdash; which is honestly the part
-              I&apos;m looking forward to most: learning next to people further
-              along than me, and closing that gap faster than I could on my own.
-            </p>
-            <span className="essay-sign">a good coder, and a good person.</span>
+          <div className="certificate-list">
+            {CERTIFICATES.map((certificate, index) => (
+              <a
+                className="certificate-row"
+                href={certificate.url}
+                key={certificate.title}
+                rel="noreferrer"
+                target="_blank"
+              >
+                <span className="certificate-number">0{index + 1}</span>
+                <h3>{certificate.title}</h3>
+                <p>{certificate.detail}</p>
+              </a>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ─── CTA ─── */}
       <section className="cta" id="contact">
         <div className="cta-inner">
           <div>
@@ -266,30 +230,14 @@ export default function Home() {
               Currently looking for the <em>right team.</em>
             </h2>
             <p className="cta-sub">
-              I&apos;m mid-apprenticeship and open for an ICT internship near
-              Zurich or Aargau. I ship, I take feedback, I don&apos;t need
-              hand-holding. If that sounds useful, get in touch.
+              I&apos;m available for an apprenticeship anywhere. If that sounds
+              useful, write to me right here — without leaving the website.
             </p>
-            <a href="mailto:shorra.enis@hotmail.com" className="cta-btn">
-              Write me &rarr;
-            </a>
           </div>
-
-          <aside className="cta-card">
-            <span className="cta-stamp">Available &middot; 2026</span>
-            <ul>
-              <li><span>Mail</span><a href="mailto:shorra.enis@hotmail.com">shorra.enis@hotmail.com</a></li>
-              <li><span>GitHub</span><a href="https://github.com/Ni7i" target="_blank" rel="noreferrer">@Ni7i</a></li>
-              <li><span>LinkedIn</span><a href="https://linkedin.com/in/enis-shorra" target="_blank" rel="noreferrer">enis-shorra</a></li>
-              <li><span>Discord</span><a href="https://discord.com/users/nisi_17" target="_blank" rel="noreferrer">nisi_17</a></li>
-              <li><span>Base</span><em>Rudolfstetten, CH</em></li>
-            </ul>
-            <small>Answers usually within 48h.</small>
-          </aside>
+          <ContactForm />
         </div>
       </section>
 
-      {/* ─── FOOTER ─── */}
       <footer className="foot-wrap">
         <div className="foot">
           <div>
@@ -308,17 +256,17 @@ export default function Home() {
             </ul>
           </div>
           <div>
-            <h4>Reach me</h4>
+            <h4>Explore</h4>
             <ul>
-              <li><a href="mailto:shorra.enis@hotmail.com">Mail</a></li>
-              <li><Link href="/blog">Blog</Link></li>
-              <li><Link href="/projects">Projects</Link></li>
+              <li><a href="#contact">Contact</a></li>
+              <li><a href="#archive">Projects</a></li>
+              <li><a href="#certificates">Certificates</a></li>
             </ul>
           </div>
         </div>
         <div className="foot-bar">
           <span>&copy; Enis Shorra &middot; 2026</span>
-          <span>Rudolfstetten, Switzerland</span>
+          <span>Limmattal, Switzerland</span>
         </div>
       </footer>
     </>

@@ -30,7 +30,7 @@ const fraunces = localFont({
 
 export const metadata: Metadata = {
   title: "Enis Shorra",
-  description: "Developer from Switzerland. Eighteen, and building.",
+  description: "Application developer from the Limmattal. Projects, skills and contact.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

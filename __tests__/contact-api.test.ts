@@ -44,7 +44,10 @@ describe("contact API", () => {
     await expect(response.json()).resolves.toEqual({ success: true });
     expect(fetchMock).toHaveBeenCalledWith(
       "https://formsubmit.co/ajax/shorra.enis@hotmail.com",
-      expect.objectContaining({ method: "POST" }),
+      expect.objectContaining({
+        method: "POST",
+        headers: expect.objectContaining({ Origin: "https://enisshorra.ch" }),
+      }),
     );
   });
 });

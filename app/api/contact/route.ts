@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 
 const CONTACT_EMAIL = process.env.CONTACT_EMAIL ?? "shorra.enis@hotmail.com";
-const SITE_ORIGIN = process.env.NEXT_PUBLIC_SITE_URL ?? "https://enisshorra.ch";
 
 type ContactRequest = {
   name?: unknown;
@@ -45,44 +44,47 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: false }, { status: 400 });
   }
 
+  const resendApiKey = process.env.RESEND_API_KEY;
+  const resendDomain = process.env.RESEND_EMAIL_DOMAIN ?? "enisshorra.ch";
+  if (!resendApiKey) {
+    console.error("Contact email service is not configured");
+    return NextResponse.json({ success: false }, { status: 503 });
+  }
+
   try {
-    const response = await fetch(
-      `https://formsubmit.co/ajax/${CONTACT_EMAIL}`,
-      {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Origin: SITE_ORIGIN,
-          Referer: `${SITE_ORIGIN}/`,
-          "User-Agent": "enisshorra.ch contact form",
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          message,
-          _replyto: email,
-          _subject: "New message from enisshorra.ch",
-          _template: "table",
-          _url: `${SITE_ORIGIN}/#contact`,
-        }),
-        cache: "no-store",
-        signal: AbortSignal.timeout(10_000),
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${resendApiKey}`,
+        "Content-Type": "application/json",
       },
-    );
+      body: JSON.stringify({
+        from: `Enis Shorra <contact@${resendDomain}>`,
+        to: [CONTACT_EMAIL],
+        reply_to: email,
+        subject: `New website message from ${name}`,
+        text: [
+          `Name: ${name}`,
+          `Email: ${email}`,
+          "",
+          message,
+        ].join("\n"),
+      }),
+      cache: "no-store",
+      signal: AbortSignal.timeout(10_000),
+    });
 
     const result = (await response.json().catch(() => null)) as {
-      success?: boolean | string;
+      id?: string;
       message?: unknown;
     } | null;
-    const sent = result?.success === true || result?.success === "true";
 
-    if (!response.ok || !sent) {
+    if (!response.ok || !result?.id) {
       const providerMessage =
         typeof result?.message === "string"
-          ? result.message.replaceAll(CONTACT_EMAIL, "[recipient]").slice(0, 300)
+          ? result.message.slice(0, 300)
           : "No response message";
-      console.error("Contact provider rejected the submission", {
+      console.error("Resend rejected the contact message", {
         status: response.status,
         message: providerMessage,
       });
@@ -92,7 +94,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error(
-      "Contact provider could not be reached",
+      "Resend could not be reached",
       error instanceof Error ? error.name : "Unknown error",
     );
     return NextResponse.json({ success: false }, { status: 502 });

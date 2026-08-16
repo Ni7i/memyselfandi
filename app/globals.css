@@ -1,4 +1,6 @@
 :root {
+  --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-serif: Georgia, "Times New Roman", serif;
   --paper: #f4f0e6;
   --paper-2: #ecead9;
   --paper-3: #e4dfcc;
@@ -18,7 +20,7 @@
 html { background: var(--paper); scroll-behavior: smooth; scroll-padding-top: 80px; }
 html, body {
   color: var(--ink);
-  font-family: var(--font-sans), -apple-system, system-ui, sans-serif;
+  font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.55;
   letter-spacing: -0.005em;

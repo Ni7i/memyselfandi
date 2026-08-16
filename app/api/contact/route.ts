@@ -64,7 +64,7 @@ export async function POST(request: Request) {
           _replyto: email,
           _subject: "New message from enisshorra.ch",
           _template: "table",
-          _captcha: "false",
+          _url: `${SITE_ORIGIN}/#contact`,
         }),
         cache: "no-store",
         signal: AbortSignal.timeout(10_000),

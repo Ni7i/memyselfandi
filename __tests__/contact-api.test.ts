@@ -49,5 +49,10 @@ describe("contact API", () => {
         headers: expect.objectContaining({ Origin: "https://enisshorra.ch" }),
       }),
     );
+    const requestOptions = fetchMock.mock.calls[0][1] as RequestInit;
+    expect(JSON.parse(requestOptions.body as string)).toMatchObject({
+      _url: "https://enisshorra.ch/#contact",
+    });
+    expect(requestOptions.body).not.toContain("_captcha");
   });
 });

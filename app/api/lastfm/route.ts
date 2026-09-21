@@ -1,4 +1,4 @@
-const API_KEY = process.env.LASTFM_API_KEY ?? "";
+const API_KEY = process.env.LASTFM_API_KEY;
 const USERNAME = process.env.LASTFM_USERNAME ?? "Ni7i";
 
 export interface LastFmResponse {
@@ -13,8 +13,8 @@ export interface LastFmResponse {
 }
 
 export async function GET(): Promise<Response> {
-  if (!USERNAME) {
-    return Response.json({ playing: false, error: "LASTFM_USERNAME not set" });
+  if (!API_KEY) {
+    return Response.json({ playing: false, error: "LASTFM_API_KEY not set" });
   }
 
   try {

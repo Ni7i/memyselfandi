@@ -1,23 +1,23 @@
-import { blogPosts } from "@/lib/data";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { formatPostDate, readingTime } from "@/lib/content/format";
+import { getPublishedPost, getPublishedPosts } from "@/lib/content/posts";
 
-export function generateStaticParams() {
-  return blogPosts.map((p) => ({ slug: p.id }));
-}
+// Posts are managed in /admin and read on every request.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata(props: { params: Promise<{ slug: string }> }) {
   const { slug } = await props.params;
-  const post = blogPosts.find((p) => p.id === slug);
+  const post = await getPublishedPost(slug);
   return { title: post ? `${post.title} — Enis Shorra` : "Not Found" };
 }
 
 export default async function BlogPost(props: { params: Promise<{ slug: string }> }) {
   const { slug } = await props.params;
-  const post = blogPosts.find((p) => p.id === slug);
+  const post = await getPublishedPost(slug);
   if (!post) notFound();
 
-  const others = blogPosts.filter((p) => p.id !== post.id);
+  const others = (await getPublishedPosts()).filter((p) => p.slug !== post.slug);
 
   return (
     <main style={{
@@ -53,10 +53,10 @@ export default async function BlogPost(props: { params: Promise<{ slug: string }
         <div style={{ marginBottom: 48 }}>
           <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 20 }}>
             <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", color: "#555" }}>
-              {post.date}
+              {formatPostDate(post.publishedAt)}
             </span>
             <span style={{ color: "#222" }}>·</span>
-            <span style={{ fontSize: 10, color: "#444" }}>{post.readTime} read</span>
+            <span style={{ fontSize: 10, color: "#444" }}>{readingTime(post.content)} read</span>
           </div>
 
           <h1 style={{
@@ -122,7 +122,7 @@ export default async function BlogPost(props: { params: Promise<{ slug: string }
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {others.map((p) => (
-                <Link key={p.id} href={`/blog/${p.id}`} style={{ textDecoration: "none" }}>
+                <Link key={p.slug} href={`/blog/${p.slug}`} style={{ textDecoration: "none" }}>
                   <div style={{
                     padding: "14px 16px", borderRadius: 10,
                     background: "#141414", border: "1px solid #1e1e1e",
@@ -131,7 +131,7 @@ export default async function BlogPost(props: { params: Promise<{ slug: string }
                   }}>
                     <div>
                       <div style={{ fontSize: 13, fontWeight: 600, color: "#e0e0e0", marginBottom: 2 }}>{p.title}</div>
-                      <div style={{ fontSize: 11, color: "#555" }}>{p.date} · {p.readTime} read</div>
+                      <div style={{ fontSize: 11, color: "#555" }}>{formatPostDate(p.publishedAt)} · {readingTime(p.content)} read</div>
                     </div>
                     <span style={{ color: "#333", fontSize: 16 }}>→</span>
                   </div>

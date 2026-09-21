@@ -1,23 +1,23 @@
-import { projects } from "@/lib/data";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { getPublishedProject, getPublishedProjects } from "@/lib/content/projects";
 
-export function generateStaticParams() {
-  return projects.map((p) => ({ slug: p.id }));
-}
+// Projects are managed in /admin and read on every request.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata(props: { params: Promise<{ slug: string }> }) {
   const { slug } = await props.params;
-  const project = projects.find((p) => p.id === slug);
+  const project = await getPublishedProject(slug);
   return { title: project ? `${project.title} — Enis Shorra` : "Not Found" };
 }
 
 export default async function ProjectPage(props: { params: Promise<{ slug: string }> }) {
   const { slug } = await props.params;
-  const project = projects.find((p) => p.id === slug);
+  const project = await getPublishedProject(slug);
   if (!project) notFound();
 
-  const others = projects.filter((p) => p.id !== project.id);
+  const others = (await getPublishedProjects()).filter((p) => p.slug !== project.slug);
+  const paragraphs = (project.longDescription || project.description).split("\n\n");
 
   return (
     <main style={{
@@ -58,7 +58,7 @@ export default async function ProjectPage(props: { params: Promise<{ slug: strin
         {/* Header */}
         <div style={{ marginBottom: 48 }}>
           <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", color: "#555", marginBottom: 16 }}>
-            PROJECT · {project.year}
+            PROJECT{project.year && ` · ${project.year}`}
           </div>
           <h1 style={{
             fontSize: "clamp(32px, 5vw, 52px)",
@@ -71,12 +71,12 @@ export default async function ProjectPage(props: { params: Promise<{ slug: strin
             {project.title}
           </h1>
           <p style={{ fontSize: 16, color: "#666", lineHeight: 1.6, marginBottom: 24 }}>
-            {project.desc}
+            {project.description}
           </p>
 
           {/* Tags */}
           <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 28 }}>
-            {project.tags.map((t) => (
+            {project.stack.map((t) => (
               <span key={t} style={{
                 padding: "4px 12px", borderRadius: 20, fontSize: 11,
                 background: "#1a1a1a", color: "#888", border: "1px solid #252525",
@@ -86,8 +86,8 @@ export default async function ProjectPage(props: { params: Promise<{ slug: strin
 
           {/* Links */}
           <div style={{ display: "flex", gap: 10 }}>
-            {project.github && (
-              <a href={project.github} target="_blank" rel="noopener noreferrer" style={{
+            {project.repoUrl && (
+              <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" style={{
                 padding: "8px 20px", borderRadius: 8, fontSize: 12, fontWeight: 600,
                 background: "#1a1a1a", border: "1px solid #252525",
                 color: "#ccc", textDecoration: "none",
@@ -95,8 +95,8 @@ export default async function ProjectPage(props: { params: Promise<{ slug: strin
                 View on GitHub →
               </a>
             )}
-            {project.live && (
-              <a href={project.live} target="_blank" rel="noopener noreferrer" style={{
+            {project.liveUrl && (
+              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" style={{
                 padding: "8px 20px", borderRadius: 8, fontSize: 12, fontWeight: 600,
                 background: "#a78bfa", color: "#fff", textDecoration: "none",
               }}>
@@ -111,7 +111,7 @@ export default async function ProjectPage(props: { params: Promise<{ slug: strin
 
         {/* Long description */}
         <div style={{ fontSize: 15, lineHeight: 1.9, color: "#888" }}>
-          {project.longDesc.split("\n\n").map((para, i) => (
+          {paragraphs.map((para, i) => (
             <p key={i} style={{ marginBottom: 20 }}>{para}</p>
           ))}
         </div>
@@ -126,7 +126,7 @@ export default async function ProjectPage(props: { params: Promise<{ slug: strin
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {others.map((p) => (
-              <Link key={p.id} href={`/projects/${p.id}`} style={{ textDecoration: "none" }}>
+              <Link key={p.slug} href={`/projects/${p.slug}`} style={{ textDecoration: "none" }}>
                 <div style={{
                   padding: "14px 16px", borderRadius: 10,
                   background: "#141414", border: "1px solid #1e1e1e",
@@ -135,7 +135,7 @@ export default async function ProjectPage(props: { params: Promise<{ slug: strin
                 }}>
                   <div>
                     <div style={{ fontSize: 13, fontWeight: 700, color: "#e0e0e0", marginBottom: 2 }}>{p.title}</div>
-                    <div style={{ fontSize: 11, color: "#555" }}>{p.desc}</div>
+                    <div style={{ fontSize: 11, color: "#555" }}>{p.description}</div>
                   </div>
                   <span style={{ color: "#333", fontSize: 16, flexShrink: 0 }}>→</span>
                 </div>

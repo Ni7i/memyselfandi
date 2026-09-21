@@ -1,12 +1,30 @@
 import type { MetadataRoute } from 'next'
+import { getPublishedPosts } from '@/lib/content/posts'
+import { getPublishedProjects } from '@/lib/content/projects'
+import { SITE_URL } from '@/lib/site'
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const base = 'https://www.hpgarage.ch'
+// Follows the published content in /admin.
+export const dynamic = 'force-dynamic'
+
+function lastModified(updatedAt: string | null) {
+  return updatedAt ? { lastModified: new Date(updatedAt) } : {}
+}
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const [posts, projects] = await Promise.all([getPublishedPosts(), getPublishedProjects()])
   return [
-    { url: base, lastModified: new Date(), changeFrequency: 'weekly', priority: 1 },
-    { url: `${base}/#leistungen`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
-    { url: `${base}/#galerie`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
-    { url: `${base}/#ueber-uns`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.8 },
-    { url: `${base}/#kontakt`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
+    { url: SITE_URL, changeFrequency: 'monthly', priority: 1 },
+    ...posts.map((post) => ({
+      url: `${SITE_URL}/blog/${post.slug}`,
+      ...lastModified(post.updatedAt),
+      changeFrequency: 'yearly' as const,
+      priority: 0.6,
+    })),
+    ...projects.map((project) => ({
+      url: `${SITE_URL}/projects/${project.slug}`,
+      ...lastModified(project.updatedAt),
+      changeFrequency: 'yearly' as const,
+      priority: 0.5,
+    })),
   ]
 }

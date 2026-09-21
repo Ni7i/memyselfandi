@@ -1,60 +1,12 @@
 import Link from "next/link";
 import ContactForm from "@/components/ContactForm";
+import { getPublishedProjects } from "@/lib/content/projects";
+import { projectLink } from "@/lib/content/format";
+import type { Project } from "@/lib/content/types";
 import TypedTitle from "./TypedTitle";
 
-const TOP_PROJECTS = [
-  {
-    name: "screentime-blocker",
-    description: "A macOS menu-bar app that blocks distracting websites and apps behind a personal code.",
-    stack: "Python · macOS · SHA-256",
-    url: "https://github.com/Ni7i/screentime-blocker",
-  },
-  {
-    name: "memyselfandi",
-    description: "This portfolio — designed, built and maintained by me.",
-    stack: "Next.js · TypeScript · React",
-    url: "https://github.com/Ni7i/memyselfandi",
-  },
-  {
-    name: "Quizlot",
-    description: "A focused quiz and flashcard app for creating and reviewing study material.",
-    stack: "React · Vite · JavaScript",
-    url: "https://github.com/Ni7i/Quizlot",
-  },
-];
-
-const MORE_PROJECTS = [
-  {
-    name: "NoteVault",
-    description: "A lightweight REST API for notes, tags and search.",
-    stack: ".NET 8 · C# · Swagger",
-    url: "https://github.com/Ni7i/NoteVault",
-  },
-  {
-    name: "Twinn",
-    description: "A matching app built around finding the right two people.",
-    stack: "C# · Blazor",
-    url: "https://github.com/Ni7i/twinn",
-  },
-  {
-    name: "midnight-calculator",
-    description: "A purpose-built calculator for a local small business.",
-    stack: "JavaScript",
-    url: "https://github.com/Ni7i/midnight-calculator",
-  },
-  {
-    name: "LockBox",
-    description: "A local terminal password manager with an encrypted vault and secure password generation.",
-    stack: "C# · .NET 8 · AES-256",
-    url: "https://github.com/Ni7i/Saveword/tree/main/LockBox-main",
-  },
-  {
-    name: "Oase Jugendraum",
-    description: "A web application created for a local youth room.",
-    stack: "Python · Web app",
-    url: "https://github.com/Ni7i/OaseJugendraum",
-  },
-];
+// Projects are managed in /admin and read on every request.
+export const dynamic = "force-dynamic";
 
 const CERTIFICATES = [
   {
@@ -84,7 +36,24 @@ const CERTIFICATES = [
   },
 ];
 
-export default function Home() {
+function ArchiveRow({ project, number }: { project: Project; number?: number }) {
+  const { href, external } = projectLink(project);
+  return (
+    <a className="archive-row" href={href} {...(external ? { rel: "noreferrer", target: "_blank" } : {})}>
+      {number !== undefined && <span className="archive-number">{String(number).padStart(2, "0")}</span>}
+      <h3>{project.title}</h3>
+      <p>{project.description}</p>
+      <span className="archive-stack">{project.stack.join(" · ")}</span>
+      <span className="archive-arrow" aria-hidden="true">↗</span>
+    </a>
+  );
+}
+
+export default async function Home() {
+  const projects = await getPublishedProjects();
+  const topProjects = projects.filter((project) => project.featured);
+  const moreProjects = projects.filter((project) => !project.featured);
+
   return (
     <>
       <nav className="nav">
@@ -165,20 +134,14 @@ export default function Home() {
               Three projects I&apos;m especially proud of, followed by more work
               worth opening. Every row links directly to the code.
             </p>
-            <span className="idx-count">{TOP_PROJECTS.length + MORE_PROJECTS.length} projects</span>
+            <span className="idx-count">{projects.length} projects</span>
           </header>
 
           <div className="archive-group">
             <span className="archive-label">Top projects</span>
             <div className="archive-list top-list">
-              {TOP_PROJECTS.map((project, index) => (
-                <a className="archive-row" href={project.url} key={project.name} rel="noreferrer" target="_blank">
-                  <span className="archive-number">0{index + 1}</span>
-                  <h3>{project.name}</h3>
-                  <p>{project.description}</p>
-                  <span className="archive-stack">{project.stack}</span>
-                  <span className="archive-arrow" aria-hidden="true">↗</span>
-                </a>
+              {topProjects.map((project, index) => (
+                <ArchiveRow key={project.slug} number={index + 1} project={project} />
               ))}
             </div>
           </div>
@@ -186,13 +149,8 @@ export default function Home() {
           <div className="archive-group more-projects">
             <span className="archive-label">More work</span>
             <div className="archive-list">
-              {MORE_PROJECTS.map((project) => (
-                <a className="archive-row" href={project.url} key={project.name} rel="noreferrer" target="_blank">
-                  <h3>{project.name}</h3>
-                  <p>{project.description}</p>
-                  <span className="archive-stack">{project.stack}</span>
-                  <span className="archive-arrow" aria-hidden="true">↗</span>
-                </a>
+              {moreProjects.map((project) => (
+                <ArchiveRow key={project.slug} project={project} />
               ))}
             </div>
           </div>

@@ -51,11 +51,11 @@ jobs:
           server_port: 465
           username: ${{ secrets.MAIL_USERNAME }}
           password: ${{ secrets.MAIL_PASSWORD }}
-          subject: '❌ HP Garage – CI Tests fehlgeschlagen (Branch: ${{ github.ref_name }})'
+          subject: '❌ enisshorra.ch – CI fehlgeschlagen (Branch: ${{ github.ref_name }})'
           to: ${{ secrets.NOTIFY_EMAIL }}
-          from: 'HP Garage CI <${{ secrets.MAIL_USERNAME }}>'
+          from: 'enisshorra.ch CI <${{ secrets.MAIL_USERNAME }}>'
           body: |
-            Die automatischen Tests für die HP Garage Website sind fehlgeschlagen.
+            Die automatischen Tests für das Portfolio enisshorra.ch sind fehlgeschlagen.
 
             Branch: ${{ github.ref_name }}
             Commit: ${{ github.sha }}

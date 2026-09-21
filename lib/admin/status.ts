@@ -70,13 +70,13 @@ async function checkAdminProtection(): Promise<StatusCheck> {
   const result = await checkUrl("Admin geschützt", "/api/admin/projects", { expectStatus: 401 });
   return result.state === "ok"
     ? { ...result, group: "Dienste", detail: "Ohne Anmeldung gesperrt (401)" }
-    : { ...result, group: "Dienste", detail: `Admin-API ohne Anmeldung nicht gesperrt – ${result.detail}` };
+    : { ...result, group: "Dienste", detail: `Admin-API ohne Anmeldung nicht gesperrt (${result.detail})` };
 }
 
 async function checkDatabase(): Promise<StatusCheck> {
   const label = "Datenbank";
   if (!isKvConfigured()) {
-    return { group: "Dienste", label, state: "warn", detail: "Nicht verbunden – Inhalte kommen aus dem Code, Speichern ist nicht möglich" };
+    return { group: "Dienste", label, state: "warn", detail: "Nicht verbunden. Inhalte kommen aus dem Code, Speichern ist nicht möglich" };
   }
   const started = performance.now();
   try {
@@ -91,7 +91,7 @@ async function checkDatabase(): Promise<StatusCheck> {
 async function checkContactForm(): Promise<StatusCheck> {
   const label = "Kontaktformular";
   const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) return { group: "Dienste", label, state: "error", detail: "RESEND_API_KEY fehlt – Nachrichten können nicht versendet werden" };
+  if (!apiKey) return { group: "Dienste", label, state: "error", detail: "RESEND_API_KEY fehlt, Nachrichten können nicht versendet werden" };
 
   const domain = process.env.RESEND_EMAIL_DOMAIN ?? "enisshorra.ch";
   const started = performance.now();
@@ -114,7 +114,7 @@ async function checkContactForm(): Promise<StatusCheck> {
     }
     // Resend answers an unknown key with 400 "API key is invalid", a missing one with 401.
     if ([400, 401, 403].includes(response.status) && /api.?key/i.test(`${body?.name ?? ""} ${body?.message ?? ""}`)) {
-      return { group: "Dienste", label, state: "error", detail: "Resend lehnt den API-Schlüssel ab – Nachrichten kommen nicht an", durationMs };
+      return { group: "Dienste", label, state: "error", detail: "Resend lehnt den API-Schlüssel ab, Nachrichten kommen nicht an", durationMs };
     }
     if (!response.ok) return { group: "Dienste", label, state: "warn", detail: `Resend antwortet mit HTTP ${response.status}`, durationMs };
 

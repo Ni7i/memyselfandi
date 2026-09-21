@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function SessionExpiredNotice() {
   return (
     <div className="adm-notice" data-tone="error" role="alert">
-      <strong>Sitzung abgelaufen – nichts verloren</strong>
+      <strong>Sitzung abgelaufen, nichts verloren</strong>
       <span>
         Deine Eingaben sind noch da.{" "}
         <Link className="adm-link" href="/admin/login?expired=1" target="_blank" rel="noopener">

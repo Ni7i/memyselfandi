@@ -53,7 +53,7 @@ export default async function Home() {
           </div>
           <p className="intro-sub">
             The personal site of an eighteen-year-old developer from
-            Switzerland &mdash; what I build, what I&apos;m into, and where
+            Switzerland: what I build, what I&apos;m into, and where
             this is going.
           </p>
         </div>
@@ -72,7 +72,7 @@ export default async function Home() {
               </p>
               <p>
                 When a problem refuses to work, I stay with it for a long time.
-                I try every angle I can before asking for help — sometimes until
+                I try every angle I can before asking for help, sometimes until
                 I&apos;m close to giving up. What keeps me going is progress.
                 Competition adds fuel, but seeing something improve is what
                 matters most to me.
@@ -94,7 +94,7 @@ export default async function Home() {
             </div>
             <footer className="about-footer">
               <span>IMS Baden, Berufsmatura + EFZ Informatiker</span>
-              <span>2024–2028</span>
+              <span>2024-2028</span>
             </footer>
           </article>
         </div>
@@ -164,7 +164,7 @@ export default async function Home() {
             </h2>
             <p className="cta-sub">
               I&apos;m available for an apprenticeship anywhere. If that sounds
-              useful, write to me right here — without leaving the website.
+              useful, write to me right here, without leaving the website.
             </p>
           </div>
           <ContactForm />

@@ -46,7 +46,7 @@ export const friends = [
   {
     name: "Mia",
     handle: "@mia.design",
-    what: "UI/UX designer — stunning Figma work",
+    what: "UI/UX designer with stunning Figma work",
     url: "#",
     color: "#c85b7d",
     emoji: "🎨",

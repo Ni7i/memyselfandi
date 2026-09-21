@@ -6,7 +6,7 @@ import { SITE_URL } from "@/lib/site";
 export const metadata: Metadata = { title: "Deployment" };
 
 function Value({ children }: { children: React.ReactNode }) {
-  return <dd>{children ?? <span style={{ color: "var(--dim)" }}>—</span>}</dd>;
+  return <dd>{children ?? <span style={{ color: "var(--dim)" }}>nicht gesetzt</span>}</dd>;
 }
 
 export default async function DeploymentPage() {

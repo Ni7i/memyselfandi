@@ -1,4 +1,4 @@
-# /public/photos — image slots for the homepage
+# /public/photos: image slots for the homepage
 
 Drop your vintage photos here with these exact filenames. The site
 applies a duotone/grayscale filter so any decent photo lands consistent.
@@ -7,9 +7,9 @@ applies a duotone/grayscale filter so any decent photo lands consistent.
 |---------|--------------------------|--------|-------------------------------------------------|
 | 1.jpg   | About me (left top)      | 5 : 6  | portrait / mood / a moment                      |
 | 2.jpg   | Long game (left bottom)  | 4 : 3  | landscape / cinematic / a place                 |
-| 3.jpg   | Featured (center — big)  | 3 : 4  | tall / most striking image you have             |
+| 3.jpg   | Featured (center, big)   | 3 : 4  | tall / most striking image you have             |
 | 4.jpg   | Interests (right top)    | 1 : 1  | square / object or scene                        |
 | 5.jpg   | Music (right bottom)     | 5 : 6  | portrait / secondary image                      |
 
-Any dimensions work — CSS crops to the ratio. Keep files under ~1 MB
+Any dimensions work, CSS crops to the ratio. Keep files under ~1 MB
 each so the site stays fast. Colors get muted automatically.

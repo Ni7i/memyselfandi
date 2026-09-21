@@ -1,15 +1,15 @@
-# /public/projects — image slots for peak projects
+# /public/projects: image slots for peak projects
 
 One image per peak project. Drop your photo here with the exact
 filename below and the site picks it up automatically. Same
-duotone / grain filter as the rest of the site — any decent vintage
+duotone / grain filter as the rest of the site, so any decent vintage
 or mood photo lands consistent.
 
 | file          | project  | aspect | vibe                                 |
 |---------------|----------|--------|--------------------------------------|
 | quizlot.jpg   | Quizlot  | 3 : 4  | tall / one striking, on-brand shot   |
 
-Twinn already uses `/photos/3.jpg` as its hero image — no need for a
+Twinn already uses `/photos/3.jpg` as its hero image, so there is no need for a
 separate file here.
 
 To add another peak project later:

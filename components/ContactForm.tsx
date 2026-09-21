@@ -43,7 +43,7 @@ export default function ContactForm() {
       {submitState === "sent" ? (
         <div className="contact-success" role="status">
           <h3>Message sent.</h3>
-          <p>Thanks for writing — I&apos;ll get back to you as soon as I can.</p>
+          <p>Thanks for writing. I&apos;ll get back to you as soon as I can.</p>
           <button type="button" onClick={() => setSubmitState("idle")}>Write another</button>
         </div>
       ) : (

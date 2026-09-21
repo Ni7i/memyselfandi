@@ -5,7 +5,7 @@ import SiteHeader from "@/components/SiteHeader";
 import { getPublishedPosts } from "@/lib/content/posts";
 
 export const metadata: Metadata = {
-  title: "Blog — Enis Shorra",
+  title: "Blog · Enis Shorra",
   description: "Notes on what I build and learn: C#, .NET, UI and the occasional detour.",
 };
 
@@ -23,12 +23,12 @@ export default async function BlogIndex() {
           <header className="idx-intro">
             <span className="idx-kicker">Writing</span>
             <h1>Notes from <em>the desk.</em></h1>
-            <p>What I build, what broke along the way and what I learned from it — mostly C#, .NET and UI.</p>
+            <p>What I build, what broke along the way and what I learned from it. Mostly C#, .NET and UI.</p>
             <span className="idx-count">{posts.length} {posts.length === 1 ? "post" : "posts"}</span>
           </header>
 
           {posts.length === 0 ? (
-            <p className="post-empty">No posts yet — check back soon.</p>
+            <p className="post-empty">No posts yet. Check back soon.</p>
           ) : (
             <div className="post-list">
               {posts.map((post) => <PostRow key={post.slug} post={post} />)}

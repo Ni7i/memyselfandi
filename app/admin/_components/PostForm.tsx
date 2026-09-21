@@ -6,6 +6,7 @@ import { useState, type FormEvent } from "react";
 import type { BlogPost } from "@/lib/content/types";
 import { sendJson, slugify, splitList, type FieldErrors } from "./api";
 import Field from "./Field";
+import SessionExpiredNotice from "./SessionExpiredNotice";
 
 interface Props {
   /** Existing post when editing; omitted when creating. */
@@ -22,6 +23,7 @@ export default function PostForm({ post, today }: Props) {
   const [errors, setErrors] = useState<FieldErrors>({});
   const [formError, setFormError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [sessionExpired, setSessionExpired] = useState(false);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -39,6 +41,7 @@ export default function PostForm({ post, today }: Props) {
     setSaving(true);
     setErrors({});
     setFormError(null);
+    setSessionExpired(false);
     const result = editing
       ? await sendJson("PUT", `/api/admin/posts/${encodeURIComponent(post!.slug)}`, body)
       : await sendJson("POST", "/api/admin/posts", body);
@@ -49,7 +52,9 @@ export default function PostForm({ post, today }: Props) {
       return;
     }
     if (result.status === 401) {
-      router.replace("/admin/login");
+      // Keep everything typed so far; the user signs in again in another tab.
+      setSessionExpired(true);
+      setSaving(false);
       return;
     }
     setErrors(result.fields);
@@ -59,6 +64,7 @@ export default function PostForm({ post, today }: Props) {
 
   return (
     <form className="adm-form" onSubmit={handleSubmit} noValidate>
+      {sessionExpired && <SessionExpiredNotice />}
       {formError && (
         <div className="adm-notice" data-tone="error" role="alert">
           <strong>Nicht gespeichert</strong>

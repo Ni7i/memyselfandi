@@ -1,63 +1,89 @@
-// Stateless admin session: `<payload>.<HMAC-SHA256 signature>`, both base64url.
+// Admin session as a JSON Web Token (RFC 7519), signed with HMAC-SHA256 (HS256).
 // The signing key is derived from SESSION_SECRET and the password hash (see config.ts),
 // so rotating either one signs every existing session out.
-import { createHmac, timingSafeEqual } from "node:crypto";
+import { createHmac, randomUUID, timingSafeEqual } from "node:crypto";
 
-export const SESSION_TTL_SECONDS = 60 * 60 * 8;
-const TOKEN_VERSION = 1;
-const SIGNATURE_CONTEXT = "enisshorra.admin-session.v1.";
-const MAX_TOKEN_LENGTH = 512;
+/** Absolute lifetime: after 15 minutes the admin has to log in again. */
+export const SESSION_TTL_SECONDS = 15 * 60;
 
-export interface SessionPayload {
-  v: typeof TOKEN_VERSION;
+const ISSUER = "https://enisshorra.ch";
+const AUDIENCE = "enisshorra.ch/admin";
+const SUBJECT = "admin";
+const CLOCK_SKEW_SECONDS = 60;
+const MAX_TOKEN_LENGTH = 1024;
+
+// Only this exact header is ever issued or accepted, which rules out
+// alg=none and algorithm-confusion tokens without parsing the header at all.
+const HEADER = Buffer.from(JSON.stringify({ alg: "HS256", typ: "JWT" })).toString("base64url");
+
+export interface SessionClaims {
+  iss: string;
+  aud: string;
+  sub: string;
+  /** Issued at, in seconds since the epoch. */
   iat: number;
+  /** Expires at, in seconds since the epoch. */
   exp: number;
+  jti: string;
 }
 
-function sign(body: string, key: Buffer) {
-  return createHmac("sha256", key).update(SIGNATURE_CONTEXT + body).digest();
+function sign(signingInput: string, key: Buffer) {
+  return createHmac("sha256", key).update(signingInput).digest();
 }
 
-function isSessionPayload(value: unknown): value is SessionPayload {
+function isSessionClaims(value: unknown): value is SessionClaims {
   if (typeof value !== "object" || value === null) return false;
-  const payload = value as Record<string, unknown>;
+  const claims = value as Record<string, unknown>;
   return (
-    payload.v === TOKEN_VERSION &&
-    Number.isInteger(payload.iat) &&
-    Number.isInteger(payload.exp)
+    claims.iss === ISSUER &&
+    claims.aud === AUDIENCE &&
+    claims.sub === SUBJECT &&
+    Number.isInteger(claims.iat) &&
+    Number.isInteger(claims.exp) &&
+    typeof claims.jti === "string"
   );
 }
 
 export function createSessionToken(key: Buffer, now = Date.now()): string {
-  const issuedAt = Math.floor(now / 1000);
-  const payload: SessionPayload = { v: TOKEN_VERSION, iat: issuedAt, exp: issuedAt + SESSION_TTL_SECONDS };
-  const body = Buffer.from(JSON.stringify(payload)).toString("base64url");
-  return `${body}.${sign(body, key).toString("base64url")}`;
+  const iat = Math.floor(now / 1000);
+  const claims: SessionClaims = {
+    iss: ISSUER,
+    aud: AUDIENCE,
+    sub: SUBJECT,
+    iat,
+    exp: iat + SESSION_TTL_SECONDS,
+    jti: randomUUID(),
+  };
+  const signingInput = `${HEADER}.${Buffer.from(JSON.stringify(claims)).toString("base64url")}`;
+  return `${signingInput}.${sign(signingInput, key).toString("base64url")}`;
 }
 
-export function verifySessionToken(token: string | undefined, key: Buffer, now = Date.now()): SessionPayload | null {
+export function verifySessionToken(token: string | undefined, key: Buffer, now = Date.now()): SessionClaims | null {
   if (!token || token.length > MAX_TOKEN_LENGTH) return null;
 
   const parts = token.split(".");
-  if (parts.length !== 2) return null;
-  const [body, signature] = parts;
+  if (parts.length !== 3) return null;
+  const [header, payload, signature] = parts;
+  if (header !== HEADER) return null;
 
-  const expected = sign(body, key);
+  const expected = sign(`${header}.${payload}`, key);
   const given = Buffer.from(signature, "base64url");
   if (given.length !== expected.length || !timingSafeEqual(given, expected)) return null;
 
-  let payload: unknown;
+  let claims: unknown;
   try {
-    payload = JSON.parse(Buffer.from(body, "base64url").toString("utf8"));
+    claims = JSON.parse(Buffer.from(payload, "base64url").toString("utf8"));
   } catch {
     return null;
   }
-  if (!isSessionPayload(payload)) return null;
+  if (!isSessionClaims(claims)) return null;
 
   const nowSeconds = Math.floor(now / 1000);
-  // Small allowance for clock drift between serverless instances.
-  if (payload.exp <= nowSeconds || payload.iat > nowSeconds + 60) return null;
-  return payload;
+  if (claims.exp <= nowSeconds) return null;
+  if (claims.iat > nowSeconds + CLOCK_SKEW_SECONDS) return null;
+  // A validly signed token can never outlive the configured lifetime.
+  if (claims.exp - claims.iat > SESSION_TTL_SECONDS) return null;
+  return claims;
 }
 
 /** `__Host-` requires Secure, so it is only used where the site runs over HTTPS. */

@@ -14,6 +14,10 @@ function guard() {
 }
 
 export const memoryKv = {
+  async ping() {
+    guard();
+    return "PONG";
+  },
   async exists(...keys: string[]) {
     guard();
     return keys.filter((key) => strings.has(key) || hashes.has(key)).length;

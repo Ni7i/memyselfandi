@@ -6,16 +6,16 @@ export default function InternshipAd() {
   const [show, setShow] = useState(false);
   const [leaving, setLeaving] = useState(false);
 
+  const dismiss = () => {
+    setLeaving(true);
+    setTimeout(() => setShow(false), 400);
+  };
+
   useEffect(() => {
     const t1 = setTimeout(() => setShow(true), 1800);
     const t2 = setTimeout(() => dismiss(), 7000);
     return () => { clearTimeout(t1); clearTimeout(t2); };
   }, []);
-
-  const dismiss = () => {
-    setLeaving(true);
-    setTimeout(() => setShow(false), 400);
-  };
 
   if (!show) return null;
 

@@ -20,7 +20,7 @@ export default function DeleteButton({ endpoint, itemTitle, redirectTo }: Props)
     setPending(true);
     const result = await sendJson("DELETE", endpoint);
     if (result.status === 401) {
-      router.replace("/admin/login");
+      router.replace(`/admin/login?expired=1&next=${encodeURIComponent(window.location.pathname)}`);
       return;
     }
     if (!result.ok) {

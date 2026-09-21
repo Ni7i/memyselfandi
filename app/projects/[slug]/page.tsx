@@ -1,149 +1,71 @@
-import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
+import PostContent from "@/components/PostContent";
+import ProjectRow from "@/components/ProjectRow";
+import SiteFooter from "@/components/SiteFooter";
+import SiteHeader from "@/components/SiteHeader";
 import { getPublishedProject, getPublishedProjects } from "@/lib/content/projects";
 
 // Projects are managed in /admin and read on every request.
 export const dynamic = "force-dynamic";
 
-export async function generateMetadata(props: { params: Promise<{ slug: string }> }) {
-  const { slug } = await props.params;
-  const project = await getPublishedProject(slug);
-  return { title: project ? `${project.title} — Enis Shorra` : "Not Found" };
+type Props = { params: Promise<{ slug: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const project = await getPublishedProject((await params).slug);
+  return project ? { title: `${project.title} — Enis Shorra`, description: project.description } : { title: "Not Found" };
 }
 
-export default async function ProjectPage(props: { params: Promise<{ slug: string }> }) {
-  const { slug } = await props.params;
-  const project = await getPublishedProject(slug);
+export default async function ProjectPage({ params }: Props) {
+  const project = await getPublishedProject((await params).slug);
   if (!project) notFound();
 
-  const others = (await getPublishedProjects()).filter((p) => p.slug !== project.slug);
-  const paragraphs = (project.longDescription || project.description).split("\n\n");
+  const others = (await getPublishedProjects()).filter((p) => p.slug !== project.slug).slice(0, 3);
 
   return (
-    <main style={{
-      minHeight: "100vh",
-      background: "#0d0d0d",
-      color: "#d4d4d4",
-      fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-    }}>
-      {/* Back bar */}
-      <div style={{
-        borderBottom: "1px solid #1a1a1a",
-        padding: "14px 40px",
-        display: "flex",
-        alignItems: "center",
-        gap: 16,
-        position: "sticky",
-        top: 0,
-        background: "rgba(13,13,13,0.9)",
-        backdropFilter: "blur(8px)",
-        zIndex: 10,
-      }}>
-        <Link href="/" style={{
-          fontSize: 12, color: "#555", textDecoration: "none",
-          display: "flex", alignItems: "center", gap: 5,
-          transition: "color 0.15s",
-        }}
-          onMouseEnter={undefined}
-        >
-          ← Back to portfolio
-        </Link>
-        <span style={{ color: "#222" }}>·</span>
-        <span style={{ fontSize: 12, color: "#333" }}>{project.title}</span>
-      </div>
-
-      {/* Content */}
-      <div style={{ maxWidth: 720, margin: "0 auto", padding: "60px 40px" }}>
-
-        {/* Header */}
-        <div style={{ marginBottom: 48 }}>
-          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", color: "#555", marginBottom: 16 }}>
-            PROJECT{project.year && ` · ${project.year}`}
-          </div>
-          <h1 style={{
-            fontSize: "clamp(32px, 5vw, 52px)",
-            fontWeight: 900,
-            letterSpacing: "-0.02em",
-            color: "#fff",
-            marginBottom: 12,
-            lineHeight: 1,
-          }}>
-            {project.title}
-          </h1>
-          <p style={{ fontSize: 16, color: "#666", lineHeight: 1.6, marginBottom: 24 }}>
-            {project.description}
-          </p>
-
-          {/* Tags */}
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 28 }}>
-            {project.stack.map((t) => (
-              <span key={t} style={{
-                padding: "4px 12px", borderRadius: 20, fontSize: 11,
-                background: "#1a1a1a", color: "#888", border: "1px solid #252525",
-              }}>{t}</span>
-            ))}
-          </div>
-
-          {/* Links */}
-          <div style={{ display: "flex", gap: 10 }}>
-            {project.repoUrl && (
-              <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" style={{
-                padding: "8px 20px", borderRadius: 8, fontSize: 12, fontWeight: 600,
-                background: "#1a1a1a", border: "1px solid #252525",
-                color: "#ccc", textDecoration: "none",
-              }}>
-                View on GitHub →
-              </a>
+    <>
+      <SiteHeader />
+      <main className="article">
+        <article className="article-inner">
+          <Link className="article-back" href="/#archive">← All projects</Link>
+          <header className="article-head">
+            <span className="idx-kicker">Project{project.year && ` · ${project.year}`}</span>
+            <h1 className="article-title">{project.title}</h1>
+            <p className="article-lead">{project.description}</p>
+            {project.stack.length > 0 && (
+              <ul className="article-tags" aria-label="Tech stack">
+                {project.stack.map((item) => <li key={item}>{item}</li>)}
+              </ul>
             )}
-            {project.liveUrl && (
-              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" style={{
-                padding: "8px 20px", borderRadius: 8, fontSize: 12, fontWeight: 600,
-                background: "#a78bfa", color: "#fff", textDecoration: "none",
-              }}>
-                Live Demo →
-              </a>
+            {(project.repoUrl || project.liveUrl) && (
+              <div className="article-links">
+                {project.repoUrl && (
+                  <a className="nav-cta" href={project.repoUrl} target="_blank" rel="noreferrer">View code ↗</a>
+                )}
+                {project.liveUrl && (
+                  <a className="nav-cta" href={project.liveUrl} target="_blank" rel="noreferrer">Open live ↗</a>
+                )}
+              </div>
             )}
-          </div>
-        </div>
+          </header>
+          {project.longDescription && (
+            <div className="article-body">
+              <PostContent content={project.longDescription} />
+            </div>
+          )}
+        </article>
 
-        {/* Divider */}
-        <div style={{ height: 1, background: "#1a1a1a", marginBottom: 48 }} />
-
-        {/* Long description */}
-        <div style={{ fontSize: 15, lineHeight: 1.9, color: "#888" }}>
-          {paragraphs.map((para, i) => (
-            <p key={i} style={{ marginBottom: 20 }}>{para}</p>
-          ))}
-        </div>
-
-        {/* Divider */}
-        <div style={{ height: 1, background: "#1a1a1a", margin: "60px 0 40px" }} />
-
-        {/* Other projects */}
-        <div>
-          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", color: "#444", marginBottom: 16 }}>
-            OTHER PROJECTS
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {others.map((p) => (
-              <Link key={p.slug} href={`/projects/${p.slug}`} style={{ textDecoration: "none" }}>
-                <div style={{
-                  padding: "14px 16px", borderRadius: 10,
-                  background: "#141414", border: "1px solid #1e1e1e",
-                  display: "flex", justifyContent: "space-between", alignItems: "center",
-                  transition: "border-color 0.2s",
-                }}>
-                  <div>
-                    <div style={{ fontSize: 13, fontWeight: 700, color: "#e0e0e0", marginBottom: 2 }}>{p.title}</div>
-                    <div style={{ fontSize: 11, color: "#555" }}>{p.description}</div>
-                  </div>
-                  <span style={{ color: "#333", fontSize: 16, flexShrink: 0 }}>→</span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </div>
-    </main>
+        {others.length > 0 && (
+          <aside className="article-inner article-more">
+            <span className="archive-label">Other projects</span>
+            <div className="archive-list compact-list">
+              {others.map((p) => <ProjectRow key={p.slug} project={p} internal />)}
+            </div>
+          </aside>
+        )}
+      </main>
+      <SiteFooter />
+    </>
   );
 }

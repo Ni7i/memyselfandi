@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import { getDeploymentInfo } from "@/lib/admin/deployment";
 import { loadForAdmin } from "@/lib/admin/load";
 import { requireAdmin } from "@/lib/auth/guard";
@@ -7,6 +8,7 @@ import { postStore } from "@/lib/content/posts";
 import { projectStore } from "@/lib/content/projects";
 import { REPOSITORY_URL } from "@/lib/site";
 import { formatTimestamp } from "../_components/format";
+import StatusReport, { StatusReportFallback } from "../_components/StatusReport";
 import StorageNotice from "../_components/StorageNotice";
 
 export const metadata: Metadata = { title: "Dashboard" };
@@ -43,6 +45,13 @@ export default async function DashboardPage() {
       </div>
 
       <StorageNotice connected={storage.connected} reachable={storage.reachable} />
+
+      <section style={{ marginBottom: 40 }}>
+        <h2 className="adm-kicker" style={{ marginBottom: 14 }}>Website-Status</h2>
+        <Suspense fallback={<StatusReportFallback />}>
+          <StatusReport />
+        </Suspense>
+      </section>
 
       <div className="adm-grid">
         <Link className="adm-card" href="/admin/projects">

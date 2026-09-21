@@ -1,5 +1,6 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import BlogIndex from "@/app/blog/page";
 import BlogPostPage from "@/app/blog/[slug]/page";
 import Home from "@/app/page";
 import ProjectPage from "@/app/projects/[slug]/page";
@@ -45,11 +46,50 @@ describe("homepage", () => {
   });
 });
 
+describe("navigation", () => {
+  it("links the blog from the header and footer", async () => {
+    const html = renderToStaticMarkup(await Home());
+    expect(html.match(/<a href="\/blog">Blog<\/a>/g)).toHaveLength(2);
+    expect(html).toContain('<a href="#about">About</a>');
+  });
+
+  it("points section links back to the homepage from other pages", async () => {
+    const html = renderToStaticMarkup(await BlogIndex());
+    expect(html).toContain('<a href="/#about">About</a>');
+    expect(html).toContain('<a class="nav-cta" href="/#contact">Get in touch</a>');
+  });
+});
+
+describe("blog index", () => {
+  it("lists the published posts, newest first", async () => {
+    const html = renderToStaticMarkup(await BlogIndex());
+    expect(html).toContain('id="posts"');
+    expect(html).toContain('<span class="idx-count">2 posts</span>');
+    expect(html.indexOf("Why I ditched Unity")).toBeLessThan(html.indexOf("Making WPF not look like Windows XP"));
+    expect(html).toContain('href="/blog/unity-to-csharp"');
+  });
+
+  it("hides drafts and handles an empty blog", async () => {
+    configureKv();
+    const { postStore } = await import("@/lib/content/posts");
+    const post = (await postStore.get("wpf-modern-ui", "admin"))!;
+    await postStore.update(post.slug, { ...post, published: false });
+    expect(renderToStaticMarkup(await BlogIndex())).not.toContain("Making WPF");
+
+    await postStore.remove("wpf-modern-ui");
+    await postStore.remove("unity-to-csharp");
+    expect(renderToStaticMarkup(await BlogIndex())).toContain("No posts yet");
+  });
+});
+
 describe("detail pages", () => {
   it("renders a published blog post with its date as before", async () => {
     const html = renderToStaticMarkup(await BlogPostPage(params("unity-to-csharp")));
-    expect(html).toContain("Why I ditched Unity for pure C#");
+    expect(html).toContain('<h1 class="article-title">Why I ditched Unity for pure C#</h1>');
     expect(html).toContain("March 2025");
+    expect(html).toContain("<h2>What I learned changes how you write code</h2>");
+    expect(html).toContain("<strong>state machines are everything</strong>");
+    expect(html).toContain("More posts");
   });
 
   it("renders a published project and hides drafts", async () => {
@@ -66,6 +106,7 @@ describe("robots and sitemap", () => {
 
     const urls = (await sitemap()).map((entry) => entry.url);
     expect(urls[0]).toBe("https://enisshorra.ch");
+    expect(urls[1]).toBe("https://enisshorra.ch/blog");
     expect(urls.every((url) => url.startsWith("https://enisshorra.ch"))).toBe(true);
     expect(urls).toContain("https://enisshorra.ch/blog/unity-to-csharp");
     expect(urls.some((url) => url.includes("/admin") || url.includes("whiteplayer"))).toBe(false);

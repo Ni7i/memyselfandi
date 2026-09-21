@@ -1,5 +1,8 @@
 import { NextRequest } from "next/server";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { getAuthConfig } from "@/lib/auth/config";
+import { createSessionToken, sessionCookieName } from "@/lib/auth/session";
+import { safeAdminPath } from "@/lib/auth/verify";
 import { proxy } from "@/proxy";
 import { adminCookie, configureAuth, params, unconfigureKv } from "../helpers/auth";
 
@@ -32,10 +35,26 @@ afterEach(() => {
 });
 
 describe("proxy", () => {
-  it.each(["/admin", "/admin/projects", "/admin/blog/new", "/admin/deployment"])("redirects %s to the login without a session", (path) => {
-    const response = visit(path);
+  it("redirects /admin to the login without a session", () => {
+    const response = visit("/admin");
     expect(response.status).toBe(307);
     expect(response.headers.get("location")).toBe("http://localhost/admin/login");
+  });
+
+  it.each(["/admin/projects", "/admin/blog/new", "/admin/deployment"])("redirects %s to the login and remembers the page", (path) => {
+    const response = visit(path);
+    expect(response.status).toBe(307);
+    expect(response.headers.get("location")).toBe(`http://localhost/admin/login?next=${encodeURIComponent(path)}`);
+  });
+
+  it("sends an expired session to the login with a notice and clears the cookie", () => {
+    const config = getAuthConfig()!;
+    const stale = createSessionToken(config.sessionKey, Date.now() - 16 * 60 * 1000);
+    const response = visit("/admin/blog", `${sessionCookieName()}=${stale}`);
+
+    expect(response.status).toBe(307);
+    expect(response.headers.get("location")).toBe("http://localhost/admin/login?next=%2Fadmin%2Fblog&expired=1");
+    expect(response.headers.get("set-cookie")).toMatch(/^admin_session=;.*Max-Age=0/);
   });
 
   it("rejects admin API calls without a session with 401", async () => {
@@ -91,5 +110,15 @@ describe("admin pages without the proxy", () => {
     browserCookie.value = adminCookie();
     const Page = (await load()).default as (props: unknown) => Promise<unknown>;
     await expect(Page(params(slug))).resolves.toBeTruthy();
+  });
+});
+
+describe("post-login destination", () => {
+  it("only allows admin paths on this site", () => {
+    expect(safeAdminPath("/admin/projects/quizlot")).toBe("/admin/projects/quizlot");
+    expect(safeAdminPath("/admin")).toBe("/admin");
+    for (const unsafe of ["https://evil.example", "//evil.example", "/admin//evil.example", "/admin\\evil", "/adminx", "/admin/login", "/", "", null, undefined]) {
+      expect(safeAdminPath(unsafe)).toBe("/admin");
+    }
   });
 });

@@ -4,7 +4,14 @@ import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 import { sendJson } from "../_components/api";
 
-export default function LoginForm() {
+interface Props {
+  /** Admin path to return to after logging in (already validated on the server). */
+  next: string;
+  expired: boolean;
+  sessionMinutes: number;
+}
+
+export default function LoginForm({ next, expired, sessionMinutes }: Props) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -18,7 +25,7 @@ export default function LoginForm() {
 
     const result = await sendJson("POST", "/api/admin/login", { password });
     if (result.ok) {
-      router.replace("/admin");
+      router.replace(next);
       router.refresh();
       return;
     }
@@ -29,6 +36,12 @@ export default function LoginForm() {
 
   return (
     <form className="adm-form" onSubmit={handleSubmit}>
+      {expired && !error && (
+        <div className="adm-notice" role="status" style={{ marginBottom: 0 }}>
+          <strong>Sitzung abgelaufen</strong>
+          <span>Aus Sicherheitsgründen gilt eine Anmeldung {sessionMinutes} Minuten. Bitte neu anmelden.</span>
+        </div>
+      )}
       <label className="adm-field" data-invalid={error ? "true" : undefined}>
         <span className="adm-field-label">Passwort</span>
         <input

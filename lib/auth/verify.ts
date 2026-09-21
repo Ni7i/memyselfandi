@@ -1,11 +1,15 @@
 import "server-only";
 import { getAuthConfig } from "./config";
-import { readCookie, sessionCookieName, verifySessionToken } from "./session";
+import { readCookie, sessionCookieName, verifySessionToken, type SessionClaims } from "./session";
+
+export function getSessionClaims(token: string | undefined): SessionClaims | null {
+  const config = getAuthConfig();
+  if (!config) return null;
+  return verifySessionToken(token, config.sessionKey);
+}
 
 export function isValidSessionToken(token: string | undefined): boolean {
-  const config = getAuthConfig();
-  if (!config) return false;
-  return verifySessionToken(token, config.sessionKey) !== null;
+  return getSessionClaims(token) !== null;
 }
 
 /** For route handlers: checks the session cookie on the incoming request. */
@@ -25,4 +29,12 @@ export function isSameOrigin(request: Request): boolean {
   } catch {
     return false;
   }
+}
+
+/** Only same-site admin paths are allowed as a post-login destination. */
+export function safeAdminPath(value: string | null | undefined): string {
+  if (!value || value.length > 200) return "/admin";
+  if (value !== "/admin" && !value.startsWith("/admin/")) return "/admin";
+  if (value.startsWith("/admin/login") || value.includes("//") || value.includes("\\")) return "/admin";
+  return value;
 }

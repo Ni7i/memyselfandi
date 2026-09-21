@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "*.lastfm.freetls.fastly.net" },
     ],
   },
+  async redirects() {
+    // There is no separate projects index; the archive lives on the homepage.
+    return [{ source: "/projects", destination: "/#archive", permanent: false }];
+  },
   async headers() {
     return [
       {

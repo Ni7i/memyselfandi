@@ -36,6 +36,6 @@ export function getAuthConfig(): AuthConfig | null {
   }
 
   // Binding the key to the password hash invalidates all sessions when the password changes.
-  const sessionKey = createHmac("sha256", secret).update(storedHash.trim()).digest();
+  const sessionKey = createHmac("sha256", secret).update("admin-session-jwt\0").update(storedHash.trim()).digest();
   return { passwordHash, sessionKey };
 }

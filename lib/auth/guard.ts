@@ -1,11 +1,13 @@
 import "server-only";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { sessionCookieName } from "./session";
-import { isValidSessionToken } from "./verify";
+import { sessionCookieName, type SessionClaims } from "./session";
+import { getSessionClaims } from "./verify";
 
 /** For admin pages: runs on every render, independent of the proxy. */
-export async function requireAdmin(): Promise<void> {
+export async function requireAdmin(): Promise<SessionClaims> {
   const token = (await cookies()).get(sessionCookieName())?.value;
-  if (!isValidSessionToken(token)) redirect("/admin/login");
+  const claims = getSessionClaims(token);
+  if (!claims) redirect(token ? "/admin/login?expired=1" : "/admin/login");
+  return claims;
 }

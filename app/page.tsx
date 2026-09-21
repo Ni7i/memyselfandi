@@ -1,8 +1,8 @@
-import Link from "next/link";
 import ContactForm from "@/components/ContactForm";
+import ProjectRow from "@/components/ProjectRow";
+import SiteFooter from "@/components/SiteFooter";
+import SiteHeader from "@/components/SiteHeader";
 import { getPublishedProjects } from "@/lib/content/projects";
-import { projectLink } from "@/lib/content/format";
-import type { Project } from "@/lib/content/types";
 import TypedTitle from "./TypedTitle";
 
 // Projects are managed in /admin and read on every request.
@@ -36,19 +36,6 @@ const CERTIFICATES = [
   },
 ];
 
-function ArchiveRow({ project, number }: { project: Project; number?: number }) {
-  const { href, external } = projectLink(project);
-  return (
-    <a className="archive-row" href={href} {...(external ? { rel: "noreferrer", target: "_blank" } : {})}>
-      {number !== undefined && <span className="archive-number">{String(number).padStart(2, "0")}</span>}
-      <h3>{project.title}</h3>
-      <p>{project.description}</p>
-      <span className="archive-stack">{project.stack.join(" · ")}</span>
-      <span className="archive-arrow" aria-hidden="true">↗</span>
-    </a>
-  );
-}
-
 export default async function Home() {
   const projects = await getPublishedProjects();
   const topProjects = projects.filter((project) => project.featured);
@@ -56,19 +43,7 @@ export default async function Home() {
 
   return (
     <>
-      <nav className="nav">
-        <Link href="/" className="logo" aria-label="Enis Shorra">
-          <span className="top">ENIS</span>
-          <span className="bot">SHORRA</span>
-        </Link>
-        <div className="nav-links">
-          <a href="#about">About</a>
-          <a href="#archive">Projects</a>
-          <a href="#certificates">Certificates</a>
-          <a href="#contact">Contact</a>
-        </div>
-        <a className="nav-cta" href="#contact">Get in touch</a>
-      </nav>
+      <SiteHeader onHome />
 
       <section className="intro">
         <div className="intro-inner">
@@ -141,7 +116,7 @@ export default async function Home() {
             <span className="archive-label">Top projects</span>
             <div className="archive-list top-list">
               {topProjects.map((project, index) => (
-                <ArchiveRow key={project.slug} number={index + 1} project={project} />
+                <ProjectRow key={project.slug} number={index + 1} project={project} />
               ))}
             </div>
           </div>
@@ -150,7 +125,7 @@ export default async function Home() {
             <span className="archive-label">More work</span>
             <div className="archive-list">
               {moreProjects.map((project) => (
-                <ArchiveRow key={project.slug} project={project} />
+                <ProjectRow key={project.slug} project={project} />
               ))}
             </div>
           </div>
@@ -196,37 +171,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <footer className="foot-wrap">
-        <div className="foot">
-          <div>
-            <h4>Enis Shorra</h4>
-            <p className="foot-word">
-              Eighteen. Switzerland. Building things,
-              <em> one weekend at a time.</em>
-            </p>
-          </div>
-          <div>
-            <h4>Elsewhere</h4>
-            <ul>
-              <li><a href="https://github.com/Ni7i" target="_blank" rel="noreferrer">GitHub</a></li>
-              <li><a href="https://linkedin.com/in/enis-shorra" target="_blank" rel="noreferrer">LinkedIn</a></li>
-              <li><a href="https://discord.com/users/nisi_17" target="_blank" rel="noreferrer">Discord</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4>Explore</h4>
-            <ul>
-              <li><a href="#contact">Contact</a></li>
-              <li><a href="#archive">Projects</a></li>
-              <li><a href="#certificates">Certificates</a></li>
-            </ul>
-          </div>
-        </div>
-        <div className="foot-bar">
-          <span>&copy; Enis Shorra &middot; 2026</span>
-          <span>Limmattal, Switzerland</span>
-        </div>
-      </footer>
+      <SiteFooter onHome />
     </>
   );
 }

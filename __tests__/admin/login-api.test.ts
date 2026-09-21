@@ -34,11 +34,11 @@ describe("POST /api/admin/login", () => {
 
     expect(response.status).toBe(200);
     const cookie = response.headers.get("set-cookie")!;
-    expect(cookie).toMatch(/^admin_session=[\w-]+\.[\w-]+;/);
+    expect(cookie).toMatch(/^admin_session=[\w-]+\.[\w-]+\.[\w-]+;/);
     expect(cookie).toContain("HttpOnly");
     expect(cookie).toMatch(/SameSite=strict/i);
     expect(cookie).toContain("Path=/");
-    expect(cookie).toContain("Max-Age=28800");
+    expect(cookie).toContain("Max-Age=900");
     expect(cookie).not.toContain(TEST_PASSWORD);
 
     const followUp = apiRequest("/api/admin/projects", { cookie: cookieFrom(response) });

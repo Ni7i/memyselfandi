@@ -1,9 +1,13 @@
 import Link from "next/link";
+import { requireAdmin } from "@/lib/auth/guard";
 import AdminNav from "../_components/AdminNav";
 import LogoutButton from "../_components/LogoutButton";
+import SessionTimer from "../_components/SessionTimer";
 
-// Signed-in area. The session is verified by each page (requireAdmin) and by the proxy.
-export default function PanelLayout({ children }: { children: React.ReactNode }) {
+// Signed-in area. The session is verified here, by each page (requireAdmin) and by the proxy.
+export default async function PanelLayout({ children }: { children: React.ReactNode }) {
+  const session = await requireAdmin();
+
   return (
     <>
       <header className="adm-header">
@@ -15,7 +19,10 @@ export default function PanelLayout({ children }: { children: React.ReactNode })
           <span className="adm-brand-name">Portfolio Admin</span>
         </div>
         <AdminNav />
-        <LogoutButton />
+        <div className="adm-header-end">
+          <SessionTimer expiresAt={session.exp} />
+          <LogoutButton />
+        </div>
       </header>
       <main className="adm-main">{children}</main>
     </>

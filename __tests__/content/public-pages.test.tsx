@@ -28,7 +28,7 @@ describe("homepage", () => {
       '<a class="archive-row" href="https://github.com/Ni7i/screentime-blocker" rel="noreferrer" target="_blank"><span class="archive-number">01</span><h3>screentime-blocker</h3><p>A macOS menu-bar app that blocks distracting websites and apps behind a personal code.</p><span class="archive-stack">Python · macOS · SHA-256</span>',
     );
     expect(html).toContain(
-      '<a class="archive-row" href="https://github.com/Ni7i/Saveword/tree/main/LockBox-main" rel="noreferrer" target="_blank"><h3>LockBox</h3>',
+      '<a class="archive-row" href="https://github.com/Ni7i/LockBox" rel="noreferrer" target="_blank"><h3>LockBox</h3>',
     );
     const titles = [...html.matchAll(/<h3>([^<]+)<\/h3>/g)].map((match) => match[1]).slice(0, 8);
     expect(titles).toEqual(["screentime-blocker", "memyselfandi", "Quizlot", "NoteVault", "Twinn", "midnight-calculator", "LockBox", "Oase Jugendraum"]);

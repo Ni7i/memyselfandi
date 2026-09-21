@@ -75,7 +75,7 @@ export const seedProjects: Project[] = [
     title: "LockBox",
     description: "A local terminal password manager with an encrypted vault and secure password generation.",
     stack: ["C#", ".NET 8", "AES-256"],
-    repoUrl: "https://github.com/Ni7i/Saveword/tree/main/LockBox-main",
+    repoUrl: "https://github.com/Ni7i/LockBox",
     order: 7,
   }),
   project({

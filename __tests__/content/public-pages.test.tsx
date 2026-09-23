@@ -87,8 +87,8 @@ describe("detail pages", () => {
     const html = renderToStaticMarkup(await BlogPostPage(params("unity-to-csharp")));
     expect(html).toContain('<h1 class="article-title">Why I ditched Unity for pure C#</h1>');
     expect(html).toContain("March 2025");
-    expect(html).toContain("<h2>What I learned changes how you write code</h2>");
-    expect(html).toContain("<strong>state machines are everything</strong>");
+    expect(html).toContain("<h2>Most of what I copied from tutorials, I never needed</h2>");
+    expect(html).toContain("<strong>months</strong>");
     expect(html).toContain("More posts");
   });
 

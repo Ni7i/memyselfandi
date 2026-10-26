@@ -3,11 +3,12 @@
  *   ["b", tone, outline, centerline, length, maskWidth, t0, t1]  a pen stroke
  *   ["f", tone, shape, t0, t1]                                   a filled shape
  *   ["t", tone, centerline, length, width, t0, t1]               the red thread
+ * An optional last entry names how the item moves in the breeze ("curl", "wisp", "light").
  */
 export type ArtItem =
-  | ["b", string, string, string, number, number, number, number]
-  | ["f", string, string, number, number]
-  | ["t", string, string, number, number, number, number];
+  | ["b", string, string, string, number, number, number, number, string?]
+  | ["f", string, string, number, number, string?]
+  | ["t", string, string, number, number, number, number, string?];
 
 export interface ArtData {
   name: string;

@@ -12,13 +12,18 @@
     <!-- one short mass from the sideburn around the ear to the nape -->
     <path class="fill" data-tone="dark" d="M149,106 L247,114 C251,133 248,157 236,177 C230,186 222,192 214,196 C210,182 202,168 190,158 C189,146 184,138 176,136 C168,135 163,138 160,141 C158,130 153,118 149,106 Z"/>
     <path class="fill" data-tone="dark" d="M98,101 C118,103 136,105 150,107 C138,110 118,110 101,107 Z"/>
-    <path class="ink" data-tone="paper" data-w="0.9" d="M200,121 C214,128 226,140 232,156"/>
-    <path class="ink" data-tone="paper" data-w="0.8" d="M188,127 C198,133 205,142 209,152"/>
+    <path class="ink" data-tone="paper" data-w="0.9" data-sway="light" d="M200,121 C214,128 226,140 232,156"/>
+    <path class="ink" data-tone="paper" data-w="0.8" data-sway="light" d="M188,127 C198,133 205,142 209,152"/>
+    <!-- loose wisps under the cap: these are what the breeze catches -->
+    <path class="ink" data-tone="dark" data-w="2.4" data-taper="0.05 0.9" data-sway="wisp" d="M242,124 C251,130 257,138 261,149"/>
+    <path class="ink" data-tone="dark" data-w="2" data-taper="0.05 0.9" data-sway="wisp" d="M238,144 C246,150 251,158 253,168"/>
+    <path class="ink" data-tone="dark" data-w="1.8" data-taper="0.05 0.9" data-sway="wisp" d="M226,172 C231,179 234,187 233,196"/>
+    <path class="ink" data-tone="dark" data-w="1.4" data-taper="0.05 0.9" data-sway="wisp" d="M248,116 C256,119 262,124 266,131"/>
     <!-- the curl: three strands from under the brim, the longest hooking back like a question mark -->
-    <path class="ink" data-w="3.6" data-taper="0.03 0.75" d="M101,100 C93,102 87,108 85,116 C83,124 87,131 94,130 C98,129.5 100,125 97,121.5 C95,119.5 92.5,120 92.5,122.5"/>
-    <path class="ink" data-w="2.4" data-taper="0.04 0.8" d="M105,101 C98,104 92,109 89,116 C87.5,120 88,124 90,126"/>
-    <path class="ink" data-w="1.6" data-taper="0.05 0.85" d="M109,101.5 C104,104 100,107 97,111"/>
-    <path class="ink" data-w="0.8" data-taper="0.1 0.9" d="M99,102 C95,108 94,113 96,117"/>
+    <path class="ink" data-w="3.6" data-taper="0.03 0.75" data-sway="curl" d="M101,100 C93,102 87,108 85,116 C83,124 87,131 94,130 C98,129.5 100,125 97,121.5 C95,119.5 92.5,120 92.5,122.5"/>
+    <path class="ink" data-w="2.4" data-taper="0.04 0.8" data-sway="curl" d="M105,101 C98,104 92,109 89,116 C87.5,120 88,124 90,126"/>
+    <path class="ink" data-w="1.6" data-taper="0.05 0.85" data-sway="curl" d="M109,101.5 C104,104 100,107 97,111"/>
+    <path class="ink" data-w="0.8" data-taper="0.1 0.9" data-sway="curl" d="M99,102 C95,108 94,113 96,117"/>
   </g>
 
   <g id="face">

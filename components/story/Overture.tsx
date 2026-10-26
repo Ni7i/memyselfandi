@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, type ReactNode } from "react";
+import { Breeze } from "@/components/art/breeze";
 import { Drawing } from "@/components/art/drawing";
 
 /** Scene coordinates of the opening drawing (art/scene-bench.svg). */
@@ -102,6 +103,7 @@ export default function Overture({ scene, memory }: Props) {
     const first = firstRef.current!;
     const bench = new Drawing(sceneRef.current!);
     const child = new Drawing(memoryRef.current!);
+    const breeze = new Breeze(sceneRef.current!);
     bench.set(0);
     child.set(0);
     section.classList.add("is-live");
@@ -140,6 +142,7 @@ export default function Overture({ scene, memory }: Props) {
         const t = clamp((now - introStart) / INTRO_MS);
         bench.set(ease(t));
         introDone = t >= 1;
+        if (introDone) breeze.play();
         if (!introDone) frame = requestAnimationFrame(render);
       }
 
@@ -162,6 +165,11 @@ export default function Overture({ scene, memory }: Props) {
       // Inside the thought: the question, then Enis at three with the mouse
       stage.style.setProperty("--memory", String(range(p, 0.68, 0.76)));
       child.set(range(p, 0.72, 0.95));
+      // The breeze keeps moving his hair whenever he is on screen, scrolled or not
+      if (introDone) {
+        if (p < 0.6 && !breeze.active) breeze.play();
+        else if (p >= 0.6 && breeze.active) breeze.pause();
+      }
     };
 
     const schedule = () => {
@@ -178,6 +186,7 @@ export default function Overture({ scene, memory }: Props) {
     addEventListener("resize", resize);
     return () => {
       cancelAnimationFrame(frame);
+      breeze.pause();
       removeEventListener("scroll", schedule);
       removeEventListener("resize", resize);
     };

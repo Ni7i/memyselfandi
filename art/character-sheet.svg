@@ -3,6 +3,12 @@
        then the three heads large, side by side. Labels are set in HTML on the studio page. -->
   <g id="lineup">
     <g data-include="_figure-child" transform="translate(40,250)"/>
+    <g transform="translate(40,250)">
+      <g id="cable">
+    <!-- the mouse cable: out of the front, down to the floor, a curl round his feet, then away -->
+    <path class="thread" data-w="1.6" d="M150,210 C140,212 136,224 138,250 C140,290 146,340 150,378 C152,394 162,404 182,406 C206,408 232,404 244,398 C252,392 248,384 238,386 C226,390 232,402 252,406 C290,412 330,410 400,408"/>
+      </g>
+    </g>
     <g data-include="_figure-teen" transform="translate(330,50)"/>
     <g data-include="_figure-seated" transform="translate(560,90)"/>
     <g transform="translate(560,90)">

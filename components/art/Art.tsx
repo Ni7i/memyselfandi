@@ -10,8 +10,8 @@ export default function Art({ data, className }: { data: ArtData; className?: st
     <g className={className} data-art={data.name}>
       {data.items.map((item, i) => {
         if (item[0] === "b") {
-          const [, tone, outline, center, , maskWidth, t0, t1] = item;
-          return <path key={i} className={`a-b t-${tone}`} d={outline} data-c={center} data-w={maskWidth} data-t={`${t0} ${t1}`} />;
+          const [, tone, outline, center, , maskWidth, t0, t1, sway] = item;
+          return <path key={i} className={`a-b t-${tone}`} d={outline} data-c={center} data-w={maskWidth} data-t={`${t0} ${t1}`} data-sway={sway} />;
         }
         if (item[0] === "f") {
           const [, tone, shape, t0, t1] = item;

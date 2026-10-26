@@ -1,4 +1,10 @@
 <svg viewBox="0 0 320 360">
   <!-- Scene 2, inside the thought: Enis at three with the computer mouse, its red cable on the floor. -->
   <g id="child" data-include="_figure-child" transform="translate(-80,-56)"/>
+  <g transform="translate(-80,-56)">
+    <g id="cable">
+    <!-- the mouse cable: out of the front, down to the floor, a curl round his feet, then away -->
+    <path class="thread" data-w="1.6" d="M150,210 C140,212 136,224 138,250 C140,290 146,340 150,378 C152,394 162,404 182,406 C206,408 232,404 244,398 C252,392 248,384 238,386 C226,390 232,402 252,406 C290,412 330,410 400,408"/>
+    </g>
+  </g>
 </svg>

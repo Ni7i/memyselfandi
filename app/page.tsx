@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import ContactForm from "@/components/ContactForm";
 import ProjectRow from "@/components/ProjectRow";
@@ -76,8 +75,8 @@ export default async function Home() {
 
       <section className="hero">
         <div className="hero-inner">
+          <h1 className="hero-title">Enis<br />Shorra</h1>
           <div className="hero-copy">
-            <h1 className="hero-title">Enis<br />Shorra</h1>
             <p className="hero-sub">
               The personal site of an eighteen-year-old developer from
               Switzerland: what I build, what I&apos;m into, and where
@@ -96,17 +95,6 @@ export default async function Home() {
               ))}
             </div>
           </div>
-          <figure className="hero-photo">
-            <Image
-              src="/gallery/new-2.jpg"
-              alt="Lake Lucerne with mountains under a cloudy sky"
-              width={2000}
-              height={1500}
-              sizes="(max-width: 1080px) 100vw, 46vw"
-              priority
-            />
-            <figcaption>Vierwaldstättersee, 2024</figcaption>
-          </figure>
         </div>
       </section>
 
@@ -173,19 +161,16 @@ export default async function Home() {
           <h2>Certificates</h2>
           <p>Courses &amp; milestones</p>
         </div>
-        <div className="cert-grid">
+        <div className="cert-list">
           {CERTIFICATES.map((certificate, index) => (
             <a
-              className="cert-card"
+              className="cert-row"
               href={certificate.url}
               key={certificate.title}
               rel="noreferrer"
               target="_blank"
             >
-              <span className="cert-top">
-                <span>0{index + 1}</span>
-                <span aria-hidden="true">↗</span>
-              </span>
+              <span className="cert-number">0{index + 1}</span>
               <h3>{certificate.title}</h3>
               <p>{certificate.detail}</p>
             </a>
@@ -194,7 +179,7 @@ export default async function Home() {
       </Section>
 
       <Section id="contact" index="04" label="Contact">
-        <div className="contact-panel">
+        <div className="contact-grid">
           <div>
             <h2 className="contact-title">Currently looking for the right team.</h2>
             <p className="contact-sub">

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import ContactForm from "@/components/ContactForm";
 import ProjectRow from "@/components/ProjectRow";
@@ -76,40 +77,36 @@ export default async function Home() {
       <section className="hero">
         <div className="hero-inner">
           <div className="hero-copy">
-            <h1 className="hero-title">
-              Enis Shorra
-              <span>Application developer from the Limmattal.</span>
-            </h1>
+            <h1 className="hero-title">Enis<br />Shorra</h1>
             <p className="hero-sub">
               The personal site of an eighteen-year-old developer from
               Switzerland: what I build, what I&apos;m into, and where
               this is going.
             </p>
+            <p className="hero-facts">
+              {FACTS.map((fact) => fact.value).join(" / ")}
+              <br />
+              <span className="hero-open">Open for an apprenticeship.</span>
+            </p>
             <div className="hero-actions">
-              <a className="btn btn-solid" href="#archive">See projects</a>
-              <Link className="btn btn-line" href="/blog">Read the blog</Link>
+              <a className="text-link" href="#archive">See projects →</a>
+              <Link className="text-link" href="/blog">Read the blog →</Link>
+              {SOCIALS.map((social) => (
+                <a key={social.label} className="text-link quiet" href={social.url} target="_blank" rel="noreferrer">{social.label}</a>
+              ))}
             </div>
           </div>
-
-          <aside className="status-card">
-            <p className="status">
-              <span className="status-dot" aria-hidden="true" />
-              Available for an apprenticeship
-            </p>
-            <dl className="status-list">
-              {FACTS.map((fact) => (
-                <div key={fact.label}>
-                  <dt>{fact.label}</dt>
-                  <dd>{fact.value}</dd>
-                </div>
-              ))}
-            </dl>
-            <div className="status-links">
-              {SOCIALS.map((social) => (
-                <a key={social.label} href={social.url} target="_blank" rel="noreferrer">{social.label} ↗</a>
-              ))}
-            </div>
-          </aside>
+          <figure className="hero-photo">
+            <Image
+              src="/gallery/new-2.jpg"
+              alt="Lake Lucerne with mountains under a cloudy sky"
+              width={2000}
+              height={1500}
+              sizes="(max-width: 1080px) 100vw, 46vw"
+              priority
+            />
+            <figcaption>Vierwaldstättersee, 2024</figcaption>
+          </figure>
         </div>
       </section>
 

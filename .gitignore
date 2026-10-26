@@ -43,3 +43,6 @@ next-env.d.ts
 
 # art build previews
 /art/.preview/
+
+# static one-file export of the homepage, generated for local viewing
+/der-rote-faden.html

@@ -28,7 +28,8 @@ describe("homepage", () => {
     expect(html).toContain('<p class="info-text">A macOS menu-bar app that blocks distracting websites and apps behind a personal code.</p>');
     expect(html).toContain('<a href="https://github.com/Ni7i/screentime-blocker" target="_blank" rel="noreferrer">View code ↗</a>');
     expect(html).toContain('<a href="https://github.com/Ni7i/LockBox" target="_blank" rel="noreferrer">View code ↗</a>');
-    const titles = [...html.matchAll(/class="showcase-title"[^>]*>([^<]+)<\/button>/g)].map((match) => match[1]).slice(0, 8);
+    const archive = html.slice(html.indexOf('id="archive"'));
+    const titles = [...archive.matchAll(/class="showcase-title"[^>]*>([^<]+)<\/button>/g)].map((match) => match[1]).slice(0, 8);
     expect(titles).toEqual(["screentime-blocker", "memyselfandi", "Quizlot", "NoteVault", "Twinn", "midnight-calculator", "LockBox", "Oase Jugendraum"]);
     expect(html).not.toContain("WhitePlayer");
   });

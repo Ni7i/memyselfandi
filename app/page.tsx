@@ -1,26 +1,54 @@
-import Link from "next/link";
 import ContactForm from "@/components/ContactForm";
+import Scene from "@/components/Scene";
 import ScrollReveal from "@/components/ScrollReveal";
 import Showcase, { type ShowcaseItem } from "@/components/Showcase";
 import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
+import Thread from "@/components/Thread";
 import { getPublishedProjects } from "@/lib/content/projects";
 import type { Project } from "@/lib/content/types";
 
 // Projects are managed in /admin and read on every request.
 export const dynamic = "force-dynamic";
 
-const FACTS = [
+const QUICK_FACTS = [
   { label: "School", value: "IMS Baden" },
-  { label: "Track", value: "Berufsmatura + EFZ Informatiker" },
+  { label: "Programme", value: "Informatikmittelschule" },
+  { label: "Diploma", value: "EFZ Informatiker + Berufsmatura" },
   { label: "Years", value: "2024-2028" },
-  { label: "Based in", value: "Limmattal, Switzerland" },
+  { label: "Based in", value: "Limmattal" },
+  { label: "Age", value: "18" },
 ];
 
-const SOCIALS = [
-  { label: "GitHub", url: "https://github.com/Ni7i" },
-  { label: "LinkedIn", url: "https://linkedin.com/in/enis-shorra" },
-  { label: "Discord", url: "https://discord.com/users/nisi_17" },
+const CORE_SKILLS = [
+  { title: "C# & .NET", note: "LockBox, NoteVault and desktop apps in WPF" },
+  { title: "Web", note: "React, Next.js and TypeScript, like this site" },
+  { title: "Python", note: "screentime-blocker and the Oase Jugendraum app" },
+  { title: "UI design", note: "Spacing, motion and states, in WPF and Figma" },
+];
+
+/** Said one at a time, large, while the thread keeps going. */
+const TRAITS = [
+  "I'm passionate about what I build.",
+  "I work with AI, and I deliver.",
+  "I don't ship AI slop.",
+  "I'm reliable.",
+  "I give a group structure.",
+  "I stay with a problem.",
+  "I want to keep learning.",
+];
+
+const PROMISES = ["I don't give up.", "I work hard.", "I keep my word.", "I don't lie."];
+
+/** CSS custom properties for a step that shows up at scene progress `at`. */
+const step = (at: number, extra: Record<string, number> = {}) => ({ "--at": at, ...extra }) as React.CSSProperties;
+
+const PATH = [
+  { when: "Before 2024", title: "Unity prototypes", text: "A year of small games in Unity. None of them shipped, but that is where building things started for me." },
+  { when: "2024", title: "IMS Baden", text: "Started the Informatikmittelschule: three years of school for the EFZ Informatiker and the Berufsmatura." },
+  { when: "2025", title: "Engine out, C# in", text: "Dropped Unity for pure C# and .NET, and started writing about what I learn on the blog." },
+  { when: "Along the way", title: "Baden hackt", text: "4th place at the Baden hackt competition." },
+  { when: "2027-2028", title: "The practical year", text: "The last IMS year is spent working in a company. That is the team I am looking for." },
 ];
 
 const CERTIFICATES = [
@@ -109,37 +137,63 @@ export default async function Home() {
       <ScrollReveal />
 
       <main className="flow">
-        <section className="hero" id="top">
-          <h1 className="hero-title">Enis<br />Shorra<span className="dot">.</span></h1>
-          <div className="hero-copy">
-            <p className="hero-sub">
-              The personal site of an eighteen-year-old developer from
-              Switzerland: what I build, what I&apos;m into, and where
-              this is going.
-            </p>
-            <p className="hero-facts">
-              {FACTS.map((fact) => fact.value).join(" / ")}
-              <br />
-              <span className="hero-open">Open for an apprenticeship.</span>
-            </p>
-            <div className="hero-actions">
-              <a className="text-link" href="#archive">See projects →</a>
-              <Link className="text-link" href="/blog">Read the blog →</Link>
-              {SOCIALS.map((social) => (
-                <a key={social.label} className="text-link quiet" href={social.url} target="_blank" rel="noreferrer">{social.label}</a>
-              ))}
-            </div>
-          </div>
-        </section>
+        {/* 1. Only the name. Scrolling draws a kid at a laptop, then the same person, grown. */}
+        <Scene id="top" className="intro" length={4}>
+          <Thread shape="kid" anchor=".kid-anchor" pinned={{ from: 0.06, to: 0.86 }} />
+          <h1 className="intro-name">Enis</h1>
+          <span className="scroll-hint" aria-hidden="true">Scroll down</span>
+          <div className="kid-anchor" aria-hidden="true" />
+          <p className="intro-line" style={step(0.18, { "--until": 0.5 })}>It started on a small screen.</p>
+          <p className="intro-line" style={step(0.56, { "--until": 0.95 })}>And it never stopped.</p>
+        </Scene>
 
-        <section className="block about" id="about">
-          <p className="about-lead" data-reveal>
-            I&apos;m usually the person who gives a group structure and keeps
-            its energy up. I like knowing what everyone is working on,
-            bringing people together and making sure an idea actually turns
-            into something <em>finished.</em>
+        {/* 2. The question, crossed out, and three answers */}
+        <Scene id="about" className="question" length={3}>
+          <Thread shape="line" pinned={{ from: -0.3, to: 1 }} />
+          <h2 className="q-text">
+            <span style={step(0.02)}>Just another candidate</span>
+            <span style={step(0.1)}>for an internship?</span>
+            <svg className="q-strike" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M1,30 C25,20 55,38 99,24" />
+              <path d="M1,80 C22,70 48,86 74,72" />
+            </svg>
+          </h2>
+          <p className="nos" aria-label="No.">
+            <span style={step(0.5, { "--tilt": -6 })}>No.</span>
+            <span style={step(0.62, { "--tilt": 4 })}>No.</span>
+            <span style={step(0.74, { "--tilt": -2 })}>No.</span>
           </p>
-          <div className="about-cols" data-reveal>
+        </Scene>
+
+        {/* 3. Who I am instead, one sentence at a time */}
+        <Scene className="traits" length={TRAITS.length + 1}>
+          <Thread shape="zigzag" pinned={{ from: -0.1, to: 1 }} />
+          <p className="traits-kicker">So who is Enis?</p>
+          <div className="trait-stage">
+            {TRAITS.map((trait, index) => (
+              <p key={trait} className="trait" style={step((index + 0.4) / (TRAITS.length + 1), { "--until": index === TRAITS.length - 1 ? 9 : (index + 1.3) / (TRAITS.length + 1) })}>
+                {trait}
+              </p>
+            ))}
+          </div>
+          <ul className="trait-trail" aria-label="In short">
+            {TRAITS.map((trait, index) => (
+              <li key={trait} style={step((index + 1.3) / (TRAITS.length + 1))}>{trait}</li>
+            ))}
+          </ul>
+        </Scene>
+
+        {/* 4. The story behind it */}
+        <section className="block scene about-more">
+          <Thread shape="line" />
+          <div className="about-text" data-reveal>
+            <h2 className="side-title">In my own words</h2>
+            <p>
+              I&apos;m usually the person who gives a group structure and keeps
+              its energy up. I like knowing what everyone is working on,
+              bringing people together and making sure an idea actually turns
+              into something finished.
+            </p>
             <p>
               When a problem refuses to work, I stay with it for a long time.
               I try every angle I can before asking for help, sometimes until
@@ -162,40 +216,107 @@ export default async function Home() {
               eager to learn, dependable and a good person to ask for advice.
             </p>
           </div>
+          <div className="about-side" data-reveal>
+            <h3 className="side-title">Quick facts</h3>
+            <dl className="facts">
+              {QUICK_FACTS.map((fact) => (
+                <div key={fact.label}>
+                  <dt>{fact.label}</dt>
+                  <dd>{fact.value}</dd>
+                </div>
+              ))}
+            </dl>
+            <h3 className="side-title">Core skills</h3>
+            <ul className="skills">
+              {CORE_SKILLS.map((skill) => (
+                <li key={skill.title}>
+                  <strong>{skill.title}</strong>
+                  <span>{skill.note}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </section>
 
-        <section className="block" id="archive">
+        <section className="block scene" id="path">
+          <Thread shape="line" />
           <div className="block-head" data-reveal>
-            <h2>Things I&apos;ve made<span className="dot">.</span></h2>
-            <p>
-              The three I&apos;m proudest of come first. Point at one to see
-              what it does and where the code lives.
-            </p>
-            <span className="idx-count">{projects.length} projects</span>
+            <div>
+              <h2>How I got here</h2>
+              <p>From game prototypes to the IMS Baden, and next into a real team.</p>
+            </div>
           </div>
-          <div data-reveal>
-            <Showcase label="Projects" variant="laptop" items={[...topProjects, ...moreProjects].map(projectItem)} />
-          </div>
+          <ol className="timeline">
+            {PATH.map((item) => (
+              <li key={item.title} data-reveal>
+                <span className="timeline-when">{item.when}</span>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </li>
+            ))}
+          </ol>
         </section>
 
-        <section className="block" id="certificates">
+        {/* 5. Proof for some of it */}
+        <section className="block scene" id="certificates">
+          <Thread shape="trophy" anchor=".thread-anchor" />
           <div className="block-head" data-reveal>
-            <h2>Certificates<span className="dot">.</span></h2>
-            <p>Courses, a hackathon and a referee diploma.</p>
+            <div>
+              <h2>I can do a lot.</h2>
+              <p className="lead-on">For some of it, I have certificates.</p>
+            </div>
+            <div className="thread-anchor anchor-trophy" aria-hidden="true" />
           </div>
           <div data-reveal>
             <Showcase label="Certificates" variant="frame" items={CERTIFICATE_ITEMS} />
           </div>
         </section>
 
-        <section className="block contact" id="contact">
+        {/* 6. What I build */}
+        <section className="block scene" id="archive">
+          <Thread shape="terminal" anchor=".thread-anchor" />
+          <div className="block-head" data-reveal>
+            <div>
+              <h2>I build what I need.</h2>
+              <p className="lead-on">
+                What I don&apos;t want to pay for, or what I need right now.
+                No tutorials.
+              </p>
+              <span className="idx-count">{projects.length} projects</span>
+            </div>
+            <div className="thread-anchor anchor-terminal" aria-hidden="true" />
+          </div>
+          <div data-reveal>
+            <Showcase label="Projects" variant="laptop" items={[...topProjects, ...moreProjects].map(projectItem)} />
+          </div>
+        </section>
+
+        {/* 7. Why hire me, and the guarantee */}
+        <Scene id="hire" className="hire" length={4}>
+          <Thread shape="seal" anchor=".seal-anchor" pinned={{ from: 0.62, to: 0.95 }} />
+          <h2 className="hire-q" style={step(0.02)}>Why should you hire me?</h2>
+          <ul className="promises">
+            {PROMISES.map((promise, index) => (
+              <li key={promise} style={step(0.12 + index * 0.1)}>{promise}</li>
+            ))}
+          </ul>
+          <p className="guarantee">
+            <span style={step(0.56)}>And I can give you a guarantee:</span>
+            <strong style={step(0.7)}>I always give my best.</strong>
+          </p>
+          <div className="seal-anchor" aria-hidden="true" />
+        </Scene>
+
+        <section className="block scene contact" id="contact">
+          <Thread shape="plane" anchor=".thread-anchor" />
           <div className="contact-grid" data-reveal>
             <div>
-              <h2 className="contact-title">Currently looking for the <em>right team.</em></h2>
+              <h2 className="contact-title">Currently looking for the right team.</h2>
               <p className="contact-sub">
                 I&apos;m available for an apprenticeship anywhere. If that sounds
                 useful, write to me right here, without leaving the website.
               </p>
+              <div className="thread-anchor anchor-plane" aria-hidden="true" />
             </div>
             <ContactForm />
           </div>

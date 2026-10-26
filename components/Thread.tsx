@@ -99,7 +99,16 @@ export default function Thread({ shape, anchor, pinned }: Props) {
   }, [shape, anchor, from, to]);
 
   return (
-    <svg ref={svgRef} className="thread" aria-hidden="true" preserveAspectRatio="none">
+    <svg
+      ref={svgRef}
+      className="thread"
+      aria-hidden="true"
+      preserveAspectRatio="none"
+      data-shape={shape}
+      data-anchor={anchor}
+      data-from={from}
+      data-to={to}
+    >
       <path ref={pathRef} />
     </svg>
   );

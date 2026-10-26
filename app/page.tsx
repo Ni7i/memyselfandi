@@ -1,9 +1,10 @@
 import Link from "next/link";
 import ContactForm from "@/components/ContactForm";
-import ProjectRow from "@/components/ProjectRow";
+import Showcase, { type ShowcaseItem } from "@/components/Showcase";
 import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
 import { getPublishedProjects } from "@/lib/content/projects";
+import type { Project } from "@/lib/content/types";
 
 // Projects are managed in /admin and read on every request.
 export const dynamic = "force-dynamic";
@@ -26,16 +27,19 @@ const CERTIFICATES = [
     title: "Baden hackt",
     detail: "4th place · Competition",
     url: "/certificates/baden-hackt.jpg",
+    size: { width: 347, height: 491 },
   },
   {
     title: "AFV Referee Diploma",
     detail: "Football referee qualification",
     url: "/certificates/afv-referee-diploma.jpg",
+    size: { width: 1290, height: 1906 },
   },
   {
     title: "Web APIs with ASP.NET Core 8",
     detail: "LinkedIn Learning",
     url: "/certificates/web-apis-aspnet-core-8.png",
+    size: { width: 1925, height: 1487 },
   },
   {
     title: "Python Essentials 1",
@@ -48,6 +52,50 @@ const CERTIFICATES = [
     url: "https://www.credly.com/badges/9905e43b-c420-468e-9b75-b6b1bace4b87",
   },
 ];
+
+/** Screenshots for projects that have one, keyed by slug. */
+const PROJECT_IMAGES: Record<string, { src: string; width: number; height: number }> = {
+  quizlot: { src: "/projects/quizlot.jpg", width: 1800, height: 1200 },
+};
+
+const withoutProtocol = (url: string) => url.replace(/^https?:\/\//, "").replace(/\/$/, "");
+
+function projectItem(project: Project): ShowcaseItem {
+  const image = PROJECT_IMAGES[project.slug];
+  const links = [
+    ...(project.repoUrl ? [{ label: "View code", href: project.repoUrl, external: true }] : []),
+    ...(project.liveUrl ? [{ label: "Open live", href: project.liveUrl, external: true }] : []),
+    { label: "Details", href: `/projects/${project.slug}`, external: false },
+  ];
+  return {
+    id: project.slug,
+    title: project.title,
+    text: project.description,
+    tags: project.stack,
+    links,
+    address: withoutProtocol(project.liveUrl || project.repoUrl) || `enisshorra.ch/projects/${project.slug}`,
+    image: image && { ...image, alt: `Screenshot of ${project.title}` },
+    fallback: project.repoUrl
+      ? [`$ git clone ${project.repoUrl}`, `# ${project.stack.join(" · ")}`, ...(project.year ? [`# ${project.year}`] : [])]
+      : [project.title, project.stack.join(" · ")],
+  };
+}
+
+const CERTIFICATE_ITEMS: ShowcaseItem[] = CERTIFICATES.map((certificate) => {
+  const external = certificate.url.startsWith("http");
+  return {
+    id: certificate.title,
+    title: certificate.title,
+    text: certificate.detail,
+    tags: [],
+    links: [{ label: external ? "View badge" : "Open certificate", href: certificate.url, external: true }],
+    address: external ? "credly.com" : `enisshorra.ch${certificate.url}`,
+    image: "size" in certificate && certificate.size
+      ? { src: certificate.url, ...certificate.size, alt: `${certificate.title} certificate` }
+      : undefined,
+    fallback: ["Verified badge on Credly", certificate.title, certificate.detail],
+  };
+});
 
 /** A homepage section: a sticky index label on the left, the content on the right. */
 function Section({ id, index, label, children }: { id: string; index: string; label: string; children: React.ReactNode }) {
@@ -134,26 +182,13 @@ export default async function Home() {
         <div className="section-head">
           <h2>Things I&apos;ve made</h2>
           <p>
-            Three projects I&apos;m especially proud of, followed by more work
-            worth opening. Every row links directly to the code.
+            The three I&apos;m proudest of come first. Open one to see what
+            it does and where the code lives.
           </p>
           <span className="idx-count">{projects.length} projects</span>
         </div>
 
-        <div className="archive-list top-list">
-          {topProjects.map((project, index) => (
-            <ProjectRow key={project.slug} number={index + 1} project={project} />
-          ))}
-        </div>
-
-        <div className="archive-group">
-          <span className="archive-label">More work</span>
-          <div className="archive-list">
-            {moreProjects.map((project) => (
-              <ProjectRow key={project.slug} project={project} />
-            ))}
-          </div>
-        </div>
+        <Showcase label="Projects" items={[...topProjects, ...moreProjects].map(projectItem)} />
       </Section>
 
       <Section id="certificates" index="03" label="Certificates">
@@ -161,21 +196,7 @@ export default async function Home() {
           <h2>Certificates</h2>
           <p>Courses &amp; milestones</p>
         </div>
-        <div className="cert-list">
-          {CERTIFICATES.map((certificate, index) => (
-            <a
-              className="cert-row"
-              href={certificate.url}
-              key={certificate.title}
-              rel="noreferrer"
-              target="_blank"
-            >
-              <span className="cert-number">0{index + 1}</span>
-              <h3>{certificate.title}</h3>
-              <p>{certificate.detail}</p>
-            </a>
-          ))}
-        </div>
+        <Showcase label="Certificates" items={CERTIFICATE_ITEMS} />
       </Section>
 
       <Section id="contact" index="04" label="Contact">

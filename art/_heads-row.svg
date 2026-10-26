@@ -1,0 +1,5 @@
+<svg viewBox="0 0 900 340">
+  <g data-include="_head-child" transform="translate(20,40) scale(0.88)"/>
+  <g data-include="_head-teen" transform="translate(300,6) scale(0.98)"/>
+  <g data-include="_head-adult" transform="translate(600,0)"/>
+</svg>

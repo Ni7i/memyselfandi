@@ -1,0 +1,28 @@
+<svg viewBox="0 0 900 600">
+  <!-- A park bench seen from the front, its length parallel to the page. Ground 560.
+       Seat front edge 418-426, top seen slightly from above; three backrest boards;
+       slender cast-iron legs with a curled foot at each end and in the middle. -->
+  <g id="bench">
+    <path class="fill" data-tone="shade" d="M396,556 C520,550 760,550 900,556 L900,566 C760,570 520,570 396,562 Z"/>
+    <!-- backrest: three boards and the posts that carry them -->
+    <path class="ink" data-tone="mid" data-w="1.12" d="M404,312 L900,312 M404,320 L900,320"/>
+    <path class="ink" data-tone="mid" data-w="1.05" d="M404,334 L900,334 M404,342 L900,342"/>
+    <path class="ink" data-tone="mid" data-w="1.05" d="M404,356 L900,356 M404,364 L900,364"/>
+    <path class="hatch" data-angle="80" data-gap="5" data-w="0.4" d="M404,320 L900,320 L900,323 L404,323 Z M404,342 L900,342 L900,345 L404,345 Z M404,364 L900,364 L900,367 L404,367 Z"/>
+    <path class="ink" data-tone="mid" data-w="1.26" d="M410,404 C410,380 409,340 410,312 C410,304 413,298 419,298 C424,299 424,305 419,306"/>
+    <path class="ink" data-tone="mid" data-w="1.12" d="M650,404 C650,380 650,340 650,312"/>
+    <path class="ink" data-tone="mid" data-w="1.12" d="M886,404 C886,380 886,340 886,312"/>
+    <!-- seat: top boards seen from above, the front board's face -->
+    <path class="fine" data-w="0.9" d="M402,398 L900,398 M402,404 L900,404 M402,410 L900,410"/>
+    <path class="ink" data-tone="mid" data-w="1.26" d="M400,416 L900,416"/>
+    <path class="ink" data-tone="mid" data-w="1.05" d="M400,426 L900,426"/>
+    <path class="hatch" data-angle="78" data-gap="4" data-w="0.4" d="M400,426 L900,426 L900,430 L400,430 Z"/>
+    <!-- legs -->
+    <path class="ink" data-tone="mid" data-w="1.47" d="M412,428 C411,460 410,500 409,540 C409,550 406,556 400,557 C394,557 393,551 398,549"/>
+    <path class="ink" data-tone="mid" data-w="1.2" d="M420,428 C419,460 418,500 417,546"/>
+    <path class="ink" data-tone="mid" data-w="2" d="M650,428 L649,558"/>
+    <path class="ink" data-tone="mid" data-w="1.2" d="M658,428 L657,556"/>
+    <path class="ink" data-tone="mid" data-w="1.47" d="M884,428 C885,460 886,500 887,540 C887,550 890,556 896,557"/>
+    <path class="ink" data-tone="mid" data-w="1.2" d="M876,428 C877,460 878,500 879,546"/>
+  </g>
+</svg>

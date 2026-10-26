@@ -1,0 +1,14 @@
+<svg viewBox="0 0 1600 1120">
+  <!-- Character sheet: Enis at three, at fifteen and today, at one scale on one ground line,
+       then the three heads large, side by side. Labels are set in HTML on the studio page. -->
+  <g id="lineup">
+    <g data-include="_figure-child" transform="translate(40,250)"/>
+    <g data-include="_figure-teen" transform="translate(330,50)"/>
+    <g data-include="_figure-seated" transform="translate(560,90)"/>
+  </g>
+  <g id="heads">
+    <g data-include="_head-child" transform="translate(70,792) scale(0.86)"/>
+    <g data-include="_head-teen" transform="translate(390,770) scale(0.94)"/>
+    <g data-include="_head-adult" transform="translate(730,768) scale(0.96)"/>
+  </g>
+</svg>

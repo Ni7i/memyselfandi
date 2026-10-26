@@ -1,0 +1,114 @@
+<svg viewBox="0 0 500 620">
+  <!-- Enis at about fifteen, standing, 7.4 heads (unit 74). Ground 600. Profile facing left.
+       Hoodie with the hood bunched at the neck, headphones resting on it, jeans, chunky sneakers.
+       Head tipped down to the phone in his hands; the red cable runs from the headphones to the phone. -->
+  <g id="guides">
+    <path class="guide" d="M120,54 H380 M120,128 H380 M120,202 H380 M120,276 H380 M120,350 H380 M120,424 H380 M120,498 H380 M120,600 H380"/>
+  </g>
+
+  <g id="legs">
+    <!-- far leg, carrying the weight, mostly behind -->
+    <path class="fill" data-tone="paper" d="M262,342 L292,342 C292,400 288,460 290,520 C291,540 292,560 293,576 L264,576 Z"/>
+    <path class="ink" data-w="2.1" d="M291,344 C291,400 288,460 290,520 C291,540 292,560 293,576"/>
+    <!-- near leg, slightly forward: jeans with an outseam, stacked at the ankle -->
+    <path class="fill" data-tone="paper" d="M238,336 C236,370 236,410 240,452 C242,490 243,530 244,576 L268,576 C268,530 268,490 269,456 C270,410 274,372 276,340 Z"/>
+    <path class="ink" data-w="1.4" d="M238,338 C236,370 236,410 240,452 C242,490 243,530 244,574"/>
+    <path class="ink" data-w="2" d="M276,342 C274,372 270,410 269,456 C268,490 268,530 269,576"/>
+    <path class="fine" data-w="0.7" d="M256,350 C254,400 254,450 256,500 C257,530 257,550 257,570"/>
+    <path class="fine" data-w="0.8" d="M242,450 C250,454 258,455 266,452"/>
+    <path class="fine" data-w="0.8" d="M244,556 C252,560 260,560 268,557 M244,564 C252,567 260,567 268,565"/>
+    <path class="fine" data-w="0.9" d="M272,352 L290,352 L289,372 C284,374 278,374 272,372 Z"/>
+    <path class="hatch" data-angle="68" data-gap="3.4" data-w="0.45" d="M260,348 C266,348 270,352 270,362 C268,400 266,440 266,480 C266,510 266,540 267,572 C262,540 260,500 260,460 C260,420 260,380 260,348 Z"/>
+    <path class="hatch" data-angle="68" data-gap="4.2" data-w="0.42" d="M272,346 L290,346 C290,380 289,420 288,460 C286,500 288,540 291,572 L270,572 C268,540 267,500 267,460 C267,420 270,380 272,346 Z"/>
+    <!-- far sneaker, the heel showing -->
+    <path class="fill" data-tone="paper" d="M266,578 L294,578 C298,584 300,592 300,600 L266,600 Z"/>
+    <path class="ink" data-w="1.6" d="M294,578 C298,584 300,592 300,600"/>
+    <path class="ink" data-w="2.4" data-taper="0.05 0.15" d="M268,601 L301,601"/>
+    <!-- near sneaker: chunky sole, rounded toe, laces -->
+    <path class="fill" data-tone="paper" d="M244,576 L270,576 C274,582 276,590 276,598 L198,598 C192,598 190,592 196,588 C206,582 222,578 244,576 Z"/>
+    <path class="ink" data-w="1.7" d="M270,576 C274,582 276,590 276,598"/>
+    <path class="ink" data-w="1.6" d="M244,577 C226,579 208,583 198,588 C191,592 192,598 198,598"/>
+    <path class="ink" data-w="1.3" d="M196,592 L276,592"/>
+    <path class="ink" data-w="2.6" data-taper="0.05 0.12" d="M196,600 L278,600"/>
+    <path class="fine" data-w="0.8" d="M220,582 L224,586 M228,580 L232,584 M236,578 L240,582"/>
+    <path class="fine" data-w="0.8" d="M206,592 C206,588 210,585 214,584"/>
+    <path class="fill" data-tone="shade" d="M176,598 C220,592 300,592 330,600 C300,607 220,607 176,602 Z"/>
+  </g>
+
+  <g id="hoodie">
+    <path class="fill" data-tone="paper" d="M240,148 C230,160 222,176 220,196 C218,220 220,244 224,264 C228,286 232,308 236,330 L296,336 C292,300 297,270 301,246 C305,220 302,194 294,166 C284,146 262,140 240,148 Z"/>
+    <!-- front: light side, thin -->
+    <path class="ink" data-w="1.4" d="M238,152 C229,164 222,180 220,198 C218,220 220,244 224,264 C228,286 232,308 236,330"/>
+    <!-- back: heavy -->
+    <path class="ink" data-w="2.5" d="M292,176 C302,194 305,220 301,246 C297,272 292,302 294,334"/>
+    <!-- ribbed hem -->
+    <path class="ink" data-w="1.6" d="M236,330 C256,333 276,335 296,336"/>
+    <path class="ink" data-w="1.4" d="M236,340 C256,343 276,345 296,346"/>
+    <path class="fine" data-w="0.55" d="M242,332 L242,341 M250,333 L250,342 M258,334 L258,343 M266,334 L266,344 M274,335 L274,344 M282,335 L282,345 M290,336 L290,345"/>
+    <!-- kangaroo pocket -->
+    <path class="fine" data-w="1" d="M228,280 C240,276 252,274 258,276 L264,302 C265,314 264,322 262,330"/>
+    <path class="hatch" data-angle="66" data-gap="3.6" data-w="0.45" d="M286,200 C294,214 296,240 294,266 C292,290 290,312 292,330 C286,310 284,280 284,250 C284,232 284,214 286,200 Z"/>
+  </g>
+
+  <g data-include="_head-teen" transform="rotate(-14 250 144) translate(190.9,37.3) scale(0.356)"/>
+
+  <g id="hood">
+    <!-- the hood, bunched around the neck and over the shoulders -->
+    <path class="fill" data-tone="paper" d="M238,150 C240,140 250,134 262,132 C278,130 294,136 300,150 C304,162 300,174 292,180 C280,178 266,170 254,162 C248,158 242,156 238,150 Z"/>
+    <path class="ink" data-w="2" d="M262,132 C278,130 294,136 300,150 C304,162 300,174 292,180"/>
+    <path class="ink" data-w="1.3" d="M238,151 C242,140 250,134 262,132"/>
+    <path class="fine" data-w="0.9" d="M246,152 C258,150 272,156 284,168"/>
+    <path class="fine" data-w="0.8" d="M260,140 C272,140 284,146 292,156"/>
+    <path class="hatch" data-angle="60" data-gap="3" data-w="0.42" d="M250,160 C262,164 276,172 290,178 C282,180 270,176 260,170 C255,167 252,164 250,160 Z"/>
+    <!-- drawstrings -->
+    <path class="fine" data-w="0.9" d="M240,156 C238,170 236,184 236,196 M246,158 C245,172 244,186 245,198"/>
+    <path class="fill" data-tone="dark" d="M234.6,196 L237.6,196 L237.4,203 L234.8,203 Z M243.6,198 L246.6,198 L246.4,205 L243.8,205 Z"/>
+  </g>
+
+  <g id="headphones">
+    <!-- the band runs round the back of the neck; the near cup rests on the hood, cushion toward him -->
+    <path class="ink" data-w="2.2" d="M256,132 C266,127 278,128 288,134"/>
+    <path class="fill" data-tone="paper" d="M240,141 C240,133 244,128 250,128 C256,128 260,133 260,141 C260,149 256,154 250,154 C244,154 240,149 240,141 Z"/>
+    <path class="ink" data-w="1.6" d="M240,141 C240,133 244,128 250,128 C256,128 260,133 260,141 C260,149 256,154 250,154 C244,154 240,149 240,141"/>
+    <path class="fine" data-w="0.9" d="M244,141 C244,136 246,133 249,133 C252,133 254,136 254,141 C254,146 252,149 249,149 C246,149 244,146 244,141"/>
+    <path class="hatch" data-angle="60" data-gap="2" data-w="0.35" d="M244,141 C244,136 246,133 249,133 C252,133 254,136 254,141 C254,146 252,149 249,149 C246,149 244,146 244,141 Z"/>
+    <path class="ink" data-w="1.4" d="M253,130 C255,126 258,124 262,124"/>
+  </g>
+
+  <g id="arm">
+    <!-- near arm: elbow back at the waist, forearm raised, holding the phone -->
+    <path class="fill" data-tone="paper" d="M270,160 C284,166 292,182 292,206 C292,226 290,242 284,254 C274,258 262,254 252,250 L246,230 C252,232 258,234 262,234 C262,220 258,206 254,192 C258,178 262,166 270,160 Z"/>
+    <path class="ink" data-w="2.3" d="M274,162 C286,170 292,186 292,206 C292,226 290,242 284,254"/>
+    <path class="ink" data-w="1.8" d="M284,254 C274,258 262,255 252,251"/>
+    <path class="ink" data-w="1.3" d="M254,194 C258,208 261,220 262,234 C258,234 252,232 247,230"/>
+    <path class="fine" data-w="0.8" d="M262,236 C270,240 278,240 286,236 M266,246 C272,248 278,248 284,245"/>
+    <path class="hatch" data-angle="62 -28" data-gap="3" data-w="0.42" d="M284,206 C290,218 290,234 286,248 C282,240 280,226 284,206 Z"/>
+    <!-- ribbed cuff -->
+    <path class="ink" data-w="1.3" d="M247,230 C243,236 244,244 252,251"/>
+    <path class="ink" data-w="1.1" d="M241,231 C238,237 239,244 245,249"/>
+    <path class="fine" data-w="0.5" d="M244,233 L247,233 M242,238 L246,238 M243,243 L247,244"/>
+  </g>
+
+  <!-- the phone and the near hand share one frame tipped along the phone:
+       x runs from the bottom of the phone to its top, y points to the screen side -->
+  <g id="phone" transform="translate(242,244) rotate(-115.5)">
+    <path class="fill" data-tone="dark" d="M-1,-2.2 L45,-2.2 C46.5,-2.2 47,-1.6 47,-0.6 L47,1.6 C47,2.4 46.5,2.6 45.5,2.6 L-1,2.6 C-2,2.6 -2.4,2 -2.4,1.2 L-2.4,-1 C-2.4,-1.8 -2,-2.2 -1,-2.2 Z"/>
+    <path class="ink" data-tone="paper" data-w="0.5" d="M2,1.9 L44,1.9"/>
+  </g>
+
+  <g id="hand" transform="translate(242,244) rotate(-115.5)">
+    <!-- palm and curled fingers under the back of the phone, thumb laid along the screen -->
+    <path class="fill" data-tone="paper" d="M0,-7 C6,-8 12,-9 17,-10 C21,-11 25,-11 28,-9.5 C31,-8 33,-6 33.5,-3 L33,-2.2 L4,-2.2 C10,1 16,2.6 22,2.8 C26,3 30,3.2 32,4.2 C33.5,5.2 33,7 31,7.4 C26,8 18,8.6 12,9 C7,9.2 3,8.6 0,7 Z"/>
+    <path class="ink" data-w="1.4" d="M0,-7 C6,-8 12,-9 17,-10 C21,-11 25,-11 28,-9.5 C31,-8 33,-6 33.5,-3"/>
+    <path class="fine" data-w="0.7" d="M18,-10 C19,-8 19,-6 18,-4 M24,-11 C25,-9 25,-6.5 24,-4.5"/>
+    <path class="ink" data-w="1.2" d="M6,6.5 C12,7.6 18,7.8 24,7.4 C28,7.2 31,7.6 31.5,6.2 C32,5 31,4.2 29,3.8"/>
+    <path class="ink" data-w="1.3" d="M0,7 C3,8.6 7,9.4 12,9"/>
+    <!-- the far thumb tip at the top of the screen -->
+    <path class="fine" data-w="0.9" d="M38,2.8 C41,3.4 43,4.6 42,6.2 C41,7.4 38,7 37,5.6"/>
+  </g>
+
+  <g id="thread">
+    <!-- the cable from the headphones, a loose dip, into the bottom of the phone -->
+    <path class="thread" data-w="1.7" d="M248,154 C246,176 240,206 238,226 C236,238 238,248 243,249 C246,250 246,247 243.5,245.5"/>
+  </g>
+</svg>

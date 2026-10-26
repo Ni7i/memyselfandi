@@ -1,0 +1,166 @@
+<svg viewBox="0 0 900 600">
+  <!-- Enis today, perched sideways at the left end of the bench, profile facing left.
+       Unit 70, ground 560, seat 416. Legs crossed off the end of the bench, far arm laid
+       along the top board, head tipped up. The thread drops from above into his near hand,
+       loops over his knee and runs off along the ground. -->
+  <g id="guides">
+    <path class="guide" d="M440,398 L452,245 L446,228 M456,250 L462,336 L370,380 M470,236 L506,312 L566,312 M440,398 L304,388 L262,498 M440,406 L310,414 L312,540"/>
+  </g>
+
+  <g data-include="_bench"/>
+
+  <g id="farArm">
+    <!-- far arm: from behind his back down onto the top board, forearm resting along it -->
+    <path class="fill" data-tone="paper" d="M486,244 C494,258 502,280 508,300 C512,304 520,304 530,304 L558,304 L558,322 L510,324 C498,324 490,318 488,306 C484,288 478,270 472,256 Z"/>
+    <path class="ink" data-w="2.2" d="M488,248 C496,262 503,282 508,300 C511,303 518,304 528,304 L556,304"/>
+    <path class="ink" data-w="1.5" d="M488,306 C490,318 498,324 510,324 L554,323"/>
+    <path class="fine" data-w="0.8" d="M498,284 C501,290 503,296 503,302"/>
+    <path class="fine" data-w="0.7" d="M520,306 C522,311 522,317 520,322"/>
+    <path class="ink" data-w="1.3" d="M556,303 C552,308 552,318 555,323"/>
+  </g>
+  <!-- far hand resting on the top board, fingers folding over its front edge -->
+  <g id="farHand" transform="translate(558,313)">
+    <path class="fill" data-tone="paper" d="M0,-8 C6,-9 12,-10 18,-10 C23,-10 27,-9 31,-7 C36,-5 40,-1 41,4 C42,8 40,11 37,10 C36,7 35,5 33,4 C28,5 20,6 12,6 C8,6 4,6 0,7 Z"/>
+    <path class="ink" data-w="1.4" d="M0,-8 C6,-9 12,-10 18,-10 C23,-10 27,-9 31,-7 C36,-5 40,-1 41,4 C42,8 40,11 37,10"/>
+    <path class="fine" data-w="0.9" d="M37,10 C36,7 35,5 33,4"/>
+    <path class="fine" data-w="0.8" d="M8,5 C14,7 20,7 24,5"/>
+    <path class="fine" data-w="0.6" d="M24,-9 C25,-7 25,-5 24,-4 M30,-7 C31,-5 31,-3 30,-2"/>
+    <path class="fine" data-w="0.6" d="M36,0 C38,2 39,4 39,6"/>
+  </g>
+
+  <g id="coatTail">
+    <!-- the back panel spread on the seat behind him; the near panel falling over the seat edge -->
+    <path class="fill" data-tone="paper" d="M488,398 C506,400 524,404 538,408 C544,411 546,414 545,418 L488,418 Z"/>
+    <path class="ink" data-w="1.3" d="M488,398 C506,400 524,404 538,408 C544,411 546,414 545,418"/>
+    <path class="fill" data-tone="paper" d="M446,412 C462,414 480,416 496,416 C504,440 514,470 526,496 C512,502 494,505 476,503 C462,502 450,499 440,494 C442,470 444,440 446,412 Z"/>
+    <path class="ink" data-w="1.2" d="M446,414 C444,440 442,468 440,494"/>
+    <path class="ink" data-w="1.9" d="M496,417 C504,440 514,470 526,496"/>
+    <path class="ink" data-w="1.5" data-taper="0.1 0.3" d="M440,494 C448,499 456,501 464,500 C472,504 486,505 498,502 C508,503 518,500 526,496"/>
+    <!-- folds radiating from where the cloth leaves the seat -->
+    <path class="fine" data-w="0.9" d="M470,420 C468,446 466,474 464,500"/>
+    <path class="fine" data-w="0.8" d="M478,420 C482,446 488,474 496,502"/>
+    <path class="hatch" data-angle="78" data-gap="3.2" data-w="0.42" d="M470,422 C474,422 477,426 478,432 C482,454 486,476 492,500 C484,502 476,502 468,500 C468,474 469,448 470,422 Z"/>
+    <path class="hatch" data-angle="70" data-gap="3.4" data-w="0.42" d="M498,430 C504,446 512,468 522,494 C516,496 512,498 506,499 C502,476 500,452 498,430 Z"/>
+  </g>
+
+  <g id="farLeg">
+    <!-- far leg: shin down to the ground, cropped hem, sock, sneaker flat -->
+    <path class="fill" data-tone="paper" d="M304,412 C305,452 306,496 308,536 L328,536 C327,496 326,456 324,414 Z"/>
+    <path class="ink" data-w="1.3" d="M305,418 C305,454 306,496 308,534"/>
+    <path class="ink" data-w="2" d="M324,416 C326,440 327,470 326,500 C326,512 327,524 328,534"/>
+    <path class="hatch" data-angle="66" data-gap="3.2" data-w="0.45" d="M316,420 C322,420 324,426 325,440 C326,470 326,500 327,530 C322,500 318,460 316,420 Z"/>
+    <path class="fine" data-w="1" d="M308,534 C314,536 322,536 328,534"/>
+    <path class="fine" data-w="0.6" d="M313,536 L313,541 M318,536 L318,541 M323,536 L323,541"/>
+    <path class="fill" data-tone="paper" d="M308,538 L328,538 C331,546 332,553 330,557 L256,557 C251,556 251,550 258,547 C274,543 294,540 308,538 Z"/>
+    <path class="ink" data-w="1.6" d="M328,538 C331,546 332,552 330,557"/>
+    <path class="ink" data-w="1.5" d="M308,539 C294,540 274,543 260,547 C252,550 251,556 256,557"/>
+    <path class="ink" data-w="2.2" data-taper="0.04 0.15" d="M254,559 C276,560 306,560 332,559"/>
+    <path class="fine" data-w="0.7" d="M280,544 L283,547 M287,542 L290,545 M294,541 L297,544"/>
+  </g>
+
+  <g id="body">
+    <!-- the knit inside the open coat -->
+    <path class="fill" data-tone="paper" d="M432,238 C420,258 414,286 415,316 C416,344 422,366 428,388 L450,388 L452,238 Z"/>
+    <path class="ink" data-w="1.3" d="M430,242 C420,260 414,286 415,316 C416,342 421,364 427,384"/>
+    <path class="fine" data-w="0.8" d="M426,370 C433,372 440,373 447,372"/>
+    <path class="fine" data-w="0.55" d="M430,371 L430,380 M435,372 L435,381 M440,372 L440,381"/>
+  </g>
+
+  <g id="coat">
+    <!-- coat on the torso: collar standing at the back, a gentle curve down the spine -->
+    <path class="fill" data-tone="paper" d="M446,232 C458,222 468,214 476,216 C490,230 496,254 495,280 C494,312 491,346 488,378 C487,392 486,404 486,412 L444,412 C442,396 442,380 444,360 C444,320 444,280 446,232 Z"/>
+    <path class="ink" data-w="2" d="M469,214 C476,222 480,232 482,242"/>
+    <path class="ink" data-w="2.6" d="M476,218 C490,232 496,256 495,282 C494,312 491,346 488,378 C487,392 486,404 486,414"/>
+    <!-- open front edge and lapel -->
+    <path class="ink" data-w="1.3" d="M448,236 C452,252 454,266 452,280 C450,292 446,302 444,310"/>
+    <path class="ink" data-w="1.4" d="M444,318 C443,340 443,362 444,384 C444,392 443,400 442,408"/>
+    <path class="fine" data-w="0.8" d="M452,280 C456,284 460,286 464,286"/>
+    <path class="fine" data-w="0.9" d="M452,238 C462,240 472,244 482,250"/>
+    <path class="fine" data-w="0.8" d="M450,396 C458,394 468,396 476,400"/>
+    <path class="hatch" data-angle="66" data-gap="3.4" data-w="0.45" d="M478,240 C486,256 490,278 490,300 C490,330 488,360 484,390 C480,370 478,340 478,310 C478,284 478,262 478,240 Z"/>
+  </g>
+
+  <g id="nearArm">
+    <!-- upper arm hangs a little in front of the back, elbow at the hip, forearm laid on the thigh -->
+    <path class="fill" data-tone="paper" d="M456,246 C470,252 478,270 478,296 C478,316 475,332 468,344 C446,358 422,370 400,382 L394,366 C414,356 432,344 444,332 C444,310 442,286 442,264 Z"/>
+    <path class="ink" data-w="2.2" d="M478,256 C480,268 479,282 478,296 C478,316 475,332 468,344 C454,355 434,366 414,376 C408,379 404,381 400,383"/>
+    <path class="ink" data-w="1.3" d="M442,268 C442,290 443,310 444,330 C434,340 420,350 406,358 C402,361 398,364 395,366"/>
+    <path class="fine" data-w="1" d="M452,252 C462,245 474,246 480,256"/>
+    <path class="fine" data-w="0.9" d="M446,330 C452,336 458,338 464,336"/>
+    <path class="fine" data-w="0.8" d="M442,342 C448,347 454,349 460,347"/>
+    <path class="fine" data-w="0.7" d="M434,352 C426,357 418,362 410,368"/>
+    <path class="hatch" data-angle="64 -26" data-gap="3" data-w="0.42" d="M468,300 C474,310 476,322 472,334 C468,342 462,348 456,352 C458,340 462,320 468,300 Z"/>
+    <!-- cuff -->
+    <path class="ink" data-w="1.3" d="M395,366 C391,371 393,379 400,383"/>
+    <path class="fine" data-w="0.7" d="M400,364 C396,369 398,377 404,381"/>
+  </g>
+
+  <g id="nearLeg">
+    <!-- crossed thigh over the far knee -->
+    <path class="fill" data-tone="paper" d="M442,384 C404,378 352,374 304,376 C292,377 286,386 288,396 C292,404 300,408 310,408 C350,410 396,414 442,418 Z"/>
+    <path class="ink" data-w="1.4" d="M440,384 C404,378 356,374 306,376 C296,377 290,382 288,390"/>
+    <path class="ink" data-w="2.1" d="M310,408 C350,410 396,414 440,418"/>
+    <path class="fine" data-w="0.8" d="M304,386 C320,388 334,392 346,398"/>
+    <path class="fine" data-w="0.7" d="M310,382 C330,382 348,384 364,388"/>
+    <path class="hatch" data-angle="62 -28" data-gap="3" data-w="0.45" d="M310,402 C346,404 392,408 438,411 C438,414 439,416 440,418 C396,416 350,412 310,408 Z"/>
+    <path class="ink" data-w="1.6" d="M306,412 C304,418 308,424 316,424 C320,424 323,422 324,418"/>
+    <!-- crossed shin hanging, cropped hem, sock, the sneaker dangling -->
+    <path class="fill" data-tone="paper" d="M289,392 C282,424 274,456 266,488 L286,494 C292,466 300,436 310,406 Z"/>
+    <path class="ink" data-w="1.4" d="M289,394 C282,424 274,456 266,486"/>
+    <path class="ink" data-w="2" d="M310,408 C304,428 300,446 296,464 C292,476 289,486 286,494"/>
+    <path class="fine" data-w="0.8" d="M300,412 C296,430 292,446 290,456"/>
+    <path class="fine" data-w="1" d="M266,486 C272,489 280,492 286,494"/>
+    <path class="fine" data-w="0.6" d="M270,490 L268,496 M275,492 L273,498 M280,493 L278,499"/>
+    <path class="fill" data-tone="paper" d="M265,494 L285,500 C286,508 284,514 280,518 C270,522 254,526 240,528 C232,529 230,524 234,520 C242,514 254,506 265,494 Z"/>
+    <path class="ink" data-w="1.6" d="M285,500 C286,508 284,514 280,518"/>
+    <path class="ink" data-w="1.5" d="M265,495 C254,506 242,514 234,520 C230,524 232,529 240,528"/>
+    <path class="ink" data-w="2.2" data-taper="0.06 0.15" d="M238,531 C254,528 270,524 283,519"/>
+    <path class="fine" data-w="0.7" d="M256,508 L260,510 M262,503 L266,505 M268,499 L272,501"/>
+  </g>
+
+  <!-- near hand on the thigh, seen from the thumb side: index and thumb pinch the thread,
+       the other fingers rest curled underneath. Authored facing right, mirrored into place. -->
+  <g id="hand" transform="translate(396,375) scale(-1,1) rotate(8)">
+    <path class="fill" data-tone="paper" d="M0,-8 C8,-10 16,-11 24,-9 C30,-8 34,-6 38,-4 C42,-2 45,0 45,3 C44,6 40,6 37,5 C38,8 36,11 32,12 C26,13 20,13 14,12 C8,11 4,10 0,9 Z"/>
+    <!-- back of the hand to the index knuckle, the index finger reaching to the pinch -->
+    <path class="ink" data-w="1.4" d="M0,-8 C8,-10 16,-11 24,-9 C30,-8 34,-6 38,-4 C42,-2 45,0 45,3 C44,6 41,6.5 38,5.5"/>
+    <!-- thumb: thenar bulge to the tip meeting the index -->
+    <path class="ink" data-w="1.2" d="M6,3 C12,5 18,6 24,5.5 C30,5 34,4.5 38,5.5"/>
+    <!-- curled fingers underneath and the heel of the hand -->
+    <path class="ink" data-w="1.3" d="M0,9 C6,11 12,12.5 18,12.5 C24,12.5 29,12.5 32,11.5 C35,10.5 36,8.5 35,6.5"/>
+    <path class="fine" data-w="0.6" d="M22,12 C23,10 23,9 22,7.5 M28,12 C29,10 29,8.5 28,7"/>
+    <path class="fine" data-w="0.6" d="M27,-8 C28,-6 28,-4.5 27,-3.5 M41.5,-1.5 C43,-0.5 43.5,1 43.2,2.5"/>
+  </g>
+
+  <g data-include="_head-adult" transform="rotate(12 446 228) translate(383.3,117.8) scale(0.38)"/>
+
+  <g id="collar">
+    <path class="fill" data-tone="paper" d="M436,234 C450,240 466,240 480,234 L484,254 C468,260 448,260 432,252 Z"/>
+    <path class="ink" data-w="1.8" d="M470,228 C476,234 480,242 482,252"/>
+  </g>
+
+  <g id="scarf">
+    <!-- oatmeal wool wound once, a soft knot under the chin, one tail lying down the knit -->
+    <path class="fill" data-tone="paper" d="M470,210 C458,206 444,207 434,212 C428,216 427,224 431,230 C437,235 448,236 460,234 C469,232 476,228 478,222 C478,216 475,212 470,210 Z"/>
+    <path class="fill" data-tone="oat" d="M470,210 C458,206 444,207 434,212 C428,216 427,224 431,230 C437,235 448,236 460,234 C469,232 476,228 478,222 C478,216 475,212 470,210 Z"/>
+    <path class="ink" data-w="1.3" d="M470,210 C458,206 444,207 434,212 C428,216 427,224 431,230 C437,235 448,236 460,234 C469,232 476,228 478,222"/>
+    <path class="fine" data-w="0.6" d="M433,219 C446,217 460,217 474,219"/>
+    <path class="fine" data-w="0.6" d="M440,233 C444,228 452,226 460,226"/>
+    <!-- knot -->
+    <path class="fill" data-tone="paper" d="M432,226 C428,232 428,240 432,246 C436,250 442,250 446,246 C448,240 446,232 440,228 Z"/>
+    <path class="fill" data-tone="oat" d="M432,226 C428,232 428,240 432,246 C436,250 442,250 446,246 C448,240 446,232 440,228 Z"/>
+    <path class="ink" data-w="1.2" d="M432,227 C428,233 428,240 432,246 C436,250 442,250 446,246"/>
+    <!-- the tail -->
+    <path class="fill" data-tone="paper" d="M433,244 C428,262 425,284 425,306 L438,307 C437,286 439,264 444,248 Z"/>
+    <path class="fill" data-tone="oat" d="M433,244 C428,262 425,284 425,306 L438,307 C437,286 439,264 444,248 Z"/>
+    <path class="ink" data-w="1.1" d="M433,245 C428,262 425,284 425,306"/>
+    <path class="ink" data-w="1.4" d="M438,307 C437,286 439,264 444,249"/>
+    <path class="fine" data-w="0.5" d="M431,264 C429,278 429,292 430,302"/>
+    <path class="fine" data-w="0.65" d="M426,306 l0.2,5 M430,307 l0,5 M434,307 l0,5 M438,307 l-0.2,5"/>
+    <path class="hatch" data-angle="60" data-gap="2.6" data-w="0.38" d="M460,234 C469,232 476,228 478,222 C480,230 476,238 468,240 C465,241 462,239 460,234 Z"/>
+  </g>
+
+  <g id="thread">
+    <path class="thread" data-w="1.8" d="M352,-10 C353,120 354,260 355,372 C355.5,378 355,381 354.5,384 C350,392 342,400 334,400 C326,400 326,391 333,388 C342,385 352,391 354,400 C358,432 334,470 306,506 C278,540 226,566 120,572"/>
+  </g>
+</svg>

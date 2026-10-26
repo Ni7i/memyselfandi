@@ -1,0 +1,54 @@
+<svg viewBox="0 0 300 340">
+  <!-- Enis today, near profile facing left. Flat cap, the question-mark curl under the brim.
+       The face is a shadow in the anime manner: no eyes, no mouth, a thin lit rim on the profile.
+       Thirds: brow 138, nose base 198, chin 254. -->
+  <g id="shadow">
+    <!-- one crisp shadow over face, ear and neck, bounded by the hair; deeper crescent under the jaw -->
+    <path class="fill" data-tone="face" d="M88,103 C108,104 130,106 150,108 C153,118 157,130 160,141 C163,138 168,135 176,136 C184,138 189,146 190,158 C202,168 210,182 214,196 C210,197 208,198 207,198 C202,236 202,286 204,330 L126,330 C125,304 123,276 121,252 C112,254 108,254 104,254 C92,254 84,250 81,245 C79,240 79,234 81,229 C82,226 79,224 78,221 C77,218 78,215 80,213 C80,212 77,211 77,209 C76,206 77,203 80,200 C77,198 73,197 68,197.5 C61,198 59,194 63,188 C70,177 80,162 84,150 C84,146 79,143 79,136 C79,126 81,113 88,103 Z"/>
+    <path class="fill" data-tone="face" d="M104,254 C130,250 150,238 160,222 C163,216 165,210 166,204 C171,214 171,228 166,238 C156,253 138,262 121,265 C121,261 121,257 121,253 Z"/>
+  </g>
+
+  <g id="hair">
+    <!-- one short mass from the sideburn around the ear to the nape -->
+    <path class="fill" data-tone="dark" d="M149,106 L247,114 C251,133 248,157 236,177 C230,186 222,192 214,196 C210,182 202,168 190,158 C189,146 184,138 176,136 C168,135 163,138 160,141 C158,130 153,118 149,106 Z"/>
+    <path class="fill" data-tone="dark" d="M98,101 C118,103 136,105 150,107 C138,110 118,110 101,107 Z"/>
+    <path class="ink" data-tone="paper" data-w="0.9" d="M200,121 C214,128 226,140 232,156"/>
+    <path class="ink" data-tone="paper" data-w="0.8" d="M188,127 C198,133 205,142 209,152"/>
+    <!-- the curl: thick at the root under the brim, a clean question-mark hook -->
+    <path class="ink" data-w="5.2" data-taper="0.02 0.72" d="M101,100 C93,102 86,108 84,116 C82,125 87,132 94,131 C99,130 101,125 98,121 C96,118 92,119 92,122"/>
+    <path class="ink" data-w="1.7" data-taper="0.05 0.8" d="M106,101 C99,104 93,109 90,116"/>
+    <path class="ink" data-w="1.2" data-taper="0.05 0.8" d="M110,102 C105,105 101,108 99,112"/>
+  </g>
+
+  <g id="face">
+    <!-- profile contour, the only drawing of the face; rim light just inside it -->
+    <path class="ink" data-w="2.3" d="M87,104 C81,114 79,126 79,136 C79,143 84,146 84,150 C80,162 70,177 63,188 C59,194 61,198 68,197.5 C73,197 77,198 80,200"/>
+    <path class="ink" data-w="2.1" d="M80,200 C77,203 76,206 77,209 C77,211 80,212 80,213 C78,215 77,218 78,221 C79,224 82,226 81,229 C79,234 79,240 81,245 C84,250 92,254 104,254"/>
+    <path class="fine" data-w="1.3" d="M104,254 C130,250 150,238 160,222 C164,214 166,206 167,196"/>
+    <path class="ink" data-tone="paper" data-w="1.2" data-taper="0.3 0.3" d="M89,110 C84,120 82,128 82,136 C82,142 86,146 87,150 C83,162 74,176 67,187"/>
+    <path class="ink" data-tone="paper" data-w="1" data-taper="0.3 0.3" d="M80,216 C81,219 84,223 84,228 C82,234 82,240 84,244 C87,248 93,251 101,251"/>
+    <!-- ear, in the same shadow, lit on its outer rim -->
+    <path class="ink" data-w="1.9" d="M163,143 C168,135 182,136 186,148 C189,161 186,178 179,190 C176,196 170,198 166,194"/>
+    <path class="fine" data-w="0.9" d="M170,149 C177,149 179,158 177,167 C176,173 175,178 172,181"/>
+    <path class="ink" data-tone="paper" data-w="0.9" data-taper="0.3 0.3" d="M168,141 C177,140 183,146 184,155"/>
+  </g>
+
+  <g id="neck">
+    <path class="ink" data-w="2.1" d="M247,114 C251,136 246,160 232,180 C226,188 216,194 207,198"/>
+    <path class="ink" data-w="1.9" d="M121,252 C123,276 125,304 126,330"/>
+    <path class="ink" data-w="2.2" d="M207,198 C202,236 202,286 204,330"/>
+  </g>
+
+  <g id="cap">
+    <path class="fill" data-tone="paper" d="M63,105 C72,101 82,98 92,96 C98,80 108,73 125,70 C160,64 205,66 236,76 C254,82 254,106 246,113 C190,110 130,104 90,101 C82,103 72,105 63,105 Z"/>
+    <!-- shade on the far side of the crown, a few marks for wool tweed -->
+    <path class="hatch" data-angle="66" data-gap="3.6" data-w="0.5" d="M196,72 C220,72 236,78 244,88 C250,98 249,106 246,112 C232,111 218,110 204,109 C206,96 204,84 196,72 Z"/>
+    <path class="hatch" data-angle="60" data-gap="4" data-w="0.5" d="M66,104 C74,101 82,99 90,98 C90,100 90,101 90,102 C82,103 74,104 66,104 Z"/>
+    <path class="ink" data-w="2.4" d="M63,105 C72,101 82,98 92,96 C96,84 106,74 125,70 C160,63 205,65 236,76 C251,82 254,100 246,113"/>
+    <path class="ink" data-w="1.9" d="M246,113 C190,110 130,104 90,101 C82,102 72,104 63,105"/>
+    <path class="fine" data-w="1" d="M101,82 C140,72 195,70 238,79"/>
+    <path class="fine" data-w="0.9" d="M181,66 C183,82 182,98 179,110"/>
+    <path class="fine" data-w="0.8" d="M95,93 C93,96 92,99 92,101"/>
+    <circle class="fill" data-tone="dark" cx="101" cy="82" r="2.1"/>
+  </g>
+</svg>

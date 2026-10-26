@@ -1,0 +1,29 @@
+<svg viewBox="0 0 700 600">
+  <!-- Silhouette study: seated on a park bench in profile, facing left. Unit 70. Ground 560, seat 423. -->
+  <g id="skeleton">
+    <path class="guide" d="M425,398 L448,240 L440,226 M448,248 L452,330 L372,384 M452,236 L520,296 L540,330 M425,398 L290,388 L258,498 M425,404 L300,414 L306,540"/>
+  </g>
+  <!-- bench -->
+  <path class="fill" data-tone="mid" d="M318,420 L470,420 L470,432 L318,432 Z"/>
+  <path class="fill" data-tone="mid" d="M468,420 L484,300 L496,302 L480,424 Z"/>
+  <path class="fill" data-tone="mid" d="M332,432 C328,470 326,520 322,560 L332,560 C336,520 340,470 342,432 Z"/>
+  <path class="fill" data-tone="mid" d="M456,432 C462,470 468,520 474,560 L484,560 C478,520 470,470 466,432 Z"/>
+  <g data-include="_head-adult" transform="rotate(12 440 226) translate(381.6,123.3) scale(0.354)"/>
+  <!-- far arm along the backrest -->
+  <path class="fill" data-tone="mid" d="M446,232 C470,240 498,266 520,288 C534,300 546,318 548,336 L534,340 C530,324 520,310 506,300 C486,286 462,272 446,262 Z"/>
+  <!-- torso and coat over the seat -->
+  <path class="fill" data-tone="mid" d="M424,222 C440,214 456,212 466,224 C476,246 476,290 472,330 C470,360 470,392 472,420 L420,420 C416,390 414,350 414,310 C412,280 412,250 424,222 Z"/>
+  <!-- coat skirt draping off the seat front -->
+  <path class="fill" data-tone="mid" d="M420,392 C400,396 370,400 340,404 C330,406 326,420 326,440 C326,466 330,490 336,508 C350,504 364,490 376,470 C392,446 410,430 424,420 Z"/>
+  <!-- crossed near leg: thigh, shin, dangling foot -->
+  <path class="fill" data-tone="mid" d="M424,386 C390,380 340,376 292,378 C282,380 278,390 282,398 C290,408 300,410 310,408 C350,410 390,414 424,414 Z"/>
+  <path class="fill" data-tone="mid" d="M282,388 C274,420 264,456 254,494 L274,500 C284,466 296,432 308,404 Z"/>
+  <path class="fill" data-tone="mid" d="M254,492 C246,496 236,504 226,510 C218,514 220,520 228,520 C244,518 262,512 276,502 Z"/>
+  <!-- far leg: shin down to the ground, foot flat -->
+  <path class="fill" data-tone="mid" d="M298,410 C298,450 300,500 302,540 L322,540 C320,500 318,452 318,412 Z"/>
+  <path class="fill" data-tone="mid" d="M302,538 L322,538 C326,546 326,554 324,560 L250,560 C244,558 246,552 254,548 C270,544 288,540 302,538 Z"/>
+  <!-- near arm: hangs at the side, forearm resting on the thigh -->
+  <path class="fill" data-tone="mid" d="M440,244 C454,250 462,270 462,300 C462,320 458,336 450,348 C430,362 404,374 378,388 L370,374 C394,360 416,346 432,332 C432,310 430,286 430,264 Z"/>
+  <path class="fill" data-tone="mid" d="M380,372 C372,370 362,372 356,378 C352,384 356,390 364,390 C372,390 378,388 382,384 Z"/>
+  <path class="thread" data-w="1.8" d="M352,0 C356,120 360,260 364,372 C366,382 360,396 350,400 C338,404 336,392 346,386 C354,382 362,384 366,392 C372,420 330,470 300,520 C280,552 240,566 180,572"/>
+</svg>

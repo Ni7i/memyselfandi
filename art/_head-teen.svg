@@ -1,0 +1,43 @@
+<svg viewBox="0 0 300 340">
+  <!-- Enis at about fifteen. Same profile, same ear, the face a shadow with a lit rim.
+       No cap: hair swept forward, the question-mark curl in full view over the forehead. -->
+  <g id="shadow">
+    <path class="fill" data-tone="face" d="M88,99 C106,98 126,100 140,106 C150,112 157,126 160,141 C163,138 168,135 176,136 C184,138 189,146 190,158 C202,168 210,182 216,195 C212,197 210,198 208,199 C203,236 202,286 205,330 L129,330 C128,304 126,278 124,254 C114,255 108,255 98,255 C90,255 85,252 82,247 C80,242 80,236 82,230 C82,226 79,224 78,221 C77,218 78,215 80,213 C80,212 77,211 77,209 C76,206 77,202 80,199 C77,197 74,195.5 69,195.5 C63,196 61,192 65,186 C71,175 80,161 84,150 C84,146 79,143 79,136 C79,124 82,110 88,99 Z"/>
+    <path class="fill" data-tone="face" d="M98,255 C124,252 146,242 156,228 C160,220 162,212 164,205 C169,214 169,228 164,238 C154,252 138,260 124,263 C124,260 124,257 124,254 Z"/>
+  </g>
+
+  <g id="hair">
+    <path class="fill" data-tone="dark" d="M84,104 C84,80 104,56 146,47 C190,39 231,52 248,80 C257,98 256,128 249,152 C243,170 232,186 216,196 C211,182 202,168 190,158 C189,146 184,138 176,136 C168,135 163,138 160,141 C157,126 150,112 140,106 C124,99 104,98 84,104 Z"/>
+    <path class="ink" data-tone="paper" data-w="1" d="M114,72 C138,58 168,54 196,58"/>
+    <path class="ink" data-tone="paper" data-w="0.9" d="M108,88 C128,76 154,70 182,72"/>
+    <path class="ink" data-tone="paper" data-w="0.8" d="M210,92 C224,104 234,120 238,140"/>
+    <path class="ink" data-tone="paper" data-w="0.8" d="M198,106 C207,116 212,128 214,142"/>
+    <!-- strands breaking the outline: a cowlick at the crown, the nape, the fringe -->
+    <path class="ink" data-tone="dark" data-w="2.6" data-taper="0.1 0.9" d="M176,44 C182,34 192,30 200,32"/>
+    <path class="ink" data-tone="dark" data-w="2.2" data-taper="0.1 0.9" d="M190,44 C198,38 208,38 214,42"/>
+    <path class="ink" data-tone="dark" data-w="2.4" data-taper="0.1 0.9" d="M232,180 C236,188 236,196 232,203"/>
+    <path class="ink" data-tone="dark" data-w="2.2" data-taper="0.1 0.9" d="M120,100 C114,104 110,110 109,116"/>
+    <path class="ink" data-tone="dark" data-w="1.8" data-taper="0.1 0.9" d="M132,102 C128,106 126,111 126,116"/>
+    <!-- the curl, falling from the fringe, the same hook as the adult's -->
+    <path class="ink" data-w="5.2" data-taper="0.02 0.72" d="M100,99 C92,101 85,107 83,115 C81,124 86,131 93,130 C98,129 100,124 97,120 C95,117 91,118 91,121"/>
+    <path class="ink" data-w="1.7" data-taper="0.05 0.8" d="M106,100 C99,103 93,108 89,115"/>
+    <path class="ink" data-w="2.3" d="M85,103 C85,79 105,55 147,46 C190,38 231,52 248,80 C257,98 256,128 249,152"/>
+  </g>
+
+  <g id="face">
+    <path class="ink" data-w="2.2" d="M88,99 C82,110 79,124 79,136 C79,143 84,146 84,150 C80,161 71,175 65,186 C61,192 63,196 69,195.5 C74,195.5 77,197 80,199"/>
+    <path class="ink" data-w="2" d="M80,199 C77,202 76,206 77,209 C77,211 80,212 80,213 C78,215 77,218 78,221 C79,224 82,226 82,230 C80,236 80,242 82,247 C85,252 90,255 98,255"/>
+    <path class="fine" data-w="1.2" d="M98,255 C122,252 144,242 154,228 C159,220 162,212 164,204"/>
+    <path class="ink" data-tone="paper" data-w="1.2" data-taper="0.3 0.3" d="M88,108 C84,118 82,128 82,136 C82,142 86,146 87,150 C83,161 75,174 69,184"/>
+    <path class="ink" data-tone="paper" data-w="1" data-taper="0.3 0.3" d="M81,216 C82,219 85,223 85,229 C83,235 83,241 85,245 C88,249 93,252 99,252"/>
+    <path class="ink" data-w="1.9" d="M163,143 C168,135 182,136 186,148 C189,161 186,178 179,190 C176,196 170,198 166,194"/>
+    <path class="fine" data-w="0.9" d="M170,149 C177,149 179,158 177,167 C176,173 175,178 172,181"/>
+    <path class="ink" data-tone="paper" data-w="0.9" data-taper="0.3 0.3" d="M168,141 C177,140 183,146 184,155"/>
+  </g>
+
+  <g id="neck">
+    <path class="ink" data-w="2.1" d="M249,152 C243,170 232,186 216,196 C213,197 211,198 208,199"/>
+    <path class="ink" data-w="1.9" d="M124,254 C126,278 128,304 129,330"/>
+    <path class="ink" data-w="2.1" d="M208,199 C203,236 202,286 205,330"/>
+  </g>
+</svg>

@@ -9,15 +9,6 @@ const sans = localFont({
   display: "swap",
 });
 
-const serif = localFont({
-  src: [
-    { path: "./fonts/fraunces-latin.woff2", style: "normal" },
-    { path: "./fonts/fraunces-latin-italic.woff2", style: "italic" },
-  ],
-  variable: "--font-fraunces",
-  display: "swap",
-});
-
 export const metadata: Metadata = {
   title: "Enis Shorra",
   description: "Application developer from the Limmattal. Projects, skills and contact.",
@@ -25,7 +16,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${sans.variable} ${serif.variable}`}>
+    <html lang="en" className={sans.variable}>
       <body>{children}</body>
     </html>
   );

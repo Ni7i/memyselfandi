@@ -22,8 +22,9 @@ function SectionLink({ id, label, onHome, className }: { id: string; label: stri
 export default function SiteHeader({ onHome = false }: { onHome?: boolean }) {
   return (
     <nav className="nav">
-      <Link href="/" className="logo" aria-label="Enis Shorra">
-        <span className="logo-mark" aria-hidden="true">E</span>
+      <Link href="/" className="brand">
+        <span className="brand-mark" aria-hidden="true">es</span>
+        <span className="brand-name">Enis Shorra</span>
       </Link>
       <div className="nav-links">
         {SECTIONS.map((section) => <SectionLink key={section.id} {...section} onHome={onHome} />)}

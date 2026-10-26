@@ -1,5 +1,43 @@
-/* Admin styles. Everything is scoped under .adm so nothing leaks into the public site,
-   which keeps its own styles in globals.css. Tokens (--paper, --ink, …) come from there. */
+/* Admin styles. Everything is scoped under .adm so nothing leaks into the public site.
+   The admin keeps its own tokens and base styles, so a redesign of globals.css leaves it as is. */
+
+.adm {
+  --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-serif: Georgia, "Times New Roman", serif;
+  --paper: #f4f0e6;
+  --ink: #131311;
+  --ink-2: #2e2c26;
+  --ink-3: #4a4740;
+  --dim: #7a7469;
+  --grey: #a29d90;
+  --line: rgba(19, 19, 17, 0.14);
+  --line-soft: rgba(19, 19, 17, 0.07);
+  --accent: #274a7d;
+  font-family: var(--font-sans);
+  line-height: 1.55;
+  letter-spacing: -0.005em;
+  background-color: var(--paper);
+  background-image: radial-gradient(rgba(19, 19, 17, 0.028) 1px, transparent 1px);
+  background-size: 3px 3px;
+}
+
+.adm ::selection { background: var(--ink); color: var(--paper); }
+.adm :focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+.adm .logo {
+  font-weight: 800;
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  justify-self: start;
+}
+
+.adm .logo .top, .adm .logo .bot { display: block; }
+.adm .logo .bot { transform: rotate(180deg); transform-origin: center; }
 
 .adm { min-height: 100vh; color: var(--ink); font-size: 14px; }
 

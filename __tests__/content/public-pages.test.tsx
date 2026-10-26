@@ -24,11 +24,11 @@ describe("homepage", () => {
     const html = renderToStaticMarkup(await Home());
 
     expect(html).toContain('<span class="idx-count">8 projects</span>');
-    expect(html).toContain('<span class="showcase-number">01</span>screentime-blocker</button>');
-    expect(html).toContain("<p>A macOS menu-bar app that blocks distracting websites and apps behind a personal code.</p>");
+    expect(html).toContain('class="showcase-title" aria-expanded="true">screentime-blocker</button>');
+    expect(html).toContain('<p class="info-text">A macOS menu-bar app that blocks distracting websites and apps behind a personal code.</p>');
     expect(html).toContain('<a href="https://github.com/Ni7i/screentime-blocker" target="_blank" rel="noreferrer">View code ↗</a>');
     expect(html).toContain('<a href="https://github.com/Ni7i/LockBox" target="_blank" rel="noreferrer">View code ↗</a>');
-    const titles = [...html.matchAll(/<span class="showcase-number">\d+<\/span>([^<]+)<\/button>/g)].map((match) => match[1]).slice(0, 8);
+    const titles = [...html.matchAll(/class="showcase-title"[^>]*>([^<]+)<\/button>/g)].map((match) => match[1]).slice(0, 8);
     expect(titles).toEqual(["screentime-blocker", "memyselfandi", "Quizlot", "NoteVault", "Twinn", "midnight-calculator", "LockBox", "Oase Jugendraum"]);
     expect(html).not.toContain("WhitePlayer");
   });
@@ -39,13 +39,13 @@ describe("homepage", () => {
     await projectStore.update("quizlot", { ...quizlot, title: "Quizlot Pro", featured: false });
 
     const html = renderToStaticMarkup(await Home());
-    expect(html).toContain("</span>Quizlot Pro</button>");
-    expect(html.indexOf("Quizlot Pro")).toBeGreaterThan(html.indexOf("</span>memyselfandi</button>"));
+    expect(html).toContain(">Quizlot Pro</button>");
+    expect(html.indexOf(">Quizlot Pro</button>")).toBeGreaterThan(html.indexOf(">memyselfandi</button>"));
   });
 
   it("shows each certificate with its own preview", async () => {
     const html = renderToStaticMarkup(await Home());
-    expect(html).toContain('<span class="showcase-number">01</span>Baden hackt</button>');
+    expect(html).toContain('class="showcase-title" aria-expanded="true">Baden hackt</button>');
     expect(html).toContain('href="/certificates/baden-hackt.jpg"');
   });
 });

@@ -3,7 +3,6 @@ import ProjectRow from "@/components/ProjectRow";
 import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
 import { getPublishedProjects } from "@/lib/content/projects";
-import TypedTitle from "./TypedTitle";
 
 // Projects are managed in /admin and read on every request.
 export const dynamic = "force-dynamic";
@@ -36,6 +35,39 @@ const CERTIFICATES = [
   },
 ];
 
+const FACTS = [
+  { label: "School", value: "IMS Baden" },
+  { label: "Track", value: "Berufsmatura + EFZ" },
+  { label: "Years", value: "2024-2028" },
+  { label: "Based in", value: "Limmattal" },
+];
+
+const SIDE_LINKS = [
+  { id: "top", label: "Home" },
+  { id: "about", label: "About me" },
+  { id: "archive", label: "Projects" },
+  { id: "certificates", label: "Certificates" },
+  { id: "contact", label: "Contact" },
+];
+
+/** Large heading with the same word set in faded italic behind it. */
+function SectionHead({ title, align = "left" }: { title: string; align?: "left" | "right" }) {
+  return (
+    <div className={`sec-head sec-head-${align}`}>
+      <span className="ghost" aria-hidden="true">{title}</span>
+      <h2>{title}</h2>
+    </div>
+  );
+}
+
+function Swoosh({ className }: { className: string }) {
+  return (
+    <svg className={`swoosh ${className}`} viewBox="0 0 800 900" fill="none" aria-hidden="true">
+      <path d="M760 40C420 10 120 120 140 300c20 190 380 260 420 450 18 90-40 120-90 110" stroke="currentColor" strokeWidth="22" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 export default async function Home() {
   const projects = await getPublishedProjects();
   const topProjects = projects.filter((project) => project.featured);
@@ -45,24 +77,33 @@ export default async function Home() {
     <>
       <SiteHeader onHome />
 
-      <section className="intro">
-        <div className="intro-inner">
-          <div>
-            <span className="stamp">Est. 2024 · Limmattal</span>
-            <TypedTitle />
-          </div>
-          <p className="intro-sub">
+      <nav className="side-nav" aria-label="Sections">
+        {SIDE_LINKS.map((link) => <a key={link.id} href={`#${link.id}`}>{link.label}</a>)}
+      </nav>
+
+      <section className="hero" id="top">
+        <div className="hero-glow" aria-hidden="true" />
+        <div className="hero-inner">
+          <h1 className="hero-name">Enis Shorra</h1>
+          <p className="hero-tags">
+            <span>Application Development</span>
+            <span>IMS Baden</span>
+            <span>Limmattal, Switzerland</span>
+          </p>
+          <p className="hero-sub">
             The personal site of an eighteen-year-old developer from
             Switzerland: what I build, what I&apos;m into, and where
             this is going.
           </p>
         </div>
+        <a className="hero-scroll" href="#about">Scroll</a>
       </section>
 
       <section className="mag" id="about">
+        <Swoosh className="swoosh-about" />
         <div className="mag-inner">
-          <article className="about-sheet">
-            <span className="about-label">About me</span>
+          <SectionHead title="About me" />
+          <div className="about-grid">
             <div className="about-copy">
               <p>
                 I&apos;m usually the person who gives a group structure and keeps
@@ -92,19 +133,33 @@ export default async function Home() {
                 eager to learn, dependable and a good person to ask for advice.
               </p>
             </div>
-            <footer className="about-footer">
-              <span>IMS Baden, Berufsmatura + EFZ Informatiker</span>
-              <span>2024-2028</span>
-            </footer>
-          </article>
+            <aside className="about-side">
+              <span className="side-label">Quick facts</span>
+              <dl className="facts">
+                {FACTS.map((fact) => (
+                  <div key={fact.label}>
+                    <dt>{fact.label}</dt>
+                    <dd>{fact.value}</dd>
+                  </div>
+                ))}
+              </dl>
+              <span className="side-label">Right now</span>
+              <ol className="now-list">
+                <li><span>(01)</span>Building projects</li>
+                <li><span>(02)</span>Writing on the blog</li>
+                <li><span>(03)</span>Looking for a team</li>
+              </ol>
+            </aside>
+          </div>
         </div>
       </section>
 
       <section className="idx" id="archive">
+        <Swoosh className="swoosh-projects" />
         <div className="idx-inner">
+          <SectionHead title="Projects" />
           <header className="idx-intro">
             <span className="idx-kicker">Selected &amp; ongoing</span>
-            <h2>Things I&apos;ve <em>made.</em></h2>
             <p>
               Three projects I&apos;m especially proud of, followed by more work
               worth opening. Every row links directly to the code.
@@ -134,10 +189,8 @@ export default async function Home() {
 
       <section className="me" id="certificates">
         <div className="me-inner certificates-inner">
-          <div className="me-head">
-            <h2>Certificates<em>.</em></h2>
-            <span className="meta">Courses &amp; milestones</span>
-          </div>
+          <SectionHead title="Certificates" align="right" />
+          <span className="me-meta">Courses &amp; milestones</span>
           <div className="certificate-list">
             {CERTIFICATES.map((certificate, index) => (
               <a
@@ -150,6 +203,7 @@ export default async function Home() {
                 <span className="certificate-number">0{index + 1}</span>
                 <h3>{certificate.title}</h3>
                 <p>{certificate.detail}</p>
+                <span className="certificate-arrow" aria-hidden="true">↗</span>
               </a>
             ))}
           </div>
@@ -159,9 +213,10 @@ export default async function Home() {
       <section className="cta" id="contact">
         <div className="cta-inner">
           <div>
-            <h2 className="cta-title">
+            <SectionHead title="Contact" />
+            <p className="cta-title">
               Currently looking for the <em>right team.</em>
-            </h2>
+            </p>
             <p className="cta-sub">
               I&apos;m available for an apprenticeship anywhere. If that sounds
               useful, write to me right here, without leaving the website.

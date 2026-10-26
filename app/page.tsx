@@ -21,21 +21,21 @@ const QUICK_FACTS = [
 ];
 
 const CORE_SKILLS = [
-  { title: "C# & .NET", note: "LockBox, NoteVault and desktop apps in WPF" },
-  { title: "Web", note: "React, Next.js and TypeScript, like this site" },
-  { title: "Python", note: "screentime-blocker and the Oase Jugendraum app" },
-  { title: "UI design", note: "Spacing, motion and states, in WPF and Figma" },
-];
+  { title: "C# & .NET", note: "Desktop apps in WPF, a password manager, a REST API" },
+  { title: "Web", note: "React, Next.js and TypeScript. This site is one of them." },
+  { title: "Python", note: "A screen-time blocker and a web app for a youth room" },
+  { title: "UI design", note: "Spacing, motion and every state in between" },
+]
 
-/** Said one at a time, large, while the thread keeps going. */
+/** Said one at a time, large, while the thread keeps going; the short form collects below. */
 const TRAITS = [
-  "I'm passionate about what I build.",
-  "I work with AI, and I deliver.",
-  "I don't ship AI slop.",
-  "I'm reliable.",
-  "I give a group structure.",
-  "I stay with a problem.",
-  "I want to keep learning.",
+  { line: "I care about what I build. A lot.", short: "Passionate" },
+  { line: "I use AI to go faster, not to think less.", short: "Works with AI" },
+  { line: "I ship real work. Not AI slop.", short: "No AI slop" },
+  { line: "If I say it's done, it's done.", short: "Reliable" },
+  { line: "When a group gets lost, I bring structure.", short: "Brings structure" },
+  { line: "I stay with a bug until it gives up first.", short: "Persistent" },
+  { line: "I'm never done learning.", short: "Always learning" },
 ];
 
 const PROMISES = ["I don't give up.", "I work hard.", "I keep my word.", "I don't lie."];
@@ -44,12 +44,12 @@ const PROMISES = ["I don't give up.", "I work hard.", "I keep my word.", "I don'
 const step = (at: number, extra: Record<string, number> = {}) => ({ "--at": at, ...extra }) as React.CSSProperties;
 
 const PATH = [
-  { when: "Before 2024", title: "Unity prototypes", text: "A year of small games in Unity. None of them shipped, but that is where building things started for me." },
-  { when: "2024", title: "IMS Baden", text: "Started the Informatikmittelschule: three years of school for the EFZ Informatiker and the Berufsmatura." },
-  { when: "2025", title: "Engine out, C# in", text: "Dropped Unity for pure C# and .NET, and started writing about what I learn on the blog." },
-  { when: "Along the way", title: "Baden hackt", text: "4th place at the Baden hackt competition." },
-  { when: "2027-2028", title: "The practical year", text: "The last IMS year is spent working in a company. That is the team I am looking for." },
-];
+  { when: "Before 2024", title: "Unity prototypes", text: "A year of small games that never shipped. They still taught me the one thing that matters: I love building." },
+  { when: "2024", title: "IMS Baden", text: "The Informatikmittelschule: three years of school toward the EFZ Informatiker and the Berufsmatura." },
+  { when: "2025", title: "Engine out, C# in", text: "I dropped Unity, wrote my own game loop in plain C# and started writing down what I learn." },
+  { when: "Along the way", title: "4th at Baden hackt", text: "A hackathon, a deadline and fourth place." },
+  { when: "2027-2028", title: "The practical year", text: "My last IMS year happens inside a company. That company could be yours." },
+]
 
 const CERTIFICATES = [
   {
@@ -141,10 +141,10 @@ export default async function Home() {
         <Scene id="top" className="intro" length={4}>
           <Thread shape="kid" anchor=".kid-anchor" pinned={{ from: 0.06, to: 0.86 }} />
           <h1 className="intro-name">Enis</h1>
-          <span className="scroll-hint" aria-hidden="true">Scroll down</span>
+          <span className="scroll-hint" aria-hidden="true">Scroll</span>
           <div className="kid-anchor" aria-hidden="true" />
-          <p className="intro-line" style={step(0.18, { "--until": 0.5 })}>It started on a small screen.</p>
-          <p className="intro-line" style={step(0.56, { "--until": 0.95 })}>And it never stopped.</p>
+          <p className="intro-line" style={step(0.18, { "--until": 0.5 })}>It started with a kid, an old screen and way too many questions.</p>
+          <p className="intro-line" style={step(0.56, { "--until": 0.97 })}>The questions got harder. I never stopped asking.</p>
         </Scene>
 
         {/* 2. The question, crossed out, and three answers */}
@@ -163,22 +163,23 @@ export default async function Home() {
             <span style={step(0.62, { "--tilt": 4 })}>No.</span>
             <span style={step(0.74, { "--tilt": -2 })}>No.</span>
           </p>
+          <p className="q-after" style={step(0.88)}>Let me show you why.</p>
         </Scene>
 
         {/* 3. Who I am instead, one sentence at a time */}
         <Scene className="traits" length={TRAITS.length + 1}>
-          <Thread shape="zigzag" pinned={{ from: -0.1, to: 1 }} />
-          <p className="traits-kicker">So who is Enis?</p>
+          <Thread shape="coil" pinned={{ from: -0.1, to: 1 }} />
+          <p className="traits-kicker">Here&apos;s who you&apos;d get.</p>
           <div className="trait-stage">
             {TRAITS.map((trait, index) => (
-              <p key={trait} className="trait" style={step((index + 0.4) / (TRAITS.length + 1), { "--until": index === TRAITS.length - 1 ? 9 : (index + 1.3) / (TRAITS.length + 1) })}>
-                {trait}
+              <p key={trait.short} className="trait" style={step((index + 0.4) / (TRAITS.length + 1), { "--until": index === TRAITS.length - 1 ? 9 : (index + 1.3) / (TRAITS.length + 1) })}>
+                {trait.line}
               </p>
             ))}
           </div>
           <ul className="trait-trail" aria-label="In short">
             {TRAITS.map((trait, index) => (
-              <li key={trait} style={step((index + 1.3) / (TRAITS.length + 1))}>{trait}</li>
+              <li key={trait.short} style={step((index + 1.3) / (TRAITS.length + 1))}>{trait.short}</li>
             ))}
           </ul>
         </Scene>
@@ -242,8 +243,8 @@ export default async function Home() {
           <Thread shape="line" />
           <div className="block-head" data-reveal>
             <div>
-              <h2>How I got here</h2>
-              <p>From game prototypes to the IMS Baden, and next into a real team.</p>
+              <h2>The road so far</h2>
+              <p>From game prototypes to the IMS Baden. Next stop: your team.</p>
             </div>
           </div>
           <ol className="timeline">
@@ -263,7 +264,7 @@ export default async function Home() {
           <div className="block-head" data-reveal>
             <div>
               <h2>I can do a lot.</h2>
-              <p className="lead-on">For some of it, I have certificates.</p>
+              <p className="lead-on">For some of it, I even have the paper.</p>
             </div>
             <div className="thread-anchor anchor-trophy" aria-hidden="true" />
           </div>
@@ -279,8 +280,8 @@ export default async function Home() {
             <div>
               <h2>I build what I need.</h2>
               <p className="lead-on">
-                What I don&apos;t want to pay for, or what I need right now.
-                No tutorials.
+                Things I didn&apos;t want to pay for, or needed right now.
+                Built from scratch, no tutorials.
               </p>
               <span className="idx-count">{projects.length} projects</span>
             </div>
@@ -301,7 +302,7 @@ export default async function Home() {
             ))}
           </ul>
           <p className="guarantee">
-            <span style={step(0.56)}>And I can give you a guarantee:</span>
+            <span style={step(0.56)}>And one thing I can guarantee:</span>
             <strong style={step(0.7)}>I always give my best.</strong>
           </p>
           <div className="seal-anchor" aria-hidden="true" />
@@ -311,10 +312,10 @@ export default async function Home() {
           <Thread shape="plane" anchor=".thread-anchor" />
           <div className="contact-grid" data-reveal>
             <div>
-              <h2 className="contact-title">Currently looking for the right team.</h2>
+              <h2 className="contact-title">Looking for the right team. Maybe it&apos;s yours.</h2>
               <p className="contact-sub">
-                I&apos;m available for an apprenticeship anywhere. If that sounds
-                useful, write to me right here, without leaving the website.
+                I&apos;m looking for an internship for my practical year. Write
+                to me right here. I read every message myself.
               </p>
               <div className="thread-anchor anchor-plane" aria-hidden="true" />
             </div>

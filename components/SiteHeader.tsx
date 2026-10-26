@@ -16,16 +16,17 @@ const MORE_SECTIONS = [
 /** Stops on the dial, top to bottom. */
 const DIAL = [
   { id: "top", label: "Start" },
-  { id: "about", label: "About" },
+  { id: "about", label: "Who I am" },
   { id: "path", label: "My path" },
-  { id: "archive", label: "Projects" },
   { id: "certificates", label: "Certificates" },
+  { id: "archive", label: "Projects" },
+  { id: "hire", label: "Why me" },
   { id: "contact", label: "Contact" },
 ] as const;
 
-/** Degrees between two stops, and the dial's radius in px. */
-const STEP = 24;
-const RADIUS = 300;
+/** Degrees between two stops, and the dial's radius in px (also used by the CSS via --r). */
+const STEP = 22;
+const RADIUS = 150;
 
 const clock = new Intl.DateTimeFormat("de-CH", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Zurich" });
 const readTime = () => clock.format(Date.now());
@@ -85,9 +86,11 @@ export default function SiteHeader({ onHome = false }: { onHome?: boolean }) {
         const angle = (offset * STEP * Math.PI) / 180;
         const x = -RADIUS * Math.cos(angle);
         const y = RADIUS * Math.sin(angle);
-        const near = Math.max(0, 1 - Math.abs(offset) / 2.6);
-        label.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) translate(-100%, -50%) scale(${(0.82 + 0.28 * near).toFixed(3)})`;
-        label.style.opacity = (0.12 + 0.88 * near ** 1.6).toFixed(3);
+        // Only the current stop and its neighbours are readable; the rest fade into the ring
+        const near = Math.max(0, 1 - Math.abs(offset) / 1.6);
+        label.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) translate(-100%, -50%)`;
+        label.style.opacity = (near ** 1.4).toFixed(3);
+        label.style.pointerEvents = near > 0.2 ? "auto" : "none";
         label.classList.toggle("is-current", Math.abs(offset) < 0.5);
       });
     };
@@ -118,9 +121,15 @@ export default function SiteHeader({ onHome = false }: { onHome?: boolean }) {
       <div className="grain" aria-hidden="true" />
 
       <nav className="dial" ref={dialRef} aria-label="Sections">
-        <svg className="dial-ring" viewBox="-310 -310 620 620" aria-hidden="true">
+        <svg className="dial-ring" viewBox={`${-RADIUS - 12} ${-RADIUS - 12} ${2 * RADIUS + 24} ${2 * RADIUS + 24}`} aria-hidden="true">
           <circle r={RADIUS} />
-          <circle r={RADIUS - 14} className="dial-ticks" />
+          <g className="dial-ticks">
+            {DIAL.map((stop, index) => {
+              const angle = (index * STEP * Math.PI) / 180;
+              const [cos, sin] = [Math.cos(angle), Math.sin(angle)];
+              return <line key={stop.id} x1={-(RADIUS - 5) * cos} y1={(RADIUS - 5) * sin} x2={-(RADIUS + 5) * cos} y2={(RADIUS + 5) * sin} />;
+            })}
+          </g>
         </svg>
         <span className="dial-pointer" aria-hidden="true" />
         <div className="dial-stops">
@@ -129,7 +138,6 @@ export default function SiteHeader({ onHome = false }: { onHome?: boolean }) {
           ))}
         </div>
         <div className="dial-corner">
-          <Link href="/" className="corner-brand">Enis Shorra</Link>
           <Link href="/blog" className="corner-link">Blog</Link>
           <SectionLink className="corner-link corner-cta" id="contact" label="Get in touch" onHome={onHome} />
           <span className="rail-time">Limmattal{time && ` ${time}`}</span>

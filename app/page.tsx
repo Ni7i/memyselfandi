@@ -1,4 +1,5 @@
 import ContactForm from "@/components/ContactForm";
+import CyclingWords from "@/components/CyclingWords";
 import Scene from "@/components/Scene";
 import ScrollReveal from "@/components/ScrollReveal";
 import Showcase, { type ShowcaseItem } from "@/components/Showcase";
@@ -11,83 +12,36 @@ import type { Project } from "@/lib/content/types";
 // Projects are managed in /admin and read on every request.
 export const dynamic = "force-dynamic";
 
-const QUICK_FACTS = [
-  { label: "School", value: "IMS Baden" },
-  { label: "Programme", value: "Informatikmittelschule" },
-  { label: "Diploma", value: "EFZ Informatiker + Berufsmatura" },
-  { label: "Years", value: "2024-2028" },
-  { label: "Based in", value: "Limmattal" },
-  { label: "Age", value: "18" },
+/** Thoughts and experiences that cycle behind the name. */
+const THOUGHTS = [
+  "a kid who wanted to play",
+  "a father with a plan",
+  "late nights and curiosity",
+  "how does any of this work?",
+  "Kosovo, then the Limmattal",
+  "Arabic, self-taught",
+  "C#, .NET and the web",
+  "still asking questions",
 ];
 
-const CORE_SKILLS = [
-  { title: "C# & .NET", note: "Desktop apps in WPF, a password manager, a REST API" },
-  { title: "Web", note: "React, Next.js and TypeScript. This site is one of them." },
-  { title: "Python", note: "A screen-time blocker and a web app for a youth room" },
-  { title: "UI design", note: "Spacing, motion and every state in between" },
-]
-
-/** Said one at a time, large, while the thread keeps going; the short form collects below. */
-const TRAITS = [
-  { line: "I care about what I build. A lot.", short: "Passionate" },
-  { line: "I use AI to go faster, not to think less.", short: "Works with AI" },
-  { line: "I ship real work. Not AI slop.", short: "No AI slop" },
-  { line: "If I say it's done, it's done.", short: "Reliable" },
-  { line: "When a group gets lost, I bring structure.", short: "Brings structure" },
-  { line: "I stay with a bug until it gives up first.", short: "Persistent" },
-  { line: "I'm never done learning.", short: "Always learning" },
+const CERTIFICATES = [
+  { title: "Baden hackt", detail: "4th place · Competition", url: "/certificates/baden-hackt.jpg", size: { width: 347, height: 491 } },
+  { title: "AFV Referee Diploma", detail: "Football referee qualification", url: "/certificates/afv-referee-diploma.jpg", size: { width: 1290, height: 1906 } },
+  { title: "Web APIs with ASP.NET Core 8", detail: "LinkedIn Learning", url: "/certificates/web-apis-aspnet-core-8.png", size: { width: 1925, height: 1487 } },
+  { title: "Python Essentials 1", detail: "Cisco Networking Academy", url: "https://www.credly.com/badges/a83657ef-3959-4ced-abf1-cc5dd7ad43d3/linked_in_profile" },
+  { title: "Networking Basics", detail: "Cisco Networking Academy", url: "https://www.credly.com/badges/9905e43b-c420-468e-9b75-b6b1bace4b87" },
 ];
 
 const PROMISES = ["I don't give up.", "I work hard.", "I keep my word.", "I don't lie."];
 
-/** CSS custom properties for a step that shows up at scene progress `at`. */
-const step = (at: number, extra: Record<string, number> = {}) => ({ "--at": at, ...extra }) as React.CSSProperties;
-
-const PATH = [
-  { when: "Before 2024", title: "Unity prototypes", text: "A year of small games that never shipped. They still taught me the one thing that matters: I love building." },
-  { when: "2024", title: "IMS Baden", text: "The Informatikmittelschule: three years of school toward the EFZ Informatiker and the Berufsmatura." },
-  { when: "2025", title: "Engine out, C# in", text: "I dropped Unity, wrote my own game loop in plain C# and started writing down what I learn." },
-  { when: "Along the way", title: "4th at Baden hackt", text: "A hackathon, a deadline and fourth place." },
-  { when: "2027-2028", title: "The practical year", text: "My last IMS year happens inside a company. That company could be yours." },
-]
-
-const CERTIFICATES = [
-  {
-    title: "Baden hackt",
-    detail: "4th place · Competition",
-    url: "/certificates/baden-hackt.jpg",
-    size: { width: 347, height: 491 },
-  },
-  {
-    title: "AFV Referee Diploma",
-    detail: "Football referee qualification",
-    url: "/certificates/afv-referee-diploma.jpg",
-    size: { width: 1290, height: 1906 },
-  },
-  {
-    title: "Web APIs with ASP.NET Core 8",
-    detail: "LinkedIn Learning",
-    url: "/certificates/web-apis-aspnet-core-8.png",
-    size: { width: 1925, height: 1487 },
-  },
-  {
-    title: "Python Essentials 1",
-    detail: "Cisco Networking Academy",
-    url: "https://www.credly.com/badges/a83657ef-3959-4ced-abf1-cc5dd7ad43d3/linked_in_profile",
-  },
-  {
-    title: "Networking Basics",
-    detail: "Cisco Networking Academy",
-    url: "https://www.credly.com/badges/9905e43b-c420-468e-9b75-b6b1bace4b87",
-  },
-];
-
-/** Screenshots for projects that have one, keyed by slug. */
 const PROJECT_IMAGES: Record<string, { src: string; width: number; height: number }> = {
   quizlot: { src: "/projects/quizlot.jpg", width: 1800, height: 1200 },
 };
 
 const withoutProtocol = (url: string) => url.replace(/^https?:\/\//, "").replace(/\/$/, "");
+
+/** CSS custom properties for a step that shows up at scene progress `at`. */
+const step = (at: number, extra: Record<string, number> = {}) => ({ "--at": at, ...extra }) as React.CSSProperties;
 
 function projectItem(project: Project): ShowcaseItem {
   const image = PROJECT_IMAGES[project.slug];
@@ -119,9 +73,7 @@ const CERTIFICATE_ITEMS: ShowcaseItem[] = CERTIFICATES.map((certificate) => {
     tags: [],
     links: [{ label: external ? "View badge" : "Open certificate", href: certificate.url, external: true }],
     address: external ? "credly.com" : `enisshorra.ch${certificate.url}`,
-    image: "size" in certificate && certificate.size
-      ? { src: certificate.url, ...certificate.size, alt: `${certificate.title} certificate` }
-      : undefined,
+    image: "size" in certificate && certificate.size ? { src: certificate.url, ...certificate.size, alt: `${certificate.title} certificate` } : undefined,
     fallback: ["Verified badge on Credly", certificate.title, certificate.detail],
   };
 });
@@ -137,129 +89,118 @@ export default async function Home() {
       <ScrollReveal />
 
       <main className="flow">
-        {/* 1. Only the name. Scrolling draws a kid at a laptop, then the same person, grown. */}
-        <Scene id="top" className="intro" length={4}>
-          <Thread shape="kid" anchor=".kid-anchor" pinned={{ from: 0.06, to: 0.86 }} />
-          <h1 className="intro-name">Enis</h1>
+        {/* Intro: the name, cycling thoughts, a note, and the man on the bench who tells the story */}
+        <Scene id="top" className="intro" length={4} mood="dawn">
+          <Thread shape="bench" anchor=".bench-anchor" pinned={{ from: 0.2, to: 0.9 }} />
+          <div className="intro-head">
+            <p className="disclaimer" style={step(0)}>A personal story. I gave it real care.</p>
+            <h1 className="intro-name">Enis</h1>
+            <CyclingWords words={THOUGHTS} className="intro-thought" />
+          </div>
+          <p className="intro-invite" style={step(0.24, { "--until": 0.95 })}>Sit down. Let me tell you how I got here.</p>
+          <div className="bench-anchor" aria-hidden="true" />
           <span className="scroll-hint" aria-hidden="true">Scroll</span>
-          <div className="kid-anchor" aria-hidden="true" />
-          <p className="intro-line" style={step(0.18, { "--until": 0.5 })}>It started with a kid, an old screen and way too many questions.</p>
-          <p className="intro-line" style={step(0.56, { "--until": 0.97 })}>The questions got harder. I never stopped asking.</p>
         </Scene>
 
-        {/* 2. The question, crossed out, and three answers */}
-        <Scene id="about" className="question" length={3}>
-          <Thread shape="line" pinned={{ from: -0.3, to: 1 }} />
-          <h2 className="q-text">
-            <span style={step(0.02)}>Just another candidate</span>
-            <span style={step(0.1)}>for an internship?</span>
-            <svg className="q-strike" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-              <path d="M1,30 C25,20 55,38 99,24" />
-              <path d="M1,80 C22,70 48,86 74,72" />
-            </svg>
+        {/* Age 3 */}
+        <Scene id="story" className="chapter" length={3.4} mood="sepia">
+          <Thread shape="controller" anchor=".thread-anchor" pinned={{ from: 0.55, to: 0.9 }} />
+          <p className="chapter-kicker" style={step(0.04)}>Age three</p>
+          <h2 className="chapter-line">
+            <span style={step(0.08)}>My father sat me in front of a computer.</span>
+            <span style={step(0.3)}>He wanted a developer.</span>
+            <span className="accent" style={step(0.5)}>I wanted to play.</span>
           </h2>
-          <p className="nos" aria-label="No.">
-            <span style={step(0.5, { "--tilt": -6 })}>No.</span>
-            <span style={step(0.62, { "--tilt": 4 })}>No.</span>
-            <span style={step(0.74, { "--tilt": -2 })}>No.</span>
+          <div className="thread-anchor anchor-controller" aria-hidden="true" />
+        </Scene>
+
+        {/* The kid who found a way in */}
+        <Scene className="chapter" length={4.2} mood="night">
+          <Thread shape="key" anchor=".thread-anchor" pinned={{ from: 0.5, to: 0.82 }} />
+          <p className="chapter-kicker" style={step(0.04, { "--until": 0.36 })}>Still a kid</p>
+          <div className="chapter-seq">
+            <h2 className="chapter-line" style={step(0, { "--until": 0.36 })}>
+              <span style={step(0.08, { "--until": 0.36 })}>Games cost money I didn&apos;t have.</span>
+              <span style={step(0.2, { "--until": 0.36 })}>So I found the apps that installed them for free.</span>
+            </h2>
+            <p className="chapter-note" style={step(0.42, { "--until": 0.64 })}>Then I got curious about passwords, and guessed my way into a few family accounts. It worked more often than it should have.</p>
+            <p className="chapter-turn" style={step(0.7)}>
+              <span style={step(0.7)}>That curiosity never left. It just grew up.</span>
+              <strong style={step(0.8)}>Today I build LockBox, so that doesn&apos;t work on anyone else.</strong>
+            </p>
+          </div>
+          <div className="thread-anchor anchor-key" aria-hidden="true" />
+        </Scene>
+
+        {/* The question */}
+        <Scene id="curiosity" className="chapter" length={3.8} mood="deep">
+          <Thread shape="globe" anchor=".thread-anchor" pinned={{ from: 0.5, to: 0.86 }} />
+          <h2 className="chapter-line">
+            <span style={step(0.06)}>One question never left me.</span>
+            <span className="big" style={step(0.24)}>How does any of this actually work?</span>
+          </h2>
+          <p className="chapter-note" style={step(0.46)}>How a message crosses the world in a second. How a login knows it&apos;s you. I still don&apos;t have every answer. I&apos;m still asking.</p>
+          <div className="thread-anchor anchor-globe" aria-hidden="true" />
+        </Scene>
+
+        {/* Arabic */}
+        <Scene className="chapter" length={3.2} mood="forest">
+          <Thread shape="waw" anchor=".thread-anchor" pinned={{ from: 0.5, to: 0.86 }} />
+          <h2 className="chapter-line">
+            <span style={step(0.06)}>Why Arabic?</span>
+          </h2>
+          <p className="chapter-note" style={step(0.3)}>Nobody made me. I taught myself, because I wanted to read the Quran in its own words, not someone else&apos;s translation.</p>
+          <div className="thread-anchor anchor-waw" aria-hidden="true" />
+        </Scene>
+
+        {/* Grades */}
+        <Scene className="chapter" length={3.2} mood="paper">
+          <Thread shape="six" anchor=".thread-anchor" pinned={{ from: 0.5, to: 0.84 }} />
+          <h2 className="chapter-line">
+            <span style={step(0.06)}>If you&apos;re so into this,</span>
+            <span style={step(0.2)}>why isn&apos;t your report full of sixes?</span>
+          </h2>
+          <p className="chapter-turn" style={step(0.46)}>
+            <strong>I don&apos;t care about the number.</strong>
+            <span style={step(0.6)}>I care about knowing the thing.</span>
           </p>
-          <p className="q-after" style={step(0.88)}>Let me show you why.</p>
+          <div className="thread-anchor anchor-six" aria-hidden="true" />
         </Scene>
 
-        {/* 3. Who I am instead, one sentence at a time */}
-        <Scene className="traits" length={TRAITS.length + 1}>
-          <Thread shape="coil" pinned={{ from: -0.1, to: 1 }} />
-          <p className="traits-kicker">Here&apos;s who you&apos;d get.</p>
+        {/* Who I am now, resolving into the man on the bench */}
+        <Scene id="about" className="traits" length={7} mood="dawn">
+          <Thread shape="bench" anchor=".thread-anchor" pinned={{ from: 0.62, to: 0.94 }} />
+          <p className="chapter-kicker" style={step(0.02)}>All of that made someone.</p>
           <div className="trait-stage">
-            {TRAITS.map((trait, index) => (
-              <p key={trait.short} className="trait" style={step((index + 0.4) / (TRAITS.length + 1), { "--until": index === TRAITS.length - 1 ? 9 : (index + 1.3) / (TRAITS.length + 1) })}>
-                {trait.line}
-              </p>
-            ))}
+            <p className="trait" style={step(0.08, { "--until": 0.2 })}>I care about what I build. A lot.</p>
+            <p className="trait" style={step(0.18, { "--until": 0.3 })}>I use AI to go faster, not to think less.</p>
+            <p className="trait" style={step(0.28, { "--until": 0.4 })}>I ship real work. Not AI slop.</p>
+            <p className="trait" style={step(0.38, { "--until": 0.5 })}>If I say it&apos;s done, it&apos;s done.</p>
+            <p className="trait" style={step(0.48, { "--until": 0.6 })}>I stay with a problem until it gives up first.</p>
           </div>
-          <ul className="trait-trail" aria-label="In short">
-            {TRAITS.map((trait, index) => (
-              <li key={trait.short} style={step((index + 1.3) / (TRAITS.length + 1))}>{trait.short}</li>
-            ))}
-          </ul>
+          <p className="trait-close" style={step(0.66)}>So here I am.</p>
+          <div className="thread-anchor anchor-bench" aria-hidden="true" />
         </Scene>
 
-        {/* 4. The story behind it */}
-        <section className="block scene about-more">
+        {/* In my own words */}
+        <section className="block scene words" data-mood="paper">
           <Thread shape="line" />
-          <div className="about-text" data-reveal>
-            <h2 className="side-title">In my own words</h2>
-            <p>
-              I&apos;m usually the person who gives a group structure and keeps
-              its energy up. I like knowing what everyone is working on,
-              bringing people together and making sure an idea actually turns
-              into something finished.
-            </p>
-            <p>
-              When a problem refuses to work, I stay with it for a long time.
-              I try every angle I can before asking for help, sometimes until
-              I&apos;m close to giving up. What keeps me going is progress.
-              Competition adds fuel, but seeing something improve is what
-              matters most to me.
-            </p>
-            <p>
-              I take responsibility seriously. Nothing frustrates me faster
-              than someone ignoring the task they agreed to do. I expect
-              reliability from others because I want people to be able to
-              expect the same from me. At the same time, I want to become more
-              open to unfamiliar programming languages and approaches.
-            </p>
-            <p>
-              Outside coding, I spend most of my time with my family. This
-              website is the project I&apos;m proudest of because it feels the
-              most like me. Under stress, I try to slow things down, relax or
-              have a good conversation. I want to be known as someone who is
-              eager to learn, dependable and a good person to ask for advice.
-            </p>
-          </div>
-          <div className="about-side" data-reveal>
-            <h3 className="side-title">Quick facts</h3>
-            <dl className="facts">
-              {QUICK_FACTS.map((fact) => (
-                <div key={fact.label}>
-                  <dt>{fact.label}</dt>
-                  <dd>{fact.value}</dd>
-                </div>
-              ))}
-            </dl>
-            <h3 className="side-title">Core skills</h3>
-            <ul className="skills">
-              {CORE_SKILLS.map((skill) => (
-                <li key={skill.title}>
-                  <strong>{skill.title}</strong>
-                  <span>{skill.note}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-
-        <section className="block scene" id="path">
-          <Thread shape="line" />
-          <div className="block-head" data-reveal>
-            <div>
-              <h2>The road so far</h2>
-              <p>From game prototypes to the IMS Baden. Next stop: your team.</p>
+          <div className="words-grid" data-reveal>
+            <div className="about-text">
+              <h2 className="side-title">In my own words</h2>
+              <p>I&apos;m usually the person who gives a group structure and keeps its energy up. I like knowing what everyone is working on, bringing people together and making sure an idea actually turns into something finished.</p>
+              <p>When a problem refuses to work, I stay with it for a long time. I try every angle I can before asking for help. What keeps me going is progress. Competition adds fuel, but seeing something improve is what matters most to me.</p>
+              <p>Outside coding, I spend most of my time with my family. Under stress, I slow things down, relax or have a good conversation. I want to be known as someone who is eager to learn, dependable and a good person to ask for advice.</p>
             </div>
+            <aside className="about-aside">
+              <p className="facts-line">IMS Baden. Informatikmittelschule. EFZ Informatiker and Berufsmatura, 2024 to 2028. Based in the Limmattal.</p>
+              <p className="facts-line">Along the way: a year of Unity prototypes, then plain C#. Fourth place at Baden hackt. This whole site, built and run by me.</p>
+            </aside>
           </div>
-          <ol className="timeline">
-            {PATH.map((item) => (
-              <li key={item.title} data-reveal>
-                <span className="timeline-when">{item.when}</span>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-              </li>
-            ))}
-          </ol>
         </section>
 
-        {/* 5. Proof for some of it */}
-        <section className="block scene" id="certificates">
+        {/* Certificates */}
+        <section className="block scene" id="certificates" data-mood="paper">
           <Thread shape="trophy" anchor=".thread-anchor" />
           <div className="block-head" data-reveal>
             <div>
@@ -273,16 +214,13 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* 6. What I build */}
-        <section className="block scene" id="archive">
+        {/* Projects */}
+        <section className="block scene" id="archive" data-mood="night">
           <Thread shape="terminal" anchor=".thread-anchor" />
           <div className="block-head" data-reveal>
             <div>
               <h2>I build what I need.</h2>
-              <p className="lead-on">
-                Things I didn&apos;t want to pay for, or needed right now.
-                Built from scratch, no tutorials.
-              </p>
+              <p className="lead-on">Things I didn&apos;t want to pay for, or needed right now. Built from scratch, no tutorials.</p>
               <span className="idx-count">{projects.length} projects</span>
             </div>
             <div className="thread-anchor anchor-terminal" aria-hidden="true" />
@@ -292,8 +230,8 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* 7. Why hire me, and the guarantee */}
-        <Scene id="hire" className="hire" length={4}>
+        {/* Why hire me */}
+        <Scene id="hire" className="hire" length={4.5} mood="night">
           <Thread shape="seal" anchor=".seal-anchor" pinned={{ from: 0.62, to: 0.95 }} />
           <h2 className="hire-q" style={step(0.02)}>Why should you hire me?</h2>
           <ul className="promises">
@@ -308,15 +246,13 @@ export default async function Home() {
           <div className="seal-anchor" aria-hidden="true" />
         </Scene>
 
-        <section className="block scene contact" id="contact">
+        {/* Contact */}
+        <section className="block scene contact" id="contact" data-mood="dawn">
           <Thread shape="plane" anchor=".thread-anchor" />
           <div className="contact-grid" data-reveal>
             <div>
               <h2 className="contact-title">Looking for the right team. Maybe it&apos;s yours.</h2>
-              <p className="contact-sub">
-                I&apos;m looking for an internship for my practical year. Write
-                to me right here. I read every message myself.
-              </p>
+              <p className="contact-sub">I&apos;m looking for an internship for my practical year. Write to me right here. I read every message myself.</p>
               <div className="thread-anchor anchor-plane" aria-hidden="true" />
             </div>
             <ContactForm />

@@ -5,7 +5,10 @@
  * and scaled into an anchor box measured from the layout.
  */
 
-export type ThreadShape = "kid" | "line" | "coil" | "terminal" | "trophy" | "seal" | "plane";
+export type ThreadShape =
+  | "kid" | "line" | "coil" | "bench"
+  | "controller" | "key" | "globe" | "waw" | "six"
+  | "terminal" | "trophy" | "seal" | "plane";
 
 export interface Box { x: number; y: number; w: number; h: number }
 export interface ThreadContext { w: number; h: number; x0: number; box: Box | null }
@@ -89,6 +92,37 @@ const TROPHY = `M50,94 L33,94 L33,81 L45,78 L45,64
 const PLANE = `M0,62 C14,62 22,86 14,94 C6,100 0,86 10,76 C18,68 26,64 34,60
   L100,8 L62,90 L44,56 L100,8 L36,72 L44,56`;
 
+/** The man on the bench, in a flat cap and coat, thinking. This is "me today". */
+const BENCH = `M3,69 L97,69 M15,69 L15,90 M85,69 L85,90
+  M37,69 L61,69 L61,88 L68,88
+  M37,69 C30,57 32,46 40,42 C39,38 40,33 46,32 C52,31 55,34 54,38 L51,42 C49,51 49,60 52,69
+  M36,36 C37,29 47,26 55,29 C61,28 64,32 59,35 L47,35 C48,33 46,32 44,33
+  M40,43 L59,58 L51,42
+  M37,69 C40,72 46,73 52,72`;
+
+/** A game controller: the kid just wanted to play. */
+const CONTROLLER = `M30,38 C16,38 8,50 8,62 C8,72 14,78 22,74 C26,72 28,68 30,64
+  L70,64 C72,68 74,72 78,74 C86,78 92,72 92,62 C92,50 84,38 70,38 L30,38
+  M18,52 L30,52 M24,46 L24,58
+  M64,48 L64,56 M60,52 L68,52`;
+
+/** A key: the curiosity about passwords that became LockBox. */
+const KEY = `M24,50 C24,36 36,28 48,32 C60,36 60,56 48,60 C36,64 24,62 24,50
+  M46,46 L88,46 L88,58 L82,58 L82,50 L76,50 L76,60 L70,60 L70,50 L60,50`;
+
+/** A globe: how does the internet actually work? */
+const GLOBE = `M50,4 C75,4 96,25 96,50 C96,75 75,96 50,96 C25,96 4,75 4,50 C4,25 25,4 50,4
+  L50,96 M4,50 L96,50
+  M50,4 C32,20 32,80 50,96 C68,80 68,20 50,4
+  M14,28 L86,28 M14,72 L86,72`;
+
+/** A calligraphic Arabic waw (و): self-taught, out of pure interest. */
+const WAW = `M72,30 C72,14 48,8 34,22 C20,36 30,56 50,54 C64,53 66,36 55,32 C46,29 40,38 47,45 L63,45
+  C82,45 80,76 60,88 C50,94 38,92 32,84`;
+
+/** The digit six, the top Swiss grade: I don't chase it. */
+const SIX = `M66,16 C52,8 36,18 30,40 C26,56 26,74 42,84 C62,94 74,74 68,60 C63,48 46,46 38,56 C33,62 34,72 42,80`;
+
 /** Maps every coordinate pair of a 100-box path into `box`. */
 function placePath(d: string, box: Box) {
   const numbers = d.match(/-?\d+(?:\.\d+)?/g)!.map(Number);
@@ -155,7 +189,11 @@ export function threadPath(shape: ThreadShape, { w, h, x0, box }: ThreadContext)
       + ` ${young.body.replace(/^M\S+/, "")} L ${r(grown.start[0])},${r(grown.start[1])} ${grown.body.replace(/^M\S+/, "")} ${leave(grown.end, x0, h)}`;
   }
 
-  const source = shape === "terminal" ? TERMINAL : shape === "trophy" ? TROPHY : shape === "plane" ? PLANE : sealPath();
+  const sources: Record<string, string> = {
+    terminal: TERMINAL, trophy: TROPHY, plane: PLANE, bench: BENCH,
+    controller: CONTROLLER, key: KEY, globe: GLOBE, waw: WAW, six: SIX,
+  };
+  const source = shape === "seal" ? sealPath() : sources[shape];
   const symbol = placePath(source, box);
   const way = `${enter(x0, symbol.start, Math.min(160, box.w))} ${symbol.body.replace(/^M\S+/, "")}`;
   if (shape === "plane") return way;

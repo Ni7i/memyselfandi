@@ -71,106 +71,115 @@ button, input, textarea { font: inherit; }
   padding-right: calc(var(--gutter) + var(--rail));
 }
 
-/* ─────────────── DIAL (navigation, right edge only) ─────────────── */
-/* A slice of a small circle reaching in from the right edge. Its ticks turn with the scroll,
-   the dot marks where you are, and only the nearest stops are readable. */
-.dial {
-  --r: 150px;
-  --cx: 54px;
+/* ─────────────── COLOUR MOODS ─────────────── */
+/* Each section carries a mood: its own background, ink and thread colour, eased on scroll.
+   The default (dawn) matches the root tokens. */
+section[data-mood] {
+  background: var(--bg);
+  color: var(--ink);
+  transition: background 0.7s ease, color 0.7s ease;
+}
+
+[data-mood="sepia"] {
+  --bg: #e7dfcd; --bg-2: #ddd3bc; --surface: #f3ecda;
+  --ink: #2b2213; --ink-2: #4a3d26; --ink-3: #6e5e42; --dim: #9a876a;
+  --line: rgba(43, 34, 19, 0.12); --line-strong: rgba(43, 34, 19, 0.26);
+  --thread: rgba(43, 34, 19, 0.5); --hi: #b5651d;
+}
+
+[data-mood="night"] {
+  --bg: #15140f; --bg-2: #1f1d17; --surface: #211f18;
+  --ink: #f1efe6; --ink-2: #d8d4c6; --ink-3: #a39d8b; --dim: #726c5c;
+  --line: rgba(241, 239, 230, 0.12); --line-strong: rgba(241, 239, 230, 0.26);
+  --thread: rgba(241, 239, 230, 0.55); --hi: #e9b44c;
+}
+
+[data-mood="deep"] {
+  --bg: #0f1722; --bg-2: #16202e; --surface: #182331;
+  --ink: #eaf0f6; --ink-2: #cdd8e4; --ink-3: #93a3b5; --dim: #5f6f82;
+  --line: rgba(234, 240, 246, 0.12); --line-strong: rgba(234, 240, 246, 0.26);
+  --thread: rgba(150, 190, 230, 0.6); --hi: #6cb6ff;
+}
+
+[data-mood="forest"] {
+  --bg: #0f1a15; --bg-2: #16241d; --surface: #182820;
+  --ink: #e9f1ec; --ink-2: #ccdcd3; --ink-3: #8fa89b; --dim: #5d7268;
+  --line: rgba(233, 241, 236, 0.12); --line-strong: rgba(233, 241, 236, 0.26);
+  --thread: rgba(150, 215, 180, 0.6); --hi: #76c99a;
+}
+
+[data-mood="paper"] {
+  --bg: #f6f4ee; --bg-2: #eceae2; --surface: #ffffff;
+  --thread: rgba(22, 21, 19, 0.42); --hi: #b5651d;
+}
+
+[data-mood="dawn"] { --hi: #c66a3a; }
+
+/* ─────────────── PROGRESS RAIL (navigation, right edge) ─────────────── */
+/* A thin line down the right edge with a dot per section; mix-blend keeps it legible on
+   both light and dark moods. */
+.progress {
   position: fixed;
-  top: 50%;
+  top: 0;
   right: 0;
   z-index: 60;
-  width: 0;
-  height: 0;
-}
-
-.dial-ring {
-  position: absolute;
-  top: calc(-1 * var(--r) - 12px);
-  left: calc(var(--cx) - var(--r) - 12px);
-  width: calc(2 * var(--r) + 24px);
-  height: calc(2 * var(--r) + 24px);
-  overflow: visible;
-  pointer-events: none;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 12%, #000 40%, #000 60%, transparent 88%);
-  mask-image: linear-gradient(to bottom, transparent 12%, #000 40%, #000 60%, transparent 88%);
-}
-
-.dial-ring circle { fill: none; stroke: var(--line-strong); stroke-width: 1; }
-
-.dial-ticks {
-  stroke: var(--ink-3);
-  stroke-width: 1.2;
-  stroke-linecap: round;
-  transform: rotate(calc(var(--turn, 0) * 22deg));
-  transition: transform 0.15s linear;
-}
-
-.dial-pointer {
-  position: absolute;
-  top: 0;
-  left: calc(var(--cx) - var(--r));
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--ink);
-  box-shadow: 0 0 0 4px var(--bg);
-  transform: translate(-50%, -50%);
-}
-
-.dial-stops { position: absolute; top: 0; left: calc(var(--cx) - 18px); }
-
-.dial-stops a {
-  position: absolute;
-  top: 0;
-  left: 0;
-  white-space: nowrap;
-  font-size: 12.5px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  color: var(--ink-3);
-  opacity: 0;
-}
-
-.dial.is-ready .dial-stops a { transition: color 0.2s ease; }
-.dial-stops a:hover { color: var(--ink); }
-.dial-stops a.is-current { color: var(--ink); font-weight: 700; }
-
-.dial-corner {
-  position: fixed;
-  right: 24px;
-  bottom: 20px;
+  height: 100svh;
+  width: var(--rail);
   display: flex;
-  align-items: baseline;
-  gap: 16px;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  padding-right: 26px;
+  pointer-events: none;
+  mix-blend-mode: difference;
+  color: #fff;
+}
+
+.progress-blog {
+  position: absolute;
+  top: 26px;
+  right: 26px;
+  font-size: 13px;
+  font-weight: 600;
+  pointer-events: auto;
+}
+
+.progress-stops { list-style: none; display: flex; flex-direction: column; gap: 18px; }
+.progress-stops li { display: flex; justify-content: flex-end; }
+
+.progress-stops a {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
   font-size: 12px;
   font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
-.corner-link { color: var(--ink-3); transition: color 0.15s ease; }
-.corner-link:hover { color: var(--ink); }
-.corner-cta { color: var(--ink); border-bottom: 1px solid var(--ink); }
-.rail-time { font-size: 11.5px; font-weight: 500; color: var(--dim); font-variant-numeric: tabular-nums; }
+.progress-label {
+  opacity: 0;
+  transform: translateX(6px);
+  transition: opacity 0.25s ease, transform 0.25s var(--ease);
+}
 
-/* The full link list is for phones; on desktop the dial does the job */
+.progress-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  background: transparent;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.progress-stops a:hover .progress-label,
+.progress-stops a.is-current .progress-label { opacity: 1; transform: none; }
+.progress-stops a.is-current .progress-dot { background: currentColor; transform: scale(1.4); }
+
+/* The full link list is for phones; on desktop the progress rail does the job */
 .rail { display: none; }
 .brand { font-size: 15px; font-weight: 800; letter-spacing: -0.03em; }
 .nav-links { display: flex; flex-direction: column; gap: 6px; font-size: 28px; font-weight: 700; letter-spacing: -0.04em; }
-.nav-cta { font-size: 15px; font-weight: 700; border-bottom: 2px solid var(--ink); padding-bottom: 2px; }
-
-/* ─────────────── LINKS ─────────────── */
-.text-link {
-  font-size: 15px;
-  font-weight: 700;
-  background: linear-gradient(currentColor, currentColor) left bottom / 100% 2px no-repeat;
-  padding-bottom: 3px;
-  transition: color 0.15s ease, background-size 0.3s var(--ease);
-}
-
-.text-link:hover { color: var(--accent); background-size: 0% 2px; background-position: right bottom; }
-.text-link.quiet { font-weight: 500; color: var(--ink-3); background-size: 100% 1px; }
-.text-link.quiet:hover { color: var(--accent); background-size: 0% 1px; }
 
 /* ─────────────── HOME FLOW ─────────────── */
 .flow { position: relative; overflow-x: clip; }
@@ -192,10 +201,10 @@ button, input, textarea { font: inherit; }
 .thread path {
   fill: none;
   stroke: var(--thread);
-  stroke-width: 1.6;
+  stroke-width: 1.7;
   stroke-linecap: round;
   stroke-linejoin: round;
-  transition: stroke-dashoffset 0.25s linear;
+  transition: stroke-dashoffset 0.2s linear;
 }
 
 /* ─────────────── SCROLL SCENES ─────────────── */
@@ -213,166 +222,207 @@ button, input, textarea { font: inherit; }
 }
 
 .pin [style*="--at"] {
-  --in: clamp(0, calc((var(--p, 0) - var(--at)) * 14), 1);
-  --out: clamp(0, calc((var(--until, 9) - var(--p, 0)) * 14), 1);
+  --in: clamp(0, calc((var(--p, 0) - var(--at)) * 12), 1);
+  --out: clamp(0, calc((var(--until, 9) - var(--p, 0)) * 12), 1);
   opacity: min(var(--in), var(--out));
 }
 
 /* Without JavaScript nothing is hidden */
 .pin:not(.is-live) [style*="--at"] { opacity: 1; }
 
-/* 1. Intro: the name, then the drawing */
+/* Intro: name, cycling thoughts, invite, and the man on the bench */
+.intro .pin-stage { justify-content: center; align-items: center; text-align: center; }
+.intro-head { position: relative; z-index: 2; transform: translateY(calc(var(--p, 0) * -16svh)); }
+
+.disclaimer { font-size: 11.5px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--dim); margin-bottom: 26px; }
+
 .intro-name {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  --move: clamp(0, calc(var(--p, 0) * 6), 1);
-  font-size: clamp(120px, 24vw, 380px);
+  font-size: clamp(96px, 21vw, 320px);
   font-weight: 800;
-  line-height: 0.8;
+  line-height: 0.82;
   letter-spacing: -0.075em;
-  white-space: nowrap;
-  transform: translate(-50%, calc(-50% - var(--move) * 31svh)) scale(calc(1 - var(--move) * 0.62));
+  transform: scale(calc(1 - var(--p, 0) * 0.3));
+}
+
+.intro-thought { display: grid; margin-top: 18px; min-height: 1.5em; }
+.intro-thought span {
+  grid-area: 1 / 1;
+  font-size: clamp(16px, 2vw, 25px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--ink-3);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+.intro-thought span.is-on { opacity: 1; }
+
+.intro-invite {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 22svh;
+  text-align: center;
+  font-size: clamp(18px, 2vw, 28px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--ink-2);
+}
+
+.bench-anchor {
+  position: absolute;
+  left: 50%;
+  bottom: 1svh;
+  width: min(700px, 82vw);
+  height: min(300px, 38svh);
+  transform: translateX(-50%);
 }
 
 .intro .scroll-hint {
   position: absolute;
   left: 50%;
-  bottom: 30px;
-  font-size: 12px;
+  bottom: 26px;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--dim);
-  opacity: calc(1 - var(--p, 0) * 12);
+  opacity: calc(1 - var(--p, 0) * 10);
   transform: translateX(-50%);
   animation: hint 2.4s ease-in-out infinite;
 }
 
 @keyframes hint { 50% { translate: 0 6px; } }
 
-.kid-anchor {
+/* Chapters: a line of statements, a note, a turn, and a drawing on the right */
+.chapter .pin-stage { justify-content: center; }
+.chapter-kicker {
   position: absolute;
-  left: 50%;
-  bottom: 13svh;
-  width: min(920px, 80vw);
-  height: min(460px, 50svh);
-  transform: translateX(-50%);
+  top: 15svh;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--dim);
+  transform: translateY(calc((1 - var(--in, 1)) * 14px));
 }
 
-.intro-line {
-  position: absolute;
-  left: var(--gutter);
-  bottom: 5svh;
-  font-size: clamp(20px, 2.4vw, 34px);
-  font-weight: 600;
-  letter-spacing: -0.03em;
+.chapter-line {
+  max-width: 17ch;
+  font-size: clamp(38px, 6vw, 100px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.06em;
+}
+
+.chapter-line span { display: block; transform: translateY(calc((1 - var(--in, 1)) * 36px)); }
+.chapter-line .accent { color: var(--hi); }
+.chapter-line .big { max-width: 16ch; }
+
+.chapter-note {
+  max-width: 42ch;
+  margin-top: 5svh;
+  font-size: clamp(17px, 1.9vw, 23px);
+  line-height: 1.5;
+  color: var(--ink-3);
   transform: translateY(calc((1 - var(--in, 1)) * 20px));
 }
 
-/* 2. The question */
-.q-text {
-  position: relative;
-  align-self: flex-start;
-  font-size: clamp(42px, 7vw, 112px);
+/* Phases that occupy the same space: only one shows at a time, so a dense chapter never
+   grows taller than its tallest phase and can't clip top or bottom. */
+.chapter-seq { display: grid; }
+.chapter-seq > * { grid-area: 1 / 1; align-self: center; margin: 0; }
+
+.chapter-turn { max-width: 24ch; margin-top: 6svh; display: grid; gap: 10px; }
+.chapter-seq .chapter-turn { margin-top: 0; }
+.chapter-turn strong {
+  font-size: clamp(28px, 4vw, 60px);
   font-weight: 800;
-  line-height: 0.96;
-  letter-spacing: -0.06em;
-  opacity: calc(1 - clamp(0, calc((var(--p, 0) - 0.42) * 5), 1) * 0.6);
+  line-height: 1.02;
+  letter-spacing: -0.05em;
+  color: var(--hi);
+  transform: translateY(calc((1 - var(--in, 1)) * 24px));
+}
+.chapter-turn span {
+  font-size: clamp(18px, 2vw, 28px);
+  font-weight: 600;
+  color: var(--ink-3);
+  transform: translateY(calc((1 - var(--in, 1)) * 18px));
 }
 
-.q-text span { display: block; transform: translateY(calc((1 - var(--in, 1)) * 30px)); }
-
-.q-strike {
+.chapter .thread-anchor {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  /* Revealed left to right as the scene goes on */
-  clip-path: inset(-20% calc((1 - clamp(0, calc((var(--p, 0) - 0.28) * 5), 1)) * 100%) -20% 0);
+  right: var(--gutter);
+  top: 36svh;
 }
+.anchor-controller { width: clamp(150px, 20vw, 260px); height: clamp(110px, 14vw, 190px); }
+.anchor-key { width: clamp(150px, 20vw, 260px); height: clamp(110px, 13vw, 170px); }
+.anchor-globe { width: clamp(150px, 17vw, 240px); height: clamp(150px, 17vw, 240px); }
+.anchor-waw { width: clamp(130px, 15vw, 210px); height: clamp(150px, 17vw, 230px); }
+.anchor-six { width: clamp(110px, 12vw, 170px); height: clamp(150px, 17vw, 240px); }
 
-.q-strike path { fill: none; stroke: var(--ink); stroke-width: 5; stroke-linecap: round; vector-effect: non-scaling-stroke; }
-.pin:not(.is-live) .q-strike { clip-path: none; }
-
-.nos { display: flex; flex-wrap: wrap; gap: 0 0.3em; margin-top: 5svh; }
-
-.nos span {
-  --in: clamp(0, calc((var(--p, 0) - var(--at)) * 30), 1);
-  font-size: clamp(64px, 11vw, 180px);
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -0.06em;
-  transform: scale(calc(2.2 - var(--in) * 1.2)) rotate(calc(var(--tilt) * 1deg));
-}
-
-.q-after { margin-top: 3svh; font-size: clamp(18px, 1.8vw, 24px); font-weight: 600; color: var(--ink-3); transform: translateY(calc((1 - var(--in, 1)) * 16px)); }
-
-/* 3. Traits, one at a time */
-.traits-kicker { position: absolute; top: 12svh; font-size: 15px; font-weight: 700; color: var(--dim); }
-
+/* Traits, one at a time, then the man on the bench */
+.traits .pin-stage { justify-content: center; }
 .trait-stage { display: grid; }
-
 .trait {
   grid-area: 1 / 1;
   max-width: 15ch;
-  font-size: clamp(42px, 6.6vw, 108px);
+  font-size: clamp(40px, 6.2vw, 100px);
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.06em;
-  transform: translateY(calc((1 - var(--in, 1)) * 60px - (1 - var(--out, 1)) * 60px));
+  transform: translateY(calc((1 - var(--in, 1)) * 56px - (1 - var(--out, 1)) * 56px));
 }
 
-.trait-trail {
+.trait-close {
+  margin-top: 6svh;
+  font-size: clamp(26px, 3vw, 44px);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  transform: translateY(calc((1 - var(--in, 1)) * 24px));
+}
+
+.traits .thread-anchor {
   position: absolute;
-  bottom: 7svh;
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px 22px;
-  max-width: 900px;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--ink-3);
+  right: var(--gutter);
+  bottom: 10svh;
+  width: clamp(200px, 26vw, 360px);
+  height: clamp(130px, 16vw, 230px);
 }
 
-.trait-trail li::before { content: "✓"; margin-right: 6px; }
-
-/* 7. Why hire me */
-.hire-q { font-size: clamp(40px, 5.4vw, 86px); font-weight: 800; line-height: 1; letter-spacing: -0.06em; transform: translateY(calc((1 - var(--in, 1)) * 30px)); }
+/* Why hire me */
+.hire .pin-stage { justify-content: center; }
+.hire-q { font-size: clamp(38px, 5vw, 80px); font-weight: 800; line-height: 1; letter-spacing: -0.06em; transform: translateY(calc((1 - var(--in, 1)) * 28px)); }
 
 .promises { list-style: none; display: grid; gap: 4px; margin-top: 4svh; }
-
 .promises li {
   font-size: clamp(26px, 3.4vw, 52px);
   font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.045em;
-  transform: translateX(calc((1 - var(--in, 1)) * -40px));
+  transform: translateX(calc((1 - var(--in, 1)) * -36px));
 }
 
-.guarantee { display: grid; gap: 6px; margin-top: 5svh; }
+.guarantee { display: grid; gap: 8px; margin-top: 5svh; }
 .guarantee span { font-size: clamp(17px, 1.6vw, 22px); font-weight: 600; color: var(--ink-3); }
-
 .guarantee strong {
-  font-size: clamp(48px, 7vw, 116px);
+  font-size: clamp(44px, 6.4vw, 104px);
   font-weight: 800;
   line-height: 0.95;
   letter-spacing: -0.065em;
-  transform: scale(calc(1.15 - var(--in, 1) * 0.15));
+  color: var(--hi);
+  transform: scale(calc(1.12 - var(--in, 1) * 0.12));
   transform-origin: left center;
 }
 
 .seal-anchor {
   position: absolute;
-  top: 12svh;
-  right: calc(var(--gutter) + var(--rail) + 2%);
+  top: 14svh;
+  right: var(--gutter);
   width: clamp(120px, 13vw, 190px);
   aspect-ratio: 1;
 }
 
-.block { padding-top: clamp(110px, 14vw, 200px); }
+/* ─────────────── BLOCKS (reference sections in the flow) ─────────────── */
+.block { padding-top: clamp(110px, 14vw, 200px); padding-bottom: clamp(60px, 8vw, 120px); }
 
 .block-head {
   display: grid;
@@ -392,59 +442,23 @@ button, input, textarea { font: inherit; }
 .thread-anchor { width: clamp(150px, 18vw, 250px); }
 .anchor-terminal { height: clamp(100px, 12vw, 170px); }
 .anchor-trophy { width: clamp(110px, 13vw, 180px); height: clamp(120px, 14vw, 200px); }
-.anchor-heart { width: clamp(110px, 12vw, 170px); height: clamp(100px, 11vw, 155px); }
 .anchor-plane { width: clamp(120px, 14vw, 190px); height: clamp(80px, 9vw, 130px); margin-top: 50px; }
 
-/* About, continued: story on the left, facts and skills on the right */
-.about-more {
+/* In my own words */
+.words-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
   gap: clamp(40px, 6vw, 100px);
   align-items: start;
 }
 
 .about-text p { font-size: 16.5px; line-height: 1.75; color: var(--ink-2); }
 .about-text p + p { margin-top: 20px; }
+.side-title { margin-bottom: 18px; font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
 
-.side-title { margin-bottom: 14px; font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
-
-.facts {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin-bottom: 56px;
-  border-top: 1px solid var(--line-strong);
-}
-
-.facts > div { padding: 14px 16px 20px 0; border-bottom: 1px solid var(--line); }
-.facts dt { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); }
-.facts dd { margin-top: 6px; font-size: 18px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; }
-
-.skills { list-style: none; border-top: 1px solid var(--line-strong); }
-.skills li { display: grid; gap: 4px; padding: 18px 0; border-bottom: 1px solid var(--line); }
-.skills strong { font-size: clamp(26px, 3vw, 42px); font-weight: 600; line-height: 1.05; letter-spacing: -0.045em; }
-.skills span { font-size: 14.5px; color: var(--ink-3); }
-
-/* My path: the thread itself is the timeline's line */
-.timeline { list-style: none; display: grid; gap: clamp(50px, 7vw, 90px); }
-
-.timeline li { position: relative; display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 6px 30px; max-width: 900px; }
-
-.timeline li::before {
-  content: "";
-  position: absolute;
-  top: 0.55em;
-  left: calc(var(--gutter) / -2);
-  width: 11px;
-  height: 11px;
-  border: 1.6px solid var(--ink);
-  border-radius: 50%;
-  background: var(--bg);
-  transform: translateX(-50%);
-}
-
-.timeline-when { grid-row: span 2; padding-top: 6px; font-size: 14px; font-weight: 700; color: var(--dim); }
-.timeline h3 { font-size: clamp(28px, 3.4vw, 48px); font-weight: 700; line-height: 1.05; letter-spacing: -0.05em; }
-.timeline p { max-width: 50ch; font-size: 16.5px; line-height: 1.65; color: var(--ink-3); }
+.about-aside { padding-top: 8px; }
+.facts-line { font-size: clamp(17px, 1.7vw, 21px); font-weight: 500; line-height: 1.5; letter-spacing: -0.02em; color: var(--ink-2); }
+.facts-line + .facts-line { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--ink-3); }
 
 /* Reveal on scroll (only once ScrollReveal is running) */
 .reveal-ready [data-reveal] {
@@ -865,17 +879,23 @@ button, input, textarea { font: inherit; }
 
 /* ─────────────── RESPONSIVE ─────────────── */
 @media (max-width: 1080px) {
-  .about-more { grid-template-columns: 1fr; }
+  .words-grid { grid-template-columns: 1fr; }
   .contact-grid { grid-template-columns: 1fr; }
   .anchor-plane { display: none; }
 }
 
-/* Phones and small tablets: no dial, a Menu button slides the links in from the right */
+/* Phones and small tablets: no progress rail, a Menu button slides the links in from the right */
 @media (max-width: 900px) {
   :root { --rail: 0px; }
 
-  .dial { display: none; }
+  .progress { display: none; }
   .rail { display: block; }
+
+  /* Drawings move below the text so they don't overlap it */
+  .chapter .thread-anchor { position: static; margin-top: 6svh; width: clamp(140px, 44vw, 220px); }
+  .traits .thread-anchor { position: absolute; right: var(--gutter); bottom: 6svh; width: 48vw; }
+  .seal-anchor { top: auto; bottom: 8svh; width: 110px; }
+  .bench-anchor { width: 90vw; height: 34svh; }
 
   .rail-toggle {
     position: fixed;
@@ -930,18 +950,11 @@ button, input, textarea { font: inherit; }
   .showcase-inline-inner > :first-child { margin: 14px 0 22px; }
   .showcase-inline-inner > :last-child { margin-bottom: 26px; }
   .showcase-frame .print-stack { min-height: 0; }
-
-  .kid-anchor { width: 92vw; height: 36svh; }
-  .seal-anchor { width: 96px; top: 8svh; }
 }
 
 @media (max-width: 720px) {
   .block-head { grid-template-columns: 1fr; }
   .block-head .thread-anchor { justify-self: end; margin-top: -20px; }
-  .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .timeline li { grid-template-columns: 1fr; padding-left: 8px; }
-  .timeline li::before { left: calc(var(--gutter) / -2); }
-  .timeline-when { grid-row: auto; padding-top: 0; }
   .idx-intro { grid-template-columns: 1fr; }
   .idx-intro .idx-count { grid-row: auto; }
   .post-row { grid-template-columns: minmax(0, 1fr) 20px; gap: 8px 16px; padding: 24px 0; }

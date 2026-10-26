@@ -7,7 +7,7 @@ import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
  * screen, and its progress (0 when it pins, 1 when it lets go) is written to `--p`.
  * Everything inside animates from that one number in CSS.
  */
-export default function Scene({ id, className, length, children }: { id?: string; className?: string; length: number; children: ReactNode }) {
+export default function Scene({ id, className, length, mood, children }: { id?: string; className?: string; length: number; mood?: string; children: ReactNode }) {
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function Scene({ id, className, length, children }: { id?: string
   }, []);
 
   return (
-    <section ref={ref} id={id} className={`pin ${className ?? ""}`} style={{ "--length": length } as CSSProperties}>
+    <section ref={ref} id={id} data-mood={mood} className={`pin ${className ?? ""}`} style={{ "--length": length } as CSSProperties}>
       <div className="pin-stage">{children}</div>
     </section>
   );

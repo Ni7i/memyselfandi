@@ -52,16 +52,17 @@ describe("homepage", () => {
 });
 
 describe("navigation", () => {
-  it("links the blog from the header and footer", async () => {
+  it("links the blog and the sections from the homepage", async () => {
     const html = renderToStaticMarkup(await Home());
-    expect(html.match(/<a href="\/blog">Blog<\/a>/g)).toHaveLength(2);
-    expect(html).toContain('<a href="#about">About</a>');
+    expect(html).toContain('href="/blog"');
+    expect(html).toContain('href="#about"');
+    expect(html).toContain('href="#contact"');
   });
 
   it("points section links back to the homepage from other pages", async () => {
     const html = renderToStaticMarkup(await BlogIndex());
-    expect(html).toContain('<a href="/#about">About</a>');
-    expect(html).toContain('<a class="nav-cta" href="/#contact">Get in touch</a>');
+    expect(html).toContain('href="/#about"');
+    expect(html).toContain('href="/#contact"');
   });
 });
 

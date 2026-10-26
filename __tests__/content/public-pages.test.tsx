@@ -20,24 +20,34 @@ afterEach(() => {
 });
 
 describe("homepage", () => {
-  it("opens with the illustrated autobiography", async () => {
+  it("tells the illustrated autobiography in eleven scenes", async () => {
     const html = renderToStaticMarkup(await Home());
     expect(html).toContain('<h1 id="overture-title" class="ov-title">Enis Shorra</h1>');
-    expect(html).toContain('data-art="scene-bench"');
-    expect(html).toContain('data-art="memory-child"');
+    for (const art of ["scene-bench", "memory-child", "scene-desk", "scene-teen", "scene-end"]) {
+      expect(html).toContain(`data-ink="${art}"`);
+      expect(html).toContain(`src="/art/${art}.svg?v=`);
+    }
+    const ids = ["top", "age-three", "curiosity", "stations", "first-game", "work", "proof", "life", "how", "facts", "contact"];
+    const positions = ids.map((id) => html.indexOf(` id="${id}"`));
+    expect(positions.every((at) => at > 0)).toBe(true);
+    expect([...positions].sort((a, b) => a - b)).toEqual(positions);
   });
 
   it("lists the projects strongest first and keeps private code private", async () => {
     const html = renderToStaticMarkup(await Home());
+    const work = html.slice(html.indexOf('id="work"'), html.indexOf('id="proof"'));
 
-    expect(html).toContain('<span class="idx-count">9 projects</span>');
+    expect(work).toContain("9 in all");
     // Private repositories link to their own page, which says the code is available on request
-    expect(html).toContain('<a class="archive-row" href="/projects/notevault"><span class="archive-number">01</span><h3>NoteVault</h3>');
-    expect(html).toContain('<a class="archive-row" href="/projects/lockbox"><span class="archive-number">02</span><h3>LockBox</h3>');
+    expect(work).toContain('<a href="/projects/notevault">NoteVault');
+    expect(work).toContain('<a href="/projects/lockbox">LockBox');
+    expect(work.match(/Private repository, code available on request/g)).toHaveLength(2);
     expect(html).not.toContain("github.com/Ni7i/NoteVault");
     expect(html).not.toContain("github.com/Ni7i/LockBox");
-    const titles = [...html.matchAll(/<h3>([^<]+)<\/h3>/g)].map((match) => match[1]).slice(0, 9);
-    expect(titles).toEqual(["NoteVault", "LockBox", "memyselfandi", "Quizlot", "websiten.ch", "Oase Jugendraum", "screentime-blocker", "midnight-calculator", "Twinn"]);
+    const titles = ["NoteVault", "LockBox", "memyselfandi", "Quizlot", "websiten.ch", "Oase Jugendraum", "screentime-blocker", "midnight-calculator", "Twinn"];
+    const order = titles.map((title) => work.indexOf(`>${title}`));
+    expect(order.every((at) => at > 0)).toBe(true);
+    expect([...order].sort((a, b) => a - b)).toEqual(order);
     expect(html).not.toContain("WhitePlayer");
   });
 
@@ -50,18 +60,30 @@ describe("homepage", () => {
     expect(html).toContain("<h3>Quizlot Pro</h3>");
     expect(html.indexOf("Quizlot Pro")).toBeGreaterThan(html.indexOf("More work"));
   });
+
+  it("states the competitions and dates as the CV does", async () => {
+    const html = renderToStaticMarkup(await Home());
+    expect(html).toContain("Took part in 2025. Top 10 in 2026.");
+    expect(html).not.toMatch(/top 10 in 2025/i);
+    expect(html).toContain("Aug 2027 to Jul 2028");
+    expect(html).toContain("Concept, story and creative direction by me. Built with Claude as a coding partner.");
+    // The LCR loop is quoted from the repository as it stands
+    expect(html).toContain("<b>while</b> (MehrAlsEinSpielerHatChips())");
+  });
 });
 
 describe("navigation", () => {
-  it("links the blog from the header and footer", async () => {
+  it("offers the chapters, a fast lane to the facts and the blog", async () => {
     const html = renderToStaticMarkup(await Home());
-    expect(html.match(/<a href="\/blog">Blog<\/a>/g)).toHaveLength(2);
-    expect(html).toContain('<a href="#about">About</a>');
+    expect(html).toContain('<a class="skip-link" href="#facts">Skip to the facts</a>');
+    expect(html).toContain('aria-controls="spool-menu"');
+    for (const id of ["age-three", "work", "facts", "contact"]) expect(html).toContain(`href="#${id}"`);
+    expect(html.match(/<a href="\/blog">Blog<\/a>/g)).toHaveLength(1);
   });
 
   it("points section links back to the homepage from other pages", async () => {
     const html = renderToStaticMarkup(await BlogIndex());
-    expect(html).toContain('<a href="/#about">About</a>');
+    expect(html).toContain('<a href="/#facts">About</a>');
     expect(html).toContain('<a class="nav-cta" href="/#contact">Get in touch</a>');
   });
 });

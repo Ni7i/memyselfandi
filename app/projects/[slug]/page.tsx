@@ -28,7 +28,7 @@ export default async function ProjectPage({ params }: Props) {
       <SiteHeader />
       <main className="article">
         <article className="article-inner">
-          <Link className="article-back" href="/#archive">← All projects</Link>
+          <Link className="article-back" href="/#work">← All projects</Link>
           <header className="article-head">
             <span className="idx-kicker">Project{project.year && ` · ${project.year}`}</span>
             <h1 className="article-title">{project.title}</h1>

@@ -11,8 +11,8 @@ const nextConfig: NextConfig = {
     ],
   },
   async redirects() {
-    // There is no separate projects index; the archive lives on the homepage.
-    return [{ source: "/projects", destination: "/#archive", permanent: false }];
+    // There is no separate projects index; the projects live on the homepage.
+    return [{ source: "/projects", destination: "/#work", permanent: false }];
   },
   async headers() {
     return [
@@ -32,6 +32,11 @@ const nextConfig: NextConfig = {
             ].join("; "),
           },
         ],
+      },
+      {
+        // Drawings are requested with a content version (?v=), so a file never changes under its URL
+        source: "/art/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
       },
       {
         source: "/admin/:path*",

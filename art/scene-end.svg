@@ -1,0 +1,15 @@
+<svg viewBox="0 0 760 420">
+  <!-- Scene 11: the bench again, empty. The thread drops from the top of the page onto the seat
+       where he sat, loops once, runs along the boards, falls off the end and away to the right,
+       toward the reader. Ground 360. -->
+  <g id="place" data-window="0 0.3">
+    <path class="fine" data-tone="far" data-w="0.8" d="M0,300 L760,302"/>
+    <path class="fine" data-tone="far" data-w="0.6" d="M40,318 L120,318 M260,322 L330,322 M470,316 L560,316 M640,322 L700,322"/>
+    <path class="ink" data-tone="mid" data-w="1" d="M0,338 L760,340"/>
+    <path class="fine" data-tone="far" data-w="0.6" d="M0,362 L760,364"/>
+  </g>
+  <g id="bench" data-include="_bench" transform="translate(-340,-200)" data-window="0.1 0.7"/>
+  <g id="thread" data-window="0.66 1">
+    <path class="thread" data-w="1.9" d="M300,-10 C300,80 301,150 302,194 C302,199 299,205 292,207 C281,209 274,200 281,193 C288,186 301,191 304,203 C380,204 470,203 540,204 C552,204 558,208 560,216 C565,244 568,300 580,336 C590,364 620,372 760,374"/>
+  </g>
+</svg>

@@ -1,0 +1,143 @@
+<svg viewBox="0 0 1300 900">
+  <!-- Scene 3, age three. The thought opens into a room: a wooden desk seen from the front,
+       a family computer of the early 2010s (flat screen, keyboard, tower under the desk),
+       a desk lamp. Enis stands on a step stool at the end of the desk, both hands round the mouse.
+       His father's arm comes down from above the frame, his hand resting on the boy's back.
+       The mouse cable is the thread: over the edge of the desk, one loop, into the tower.
+       Floor 880. Desk top front edge 433. Child at 1.9 (unit 64 x 1.9). -->
+
+  <g id="room" data-window="0 0.3">
+    <!-- wall meets floor behind the desk, a skirting board -->
+    <path class="fine" data-tone="far" data-w="0.9" d="M0,770 L1300,770"/>
+    <path class="fine" data-tone="far" data-w="0.7" d="M0,784 L1300,784"/>
+    <path class="hatch" data-tone="far" data-angle="88" data-gap="7" data-w="0.36" d="M0,770 L1300,770 L1300,784 L0,784 Z"/>
+    <!-- a socket on the wall where the power goes -->
+    <path class="fine" data-tone="far" data-w="0.8" d="M60,700 L92,700 L92,732 L60,732 Z M71,712 L71,718 M81,712 L81,718"/>
+    <!-- floorboards running away -->
+    <path class="fine" data-tone="far" data-w="0.6" d="M0,812 L1300,812 M0,846 L1300,846"/>
+    <path class="fine" data-tone="far" data-w="0.5" d="M140,784 L120,812 M520,812 L500,846 M980,784 L968,812 M1180,846 L1170,880 M330,846 L322,880"/>
+  </g>
+
+  <g id="desk" data-window="0.04 0.4">
+    <path class="fill" data-tone="shade" d="M60,874 C300,866 760,866 960,872 L960,886 C760,892 300,892 60,886 Z"/>
+    <!-- the top, seen a little from above, and its front edge -->
+    <path class="fill" data-tone="paper" d="M112,408 L800,408 L812,433 L812,447 L100,447 L100,433 Z"/>
+    <path class="ink" data-w="1.3" d="M112,408 L800,408"/>
+    <path class="ink" data-w="2" d="M100,433 L812,433"/>
+    <path class="ink" data-w="1.6" d="M100,447 L812,447"/>
+    <path class="ink" data-w="1.3" d="M100,433 L112,408 M800,408 L812,433 L812,447 M100,433 L100,447"/>
+    <path class="hatch" data-angle="84" data-gap="4.2" data-w="0.4" d="M100,433 L812,433 L812,447 L100,447 Z"/>
+    <path class="fine" data-w="0.5" d="M160,420 C300,418 460,421 620,419 M220,427 C360,426 520,428 700,426"/>
+    <!-- apron under the top and the two legs -->
+    <path class="ink" data-w="1.2" d="M118,447 L118,470 L794,470 L794,447"/>
+    <path class="hatch" data-angle="70" data-gap="5" data-w="0.38" d="M118,456 L794,456 L794,470 L118,470 Z"/>
+    <path class="fill" data-tone="paper" d="M118,470 L142,470 L140,872 L118,872 Z"/>
+    <path class="ink" data-w="2" d="M118,470 L118,872"/>
+    <path class="ink" data-w="1.3" d="M142,470 L140,872"/>
+    <path class="fill" data-tone="paper" d="M770,470 L794,470 L794,872 L772,872 Z"/>
+    <path class="ink" data-w="1.3" d="M770,470 L772,872"/>
+    <path class="ink" data-w="2.1" d="M794,470 L794,872"/>
+    <path class="hatch" data-angle="80" data-gap="3.4" data-w="0.4" d="M781,472 L794,472 L794,868 L782,868 Z M130,472 L142,472 L140,868 L130,868 Z"/>
+  </g>
+
+  <g id="tower" data-window="0.12 0.5">
+    <!-- the tower under the desk: drive bays, power button, two front USB ports -->
+    <path class="fill" data-tone="shade" d="M150,876 C200,872 290,872 330,878 L330,888 C290,892 200,892 150,886 Z"/>
+    <path class="fill" data-tone="paper" d="M160,606 L276,606 L298,592 L298,862 L276,878 L160,878 Z"/>
+    <path class="ink" data-w="1.6" d="M160,608 L160,878 L276,878 L276,606 L160,606"/>
+    <path class="ink" data-w="1.3" d="M160,606 L182,592 L298,592 L276,606 M298,592 L298,862 L276,878"/>
+    <path class="hatch" data-angle="62" data-gap="3.6" data-w="0.4" d="M276,606 L298,592 L298,862 L276,878 Z"/>
+    <path class="fine" data-w="0.9" d="M174,626 L262,626 L262,646 L174,646 Z M174,654 L262,654 L262,674 L174,674 Z"/>
+    <path class="fine" data-w="0.6" d="M240,636 L254,636 M240,664 L254,664"/>
+    <path class="ink" data-w="1.2" d="M206,712 C206,706 212,702 218,702 C224,702 230,706 230,712 C230,718 224,722 218,722 C212,722 206,718 206,712 Z"/>
+    <path class="fine" data-w="0.8" d="M218,706 L218,712"/>
+    <path class="fine" data-w="0.8" d="M190,744 L206,744 L206,750 L190,750 Z M230,744 L246,744 L246,750 L230,750 Z"/>
+    <path class="fine" data-w="0.6" d="M178,800 L258,800 M178,810 L258,810 M178,820 L258,820 M178,830 L258,830 M178,840 L258,840"/>
+  </g>
+
+  <g id="lamp" data-window="0.16 0.5">
+    <!-- a desk lamp at the far end, its light falling across the keys -->
+    <path class="fill" data-tone="wash" d="M290,226 C330,270 400,350 440,418 L300,420 C296,340 292,280 290,226 Z"/>
+    <path class="fill" data-tone="paper" d="M150,404 C150,396 172,392 196,392 C220,392 240,396 240,404 L240,410 L150,410 Z"/>
+    <path class="ink" data-w="1.5" d="M150,406 C150,397 172,392 196,392 C220,392 240,397 240,406 M150,406 L150,410 L240,410 L240,406"/>
+    <path class="ink" data-w="1.7" d="M194,394 L176,282 M200,394 L182,282"/>
+    <path class="ink" data-w="1.6" d="M178,282 L270,214 M184,286 L274,220"/>
+    <path class="ink" data-w="1.2" d="M174,280 C174,274 182,272 186,276 C190,280 186,288 180,288 C176,288 174,284 174,280 Z"/>
+    <path class="fill" data-tone="paper" d="M262,200 C280,184 310,186 324,204 C330,212 330,222 324,230 L282,226 C270,220 262,210 262,200 Z"/>
+    <path class="ink" data-w="1.7" d="M262,200 C280,184 310,186 324,204 C330,212 330,222 324,230"/>
+    <path class="ink" data-w="1.4" d="M262,200 C262,212 270,222 282,226 L324,230"/>
+    <path class="hatch" data-angle="40" data-gap="3" data-w="0.4" d="M266,198 C282,188 306,190 318,204 C306,198 286,198 272,206 Z"/>
+  </g>
+
+  <g id="screen" data-window="0.18 0.56">
+    <!-- the flat screen: bezel, a plain desktop with a few icons and a taskbar, stand and foot -->
+    <path class="fill" data-tone="paper" d="M330,150 L650,150 L650,352 L330,352 Z"/>
+    <path class="fill" data-tone="glow" d="M346,166 L634,166 L634,322 L346,322 Z"/>
+    <path class="ink" data-w="2" d="M330,150 L650,150 L650,352 L330,352 Z"/>
+    <path class="ink" data-w="1.1" d="M346,166 L634,166 L634,336 L346,336 Z"/>
+    <path class="fine" data-w="0.8" d="M346,322 L634,322"/>
+    <path class="fine" data-w="0.9" d="M352,329 C352,326 355,325 357,325 C360,325 362,327 362,329 C362,332 360,333 357,333 C355,333 352,332 352,329 Z"/>
+    <path class="fine" data-w="0.6" d="M372,329 L388,329 M396,329 L412,329 M600,329 L626,329"/>
+    <path class="fine" data-w="0.7" d="M358,178 L372,178 L372,192 L358,192 Z M358,204 L372,204 L372,218 L358,218 Z M358,230 L372,230 L372,244 L358,244 Z"/>
+    <path class="fine" data-tone="far" data-w="0.6" d="M346,286 C420,262 500,258 560,270 C590,276 614,284 634,292"/>
+    <path class="fine" data-tone="far" data-w="0.5" d="M400,300 C460,288 530,286 600,298"/>
+    <path class="hatch" data-angle="72" data-gap="3.2" data-w="0.4" d="M330,150 L346,166 L346,336 L330,352 Z M634,166 L650,150 L650,352 L634,336 Z"/>
+    <path class="fine" data-w="0.6" d="M486,344 L494,344"/>
+    <path class="fill" data-tone="paper" d="M474,352 L506,352 L508,404 L472,404 Z"/>
+    <path class="ink" data-w="1.4" d="M476,352 L474,404 M504,352 L506,404"/>
+    <path class="fill" data-tone="paper" d="M424,412 C424,404 456,402 490,402 C524,402 556,404 556,412 C556,418 524,420 490,420 C456,420 424,418 424,412 Z"/>
+    <path class="ink" data-w="1.5" d="M424,412 C424,404 456,402 490,402 C524,402 556,404 556,412 C556,418 524,420 490,420 C456,420 424,418 424,412 Z"/>
+  </g>
+
+  <g id="keyboard" data-window="0.24 0.6">
+    <path class="fill" data-tone="paper" d="M368,420 L622,420 L636,430 L636,434 L356,434 L356,430 Z"/>
+    <path class="ink" data-w="1.3" d="M368,420 L622,420 L636,430 L356,430 Z"/>
+    <path class="ink" data-w="1.1" d="M356,430 L356,434 L636,434 L636,430"/>
+    <path class="fine" data-w="0.55" d="M374,423 L612,423 M370,426.5 L620,426.5"/>
+    <path class="fine" data-w="0.5" d="M390,421 L388,429 M412,421 L410,429 M434,421 L432,429 M456,421 L454,429 M478,421 L477,429 M500,421 L499,429 M522,421 L522,429 M544,421 L545,429 M566,421 L567,429 M588,421 L590,429"/>
+  </g>
+
+  <g id="stool" data-window="0.3 0.6">
+    <!-- a small wooden step stool under his feet -->
+    <path class="fill" data-tone="shade" d="M740,872 C800,868 900,868 960,874 L960,884 C900,888 800,888 740,882 Z"/>
+    <path class="fill" data-tone="paper" d="M764,788 L940,788 L940,804 L764,804 Z"/>
+    <path class="ink" data-w="1.8" d="M764,788 L940,788"/>
+    <path class="ink" data-w="1.4" d="M764,804 L940,804 M764,788 L764,804 M940,788 L940,804"/>
+    <path class="hatch" data-angle="82" data-gap="3.6" data-w="0.4" d="M764,794 L940,794 L940,804 L764,804 Z"/>
+    <path class="ink" data-w="1.7" d="M782,804 L768,876 M798,804 L786,876"/>
+    <path class="ink" data-w="1.7" d="M922,804 L936,876 M906,804 L918,876"/>
+    <path class="fine" data-w="0.9" d="M776,844 L928,844"/>
+  </g>
+
+  <g id="enis" data-include="_figure-child" transform="translate(470,26) scale(1.9)" data-window="0.36 0.82"/>
+
+  <g id="father" data-window="0.56 0.86" transform="translate(-58,26)">
+    <!-- his father's arm, from above the frame: a knitted sleeve, a ribbed cuff, the hand open on the boy's back -->
+    <path class="fill" data-tone="paper" d="M1166,-420 L1259,-420 L1206,-12 C1204,60 1196,130 1180,184 C1172,206 1158,218 1140,226 L1018,322 L988,286 L1086,174 C1094,110 1104,50 1112,-12 Z"/>
+    <path class="ink" data-w="1.8" d="M1166,-420 L1112,-12 C1104,50 1096,110 1088,168"/>
+    <path class="ink" data-w="2.4" d="M1259,-420 L1206,-12 C1204,60 1196,130 1180,184 C1172,206 1158,218 1140,226"/>
+    <path class="ink" data-w="1.7" d="M1088,168 C1060,200 1030,240 998,280"/>
+    <path class="ink" data-w="2.2" d="M1140,226 C1100,256 1060,288 1026,318"/>
+    <path class="fine" data-w="0.8" d="M1094,170 C1110,186 1130,196 1150,200"/>
+    <path class="hatch" data-angle="58" data-gap="3.8" data-w="0.42" d="M1176,40 C1192,46 1200,52 1202,60 C1198,120 1190,160 1176,192 C1166,210 1150,222 1134,228 L1110,246 C1130,220 1150,190 1164,150 C1172,110 1176,76 1176,40 Z"/>
+    <path class="fine" data-w="0.5" d="M1180,-300 C1160,-100 1128,70 1112,160 M1206,-300 C1186,-100 1150,70 1138,170"/>
+    <!-- ribbed cuff -->
+    <path class="fill" data-tone="paper" d="M998,280 L1026,318 L1012,330 L984,294 Z"/>
+    <path class="ink" data-w="1.4" d="M996,282 C1006,298 1016,310 1028,318"/>
+    <path class="ink" data-w="1.4" d="M984,294 C994,308 1002,320 1012,330"/>
+    <path class="fine" data-w="0.5" d="M992,286 L980,298 M998,292 L986,304 M1004,300 L992,312 M1010,308 L998,320 M1016,314 L1006,326"/>
+    <!-- the hand, flat on his upper back, fingers together pointing down -->
+    <path class="fill" data-tone="paper" d="M984,296 C972,318 962,342 958,366 C955,382 950,396 944,404 C940,410 944,416 950,414 C952,420 960,422 964,416 C968,422 976,422 978,414 C984,404 994,386 1000,370 C1006,354 1010,340 1012,330 Z"/>
+    <path class="ink" data-w="1.6" d="M984,296 C972,318 962,342 958,366 C955,382 950,396 944,404 C940,410 944,416 950,414"/>
+    <path class="ink" data-w="1.3" d="M950,414 C952,420 960,422 964,416 M964,416 C968,422 976,422 978,414"/>
+    <path class="ink" data-w="1.8" d="M978,414 C984,404 994,386 1000,370 C1006,354 1010,340 1012,330"/>
+    <path class="fine" data-w="0.7" d="M957,386 C956,398 953,408 950,414 M969,388 C969,400 967,410 964,416"/>
+    <path class="fine" data-w="0.6" d="M963,362 C972,366 984,368 996,365"/>
+    <path class="hatch" data-angle="50" data-gap="3.2" data-w="0.38" d="M1004,346 C998,370 990,392 980,410 C980,392 986,372 992,354 Z"/>
+  </g>
+
+  <g id="cable" data-window="0.8 1">
+    <!-- the mouse cable: over the front of the desk, a loop as it falls, into the tower -->
+    <path class="thread" data-w="2.4" d="M755,425 C744,424 734,426 728,434 C718,448 714,474 708,500 C700,536 690,566 668,586 C650,602 628,600 630,584 C632,568 656,568 664,586 C672,610 650,646 600,676 C520,722 400,740 300,744 C268,746 250,746 238,747"/>
+  </g>
+</svg>

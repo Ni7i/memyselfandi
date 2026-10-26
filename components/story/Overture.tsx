@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef } from "react";
 import { Breeze } from "@/components/art/breeze";
 import { Drawing } from "@/components/art/drawing";
+import ArtFallback from "@/components/art/ArtFallback";
+import InkArt, { inked } from "@/components/art/InkArt";
 
 /** Scene coordinates of the opening drawing (art/scene-bench.svg). */
 const SCENE = { w: 1600, h: 900 };
@@ -70,14 +72,7 @@ function thoughtPath(cloud: Cloud) {
   return d + " " + scallops(cloud, start).replace(/^M[^ ]+/, "");
 }
 
-interface Props {
-  /** The opening drawing, rendered on the server as <Art>. */
-  scene: ReactNode;
-  /** The childhood drawing that appears inside the thought. */
-  memory: ReactNode;
-}
-
-export default function Overture({ scene, memory }: Props) {
+export default function Overture() {
   const sectionRef = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
@@ -95,119 +90,137 @@ export default function Overture({ scene, memory }: Props) {
       root.classList.remove("draw-pending");
       return;
     }
-    const stage = stageRef.current!;
-    const svg = svgRef.current!;
-    const thought = thoughtRef.current!;
-    const cloudGroup = cloudRef.current!;
-    const fill = fillRef.current!;
-    const first = firstRef.current!;
-    const bench = new Drawing(sceneRef.current!);
-    const child = new Drawing(memoryRef.current!);
-    const breeze = new Breeze(sceneRef.current!);
-    bench.set(0);
-    child.set(0);
+    // The pinned stage is laid out at once; the drawing starts when the strokes are in place
     section.classList.add("is-live");
-    root.classList.remove("draw-pending");
-
-    let cloud: Cloud = cloudFor(viewFor(innerWidth / innerHeight));
-    let introStart = performance.now();
-    let introDone = false;
-    let frame = 0;
-
-    const layout = () => {
-      const view = viewFor(stage.clientWidth / stage.clientHeight);
-      svg.setAttribute("viewBox", `${view.x} ${view.y} ${view.w} ${view.h}`);
-      cloud = cloudFor(view);
-      thought.setAttribute("d", thoughtPath(cloud));
-      fill.setAttribute("d", scallops(cloud, Math.PI * 0.32));
-      // The first sentence sits in the middle of the cloud, as wide as the cloud allows
-      const ctm = svg.getScreenCTM();
-      const box = stage.getBoundingClientRect();
-      if (ctm) {
-        const centre = new DOMPoint(cloud.cx, cloud.cy).matrixTransform(ctm);
-        first.style.left = `${centre.x - box.left}px`;
-        first.style.top = `${centre.y - box.top}px`;
-        first.style.width = `${cloud.rx * 1.42 * ctm.a}px`;
-      }
-    };
-
-    const render = (now: number) => {
-      frame = 0;
-      const rect = section.getBoundingClientRect();
-      const p = clamp(-rect.top / Math.max(1, rect.height - innerHeight));
-
-      // Scene 1 draws itself on arrival; scrolling early finishes it quickly instead of skipping it
-      if (!introDone) {
-        if (p > 0.012 && now - introStart < INTRO_MS - 500) introStart = now - (INTRO_MS - 500);
-        const t = clamp((now - introStart) / INTRO_MS);
-        bench.set(ease(t));
-        introDone = t >= 1;
-        if (introDone) breeze.play();
-        if (!introDone) frame = requestAnimationFrame(render);
-      }
-
-      // Scene 1 text leaves before the thought rises
-      stage.style.setProperty("--intro-out", String(range(p, 0.07, 0.14)));
-      // The thread climbs from his cap, loops three times and draws the cloud
-      thought.style.strokeDashoffset = String(1 - ease(range(p, 0.12, 0.34)));
-      fill.style.opacity = String(range(p, 0.3, 0.36) * 0.96);
-      stage.style.setProperty("--first", String(range(p, 0.31, 0.37) * (1 - range(p, 0.5, 0.56))));
-      // The cloud opens until its lamplight fills the page
-      const grow = ease(range(p, 0.5, 0.72));
-      const corners = [[0, 0], [SCENE.w, 0], [0, SCENE.h], [SCENE.w, SCENE.h]];
-      const reach = Math.max(...corners.map(([x, y]) => Math.hypot((x - cloud.cx) / cloud.rx, (y - cloud.cy) / cloud.ry)));
-      const s = 1 + grow * (reach * 1.4 - 1);
-      cloudGroup.setAttribute("transform", `translate(${cloud.cx} ${cloud.cy}) scale(${s}) translate(${-cloud.cx} ${-cloud.cy})`);
-      // As it opens, the drawn line hands over to the cloud's own edge, which keeps a pen's width
-      const handover = range(p, 0.49, 0.52);
-      thought.style.opacity = String(1 - handover);
-      fill.style.strokeOpacity = String(handover);
-      // Inside the thought: the question, then Enis at three with the mouse
-      stage.style.setProperty("--memory", String(range(p, 0.68, 0.76)));
-      child.set(range(p, 0.72, 0.95));
-      // The breeze keeps moving his hair whenever he is on screen, scrolled or not
-      if (introDone) {
-        if (p < 0.6 && !breeze.active) breeze.play();
-        else if (p >= 0.6 && breeze.active) breeze.pause();
-      }
-    };
-
-    const schedule = () => {
-      if (!frame) frame = requestAnimationFrame(render);
-    };
-    const resize = () => {
-      layout();
-      schedule();
-    };
-
-    layout();
-    frame = requestAnimationFrame(render);
-    addEventListener("scroll", schedule, { passive: true });
-    addEventListener("resize", resize);
+    let stop: (() => void) | undefined;
+    let cancelled = false;
+    // Both drawings arrive from public/art; the stage comes alive once they are in place
+    Promise.all([inked(sceneRef.current!), inked(memoryRef.current!)]).then(() => {
+      if (!cancelled) stop = start();
+    });
     return () => {
-      cancelAnimationFrame(frame);
-      breeze.pause();
-      removeEventListener("scroll", schedule);
-      removeEventListener("resize", resize);
+      cancelled = true;
+      stop?.();
     };
+
+    function start() {
+      const stage = stageRef.current!;
+      const svg = svgRef.current!;
+      const thought = thoughtRef.current!;
+      const cloudGroup = cloudRef.current!;
+      const fill = fillRef.current!;
+      const first = firstRef.current!;
+      const bench = new Drawing(sceneRef.current!);
+      const child = new Drawing(memoryRef.current!);
+      const breeze = new Breeze(sceneRef.current!);
+      bench.set(0);
+      child.set(0);
+      root.classList.remove("draw-pending");
+
+      let cloud: Cloud = cloudFor(viewFor(innerWidth / innerHeight));
+      let introStart = performance.now();
+      let introDone = false;
+      let frame = 0;
+
+      const layout = () => {
+        const view = viewFor(stage.clientWidth / stage.clientHeight);
+        svg.setAttribute("viewBox", `${view.x} ${view.y} ${view.w} ${view.h}`);
+        cloud = cloudFor(view);
+        thought.setAttribute("d", thoughtPath(cloud));
+        fill.setAttribute("d", scallops(cloud, Math.PI * 0.32));
+        // The first sentence sits in the middle of the cloud, as wide as the cloud allows
+        const ctm = svg.getScreenCTM();
+        const box = stage.getBoundingClientRect();
+        if (ctm) {
+          const centre = new DOMPoint(cloud.cx, cloud.cy).matrixTransform(ctm);
+          first.style.left = `${centre.x - box.left}px`;
+          first.style.top = `${centre.y - box.top}px`;
+          first.style.width = `${cloud.rx * 1.42 * ctm.a}px`;
+        }
+      };
+
+      const render = (now: number) => {
+        frame = 0;
+        const rect = section.getBoundingClientRect();
+        const p = clamp(-rect.top / Math.max(1, rect.height - innerHeight));
+
+        // Scene 1 draws itself on arrival; scrolling early finishes it quickly instead of skipping it
+        if (!introDone) {
+          if (p > 0.012 && now - introStart < INTRO_MS - 500) introStart = now - (INTRO_MS - 500);
+          const t = clamp((now - introStart) / INTRO_MS);
+          bench.set(ease(t));
+          introDone = t >= 1;
+          if (introDone) breeze.play();
+          if (!introDone) frame = requestAnimationFrame(render);
+        }
+
+        // Scene 1 text leaves before the thought rises
+        stage.style.setProperty("--intro-out", String(range(p, 0.07, 0.14)));
+        // The thread climbs from his cap, loops three times and draws the cloud
+        thought.style.strokeDashoffset = String(1 - ease(range(p, 0.12, 0.34)));
+        fill.style.opacity = String(range(p, 0.3, 0.36) * 0.96);
+        stage.style.setProperty("--first", String(range(p, 0.31, 0.37) * (1 - range(p, 0.5, 0.56))));
+        // The cloud opens until its lamplight fills the page
+        const grow = ease(range(p, 0.5, 0.72));
+        const corners = [[0, 0], [SCENE.w, 0], [0, SCENE.h], [SCENE.w, SCENE.h]];
+        const reach = Math.max(...corners.map(([x, y]) => Math.hypot((x - cloud.cx) / cloud.rx, (y - cloud.cy) / cloud.ry)));
+        const s = 1 + grow * (reach * 1.4 - 1);
+        cloudGroup.setAttribute("transform", `translate(${cloud.cx} ${cloud.cy}) scale(${s}) translate(${-cloud.cx} ${-cloud.cy})`);
+        // As it opens, the drawn line hands over to the cloud's own edge, which keeps a pen's width
+        const handover = range(p, 0.49, 0.52);
+        thought.style.opacity = String(1 - handover);
+        fill.style.strokeOpacity = String(handover);
+        // Inside the thought: the question, then Enis at three with the mouse
+        stage.style.setProperty("--memory", String(range(p, 0.68, 0.76)));
+        child.set(range(p, 0.72, 0.95));
+        // The breeze keeps moving his hair whenever he is on screen, scrolled or not
+        if (introDone) {
+          if (p < 0.6 && !breeze.active) breeze.play();
+          else if (p >= 0.6 && breeze.active) breeze.pause();
+        }
+      };
+
+      const schedule = () => {
+        if (!frame) frame = requestAnimationFrame(render);
+      };
+      const resize = () => {
+        layout();
+        schedule();
+      };
+
+      layout();
+      frame = requestAnimationFrame(render);
+      addEventListener("scroll", schedule, { passive: true });
+      addEventListener("resize", resize);
+      return () => {
+        cancelAnimationFrame(frame);
+        breeze.pause();
+        removeEventListener("scroll", schedule);
+        removeEventListener("resize", resize);
+      };
+    }
   }, []);
 
   return (
-    <section ref={sectionRef} className="overture" aria-labelledby="overture-title">
+    <section ref={sectionRef} id="top" className="overture" aria-labelledby="overture-title">
       <div ref={stageRef} className="ov-stage">
-        <svg ref={svgRef} className="ov-scene" viewBox={`0 0 ${SCENE.w} ${SCENE.h}`} preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
-          <g ref={sceneRef}>{scene}</g>
+        <svg ref={svgRef} className="ov-scene ink-host" viewBox={`0 0 ${SCENE.w} ${SCENE.h}`} preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+          <g ref={sceneRef}><InkArt name="scene-bench" eager /></g>
           <g ref={cloudRef} className="ov-cloud">
             <path ref={fillRef} className="ov-cloud-fill" vectorEffect="non-scaling-stroke" />
           </g>
           <path ref={thoughtRef} className="ov-thought" pathLength={1} />
         </svg>
+        <ArtFallback name="scene-bench" className="ov-scene" />
 
         <div className="ov-intro">
           <p className="ov-kicker">An illustrated autobiography · Limmattal, Switzerland</p>
           <h1 id="overture-title" className="ov-title">Enis Shorra</h1>
           <p className="ov-lede">Application developer in training. Eighteen. Still asking how things work.</p>
-          <p className="ov-cue" aria-hidden="true">Follow the thread</p>
+          <p className="ov-ways">
+            <span className="ov-cue" aria-hidden="true">Follow the thread</span>
+            <a className="ov-skip" href="#facts">or skip to the facts</a>
+          </p>
         </div>
 
         <p ref={firstRef} className="ov-first">Everything I build goes back to one question.</p>
@@ -216,9 +229,10 @@ export default function Overture({ scene, memory }: Props) {
           <p className="ov-question">
             I kept asking it as a kid: <em>how does this work?</em>
           </p>
-          <svg className="ov-child" viewBox="0 0 320 360" aria-hidden="true" focusable="false">
-            <g ref={memoryRef}>{memory}</g>
+          <svg className="ov-child ink-host" viewBox="0 0 320 360" aria-hidden="true" focusable="false">
+            <g ref={memoryRef}><InkArt name="memory-child" eager /></g>
           </svg>
+          <ArtFallback name="memory-child" className="ov-child" alt="Enis at three, holding a computer mouse." />
         </div>
 
         <p className="visually-hidden">

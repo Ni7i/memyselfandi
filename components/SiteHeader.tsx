@@ -1,12 +1,12 @@
 import Link from "next/link";
 
 const SECTIONS = [
-  { id: "about", label: "About" },
-  { id: "archive", label: "Projects" },
+  { id: "facts", label: "About" },
+  { id: "work", label: "Projects" },
 ] as const;
 
 const MORE_SECTIONS = [
-  { id: "certificates", label: "Certificates" },
+  { id: "proof", label: "Certificates" },
   { id: "contact", label: "Contact" },
 ] as const;
 

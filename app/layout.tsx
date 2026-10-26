@@ -24,8 +24,9 @@ export const metadata: Metadata = {
   description: "An illustrated autobiography of Enis Shorra, application developer in training at IMS Baden.",
 };
 
-// Before first paint: drawings that will animate start hidden, unless the reader prefers less motion.
-const motionScript = `try{if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("draw-pending")}catch(e){}`;
+// Before first paint: mark that scripts run (drawings are placed inline, not as images), and let
+// drawings that will animate start hidden, unless the reader prefers less motion.
+const motionScript = `try{var c=document.documentElement.classList;c.add("js");if(!matchMedia("(prefers-reduced-motion: reduce)").matches)c.add("draw-pending")}catch(e){}`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

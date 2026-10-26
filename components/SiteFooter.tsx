@@ -27,9 +27,9 @@ export default function SiteFooter({ onHome = false }: { onHome?: boolean }) {
           <h4>Explore</h4>
           <ul>
             <li><SectionLink id="contact" label="Contact" onHome={onHome} /></li>
-            <li><SectionLink id="archive" label="Projects" onHome={onHome} /></li>
+            <li><SectionLink id="work" label="Projects" onHome={onHome} /></li>
             <li><Link href="/blog">Blog</Link></li>
-            <li><SectionLink id="certificates" label="Certificates" onHome={onHome} /></li>
+            <li><SectionLink id="proof" label="Certificates" onHome={onHome} /></li>
           </ul>
         </div>
       </div>

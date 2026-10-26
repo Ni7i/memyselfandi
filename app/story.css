@@ -46,17 +46,11 @@ html:not(.js) .ink-host { display: none; }
 .t-brow { fill: #1d1612; fill-opacity: 0.62; }
 .t-socket { fill: #2a1d15; fill-opacity: 0.3; filter: url(#art-soft); }
 .t-thread:not(.a-t) { fill: var(--thread); }
-.ov-child .t-paper { fill: var(--story-lamp); }
 
-/* Before the controller takes over, drawings that will animate stay hidden.
-   If it never does, they appear on their own after a moment. */
-.draw-pending .overture .a-b,
-.draw-pending .overture .a-f,
-.draw-pending .overture .a-t {
-  visibility: hidden;
-  animation: draw-failsafe 0s 3.5s forwards;
-}
-@keyframes draw-failsafe { to { visibility: visible; } }
+/* Live, the drawings' own red lines give way to the one thread the scroll draws (see Overture
+   and StoryMotion); without motion they stay, so a still page still shows the thread. */
+.overture.is-live .ov-scene .a-t,
+.ch-desk.is-live .desk-art .a-t { display: none; }
 
 /* ─────────────── SCENES 1 AND 2: THE BENCH, THE THOUGHT ─────────────── */
 
@@ -147,15 +141,13 @@ html:not(.js) .ink-host { display: none; }
 }
 
 /* The thought: drawn by the thread, filled with lamplight */
-.ov-thought, .ov-cloud { display: none; }
-.ov-thought {
+.ov-thread, .ov-cloud { display: none; }
+.ov-thread {
   fill: none;
   stroke: var(--thread);
   stroke-width: 1.9;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-dasharray: 1 2;
-  stroke-dashoffset: 1;
 }
 .ov-cloud-fill {
   fill: var(--story-lamp);
@@ -179,9 +171,7 @@ html:not(.js) .ink-host { display: none; }
 /* Inside the thought: the question and the boy */
 .ov-memory {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
   align-items: end;
-  gap: 24px 6vw;
   padding: clamp(48px, 8vw, 120px) clamp(20px, 7.5vw, 128px);
   background: var(--story-lamp);
 }
@@ -197,14 +187,9 @@ html:not(.js) .ink-host { display: none; }
 }
 .ov-question em { font-style: italic; }
 
-.ov-child {
-  display: block;
-  width: clamp(180px, 22vw, 330px);
-  height: auto;
-}
 
 /* Live: a pinned stage that draws as the reader scrolls */
-.overture.is-live { height: 640vh; }
+.overture.is-live { height: 760vh; }
 .is-live .ov-stage {
   position: sticky;
   top: 0;
@@ -219,7 +204,7 @@ html:not(.js) .ink-host { display: none; }
   height: 100%;
   aspect-ratio: auto;
 }
-.is-live .ov-thought, .is-live .ov-cloud { display: inline; }
+.is-live .ov-thread, .is-live .ov-cloud { display: inline; }
 .is-live .ov-first {
   display: block;
   position: absolute;
@@ -237,12 +222,7 @@ html:not(.js) .ink-host { display: none; }
 .is-live .ov-cue { opacity: calc(1 - var(--intro-out, 0) * 4); }
 
 @media (max-width: 760px) {
-  .ov-memory {
-    grid-template-columns: 1fr;
-    align-content: center;
-    justify-items: start;
-  }
-  .ov-child { justify-self: end; width: min(62vw, 260px); }
+  .ov-memory { align-content: center; }
   .is-live .ov-intro { top: 9vh; }
 }
 
@@ -366,7 +346,7 @@ html:not(.js) .ink-host { display: none; }
 .ch-desk .t-paper { fill: var(--story-lamp); }
 .t-glow { fill: #fbf6ec; }
 
-.ch-desk.is-live { height: 380vh; }
+.ch-desk.is-live { height: 440vh; }
 .ch-desk.is-live .ch-stage {
   position: sticky;
   top: 0;
@@ -835,6 +815,8 @@ html:not(.js) .ink-host { display: none; }
   /* the father's sleeve fades in from above instead of ending under the words */
   .desk-art { overflow: hidden; -webkit-mask-image: linear-gradient(transparent, #000 24%); mask-image: linear-gradient(transparent, #000 24%); }
   .ch-lines { font-size: clamp(22px, 6vw, 28px); }
+  /* leave the right margin to the thread as it comes down */
+  .ch-desk .ch-copy { padding-right: 28px; }
   .ch-line { margin-bottom: 0.35em; }
   .curious-grid { grid-template-columns: 1fr; }
   .curious-grid .ch-coda { grid-column: 1; }
@@ -856,3 +838,24 @@ html:not(.js) .ink-host { display: none; }
 }
 
 .desk-art { overflow: visible; }
+
+/* The thread running through a pinned scene, laid out from the page (see StoryMotion) */
+.thread-run { display: none; }
+.is-live .thread-run {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 1;
+}
+.thread-run path {
+  fill: none;
+  stroke: var(--thread);
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.ch-desk .ch-stage { position: relative; }

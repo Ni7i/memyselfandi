@@ -36,10 +36,10 @@ export function AgeThree() {
     <section id="age-three" className="chapter ch-desk" data-chapter="pin" aria-labelledby="age-three-title">
       <div className="ch-stage">
         <div className="ch-copy">
-          <p className="ch-kicker" data-show="0 0.03">Age three</p>
+          <p className="ch-kicker" data-show="0 0.04">Age three</p>
           <h2 id="age-three-title" className="ch-lines">
             {lines.map((line, i) => (
-              <span key={line} className="ch-line" data-show={`${0.14 + i * 0.16} ${0.22 + i * 0.16}`}>
+              <span key={line} className="ch-line" data-show={`${0.08 + i * 0.18} ${0.15 + i * 0.18}`}>
                 {line}{" "}
               </span>
             ))}
@@ -50,9 +50,13 @@ export function AgeThree() {
             Illustration: Enis at three, standing on a step stool at the family computer, both hands on the mouse.
             His father&apos;s hand rests on his back. The red mouse cable runs into the computer.
           </desc>
-          <g data-drawing="0.01 0.86"><InkArt name="scene-desk" /></g>
+          <g data-drawing="0 0.56"><InkArt name="scene-desk" /></g>
         </svg>
         <ArtFallback name="scene-desk" className="ch-art desk-art" alt="Enis at three at the family computer, his father's hand on his back." />
+        {/* The thread from the thought comes in at the top, drops into his hands and becomes the mouse cable */}
+        <svg className="thread-run" data-run="0.3 0.84" data-enter="0.2" data-follow=".desk-art" data-drop="712 150, 712 330" aria-hidden="true" focusable="false">
+          <path />
+        </svg>
       </div>
     </section>
   );

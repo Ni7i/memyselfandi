@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { Drawing } from "@/components/art/drawing";
+import { handoffX } from "./handoff";
 
 /**
  * Brings the chapters after the overture to life. Chapters are server-rendered and complete;
@@ -24,7 +25,63 @@ const clamp = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
 const ease = (t: number) => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2);
 
 type Part = { el: Element; a: number; b: number; own: boolean; apply: (t: number) => void; last: number };
-type Chapter = { el: HTMLElement; stage: HTMLElement | null; pinned: boolean; parts: Part[]; visible: boolean };
+type Run = { svg: SVGSVGElement; path: SVGPathElement; a: number; b: number; enter: number; total: number; ready: boolean };
+type Chapter = { el: HTMLElement; stage: HTMLElement | null; pinned: boolean; parts: Part[]; runs: Run[]; visible: boolean };
+
+/**
+ * Lays out a thread run: straight down from the top edge at the handoff x, a curve into the start
+ * of the drawing's own red line, then along that line, mapped from drawing to stage coordinates.
+ */
+function layoutRun(run: Run) {
+  const stage = run.svg.parentElement!;
+  const art = stage.querySelector<SVGSVGElement>(run.svg.dataset.follow ?? "svg");
+  const line = art?.querySelector<SVGPathElement>("path.a-t");
+  const ctm = art?.getScreenCTM();
+  if (!art || !line || !ctm) return;
+  const box = stage.getBoundingClientRect();
+  const w = box.width, h = box.height;
+  const map = (x: number, y: number) => [ctm.a * x + ctm.c * y + ctm.e - box.left, ctm.b * x + ctm.d * y + ctm.f - box.top];
+  const f = (n: number) => n.toFixed(1);
+  const numbers = (line.getAttribute("d") ?? "").match(/-?\d+(?:\.\d+)?/g)!.map(Number);
+  const points: number[][] = [];
+  for (let i = 0; i + 1 < numbers.length; i += 2) points.push(map(numbers[i], numbers[i + 1]));
+  const [sx, sy] = points[0];
+  // Down at the handoff x until clear of the text, then through the waypoints into the drawing's line
+  const x = handoffX(w, h);
+  const drop = (run.svg.dataset.drop ?? `${numbers[0]} ${numbers[1]}`).split(/[\s,]+/).map(Number);
+  const ways: number[][] = [];
+  for (let i = 0; i + 1 < drop.length; i += 2) ways.push(map(drop[i], drop[i + 1]));
+  const copy = stage.querySelector(".ch-copy")?.getBoundingClientRect();
+  const below = copy && copy.bottom - box.top < ways[0][1] ? copy.bottom - box.top + 18 : 0;
+  const enter = Math.min(ways[0][1] - 40, Math.max(h * Number(run.svg.dataset.enter ?? 0.2), below));
+  let d = `M${f(x)},-2 L${f(x)},${f(enter)}`;
+  let [px, py] = [x, enter];
+  for (const [wx, wy] of [...ways, [sx, sy]]) {
+    d += ` C${f(px)},${f(py + (wy - py) * 0.6)} ${f(wx)},${f(wy - (wy - py) * 0.4)} ${f(wx)},${f(wy)}`;
+    [px, py] = [wx, wy];
+  }
+  d += points.slice(1).map(([qx, qy]) => ` L${f(qx)},${f(qy)}`).join("");
+  run.svg.setAttribute("viewBox", `0 0 ${f(w)} ${f(h)}`);
+  run.path.setAttribute("d", d);
+  run.total = run.path.getTotalLength();
+  run.enter = enter + 2;
+  run.path.style.strokeDasharray = `${run.total} ${run.total}`;
+  run.path.style.strokeDashoffset = String(run.total);
+  run.ready = true;
+}
+
+/**
+ * While the stage scrolls in, the thread is drawn as far as the screen shows it (so it meets the
+ * end of the previous scene's thread); once the stage is pinned, the scroll draws the rest.
+ */
+function drawRun(run: Run, top: number, p: number) {
+  if (!run.ready) return;
+  const t = clamp((p - run.a) / (run.b - run.a));
+  const drawn = top > 0
+    ? clamp((innerHeight - top) / Math.max(1, run.enter)) * run.enter
+    : run.enter + (run.total - run.enter) * (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2);
+  run.path.style.strokeDashoffset = String(run.total - drawn);
+}
 
 function span(el: Element, name: string): [number, number] {
   const [a, b] = (el.getAttribute(name) ?? "0 1").split(/\s+/).map(Number);
@@ -72,12 +129,26 @@ export default function StoryMotion() {
     const chapters: Chapter[] = Array.from(document.querySelectorAll<HTMLElement>("[data-chapter]")).map((el) => {
       el.classList.add("is-live");
       const stage = el.dataset.chapter === "pin" ? el.querySelector<HTMLElement>(".ch-stage") : null;
-      return { el, stage, pinned: false, parts: partsOf(el), visible: false };
+      const runs = Array.from(el.querySelectorAll<SVGSVGElement>("svg.thread-run")).map((svg) => {
+        const [a, b] = span(svg, "data-run");
+        return { svg, path: svg.querySelector("path")!, a, b, enter: 0, total: 1, ready: false };
+      });
+      // A run follows a drawing, so it is laid out again whenever one arrives
+      el.addEventListener("ink", () => {
+        runs.forEach(layoutRun);
+        schedule();
+      });
+      return { el, stage, pinned: false, parts: partsOf(el), runs, visible: false };
     });
     const measure = () => {
-      for (const chapter of chapters) chapter.pinned = !!chapter.stage && getComputedStyle(chapter.stage).position === "sticky";
+      for (const chapter of chapters) {
+        chapter.pinned = !!chapter.stage && getComputedStyle(chapter.stage).position === "sticky";
+        chapter.runs.forEach(layoutRun);
+      }
     };
     measure();
+    // Scenes that hand the thread over measure each other; tell them the pinned layout is in place
+    dispatchEvent(new Event("story:layout"));
 
     let frame = 0;
     const render = () => {
@@ -89,6 +160,7 @@ export default function StoryMotion() {
           ? clamp(-r.top / Math.max(1, r.height - innerHeight))
           : clamp((innerHeight - r.top) / (innerHeight + r.height));
         chapter.el.style.setProperty("--p", p.toFixed(4));
+        for (const run of chapter.runs) drawRun(run, r.top, p);
         for (const part of chapter.parts) {
           const source = part.own || (chapter.stage && !chapter.pinned) ? passing(part.el) : p;
           const t = clamp((source - part.a) / (part.b - part.a));

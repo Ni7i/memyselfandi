@@ -1,9 +1,13 @@
+import Art, { ArtFilters } from "@/components/art/Art";
+import memoryChild from "@/components/art/generated/memory-child";
+import sceneBench from "@/components/art/generated/scene-bench";
 import ContactForm from "@/components/ContactForm";
 import ProjectRow from "@/components/ProjectRow";
 import SiteFooter from "@/components/SiteFooter";
 import SiteHeader from "@/components/SiteHeader";
+import Overture from "@/components/story/Overture";
+import "./story.css";
 import { getPublishedProjects } from "@/lib/content/projects";
-import TypedTitle from "./TypedTitle";
 
 // Projects are managed in /admin and read on every request.
 export const dynamic = "force-dynamic";
@@ -11,7 +15,7 @@ export const dynamic = "force-dynamic";
 const CERTIFICATES = [
   {
     title: "Baden hackt",
-    detail: "4th place · Competition",
+    detail: "Hackathon at BBB Baden · took part in 2025, top 10 in 2026",
     url: "/certificates/baden-hackt.jpg",
   },
   {
@@ -43,21 +47,11 @@ export default async function Home() {
 
   return (
     <>
-      <SiteHeader onHome />
+      <ArtFilters />
+      {/* Scenes 1 and 2 of the illustrated autobiography; the sections below follow in later checkpoints */}
+      <Overture scene={<Art data={sceneBench} />} memory={<Art data={memoryChild} />} />
 
-      <section className="intro">
-        <div className="intro-inner">
-          <div>
-            <span className="stamp">Est. 2024 · Limmattal</span>
-            <TypedTitle />
-          </div>
-          <p className="intro-sub">
-            The personal site of an eighteen-year-old developer from
-            Switzerland: what I build, what I&apos;m into, and where
-            this is going.
-          </p>
-        </div>
-      </section>
+      <SiteHeader onHome />
 
       <section className="mag" id="about">
         <div className="mag-inner">
@@ -163,8 +157,9 @@ export default async function Home() {
               Currently looking for the <em>right team.</em>
             </h2>
             <p className="cta-sub">
-              I&apos;m available for an apprenticeship anywhere. If that sounds
-              useful, write to me right here, without leaving the website.
+              I&apos;m looking for an internship for my practical year at IMS
+              Baden, from August 2027 to July 2028, full time. Write to me right
+              here, without leaving the website.
             </p>
           </div>
           <ContactForm />

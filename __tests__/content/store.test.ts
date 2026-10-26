@@ -8,14 +8,15 @@ import { configureKv, unconfigureKv } from "../helpers/auth";
 import { memoryState } from "../helpers/memory-kv";
 
 const HOMEPAGE_ORDER = [
-  "screentime-blocker",
+  "notevault",
+  "lockbox",
   "memyselfandi",
   "quizlot",
-  "notevault",
-  "twinn",
-  "midnight-calculator",
-  "lockbox",
+  "websiten",
   "oase-jugendraum",
+  "screentime-blocker",
+  "midnight-calculator",
+  "twinn",
 ];
 
 const extraProject: ProjectInput = { ...seedProjects[0], slug: "extra", title: "Extra", order: 20 };
@@ -35,7 +36,8 @@ describe("without Redis", () => {
 
   it("serves the default content in homepage order", async () => {
     expect((await getPublishedProjects()).map((project) => project.slug)).toEqual(HOMEPAGE_ORDER);
-    expect((await getPublishedPosts()).map((post) => post.slug)).toEqual(["unity-to-csharp", "wpf-modern-ui"]);
+    expect((await getPublishedPosts()).map((post) => post.slug)).toEqual(["wpf-modern-ui"]);
+    expect(await getPublishedPost("unity-to-csharp")).toBeNull();
   });
 
   it("keeps drafts off the public site", async () => {

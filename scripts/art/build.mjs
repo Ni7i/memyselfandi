@@ -290,9 +290,9 @@ export default art;
 function writePreview({ drawing, items }, guides) {
   const tone = {
     ink: "fill:#231f1b", fine: "fill:#231f1b;fill-opacity:.82", dark: "fill:#1d1a17", shade: "fill:#231f1b;fill-opacity:.09",
-    wash: "fill:#7a6a55;fill-opacity:.13", paper: "fill:#f2ebdd", thread: "fill:#b23a2e", threadwash: "fill:#b23a2e;fill-opacity:.12", face: "fill:#3b2c22;fill-opacity:.3", oat: "fill:#b5a283;fill-opacity:.3", skin: "fill:#c98f6a;fill-opacity:.0", coat: "fill:#2b2723;fill-opacity:.5", flannel: "fill:#6f6a62;fill-opacity:.22", mid: "fill:#231f1b;fill-opacity:.55",
+    wash: "fill:#7a6a55;fill-opacity:.13", paper: "fill:#f2ebdd", thread: "fill:#b23a2e", threadwash: "fill:#b23a2e;fill-opacity:.12", face: "fill:#3b2c22;fill-opacity:.3", deep: "fill:#2a1d15;fill-opacity:.38", far: "fill:#231f1b;fill-opacity:.42", bark: "fill:#231f1b;fill-opacity:.16", brow: "fill:#1d1612;fill-opacity:.62", socket: "fill:#2a1d15;fill-opacity:.3", oat: "fill:#b5a283;fill-opacity:.3", skin: "fill:#c98f6a;fill-opacity:.0", coat: "fill:#2b2723;fill-opacity:.5", flannel: "fill:#6f6a62;fill-opacity:.22", mid: "fill:#231f1b;fill-opacity:.55",
   };
-  const filter = { shade: ' filter="url(#soft)"', wash: ' filter="url(#wet)"', glow: ' filter="url(#soft)"' };
+  const filter = { socket: ' filter="url(#soft)"', shade: ' filter="url(#soft)"', wash: ' filter="url(#wet)"', glow: ' filter="url(#soft)"' };
   const body = items.map((it) => it.k === "t"
     ? `<path d="${it.c}" fill="none" stroke="#b23a2e" stroke-width="${it.w}" stroke-linecap="round" stroke-linejoin="round"/>`
     : `<path d="${it.d}" style="${tone[it.tone] ?? tone.ink}"${it.k === "f" ? filter[it.tone] ?? "" : ""}/>`).join("\n");

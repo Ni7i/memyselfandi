@@ -8,8 +8,8 @@ type Route = { status: number; body?: string };
 const healthy: Record<string, Route> = {
   "/": { status: 200, body: '<section class="idx" id="archive">' },
   "/blog": { status: 200, body: '<main class="idx page-idx" id="posts">' },
-  "/blog/unity-to-csharp": { status: 200, body: "<article>" },
-  "/projects/screentime-blocker": { status: 200, body: "<article>" },
+  "/blog/wpf-modern-ui": { status: 200, body: "<article>" },
+  "/projects/notevault": { status: 200, body: "<article>" },
   "/robots.txt": { status: 200, body: "User-Agent: *\nSitemap: https://enisshorra.ch/sitemap.xml" },
   "/sitemap.xml": { status: 200, body: "<urlset></urlset>" },
   "/api/admin/projects": { status: 401, body: '{"error":"Nicht angemeldet."}' },
@@ -65,8 +65,8 @@ describe("status report", () => {
     expect(byLabel(report)["Admin geschützt"].detail).toBe("Ohne Anmeldung gesperrt (401)");
 
     const requested = fetchMock.mock.calls.map(([url]) => String(url));
-    expect(requested).toContain("http://localhost:3000/blog/unity-to-csharp");
-    expect(requested).toContain("http://localhost:3000/projects/screentime-blocker");
+    expect(requested).toContain("http://localhost:3000/blog/wpf-modern-ui");
+    expect(requested).toContain("http://localhost:3000/projects/notevault");
     // The admin check must never carry credentials.
     const adminCall = fetchMock.mock.calls.find(([url]) => String(url).endsWith("/api/admin/projects"));
     expect(JSON.stringify(adminCall?.[1])).not.toMatch(/cookie/i);

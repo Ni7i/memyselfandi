@@ -15,13 +15,17 @@
     <path class="ink" data-tone="dark" data-w="2.2" data-taper="0.1 0.9" d="M240,190 C244,198 244,206 240,212"/>
     <path class="ink" data-tone="paper" data-w="0.9" d="M122,78 C144,66 172,62 198,66"/>
     <path class="ink" data-tone="paper" data-w="0.8" d="M218,104 C232,116 242,134 244,154"/>
-    <!-- the first curl -->
-    <path class="ink" data-w="4.4" data-taper="0.02 0.72" d="M110,110 C102,112 96,118 95,125 C94,132 99,137 104,136 C108,135 109,131 106,128 C104,126 101,127 101,129"/>
-    <path class="ink" data-w="1.4" data-taper="0.05 0.8" d="M115,111 C109,114 104,118 101,123"/>
+    <!-- the first curl: soft, two strands and a wisp -->
+    <path class="ink" data-w="3.2" data-taper="0.03 0.75" d="M110,110 C102,112 97,118 96,125 C95,132 99,137 104,136 C108,135.5 109,131 106,128.5 C104,127 102,128 102,130"/>
+    <path class="ink" data-w="2" data-taper="0.04 0.8" d="M114,111 C108,114 103,118 101,124"/>
+    <path class="ink" data-w="0.8" data-taper="0.1 0.9" d="M108,112 C104,117 103,121 105,125"/>
     <path class="ink" data-w="2.3" d="M99,111 C97,84 115,58 149,48 C190,38 238,54 258,90 C270,114 270,146 260,170"/>
   </g>
 
   <g id="face">
+    <path class="ink" data-tone="brow" data-w="2.4" data-taper="0.15 0.55" d="M95,158.5 C103,156 111,156 120,157.5"/>
+    <ellipse class="fill" data-tone="socket" cx="107" cy="168" rx="8" ry="5.5"/>
+    <path class="fine" data-tone="deep" data-w="0.9" d="M84,192 C86,189.5 88.5,189.5 89.5,192.5"/>
     <!-- domed forehead, soft nose, lips, tiny chin -->
     <path class="ink" data-w="2.2" d="M100,109 C92,118 87,129 86,140 C85,149 86,157 88,164 C89,168 92,170 93,173 C90,177 86,182 83,187 C81,191 83,194 87,195 C90,196 92,197 92,199"/>
     <path class="ink" data-w="2" d="M92,199 C92,201 93,203 95,205 C93,207 92,209 93,211 C94,213 96,215 96,218 C96,222 97,225 100,228 C104,232 110,234 116,234"/>

@@ -85,7 +85,7 @@ describe("projects API with a session", () => {
     const { items } = await response.json();
     expect(response.status).toBe(200);
     expect(response.headers.get("cache-control")).toBe("no-store");
-    expect(items).toHaveLength(11);
+    expect(items).toHaveLength(12);
     expect(items.filter((item: { published: boolean }) => !item.published).map((item: { slug: string }) => item.slug)).toEqual([
       "whiteplayer",
       "portfolio",
@@ -105,7 +105,7 @@ describe("projects API with a session", () => {
 
     const published = await getPublishedProjects();
     expect(published.map((project) => project.slug)).toContain("studylock");
-    expect(published).toHaveLength(9);
+    expect(published).toHaveLength(10);
   });
 
   it("returns field errors for invalid input", async () => {

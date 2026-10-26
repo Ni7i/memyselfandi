@@ -5,6 +5,9 @@
     <g data-include="_figure-child" transform="translate(40,250)"/>
     <g data-include="_figure-teen" transform="translate(330,50)"/>
     <g data-include="_figure-seated" transform="translate(560,90)"/>
+    <g transform="translate(560,90)">
+      <path class="thread" data-w="1.8" d="M352,-10 C353,120 354,260 355,372 C355.5,378 355,381 354.5,384 C350,392 342,400 334,400 C326,400 326,391 333,388 C342,385 352,391 354,400 C358,432 334,470 306,506 C278,540 226,566 120,572"/>
+    </g>
   </g>
   <g id="heads">
     <g data-include="_head-child" transform="translate(70,792) scale(0.86)"/>

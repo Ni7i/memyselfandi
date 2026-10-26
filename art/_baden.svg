@@ -1,0 +1,56 @@
+<svg viewBox="0 0 1600 900">
+  <!-- The setting of the opening: the promenade by the Limmat in Baden, late afternoon.
+       Far bank in light ink: old town roofs, the covered wooden bridge, the castle tower,
+       the church spire on the hill. Near: the river edge, a lamppost, a plane tree. Ground 760. -->
+  <g id="far" class="fine" data-tone="far">
+    <!-- the hill behind the town -->
+    <path data-w="0.9" d="M0,560 C120,540 220,512 330,498 C420,488 500,470 560,472 C640,476 720,500 820,524 C900,544 980,560 1080,572"/>
+    <path class="hatch" data-tone="far" data-angle="70" data-gap="6" data-w="0.4" d="M330,498 C420,488 500,470 560,472 C600,474 640,482 680,492 C660,520 600,540 540,548 C470,550 400,540 330,530 Z"/>
+    <!-- church on the hill: tower and spire -->
+    <path data-w="1" d="M548,560 L548,470 L572,470 L572,560 M546,470 L560,412 L574,470"/>
+    <path data-w="0.6" d="M556,488 L556,498 M564,488 L564,498 M560,412 L560,402"/>
+    <!-- old town roofs on the far bank -->
+    <path data-w="1" d="M20,640 L20,596 L58,572 L96,596 L96,640"/>
+    <path data-w="1" d="M96,640 L96,604 L120,588 L156,588 L178,604 L178,640"/>
+    <path data-w="1" d="M178,640 L178,584 L210,556 L242,584 L242,640"/>
+    <path data-w="0.7" d="M34,606 L34,616 M50,606 L50,616 M66,606 L66,616 M82,606 L82,616 M192,596 L192,608 M210,596 L210,608 M228,596 L228,608"/>
+    <!-- the castle tower by the bridge, pyramid roof -->
+    <path data-w="1.1" d="M300,640 L300,522 L344,522 L344,640 M296,522 L322,482 L348,522"/>
+    <path data-w="0.7" d="M314,540 L314,552 M330,540 L330,552 M314,576 L314,588 M330,576 L330,588 M322,482 L322,472"/>
+    <path data-w="1" d="M344,640 L344,594 L376,576 L424,576 L448,594 L448,640"/>
+    <path data-w="1" d="M448,640 L448,602 L480,586 L512,602 L512,640"/>
+    <path class="hatch" data-tone="far" data-angle="60" data-gap="4" data-w="0.4" d="M322,482 L348,522 L344,522 L344,640 L330,640 L330,522 Z"/>
+    <!-- the covered wooden bridge, running across the river toward the town -->
+    <path data-w="1.1" d="M60,662 L250,628 M60,676 L250,642 M54,662 L150,632 L256,620"/>
+    <path data-w="0.7" d="M90,657 L90,671 M120,651 L120,665 M150,646 L150,660 M180,640 L180,654 M210,635 L210,649 M240,630 L240,644"/>
+    <path class="hatch" data-tone="far" data-angle="80" data-gap="3" data-w="0.4" d="M60,662 L250,628 L250,642 L60,676 Z"/>
+    <!-- far bank line -->
+    <path data-w="1" d="M0,642 L1600,646"/>
+  </g>
+
+  <g id="river" class="fine">
+    <!-- water: a few strokes of moving light, a reflection under the tower -->
+    <path data-tone="far" data-w="0.7" d="M40,662 L120,662 M300,668 L380,667 M520,660 L640,661 M760,670 L860,669 M980,662 L1110,663 M1260,668 L1340,667 M1440,661 L1560,662"/>
+    <path data-tone="far" data-w="0.6" d="M180,678 L240,678 M420,682 L470,681 M680,680 L720,680 M900,684 L960,683 M1180,680 L1220,680 M1380,684 L1430,683"/>
+    <path data-tone="far" data-w="0.6" d="M308,652 L336,652 M312,658 L332,658 M316,664 L328,664"/>
+    <!-- the near edge of the promenade: a low stone kerb -->
+    <path class="ink" data-tone="mid" data-w="1.1" d="M0,694 L1600,698"/>
+    <path data-tone="far" data-w="0.6" d="M0,700 L1600,704"/>
+  </g>
+
+  <g id="lamp">
+    <!-- a park lamp: slender post, a lantern with a small roof -->
+    <path class="ink" data-tone="mid" data-w="1.5" d="M742,760 L742,500"/>
+    <path class="ink" data-tone="mid" data-w="1.1" d="M748,760 L748,500"/>
+    <path class="ink" data-tone="mid" data-w="1.4" d="M734,760 L756,760 M736,752 L754,752"/>
+    <path class="ink" data-tone="mid" data-w="1.3" d="M732,500 L758,500 M730,500 L738,470 L752,470 L760,500 M734,470 L745,456 L756,470 M745,456 L745,448"/>
+    <path class="fine" data-tone="mid" data-w="0.6" d="M745,472 L745,498"/>
+  </g>
+
+  <g id="tree" data-include="_tree"/>
+
+  <g id="ground" class="fine">
+    <!-- gravel, a few marks only -->
+    <path data-tone="far" data-w="0.6" d="M640,782 l6,0 M700,792 l4,0 M820,786 l5,0 M960,796 l4,0 M1120,788 l6,0 M1240,798 l4,0 M1380,784 l5,0 M1500,794 l4,0 M560,800 l4,0 M1040,808 l5,0"/>
+  </g>
+</svg>

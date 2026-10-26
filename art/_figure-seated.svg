@@ -56,6 +56,9 @@
     <path class="ink" data-w="1.5" d="M308,539 C294,540 274,543 260,547 C252,550 251,556 256,557"/>
     <path class="ink" data-w="2.2" data-taper="0.04 0.15" d="M254,559 C276,560 306,560 332,559"/>
     <path class="fine" data-w="0.7" d="M280,544 L283,547 M287,542 L290,545 M294,541 L297,544"/>
+    <path class="fine" data-w="0.9" d="M253,553 L331,553"/>
+    <path class="fine" data-w="0.8" d="M268,545 C263,547.5 260,550.5 260,553"/>
+    <path class="fine" data-w="0.8" d="M325,539 C329,542 330,547 329.5,552"/>
   </g>
 
   <g id="body">
@@ -77,6 +80,9 @@
     <path class="fine" data-w="0.8" d="M452,280 C456,284 460,286 464,286"/>
     <path class="fine" data-w="0.9" d="M452,238 C462,240 472,244 482,250"/>
     <path class="fine" data-w="0.8" d="M450,396 C458,394 468,396 476,400"/>
+    <path class="fine" data-w="0.8" d="M452,296 C460,302 470,304 480,302"/>
+    <path class="fine" data-w="0.7" d="M450,350 C458,355 468,356 478,353"/>
+    <path class="fine" data-w="0.7" d="M484,330 C486,350 486,372 484,392"/>
     <path class="hatch" data-angle="66" data-gap="3.4" data-w="0.45" d="M478,240 C486,256 490,278 490,300 C490,330 488,360 484,390 C480,370 478,340 478,310 C478,284 478,262 478,240 Z"/>
   </g>
 
@@ -102,7 +108,7 @@
     <path class="ink" data-w="2.1" d="M310,408 C350,410 396,414 440,418"/>
     <path class="fine" data-w="0.8" d="M304,386 C320,388 334,392 346,398"/>
     <path class="fine" data-w="0.7" d="M310,382 C330,382 348,384 364,388"/>
-    <path class="hatch" data-angle="62 -28" data-gap="3" data-w="0.45" d="M310,402 C346,404 392,408 438,411 C438,414 439,416 440,418 C396,416 350,412 310,408 Z"/>
+    <path class="hatch" data-angle="62" data-gap="3.6" data-w="0.42" d="M310,402 C346,404 392,408 438,411 C438,414 439,416 440,418 C396,416 350,412 310,408 Z"/>
     <path class="ink" data-w="1.6" d="M306,412 C304,418 308,424 316,424 C320,424 323,422 324,418"/>
     <!-- crossed shin hanging, cropped hem, sock, the sneaker dangling -->
     <path class="fill" data-tone="paper" d="M289,392 C282,424 274,456 266,488 L286,494 C292,466 300,436 310,406 Z"/>
@@ -116,6 +122,9 @@
     <path class="ink" data-w="1.5" d="M265,495 C254,506 242,514 234,520 C230,524 232,529 240,528"/>
     <path class="ink" data-w="2.2" data-taper="0.06 0.15" d="M238,531 C254,528 270,524 283,519"/>
     <path class="fine" data-w="0.7" d="M256,508 L260,510 M262,503 L266,505 M268,499 L272,501"/>
+    <path class="fine" data-w="0.9" d="M235,526 C251,523 267,519 281,514.5"/>
+    <path class="fine" data-w="0.8" d="M245,515 C241,518 238.5,522 238,525.5"/>
+    <path class="fine" data-w="0.8" d="M283,501 C285,506 284,511 281.5,514"/>
   </g>
 
   <!-- near hand on the thigh, seen from the thumb side: index and thumb pinch the thread,
@@ -160,7 +169,4 @@
     <path class="hatch" data-angle="60" data-gap="2.6" data-w="0.38" d="M460,234 C469,232 476,228 478,222 C480,230 476,238 468,240 C465,241 462,239 460,234 Z"/>
   </g>
 
-  <g id="thread">
-    <path class="thread" data-w="1.8" d="M352,-10 C353,120 354,260 355,372 C355.5,378 355,381 354.5,384 C350,392 342,400 334,400 C326,400 326,391 333,388 C342,385 352,391 354,400 C358,432 334,470 306,506 C278,540 226,566 120,572"/>
-  </g>
 </svg>

@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // next dev would otherwise write AGENTS.md and CLAUDE.md into the repository
+  agentRules: false,
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },

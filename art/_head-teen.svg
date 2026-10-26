@@ -18,13 +18,20 @@
     <path class="ink" data-tone="dark" data-w="2.4" data-taper="0.1 0.9" d="M232,180 C236,188 236,196 232,203"/>
     <path class="ink" data-tone="dark" data-w="2.2" data-taper="0.1 0.9" d="M120,100 C114,104 110,110 109,116"/>
     <path class="ink" data-tone="dark" data-w="1.8" data-taper="0.1 0.9" d="M132,102 C128,106 126,111 126,116"/>
-    <!-- the curl, falling from the fringe, the same hook as the adult's -->
-    <path class="ink" data-w="5.2" data-taper="0.02 0.72" d="M100,99 C92,101 85,107 83,115 C81,124 86,131 93,130 C98,129 100,124 97,120 C95,117 91,118 91,121"/>
-    <path class="ink" data-w="1.7" data-taper="0.05 0.8" d="M106,100 C99,103 93,108 89,115"/>
+    <!-- the curl, falling from the fringe: the same three strands as today -->
+    <path class="ink" data-w="3.6" data-taper="0.03 0.75" d="M100,99 C92,101 86,107 84,115 C82,123 86,130 93,129 C97,128.5 99,124 96,120.5 C94,118.5 91.5,119 91.5,121.5"/>
+    <path class="ink" data-w="2.4" data-taper="0.04 0.8" d="M104,100 C97,103 91,108 88,115 C86.5,119 87,123 89,125"/>
+    <path class="ink" data-w="1.6" data-taper="0.05 0.85" d="M108,100.5 C103,103 99,106 96,110"/>
+    <path class="ink" data-w="0.8" data-taper="0.1 0.9" d="M98,101 C94,107 93,112 95,116"/>
     <path class="ink" data-w="2.3" d="M85,103 C85,79 105,55 147,46 C190,38 231,52 248,80 C257,98 256,128 249,152"/>
   </g>
 
   <g id="face">
+    <!-- cues inside the shadow: a straight brow lifted a little at the front, the socket under it,
+         a nostril, light catching the cheekbone. Enough to read attention, no eyes, no mouth. -->
+    <path class="ink" data-tone="brow" data-w="4" data-taper="0.15 0.55" d="M86.0,136.0 C96.0,132.5 108.0,132.0 120.0,134.5"/>
+    <ellipse class="fill" data-tone="socket" cx="101" cy="150" rx="9" ry="6"/>
+    <path class="fine" data-tone="deep" data-w="1.0" d="M70.0,193.0 C72.0,190.0 76.0,190.0 77.0,194.0"/>
     <path class="ink" data-w="2.2" d="M88,99 C82,110 79,124 79,136 C79,143 84,146 84,150 C80,161 71,175 65,186 C61,192 63,196 69,195.5 C74,195.5 77,197 80,199"/>
     <path class="ink" data-w="2" d="M80,199 C77,202 76,206 77,209 C77,211 80,212 80,213 C78,215 77,218 78,221 C79,224 82,226 82,230 C80,236 80,242 82,247 C85,252 90,255 98,255"/>
     <path class="fine" data-w="1.2" d="M98,255 C122,252 144,242 154,228 C159,220 162,212 164,204"/>

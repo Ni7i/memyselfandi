@@ -1,0 +1,247 @@
+/* ─────────────── THE ILLUSTRATED AUTOBIOGRAPHY ───────────────
+   Ink on paper, one red thread. Without JavaScript, or with reduced motion,
+   every scene is laid out complete and still; .is-live turns a scene into
+   a pinned stage that draws as the reader scrolls. */
+
+:root {
+  --story-paper: #f2ebdd;
+  --story-lamp: #efe3cc;
+  --story-ink: #231f1b;
+  --story-ink-2: #3d3731;
+  --story-ink-3: #6d655b;
+  --thread: #b23a2e;
+  --font-story: var(--font-display), Georgia, "Times New Roman", serif;
+  --font-body: var(--font-text), "Helvetica Neue", Arial, sans-serif;
+}
+
+.art-filters { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0; border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Tones of the ink drawings (see scripts/art/build.mjs) */
+.a-t { fill: none; stroke: var(--thread); stroke-linecap: round; stroke-linejoin: round; }
+.t-ink { fill: var(--story-ink); }
+.t-fine { fill: var(--story-ink); fill-opacity: 0.82; }
+.t-dark { fill: #1d1a17; }
+.t-mid { fill: var(--story-ink); fill-opacity: 0.55; }
+.t-far { fill: var(--story-ink); fill-opacity: 0.42; }
+.t-paper { fill: var(--story-paper); }
+.t-shade { fill: var(--story-ink); fill-opacity: 0.09; filter: url(#art-soft); }
+.t-wash { fill: #7a6a55; fill-opacity: 0.13; filter: url(#art-wet); }
+.t-oat { fill: #b5a283; fill-opacity: 0.3; }
+.t-bark { fill: var(--story-ink); fill-opacity: 0.16; }
+.t-face { fill: #3b2c22; fill-opacity: 0.3; }
+.t-deep { fill: #2a1d15; fill-opacity: 0.38; }
+.t-brow { fill: #1d1612; fill-opacity: 0.62; }
+.t-socket { fill: #2a1d15; fill-opacity: 0.3; filter: url(#art-soft); }
+.t-thread:not(.a-t) { fill: var(--thread); }
+.ov-child .t-paper { fill: var(--story-lamp); }
+
+/* Before the controller takes over, drawings that will animate stay hidden.
+   If it never does, they appear on their own after a moment. */
+.draw-pending .overture .a-b,
+.draw-pending .overture .a-f,
+.draw-pending .overture .a-t {
+  visibility: hidden;
+  animation: draw-failsafe 0s 3.5s forwards;
+}
+@keyframes draw-failsafe { to { visibility: visible; } }
+
+/* ─────────────── SCENES 1 AND 2: THE BENCH, THE THOUGHT ─────────────── */
+
+.overture {
+  position: relative;
+  background: var(--story-paper);
+  color: var(--story-ink);
+  font-family: var(--font-body);
+}
+
+.ov-stage { position: relative; }
+
+.ov-scene {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+}
+
+.ov-intro {
+  position: absolute;
+  left: clamp(20px, 7.5vw, 128px);
+  top: clamp(40px, 7vw, 110px);
+  max-width: 36rem;
+  z-index: 1;
+  transform: translateY(calc(var(--intro-out, 0) * -24px));
+  opacity: calc(1 - var(--intro-out, 0));
+}
+/* A soft knockout of paper, so the distant town fades out behind the words */
+.ov-intro::before {
+  content: "";
+  position: absolute;
+  inset: -40px -90px -50px -60px;
+  z-index: -1;
+  background: radial-gradient(closest-side, var(--story-paper) 62%, transparent);
+  pointer-events: none;
+}
+
+.ov-kicker {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--story-ink-3);
+}
+
+.ov-title {
+  margin-top: 18px;
+  font-family: var(--font-story);
+  font-weight: 300;
+  font-size: clamp(54px, 7.4vw, 118px);
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+}
+
+.ov-lede {
+  margin-top: 24px;
+  max-width: 27ch;
+  font-size: clamp(17px, 1.45vw, 21px);
+  line-height: 1.5;
+  color: var(--story-ink-2);
+}
+
+.ov-cue {
+  margin-top: 30px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--story-ink-3);
+}
+.ov-cue::before {
+  content: "";
+  width: 1.6px;
+  height: 34px;
+  background: var(--thread);
+  border-radius: 1px;
+  transform-origin: top;
+  animation: cue-drop 2.6s cubic-bezier(.5, 0, .2, 1) infinite;
+}
+@keyframes cue-drop {
+  0% { transform: scaleY(0); opacity: 1; }
+  60% { transform: scaleY(1); opacity: 1; }
+  100% { transform: scaleY(1); opacity: 0; }
+}
+
+/* The thought: drawn by the thread, filled with lamplight */
+.ov-thought, .ov-cloud { display: none; }
+.ov-thought {
+  fill: none;
+  stroke: var(--thread);
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1 2;
+  stroke-dashoffset: 1;
+}
+.ov-cloud-fill {
+  fill: var(--story-lamp);
+  stroke: var(--thread);
+  stroke-width: 1.9;
+  stroke-opacity: 0;
+  opacity: 0;
+}
+
+.ov-first {
+  display: none;
+  font-family: var(--font-story);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(22px, 2.3vw, 34px);
+  line-height: 1.2;
+  text-align: center;
+  text-wrap: balance;
+}
+
+/* Inside the thought: the question and the boy */
+.ov-memory {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 24px 6vw;
+  padding: clamp(48px, 8vw, 120px) clamp(20px, 7.5vw, 128px);
+  background: var(--story-lamp);
+}
+
+.ov-question {
+  max-width: 15ch;
+  font-family: var(--font-story);
+  font-weight: 300;
+  font-size: clamp(34px, 5vw, 76px);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+.ov-question em { font-style: italic; }
+
+.ov-child {
+  display: block;
+  width: clamp(180px, 22vw, 330px);
+  height: auto;
+}
+
+/* Live: a pinned stage that draws as the reader scrolls */
+.overture.is-live { height: 640vh; }
+.is-live .ov-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+}
+.is-live .ov-scene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+}
+.is-live .ov-thought, .is-live .ov-cloud { display: inline; }
+.is-live .ov-first {
+  display: block;
+  position: absolute;
+  transform: translate(-50%, -50%) translateY(calc((1 - var(--first, 0)) * 10px));
+  opacity: var(--first, 0);
+}
+.is-live .ov-memory {
+  position: absolute;
+  inset: 0;
+  background: none;
+  pointer-events: none;
+  opacity: var(--memory, 0);
+}
+.is-live .ov-question { transform: translateY(calc((1 - var(--memory, 0)) * 18px)); }
+.is-live .ov-cue { opacity: calc(1 - var(--intro-out, 0) * 4); }
+
+@media (max-width: 760px) {
+  .ov-memory {
+    grid-template-columns: 1fr;
+    align-content: center;
+    justify-items: start;
+  }
+  .ov-child { justify-self: end; width: min(62vw, 260px); }
+  .is-live .ov-intro { top: 9vh; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ov-cue::before { animation: none; }
+}

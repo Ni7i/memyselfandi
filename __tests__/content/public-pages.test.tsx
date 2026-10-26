@@ -20,18 +20,24 @@ afterEach(() => {
 });
 
 describe("homepage", () => {
-  it("renders the same project archive as before the admin existed", async () => {
+  it("opens with the illustrated autobiography", async () => {
+    const html = renderToStaticMarkup(await Home());
+    expect(html).toContain('<h1 id="overture-title" class="ov-title">Enis Shorra</h1>');
+    expect(html).toContain('data-art="scene-bench"');
+    expect(html).toContain('data-art="memory-child"');
+  });
+
+  it("lists the projects strongest first and keeps private code private", async () => {
     const html = renderToStaticMarkup(await Home());
 
-    expect(html).toContain('<span class="idx-count">8 projects</span>');
-    expect(html).toContain(
-      '<a class="archive-row" href="https://github.com/Ni7i/screentime-blocker" rel="noreferrer" target="_blank"><span class="archive-number">01</span><h3>screentime-blocker</h3><p>A macOS menu-bar app that blocks distracting websites and apps behind a personal code.</p><span class="archive-stack">Python · macOS · SHA-256</span>',
-    );
-    expect(html).toContain(
-      '<a class="archive-row" href="https://github.com/Ni7i/LockBox" rel="noreferrer" target="_blank"><h3>LockBox</h3>',
-    );
-    const titles = [...html.matchAll(/<h3>([^<]+)<\/h3>/g)].map((match) => match[1]).slice(0, 8);
-    expect(titles).toEqual(["screentime-blocker", "memyselfandi", "Quizlot", "NoteVault", "Twinn", "midnight-calculator", "LockBox", "Oase Jugendraum"]);
+    expect(html).toContain('<span class="idx-count">9 projects</span>');
+    // Private repositories link to their own page, which says the code is available on request
+    expect(html).toContain('<a class="archive-row" href="/projects/notevault"><span class="archive-number">01</span><h3>NoteVault</h3>');
+    expect(html).toContain('<a class="archive-row" href="/projects/lockbox"><span class="archive-number">02</span><h3>LockBox</h3>');
+    expect(html).not.toContain("github.com/Ni7i/NoteVault");
+    expect(html).not.toContain("github.com/Ni7i/LockBox");
+    const titles = [...html.matchAll(/<h3>([^<]+)<\/h3>/g)].map((match) => match[1]).slice(0, 9);
+    expect(titles).toEqual(["NoteVault", "LockBox", "memyselfandi", "Quizlot", "websiten.ch", "Oase Jugendraum", "screentime-blocker", "midnight-calculator", "Twinn"]);
     expect(html).not.toContain("WhitePlayer");
   });
 
@@ -64,9 +70,10 @@ describe("blog index", () => {
   it("lists the published posts, newest first", async () => {
     const html = renderToStaticMarkup(await BlogIndex());
     expect(html).toContain('id="posts"');
-    expect(html).toContain('<span class="idx-count">2 posts</span>');
-    expect(html.indexOf("Why I ditched Unity")).toBeLessThan(html.indexOf("Making WPF not look like Windows XP"));
-    expect(html).toContain('href="/blog/unity-to-csharp"');
+    expect(html).toContain('<span class="idx-count">1 post</span>');
+    expect(html).toContain('href="/blog/wpf-modern-ui"');
+    // The Unity story is not accurate and stays unpublished
+    expect(html).not.toContain("Unity");
   });
 
   it("hides drafts and handles an empty blog", async () => {
@@ -84,16 +91,16 @@ describe("blog index", () => {
 
 describe("detail pages", () => {
   it("renders a published blog post with its date as before", async () => {
-    const html = renderToStaticMarkup(await BlogPostPage(params("unity-to-csharp")));
-    expect(html).toContain('<h1 class="article-title">Why I ditched Unity for pure C#</h1>');
-    expect(html).toContain("March 2025");
-    expect(html).toContain("<h2>Most of what I copied from tutorials, I never needed</h2>");
-    expect(html).toContain("<strong>months</strong>");
-    expect(html).toContain("More posts");
+    const html = renderToStaticMarkup(await BlogPostPage(params("wpf-modern-ui")));
+    expect(html).toContain('<h1 class="article-title">Making WPF not look like Windows XP</h1>');
+    expect(html).toContain("January 2025");
+    expect(html).toContain("<h2>Replace the control templates</h2>");
+    expect(html).toContain("<strong>single biggest reason</strong>");
+    await expect(BlogPostPage(params("unity-to-csharp"))).rejects.toThrow();
   });
 
   it("renders a published project and hides drafts", async () => {
-    expect(renderToStaticMarkup(await ProjectPage(params("notevault")))).toContain("A lightweight REST API for notes, tags and search.");
+    expect(renderToStaticMarkup(await ProjectPage(params("notevault")))).toContain("Code available on request.");
     await expect(ProjectPage(params("whiteplayer"))).rejects.toThrow();
   });
 });
@@ -108,7 +115,8 @@ describe("robots and sitemap", () => {
     expect(urls[0]).toBe("https://enisshorra.ch");
     expect(urls[1]).toBe("https://enisshorra.ch/blog");
     expect(urls.every((url) => url.startsWith("https://enisshorra.ch"))).toBe(true);
-    expect(urls).toContain("https://enisshorra.ch/blog/unity-to-csharp");
+    expect(urls).toContain("https://enisshorra.ch/blog/wpf-modern-ui");
+    expect(urls).not.toContain("https://enisshorra.ch/blog/unity-to-csharp");
     expect(urls.some((url) => url.includes("/admin") || url.includes("whiteplayer"))).toBe(false);
     expect(JSON.stringify([robotsTxt, urls])).not.toMatch(/hpgarage/i);
   });

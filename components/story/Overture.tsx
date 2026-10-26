@@ -27,11 +27,12 @@ function viewFor(aspect: number): View {
 }
 
 function cloudFor(view: View): Cloud {
-  const rx = Math.min(300, view.w * 0.4);
+  const rx = Math.min(265, view.w * 0.4);
   const narrow = view.w < 900;
   return {
-    cx: narrow ? view.x + view.w * 0.5 : Math.min(HEAD.x - rx * 0.9, view.x + view.w * 0.52),
-    cy: narrow ? 236 : 248,
+    // Up and to his left, clear of the cap, and inside the visible frame with room for the scallops
+    cx: narrow ? view.x + view.w * 0.5 : Math.min(HEAD.x - rx * 1.08, view.x + view.w * 0.52),
+    cy: view.y + view.h * (narrow ? 0.27 : 0.29),
     rx,
     ry: rx * 0.56,
   };

@@ -188,7 +188,7 @@ export default async function Home() {
           <span className="idx-count">{projects.length} projects</span>
         </div>
 
-        <Showcase label="Projects" items={[...topProjects, ...moreProjects].map(projectItem)} />
+        <Showcase label="Projects" variant="laptop" items={[...topProjects, ...moreProjects].map(projectItem)} />
       </Section>
 
       <Section id="certificates" index="03" label="Certificates">
@@ -196,7 +196,7 @@ export default async function Home() {
           <h2>Certificates</h2>
           <p>Courses &amp; milestones</p>
         </div>
-        <Showcase label="Certificates" items={CERTIFICATE_ITEMS} />
+        <Showcase label="Certificates" variant="frame" items={CERTIFICATE_ITEMS} />
       </Section>
 
       <Section id="contact" index="04" label="Contact">

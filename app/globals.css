@@ -341,37 +341,112 @@ button, input, textarea { font: inherit; }
 
 .showcase-stage { position: sticky; top: 110px; }
 
-.frame { border: 1px solid var(--line-strong); background: var(--surface); animation: open 0.35s ease both; }
+/* Projects: a laptop with a small browser bar on its screen */
+.laptop { padding: 0 6%; animation: open 0.35s ease both; }
 
-.frame-bar {
-  padding: 10px 14px;
+.laptop-lid {
+  padding: 3.2% 3.2% 4%;
+  border-radius: 18px 18px 0 0;
+  background: #1c1c1e;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.laptop-display { overflow: hidden; background: var(--surface); }
+
+.laptop-bar {
+  padding: 7px 12px;
   border-bottom: 1px solid var(--line);
-  font-size: 13px;
+  font-size: 11px;
   color: var(--dim);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.frame-body { display: grid; place-items: center; min-height: 320px; padding: 20px; background: var(--bg-2); }
+.laptop-screen { aspect-ratio: 16 / 10; background: var(--bg-2); }
+.laptop-screen img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
 
-.frame-body img { display: block; max-width: 100%; height: auto; max-height: 62vh; width: auto; object-fit: contain; }
+.laptop-base {
+  position: relative;
+  height: 16px;
+  margin: 0 -7%;
+  border-radius: 0 0 14px 14px;
+  background: linear-gradient(#d6d6d4, #a9a9a6);
+}
 
-.frame-fallback {
+.laptop-base::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 16%;
+  height: 6px;
+  border-radius: 0 0 8px 8px;
+  background: #8f8f8c;
+  transform: translateX(-50%);
+}
+
+.screen-fallback {
   display: grid;
+  align-content: center;
   gap: 8px;
-  width: 100%;
-  padding: 28px;
-  background: var(--ink);
-  color: rgba(250, 250, 249, 0.65);
+  height: 100%;
+  margin: 0;
+  padding: 8%;
+  background: #141414;
+  color: rgba(250, 250, 249, 0.6);
   font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  font-size: 14px;
+  font-size: clamp(11px, 1vw, 14px);
   line-height: 1.5;
   white-space: pre-wrap;
   word-break: break-all;
 }
 
-.frame-fallback span:first-child { color: var(--bg); }
+.screen-fallback span:first-child { color: #fafaf9; }
+
+/* Certificates: framed like a print, slightly tilted until you look at it */
+.print { display: flex; justify-content: center; animation: open 0.35s ease both; }
+
+.print-mat {
+  max-width: 100%;
+  padding: clamp(14px, 2vw, 26px);
+  border: 10px solid #1c1c1e;
+  background: #fff;
+  box-shadow: 0 30px 50px -30px rgba(20, 20, 20, 0.5);
+  transform: rotate(-1.2deg);
+  transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.print:hover .print-mat { transform: rotate(0deg); }
+.print-mat img { display: block; max-width: 100%; width: auto; height: auto; max-height: 60vh; }
+
+.print-sheet {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  width: min(420px, 70vw);
+  aspect-ratio: 4 / 3;
+  align-content: center;
+  padding: 30px;
+  border: 1px solid var(--line-strong);
+  outline: 1px solid var(--line);
+  outline-offset: -8px;
+  text-align: center;
+}
+
+.print-kicker { font-size: 12px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: var(--dim); }
+.print-sheet strong { font-size: clamp(22px, 2.2vw, 30px); font-weight: 800; line-height: 1.1; letter-spacing: -0.04em; }
+.print-sheet span { font-size: 15px; color: var(--ink-3); }
+
+.print-seal {
+  margin-top: 8px;
+  padding: 6px 12px;
+  border: 1.5px solid var(--accent);
+  font-size: 12px !important;
+  font-weight: 700;
+  color: var(--accent) !important;
+  transform: rotate(-3deg);
+}
 
 @keyframes open {
   from { opacity: 0; transform: translateY(8px); }

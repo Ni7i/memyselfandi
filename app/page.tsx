@@ -1,5 +1,5 @@
 import ArtFilters from "@/components/art/ArtFilters";
-import { AgeThree, Facts, FirstGame, GrowingUp, Hackathon, HowIWork, Life, OtherEnd, ProofSection, SchoolYears, Stations, StoryFooter, Work } from "@/components/story/Chapters";
+import { AgeThree, Facts, GrowingUp, Hackathon, HowIWork, OtherEnd, ProofSection, SchoolYears, Stations, StoryFooter, Work } from "@/components/story/Chapters";
 import Overture from "@/components/story/Overture";
 import IndexNav from "@/components/story/IndexNav";
 import StoryMotion from "@/components/story/StoryMotion";
@@ -17,17 +17,15 @@ export default async function Home() {
       <a className="skip-link" href="#facts">Skip to the facts</a>
       <ArtFilters />
       <main className="story">
-        {/* Der rote Faden: an illustrated autobiography in eleven scenes */}
+        {/* Der rote Faden: an illustrated autobiography in ten scenes */}
         <Overture />
         <AgeThree />
         <GrowingUp />
         <SchoolYears />
         <Hackathon />
         <Stations />
-        <FirstGame />
         <Work projects={projects} />
         <ProofSection />
-        <Life />
         <HowIWork />
         <Facts />
         <OtherEnd />

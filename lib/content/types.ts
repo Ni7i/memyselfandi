@@ -9,7 +9,7 @@ export interface Project {
   repoUrl: string;
   liveUrl: string;
   year: string;
-  /** Listed under "Top projects" instead of "More work". */
+  /** Drawn on the homepage; the first three featured projects in order are shown. */
   featured: boolean;
   published: boolean;
   order: number;

@@ -9,7 +9,7 @@ const healthy: Record<string, Route> = {
   "/": { status: 200, body: '<section class="idx" id="archive">' },
   "/blog": { status: 200, body: '<main class="idx page-idx" id="posts">' },
   "/blog/wpf-modern-ui": { status: 200, body: "<article>" },
-  "/projects/notevault": { status: 200, body: "<article>" },
+  "/projects/websiten": { status: 200, body: "<article>" },
   "/robots.txt": { status: 200, body: "User-Agent: *\nSitemap: https://enisshorra.ch/sitemap.xml" },
   "/sitemap.xml": { status: 200, body: "<urlset></urlset>" },
   "/api/admin/projects": { status: 401, body: '{"error":"Nicht angemeldet."}' },
@@ -66,7 +66,7 @@ describe("status report", () => {
 
     const requested = fetchMock.mock.calls.map(([url]) => String(url));
     expect(requested).toContain("http://localhost:3000/blog/wpf-modern-ui");
-    expect(requested).toContain("http://localhost:3000/projects/notevault");
+    expect(requested).toContain("http://localhost:3000/projects/websiten");
     // The admin check must never carry credentials.
     const adminCall = fetchMock.mock.calls.find(([url]) => String(url).endsWith("/api/admin/projects"));
     expect(JSON.stringify(adminCall?.[1])).not.toMatch(/cookie/i);

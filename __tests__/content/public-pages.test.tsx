@@ -20,50 +20,54 @@ afterEach(() => {
 });
 
 describe("homepage", () => {
-  it("tells the illustrated autobiography in eleven scenes", async () => {
+  it("tells the illustrated autobiography in ten scenes", async () => {
     const html = renderToStaticMarkup(await Home());
     expect(html).toContain('<h1 id="overture-title" class="ov-title">Enis Shorra</h1>');
     for (const art of ["scene-bench", "scene-desk", "scene-friends", "scene-school", "scene-hack", "scene-end"]) {
       expect(html).toContain(`data-ink="${art}"`);
       expect(html).toContain(`src="/art/${art}.svg?v=`);
     }
-    const ids = ["top", "age-three", "curiosity", "school", "ims", "stations", "first-game", "work", "proof", "life", "how", "facts", "contact"];
+    const ids = ["top", "age-three", "curiosity", "school", "ims", "stations", "work", "proof", "how", "facts", "contact"];
     const positions = ids.map((id) => html.indexOf(` id="${id}"`));
     expect(positions.every((at) => at > 0)).toBe(true);
     expect([...positions].sort((a, b) => a - b)).toEqual(positions);
     // One thread: the overture draws it by scroll and the desk scene picks it up as the mouse cable
     expect(html).toContain('class="ov-thread"');
     // every illustrated scene picks the thread up at the top and lets it go at the bottom
-    expect(html.match(/class="thread-run"[^>]*data-exit=""/g)).toHaveLength(4);
+    expect(html.match(/class="thread-run"[^>]*data-exit=""/g)).toHaveLength(8);
+    // the scenes after the hackathon draw one object after another, nothing to scroll past
+    expect(html.match(/class="chapter ch-scene ch-seq/g)).toHaveLength(4);
+    expect(html).not.toContain("A dice game");
     expect(html).toContain("The red thread goes on.");
   });
 
-  it("lists the projects strongest first and keeps private code private", async () => {
+  it("draws three projects and keeps private code private", async () => {
     const html = renderToStaticMarkup(await Home());
     const work = html.slice(html.indexOf('id="work"'), html.indexOf('id="proof"'));
 
-    expect(work).toContain("9 in all");
-    // Private repositories link to their own page, which says the code is available on request
-    expect(work).toContain('<a href="/projects/notevault">NoteVault');
-    expect(work).toContain('<a href="/projects/lockbox">LockBox');
-    expect(work.match(/Private repository, code available on request/g)).toHaveLength(2);
-    expect(html).not.toContain("github.com/Ni7i/NoteVault");
-    expect(html).not.toContain("github.com/Ni7i/LockBox");
-    const titles = ["NoteVault", "LockBox", "memyselfandi", "Quizlot", "websiten.ch", "Oase Jugendraum", "screentime-blocker", "midnight-calculator", "Twinn"];
-    const order = titles.map((title) => work.indexOf(`>${title}`));
+    expect(work.match(/class="seq-item"/g)).toHaveLength(3);
+    const order = ["websiten.ch", "LockBox", "Quizlot"].map((title) => work.indexOf(`>${title}<`));
     expect(order.every((at) => at > 0)).toBe(true);
     expect([...order].sort((a, b) => a - b)).toEqual(order);
+    // Private repositories link to their own page, which says the code is available on request
+    expect(work).toContain('<a href="/projects/lockbox">LockBox');
+    expect(work.match(/Code available on request/g)).toHaveLength(1);
+    expect(work).toContain('href="https://github.com/Ni7i" target="_blank" rel="noreferrer">More on GitHub');
+    expect(html).not.toContain("github.com/Ni7i/NoteVault");
+    expect(html).not.toContain("github.com/Ni7i/LockBox");
     expect(html).not.toContain("WhitePlayer");
   });
 
   it("shows admin changes", async () => {
     configureKv();
     const quizlot = (await projectStore.get("quizlot", "admin"))!;
-    await projectStore.update("quizlot", { ...quizlot, title: "Quizlot Pro", featured: false });
+    await projectStore.update("quizlot", { ...quizlot, title: "Quizlot Pro" });
+    expect(renderToStaticMarkup(await Home())).toContain(">Quizlot Pro<");
 
+    await projectStore.update("quizlot", { ...quizlot, featured: false });
     const html = renderToStaticMarkup(await Home());
-    expect(html).toContain("<h3>Quizlot Pro</h3>");
-    expect(html.indexOf("Quizlot Pro")).toBeGreaterThan(html.indexOf("More work"));
+    expect(html).not.toContain(">Quizlot<");
+    expect(html).toContain(">LockBox<");
   });
 
   it("states the competitions and dates as the CV does", async () => {
@@ -72,8 +76,6 @@ describe("homepage", () => {
     expect(html).not.toMatch(/top 10 in 2025/i);
     expect(html).toContain("Aug 2027 to Jul 2028");
     expect(html).toContain("Concept, story and creative direction by me. Built with Claude as a coding partner.");
-    // The LCR loop is quoted from the repository as it stands
-    expect(html).toContain("<b>while</b> (MehrAlsEinSpielerHatChips())");
   });
 });
 

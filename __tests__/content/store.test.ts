@@ -8,11 +8,11 @@ import { configureKv, unconfigureKv } from "../helpers/auth";
 import { memoryState } from "../helpers/memory-kv";
 
 const HOMEPAGE_ORDER = [
-  "notevault",
-  "lockbox",
-  "memyselfandi",
-  "quizlot",
   "websiten",
+  "lockbox",
+  "quizlot",
+  "notevault",
+  "memyselfandi",
   "oase-jugendraum",
   "screentime-blocker",
   "midnight-calculator",

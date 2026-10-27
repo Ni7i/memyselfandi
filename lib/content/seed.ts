@@ -19,13 +19,14 @@ function project(fields: Partial<Project> & Pick<Project, "slug" | "title" | "de
 }
 
 export const seedProjects: Project[] = [
-  // Ordered by engineering depth and usefulness, strongest first
+  // The homepage draws the first three featured ones: my own business, then the strongest code
   project({
-    slug: "notevault",
-    title: "NoteVault",
-    description: "A notes API rebuilt on .NET 10: EF Core and SQLite, validation, ranked search, rate limiting and integration tests.",
-    longDescription: "NoteVault started as a small .NET 8 API that kept notes in a JSON file. I rebuilt it on .NET 10 with EF Core and SQLite, committed migrations, validation, problem details for every error, paging, tags, ranked search, health checks, rate limiting and an integration test suite.\n\nThe repository is private. Code available on request.",
-    stack: [".NET 10", "ASP.NET Core", "EF Core", "SQLite"],
+    slug: "websiten",
+    title: "websiten.ch",
+    description: "My own web design business: a bilingual site with an interactive price calculator, contact form and appointment booking.",
+    stack: ["Web design", "Bilingual"],
+    liveUrl: "https://websiten.ch",
+    year: "2026",
     featured: true,
     order: 1,
   }),
@@ -39,15 +40,6 @@ export const seedProjects: Project[] = [
     order: 2,
   }),
   project({
-    slug: "memyselfandi",
-    title: "memyselfandi",
-    description: "This website. Concept, story and creative direction by me, built with Claude as a coding partner.",
-    stack: ["Next.js", "TypeScript", "React"],
-    repoUrl: "https://github.com/Ni7i/memyselfandi",
-    featured: true,
-    order: 3,
-  }),
-  project({
     slug: "quizlot",
     title: "Quizlot",
     description: "Flashcards with no account: decks stay in your browser, everything works by keyboard, tested before every release.",
@@ -55,15 +47,22 @@ export const seedProjects: Project[] = [
     repoUrl: "https://github.com/Ni7i/Quizlot",
     liveUrl: "https://quizlot.vercel.app/",
     featured: true,
+    order: 3,
+  }),
+  project({
+    slug: "notevault",
+    title: "NoteVault",
+    description: "A notes API rebuilt on .NET 10: EF Core and SQLite, validation, ranked search, rate limiting and integration tests.",
+    longDescription: "NoteVault started as a small .NET 8 API that kept notes in a JSON file. I rebuilt it on .NET 10 with EF Core and SQLite, committed migrations, validation, problem details for every error, paging, tags, ranked search, health checks, rate limiting and an integration test suite.\n\nThe repository is private. Code available on request.",
+    stack: [".NET 10", "ASP.NET Core", "EF Core", "SQLite"],
     order: 4,
   }),
   project({
-    slug: "websiten",
-    title: "websiten.ch",
-    description: "My own web design business: a bilingual site with an interactive price calculator, contact form and appointment booking.",
-    stack: ["Web design", "Bilingual"],
-    liveUrl: "https://websiten.ch",
-    year: "2026",
+    slug: "memyselfandi",
+    title: "memyselfandi",
+    description: "This website. Concept, story and creative direction by me, built with Claude as a coding partner.",
+    stack: ["Next.js", "TypeScript", "React"],
+    repoUrl: "https://github.com/Ni7i/memyselfandi",
     order: 5,
   }),
   project({

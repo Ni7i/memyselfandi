@@ -10,8 +10,10 @@
   --story-ink-2: #3d3731;
   --story-ink-3: #6d655b;
   --thread: #b23a2e;
-  --font-story: var(--font-display), Georgia, "Times New Roman", serif;
-  --font-body: var(--font-text), "Helvetica Neue", Arial, sans-serif;
+  --font-story: var(--font-hand), "Bradley Hand", "Segoe Print", cursive;
+  --font-body: var(--font-book), Georgia, "Times New Roman", serif;
+  --font-mono: var(--font-code), ui-monospace, Menlo, monospace;
+  --font-thread: var(--font-script), "Snell Roundhand", cursive;
 }
 
 .art-filters { position: absolute; width: 0; height: 0; overflow: hidden; }
@@ -90,10 +92,10 @@ html:not(.js) .ink-host { display: none; }
 }
 
 .ov-kicker {
-  font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0;
+  font-family: var(--font-mono);
   color: var(--story-ink-3);
 }
 
@@ -103,7 +105,7 @@ html:not(.js) .ink-host { display: none; }
   font-weight: 300;
   font-size: clamp(54px, 7.4vw, 118px);
   line-height: 0.92;
-  letter-spacing: -0.035em;
+  letter-spacing: 0;
 }
 
 .ov-lede {
@@ -119,10 +121,10 @@ html:not(.js) .ink-host { display: none; }
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0;
+  font-family: var(--font-mono);
   color: var(--story-ink-3);
 }
 .ov-cue::before {
@@ -159,14 +161,24 @@ html:not(.js) .ink-host { display: none; }
 
 .ov-first {
   display: none;
-  font-family: var(--font-story);
-  font-style: italic;
-  font-weight: 300;
-  font-size: clamp(22px, 2.3vw, 34px);
-  line-height: 1.2;
-  text-align: center;
-  text-wrap: balance;
+  font-family: var(--font-mono);
+  font-size: clamp(14px, 1.45vw, 21px);
+  line-height: 1.5;
+  text-align: left;
+  color: var(--story-ink);
 }
+.ov-first span:first-child, .ov-first span:nth-child(2), .ov-first span:nth-child(3), .ov-first span:nth-child(4) { color: var(--story-ink-3); }
+/* the cursor of the terminal, blinking where the next letter comes */
+.ov-caret {
+  display: inline-block;
+  width: 0.55em;
+  height: 1.05em;
+  margin-left: 2px;
+  vertical-align: -0.15em;
+  background: var(--story-ink);
+  animation: caret 1.1s steps(1) infinite;
+}
+@keyframes caret { 50% { opacity: 0; } }
 
 /* Inside the thought: the question and the boy */
 .ov-memory {
@@ -182,10 +194,10 @@ html:not(.js) .ink-host { display: none; }
   font-weight: 300;
   font-size: clamp(34px, 5vw, 76px);
   line-height: 1.04;
-  letter-spacing: -0.025em;
+  letter-spacing: 0;
   text-wrap: balance;
 }
-.ov-question em { font-style: italic; }
+.ov-question em { font-style: normal; }
 
 
 /* Live: a pinned stage that draws as the reader scrolls */
@@ -208,7 +220,6 @@ html:not(.js) .ink-host { display: none; }
 .is-live .ov-first {
   display: block;
   position: absolute;
-  transform: translate(-50%, -50%) translateY(calc((1 - var(--first, 0)) * 10px));
   opacity: var(--first, 0);
 }
 .is-live .ov-memory {
@@ -227,7 +238,7 @@ html:not(.js) .ink-host { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ov-cue::before { animation: none; }
+  .ov-cue::before, .ov-caret { animation: none; }
 }
 
 /* ─────────────── SCENES 3 TO 11 ─────────────── */
@@ -279,10 +290,10 @@ html:not(.js) .ink-host { display: none; }
 }
 .ch-head { margin-bottom: clamp(44px, 6vw, 80px); }
 .ch-kicker {
-  font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0;
+  font-family: var(--font-mono);
   color: var(--story-ink-3);
 }
 .ch-title {
@@ -292,16 +303,16 @@ html:not(.js) .ink-host { display: none; }
   font-weight: 300;
   font-size: clamp(34px, 4.8vw, 66px);
   line-height: 1.04;
-  letter-spacing: -0.028em;
+  letter-spacing: 0;
   text-wrap: balance;
 }
-.ch-title em, .end-title em { font-style: italic; }
+.ch-title em, .end-title em { font-style: normal; }
 .ch-sub { margin-top: 18px; max-width: 46ch; color: var(--story-ink-2); font-size: 16px; line-height: 1.6; }
 .ch-coda {
   max-width: 36ch;
   margin-top: clamp(48px, 7vw, 88px);
   font-family: var(--font-story);
-  font-style: italic;
+  font-style: normal;
   font-weight: 300;
   font-size: clamp(22px, 2.3vw, 30px);
   line-height: 1.3;
@@ -347,7 +358,7 @@ html:not(.js) .ink-host { display: none; }
 .ch-line em { font-family: var(--font-story); font-size: 1.1em; }
 .ch-art { display: block; width: 100%; height: auto; overflow: visible; }
 .t-glow { fill: #fbf6ec; }
-.art-lettering { font-family: var(--font-story); font-style: italic; font-size: 34px; fill: var(--story-ink-2); }
+.art-lettering { font-family: var(--font-story); font-style: normal; font-size: 34px; fill: var(--story-ink-2); }
 .is-live .art-lettering { opacity: var(--show, 0); transform: none; }
 
 .ch-desk { background: var(--story-lamp); }
@@ -395,10 +406,10 @@ html:not(.js) .ink-host { display: none; }
 .seq-text { max-width: 46ch; }
 .seq-when {
   margin-bottom: 4px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0;
+  font-family: var(--font-mono);
   color: var(--story-ink-3);
 }
 .seq-text h3 {
@@ -406,7 +417,7 @@ html:not(.js) .ink-host { display: none; }
   font-weight: 400;
   font-size: clamp(22px, 2.2vw, 32px);
   line-height: 1.1;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
 }
 .seq-text h3 a { text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 6px; text-decoration-thickness: 1px; transition: text-decoration-color 0.2s; }
 .seq-text h3 a:hover, .seq-text h3 a:focus-visible { text-decoration-color: currentColor; }
@@ -414,10 +425,10 @@ html:not(.js) .ink-host { display: none; }
 .seq-text p { margin-top: 6px; font-size: clamp(14px, 1.15vw, 16px); line-height: 1.55; color: var(--story-ink-2); }
 .seq-text p a { color: var(--story-ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 .seq-text .seq-meta {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0;
+  font-family: var(--font-mono);
   color: var(--story-ink-3);
 }
 .seq-coda { margin-top: clamp(20px, 3svh, 36px); }
@@ -446,10 +457,10 @@ html:not(.js) .ink-host { display: none; }
 }
 .facts-grid > div { padding: 22px 0 24px; border-top: 1px solid rgba(35, 31, 27, 0.2); }
 .facts-grid dt {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0;
+  font-family: var(--font-mono);
   color: var(--story-ink-3);
 }
 .facts-grid dd { margin-top: 8px; max-width: 48ch; font-size: 16px; line-height: 1.6; }
@@ -468,7 +479,7 @@ html:not(.js) .ink-host { display: none; }
   font-weight: 300;
   font-size: clamp(40px, 5.6vw, 80px);
   line-height: 1;
-  letter-spacing: -0.03em;
+  letter-spacing: 0;
 }
 .end-text { margin-top: 22px; max-width: 44ch; font-size: 17px; line-height: 1.6; color: var(--story-ink-2); }
 .ch-end .contact-card {
@@ -491,7 +502,7 @@ html:not(.js) .ink-host { display: none; }
   line-height: 1.6;
   text-align: center;
 }
-.story-foot-line { font-family: var(--font-story); font-style: italic; font-size: 19px; color: var(--story-ink); }
+.story-foot-line { font-family: var(--font-story); font-style: normal; font-size: 19px; color: var(--story-ink); }
 .story-foot p + p { margin-top: 8px; }
 .story-foot-links { display: flex; justify-content: center; gap: 22px; margin-top: 18px; }
 .story-foot-links a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
@@ -505,7 +516,7 @@ html:not(.js) .ink-host { display: none; }
   border: 0;
   background: none;
   font-family: var(--font-story);
-  font-style: italic;
+  font-style: normal;
   font-size: 20px;
   color: var(--story-ink);
   cursor: pointer;
@@ -525,7 +536,7 @@ html:not(.js) .ink-host { display: none; }
   background: #fbf7ef;
 }
 .index-menu[hidden] { display: none; }
-.index-title { padding: 0 10px 10px; font-family: var(--font-story); font-style: italic; font-size: 17px; color: var(--story-ink); }
+.index-title { padding: 0 10px 10px; font-family: var(--font-story); font-style: normal; font-size: 17px; color: var(--story-ink); }
 .index-menu ol { list-style: none; }
 .index-menu a { display: flex; gap: 12px; padding: 6px 10px; font-size: 14px; color: var(--story-ink-2); }
 .index-menu a:hover, .index-menu a:focus-visible { color: var(--story-ink); outline: none; background: var(--ink-rule) bottom left / 100% 6px no-repeat; }
@@ -605,7 +616,7 @@ html:not(.js) .ink-host { display: none; }
   background: transparent;
   color: var(--story-ink);
   font-family: var(--font-story);
-  font-style: italic;
+  font-style: normal;
   font-size: 19px;
   letter-spacing: 0;
   text-transform: none;
@@ -627,7 +638,7 @@ html:not(.js) .ink-host { display: none; }
   .ch-seq .ch-title { font-size: 26px; }
   .seq-text h3 { font-size: 19px; }
   .seq-text p { margin-top: 3px; font-size: 13.5px; line-height: 1.45; }
-  .seq-when, .seq-text .seq-meta { font-size: 10px; }
+  .seq-when, .seq-text .seq-meta { font-size: 12px; }
   .seq-coda { margin-top: 12px; }
   .seq-coda .ch-coda { font-size: 16px; max-width: none; }
   .ch-seq .seq { gap: 6px; }
@@ -643,8 +654,19 @@ html:not(.js) .ink-host { display: none; }
   font-weight: 300;
   font-size: clamp(30px, 4.2vw, 58px);
   line-height: 1.08;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
 }
-.goes-on-text em { display: block; font-style: italic; }
-.goes-on-thread { display: block; width: 100%; height: clamp(140px, 18vw, 220px); margin-top: 8px; overflow: visible; }
-.goes-on-thread .thread-line { stroke-width: 2; }
+/* At the very bottom: Enis on the bench, the thread writing words about him (see SignOff) */
+.sign { max-width: 1600px; margin: clamp(8px, 2vw, 28px) auto 0; }
+.sign-art { display: block; width: 100%; height: auto; overflow: hidden; }
+.sign-word { font-family: var(--font-thread); font-size: 236px; fill: var(--thread); }
+
+/* The contact form in the story's own hands: written labels, a book face to type in */
+.ch-end .cta-stamp { font-family: var(--font-story); font-size: 19px; font-weight: 400; letter-spacing: 0; text-transform: none; }
+.ch-end .contact-form label > span { font-family: var(--font-mono); font-size: 13px; font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--story-ink-3); }
+.ch-end .contact-form input, .ch-end .contact-form textarea { font-family: var(--font-body); font-size: 16px; color: var(--story-ink); }
+.ch-end .contact-socials, .ch-end .contact-success p, .ch-end .contact-error { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0; text-transform: none; }
+.ch-end .contact-success h3 { font-family: var(--font-story); }
+@media (max-width: 700px) {
+  .sign-word { font-size: 300px; }
+}

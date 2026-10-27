@@ -23,7 +23,7 @@ describe("homepage", () => {
   it("tells the illustrated autobiography in ten scenes", async () => {
     const html = renderToStaticMarkup(await Home());
     expect(html).toContain('<h1 id="overture-title" class="ov-title">Enis Shorra</h1>');
-    for (const art of ["scene-bench", "scene-desk", "scene-friends", "scene-school", "scene-hack", "scene-end"]) {
+    for (const art of ["scene-bench", "scene-desk", "scene-friends", "scene-school", "scene-hack", "scene-end", "scene-sign"]) {
       expect(html).toContain(`data-ink="${art}"`);
       expect(html).toContain(`src="/art/${art}.svg?v=`);
     }

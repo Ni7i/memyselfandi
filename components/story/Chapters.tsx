@@ -6,6 +6,7 @@ import { ART, type ArtName } from "@/components/art/manifest";
 import ContactForm from "@/components/ContactForm";
 import { projectLink } from "@/lib/content/format";
 import type { Project } from "@/lib/content/types";
+import SignOff from "./SignOff";
 import { THREAD_OBJECTS, type ThreadObject } from "./threads";
 
 /*
@@ -82,8 +83,8 @@ export function AgeThree() {
       art="scene-desk"
       desc="Enis at three, standing on a step stool at the family computer, both hands on the mouse. His father's hand rests on his back. The red mouse cable runs into the computer."
       kicker="Age three"
-      title={<>My father introduced me to computers <em>when I was three.</em></>}
-      lines={["I wanted to play games.", "Then I kept asking how everything worked.", <em key="q">The questions got harder. I never stopped asking.</em>]}
+      title={<>I was three when my father showed me the computer.</>}
+      lines={["All I wanted was to play games.", "Then I wanted to know how the games worked.", "Then how everything else worked. That part never stopped."]}
       drawing="0 0.56"
       drop="712 150, 712 330"
       run="0.3 0.94"
@@ -95,9 +96,9 @@ export function AgeThree() {
 
 /** What the thread draws above the two boys, one after the other, each with its line. */
 const CURIOUS: { mark: ThreadObject; text: React.ReactNode }[] = [
-  { mark: "padlock", text: <><strong>Facebook.</strong> How do passwords and account security work?</> },
-  { mark: "phone", text: <><strong>TutuApp.</strong> With friends, apps from outside the official store.</> },
-  { mark: "onion", text: <><strong>Tor Browser.</strong> What is the darknet, and how does it work?</> },
+  { mark: "padlock", text: <><strong>Facebook.</strong> I wanted to know how passwords work and how an account stays safe.</> },
+  { mark: "phone", text: <><strong>TutuApp.</strong> My friends and I got our apps from outside the official store.</> },
+  { mark: "onion", text: <><strong>Tor.</strong> What is the darknet, and how does it even work?</> },
   { mark: "keys", text: <><strong>Counter-Strike.</strong> And CS, of course.</> },
 ];
 
@@ -110,8 +111,8 @@ export function GrowingUp() {
       art="scene-friends"
       desc="Enis as a boy on a park bench, holding a phone out between him and a friend in a hooded jumper who sits facing him on an upturned crate. Above them the red thread draws a padlock, a phone, an onion and the keys W, A, S, D."
       kicker="Growing up"
-      title={<>After the first games on Y8, the questions moved <em>behind the screen.</em></>}
-      lines={[...CURIOUS.map((c) => c.text), <em key="coda">None of it was a plan. It was curiosity.</em>]}
+      title={<>After the first games on Y8, I wanted to see behind the screen.</>}
+      lines={[...CURIOUS.map((c) => c.text), "None of it was a plan. I was just curious."]}
       drop="660 250, 640 420"
     >
       {CURIOUS.map((c, i) => (
@@ -132,9 +133,9 @@ export function SchoolYears() {
       tone="ch-school"
       art="scene-school"
       desc="Enis as a teenager at a school desk by a classroom window, writing in an exercise book. The line he writes is the red thread."
-      kicker="Aug 2021 to Jul 2024"
-      title={<>Bezirksschule, <em>Kreisschule Mutschellen.</em></>}
-      lines={["Three years of Bezirksschule, before the IMS in Baden."]}
+      kicker="2021 to 2024"
+      title={<>Bezirksschule at the Kreisschule Mutschellen.</>}
+      lines={["Three years at a school desk. After that I went to the IMS in Baden."]}
       drop="600 300, 640 480"
     />
   );
@@ -149,11 +150,12 @@ export function Hackathon() {
       tone="ch-hack"
       art="scene-hack"
       desc="Enis at a long table at the hackathon Baden hackt, coding on a laptop, a wall of sticky notes and a sign behind him. The laptop's cable is the red thread."
-      kicker="From Aug 2024 · IMS Kantonsschule Baden and BBB Baden"
-      title={<>Application developer EFZ, <em>with the vocational baccalaureate.</em></>}
+      kicker="since 2024 · IMS Baden and BBB Baden"
+      title={<>Now I am training as an application developer.</>}
       lines={[
-        <><strong>Baden hackt</strong>, the hackathon at BBB Baden: took part in 2025, top 10 in 2026.</>,
-        <><strong>IT-Regionalmeisterschaften</strong>, Skill 09: took part in 2025 and 2026.</>,
+        "Application developer EFZ, with the vocational baccalaureate on top.",
+        <><strong>Baden hackt</strong>, the hackathon at BBB Baden. I took part in 2025. In 2026 I made the top 10.</>,
+        <><strong>IT-Regionalmeisterschaften</strong>, Skill 09. I competed in 2025 and 2026.</>,
       ]}
       drop="470 170, 530 430"
     >
@@ -235,13 +237,13 @@ export function Stations() {
     <Sequence
       id="stations"
       tone="ch-stations"
-      kicker="Next to school"
-      title={<>Where I learn <em>the rest.</em></>}
+      kicker="next to school"
+      title={<>What I do when school is out.</>}
       steps={[
-        { mark: "whistle", when: "Since Sept 2023", title: "Football referee", text: <>Swiss Football Association. <Out href="/certificates/afv-referee-diploma.jpg">The diploma</Out></> },
-        { mark: "pencil", when: "Since Feb 2026", title: "Tutor", text: "I give tutoring lessons at Lernakademie Oase, Spreitenbach." },
-        { mark: "magnifier", when: "Since Sept 2026", title: "Web developer and SEO", text: "Part time at LoliT, Baden: websites for businesses from build to launch, connected to databases, with direct contact to the clients." },
-        { mark: "speech", when: "27 Sept to 23 Oct 2026", title: "Manchester", text: "Four weeks at English Essential Centre: C1 English preparation and Business English." },
+        { mark: "whistle", when: "Since Sept 2023", title: "Football referee", text: <>I referee matches for the Swiss Football Association. <Out href="/certificates/afv-referee-diploma.jpg">My diploma</Out></> },
+        { mark: "pencil", when: "Since Feb 2026", title: "Tutor", text: "I give tutoring lessons at Lernakademie Oase in Spreitenbach." },
+        { mark: "magnifier", when: "Since Sept 2026", title: "Web developer and SEO", text: "Part time at LoliT in Baden. I build websites for businesses from the first draft to launch, hook them up to databases and talk to the clients myself." },
+        { mark: "speech", when: "27 Sept to 23 Oct 2026", title: "Manchester", text: "Four weeks at English Essential Centre, getting ready for C1 and learning Business English." },
       ]}
     />
   );
@@ -252,7 +254,7 @@ export function Stations() {
 const PROJECT_MARKS: Record<string, ThreadObject> = {
   websiten: "browser",
   notevault: "notebook",
-  lockbox: "strongbox",
+  lockbox: "padlock",
   memyselfandi: "spool",
   quizlot: "card",
 };
@@ -264,8 +266,8 @@ export function Work({ projects }: { projects: Project[] }) {
     <Sequence
       id="work"
       tone="ch-work"
-      kicker="What I build now"
-      title={<>The questions turned into <em>projects.</em></>}
+      kicker="what I build"
+      title={<>Three things I built.</>}
       steps={shown.map((project) => {
         const { href, external } = projectLink(project);
         const isPrivate = !project.repoUrl && !project.liveUrl;
@@ -293,13 +295,13 @@ export function ProofSection() {
     <Sequence
       id="proof"
       tone="ch-proof"
-      kicker="Proof"
-      title={<>Competitions and <em>certificates.</em></>}
+      kicker="proof"
+      title={<>Things I can show you.</>}
       steps={[
-        { mark: "trophy", when: "Apr 2025 and Mar 2026", title: "Baden hackt", text: <>The hackathon at BBB Baden: took part in 2025, top 10 in 2026. <Out href="/certificates/baden-hackt.jpg">Certificate</Out></> },
-        { mark: "medal", when: "Mar 2025 and Mar 2026", title: "IT-Regionalmeisterschaften", text: "ICT-Berufsbildung Schweiz, Skill 09. Took part twice." },
-        { mark: "certificate", when: "Mar and Apr 2026", title: "Two certificates", text: <><Out href="/certificates/web-apis-aspnet-core-8.png">Web APIs with ASP.NET Core 8</Out>, LinkedIn Learning. Prompt engineering, Claude Code and AI-assisted programming.</> },
-        { mark: "badge", when: "Mar and Aug 2026", title: "Cisco Networking Academy", text: <>Through BBB Baden: <Out href="https://www.credly.com/badges/a83657ef-3959-4ced-abf1-cc5dd7ad43d3/linked_in_profile">Python Essentials 1</Out> and <Out href="https://www.credly.com/badges/9905e43b-c420-468e-9b75-b6b1bace4b87">Networking Basics</Out>.</> },
+        { mark: "trophy", when: "Apr 2025 and Mar 2026", title: "Baden hackt", text: <>The hackathon at BBB Baden. I took part in 2025, and in 2026 I made the top 10. <Out href="/certificates/baden-hackt.jpg">Certificate</Out></> },
+        { mark: "medal", when: "Mar 2025 and Mar 2026", title: "IT-Regionalmeisterschaften", text: "ICT-Berufsbildung Schweiz, Skill 09. I competed twice." },
+        { mark: "certificate", when: "Mar and Apr 2026", title: "Two certificates", text: <><Out href="/certificates/web-apis-aspnet-core-8.png">Web APIs with ASP.NET Core 8</Out> on LinkedIn Learning, and one in prompt engineering, Claude Code and AI-assisted programming.</> },
+        { mark: "badge", when: "Mar and Aug 2026", title: "Cisco Networking Academy", text: <>Two courses through BBB Baden: <Out href="https://www.credly.com/badges/a83657ef-3959-4ced-abf1-cc5dd7ad43d3/linked_in_profile">Python Essentials 1</Out> and <Out href="https://www.credly.com/badges/9905e43b-c420-468e-9b75-b6b1bace4b87">Networking Basics</Out>.</> },
       ]}
     />
   );
@@ -312,16 +314,16 @@ export function HowIWork() {
     <Sequence
       id="how"
       tone="ch-how"
-      kicker="How I work"
-      title={<>Claims, each with <em>its proof.</em></>}
+      kicker="how I work"
+      title={<>What you can expect from me.</>}
       steps={[
-        { mark: "flask", title: "I test what I ship.", text: "Quizlot, NoteVault and LockBox each have a test suite." },
-        { mark: "cycle", title: "I rebuild when I learn better.", text: "LockBox 2 moved to AES-256-GCM. NoteVault moved to EF Core and SQLite on .NET 10." },
-        { mark: "board", title: "I explain what I know.", text: "As a tutor at Lernakademie Oase since February 2026." },
-        { mark: "bulb", title: "I use AI to learn and iterate faster.", text: "What I deliver, I understand, check and test first. This website is built that way." },
+        { mark: "flask", title: "I test what I ship.", text: "Quizlot, NoteVault and LockBox all have their own tests." },
+        { mark: "cycle", title: "I rebuild when I learn something better.", text: "LockBox 2 switched to AES-256-GCM. NoteVault moved to EF Core and SQLite on .NET 10." },
+        { mark: "board", title: "I explain what I know.", text: "I have been tutoring at Lernakademie Oase since February 2026." },
+        { mark: "bulb", title: "I use AI, and I check what it gives me.", text: "It helps me learn and try things faster. What I hand in, I understand and test first. This website was built that way." },
         { mark: "flag", title: "I start things myself.", text: "websiten.ch is my own web design business." },
       ]}
-      coda={<p className="ch-coda promise">I expect reliability from others because I want people to be able to expect the same from me.</p>}
+      coda={<p className="ch-coda promise">I expect people to be reliable. So I make sure they can count on me too.</p>}
     />
   );
 }
@@ -333,8 +335,8 @@ export function Facts() {
     <section id="facts" className="facts" aria-labelledby="facts-title">
       <div className="ch-inner">
         <header className="ch-head">
-          <p className="ch-kicker">The fast lane</p>
-          <h2 id="facts-title" className="ch-title">The facts, <em>on one page.</em></h2>
+          <p className="ch-kicker">the short version</p>
+          <h2 id="facts-title" className="ch-title">All the facts on one page.</h2>
         </header>
         <dl className="facts-grid">
           <div>
@@ -387,30 +389,21 @@ export function OtherEnd() {
             <g data-drawing="0 1" data-own><InkArt name="scene-end" /></g>
           </svg>
           <ArtFallback name="scene-end" className="end-art" alt="The bench from the beginning, empty, the red thread on its seat." />
-          <p className="ch-kicker">The next stop · Aug 2027 to Jul 2028</p>
-          <h2 id="contact-title" className="end-title">The other end <em>is yours.</em></h2>
+          <p className="ch-kicker">next stop · Aug 2027 to Jul 2028</p>
+          <h2 id="contact-title" className="end-title">The other end of the thread is yours.</h2>
           <p className="end-text">
-            I am looking for a practical-year placement from August 2027 to July 2028, full time.
-            If your team builds things and wants someone who keeps asking how they work, write to me here.
+            From August 2027 to July 2028 I am looking for a practical year, full time. If your team builds
+            things and you want someone who keeps asking how they work, write to me.
           </p>
         </div>
         <ContactForm />
       </div>
-      {/* The thread does not end here: it runs on across the page and off its edge */}
+      {/* The thread does not end here: at the very bottom Enis is back on the bench, and it writes about him */}
       <div className="goes-on">
-        <p className="goes-on-text" data-show="0.35 0.7" data-own>
-          The red thread goes on. <em>Perhaps at your company.</em>
+        <p className="goes-on-text" data-show="0.2 0.6" data-own>
+          The red thread goes on. Maybe at your company.
         </p>
-        <svg className="goes-on-thread" viewBox="0 0 1200 220" preserveAspectRatio="xMinYMid slice" aria-hidden="true" focusable="false">
-          <path
-            className="thread-line"
-            vectorEffect="non-scaling-stroke"
-            pathLength={1}
-            data-thread="0 0.95"
-            data-own
-            d="M-10,70 C200,70 320,48 430,96 C486,120 478,156 446,148 C414,140 432,106 474,110 C560,118 650,176 830,156 C970,140 1100,124 1230,122"
-          />
-        </svg>
+        <SignOff />
       </div>
     </section>
   );

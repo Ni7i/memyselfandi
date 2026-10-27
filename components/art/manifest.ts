@@ -7,6 +7,7 @@ export const ART = {
   "scene-friends": { width: 1300, height: 900, v: "7888a1f76f" },
   "scene-hack": { width: 1300, height: 900, v: "57730804dd" },
   "scene-school": { width: 1300, height: 900, v: "fda5134bf2" },
+  "scene-sign": { width: 1600, height: 600, v: "392c5736f2" },
 } as const;
 
 export type ArtName = keyof typeof ART;

@@ -19,11 +19,13 @@ const FOCUS_X = 1112;
  *   DROP   from above the page straight down to his hand (the same line as in the drawing)
  *   LOOP   once round his hand
  *   RISE   up in front of his face to above his cap
- *   then three small loops and a screen floating above him, where his thought appears; both depend
+ *   then three small loops and a terminal window floating above him, where his thought is typed; both depend
  *   on the size of the window and are built in thoughtPieces
  */
 const DROP = "M1074.6,-20 C1075.3,200 1076.1,450 1076.9,613.2";
 const LOOP = " C1077.3,617.8 1076.9,620.2 1076.5,622.5 C1073,628.8 1066.8,635 1060.5,635 C1054.3,635 1054.3,628 1059.7,625.6 C1066.8,623.3 1074.6,628 1076.1,635";
+/** Where the thread comes down to his hand: the terminal keeps to the left of it. */
+const DROP_X = 1074.6;
 const RISE = ` C1060,600 1030,560 1035,500 C1040,450 1080,420 ${ORIGIN.x},${ORIGIN.y}`;
 
 /*
@@ -36,14 +38,16 @@ const T = {
   loop: 0.17, // and loops round it
   rise: 0.26, // climbs past his face
   loops: 0.33, // three loops of rising size
-  screen: 0.45, // and draws a screen in the air: his thought
-  type: [0.46, 0.58], // the sentence types itself onto it
+  screen: 0.45, // and draws a terminal in the air: his thought
+  type: [0.46, 0.58], // a prompt, and the sentence types itself after it
   first: [0.68, 0.71], // and leaves
   grow: [0.7, 0.83], // the screen opens until its light fills the page
   question: [0.82, 0.87],
   descent: [0.87, 0.995], // the thread comes down through the light and leaves for scene 3
 };
-const SENTENCE = "Everything I build goes back to one question.";
+const SENTENCE = "Everything I build starts with one question.";
+/** What the terminal shows: a prompt, a command, and his answer on the next line. */
+const TYPED = `~ $ why\n${SENTENCE}`;
 
 const clamp = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
 const range = (p: number, a: number, b: number) => clamp((p - a) / (b - a));
@@ -67,8 +71,8 @@ function cloudFor(view: View): Cloud {
   const rx = Math.min(250, view.w * 0.4);
   const narrow = view.w < 900;
   return {
-    // Up and to his left, clear of the cap, and inside the visible frame with room for the scallops
-    cx: narrow ? view.x + view.w * 0.5 : Math.min(ORIGIN.x - rx * 1.08, view.x + view.w * 0.52),
+    // Up and to his left, clear of his cap and of the thread coming down to his hand
+    cx: narrow ? view.x + view.w * 0.5 : Math.max(view.x + rx + 24, Math.min(DROP_X - 44 - rx, view.x + view.w * 0.52)),
     cy: view.y + view.h * (narrow ? 0.27 : 0.29),
     rx,
     ry: rx * 0.64,
@@ -97,13 +101,25 @@ function screenPath({ cx, cy, rx, ry }: Cloud) {
     + edge(rt - r, b, sx - 8, b + 0.6, 0.6);
 }
 
-/** After the screen closes, the same line draws its neck and foot, like the monitor of his childhood. */
-function standPath({ cx, cy, rx, ry }: Cloud) {
-  const b = cy + ry, n = rx * 0.06, h = ry * 0.22, w = rx * 0.32;
-  return ` C${f(cx + rx * 0.3)},${f(b + 2)} ${f(cx + n + 4)},${f(b)} ${f(cx + n)},${f(b + 2)}`
-    + ` L${f(cx + n * 0.8)},${f(b + h)} C${f(cx + w * 0.6)},${f(b + h + 1)} ${f(cx + w)},${f(b + h + 3)} ${f(cx + w)},${f(b + h + 6)}`
-    + ` L${f(cx - w)},${f(b + h + 6)} C${f(cx - w)},${f(b + h + 3)} ${f(cx - w * 0.6)},${f(b + h + 1)} ${f(cx - n * 0.8)},${f(b + h)}`
-    + ` L${f(cx - n)},${f(b + 2)}`;
+/** Height of the terminal's title bar. */
+const barOf = ({ ry }: Cloud) => ry * 0.17;
+
+/**
+ * After the window closes, the same line goes back up its right side and draws the title bar from
+ * right to left, with the three buttons of a terminal strung on it like beads.
+ */
+function chromePath(cloud: Cloud) {
+  const { cx, cy, rx, ry } = cloud;
+  const r = Math.min(18, rx * 0.08);
+  const [l, t, rt, b] = [cx - rx, cy - ry, cx + rx, cy + ry];
+  const bar = t + barOf(cloud);
+  const dot = barOf(cloud) * 0.24;
+  let d = ` L${f(rt - r)},${f(b)} Q${f(rt)},${f(b)} ${f(rt)},${f(b - r)} L${f(rt)},${f(bar)}`;
+  for (const k of [3, 2, 1]) {
+    const x = l + barOf(cloud) * 0.5 * k + dot;
+    d += ` L${f(x)},${f(bar)} a${f(dot)},${f(dot)} 0 1 1 0,${f(-2 * dot)} a${f(dot)},${f(dot)} 0 1 1 0,${f(2 * dot)}`;
+  }
+  return d + ` L${f(l)},${f(bar)}`;
 }
 
 /** From above his cap: three small loops of rising size, then the screen. Returns both pieces. */
@@ -116,7 +132,7 @@ function thoughtPieces(cloud: Cloud) {
     loops += ` Q${f(x + 10)},${f(y + 8)} ${f(x + r)},${f(y)} a${r},${r} 0 1 0 ${-2 * r},0 a${r},${r} 0 1 0 ${2 * r},0`;
   });
   loops += ` Q${f(entry[0] + 14)},${f(entry[1] + 26)} ${f(entry[0])},${f(entry[1])}`;
-  return { loops, cloud: " " + screenPath(cloud).replace(/^M[^ C]+/, "") + standPath(cloud) };
+  return { loops, cloud: " " + screenPath(cloud).replace(/^M[^ C]+/, "") + chromePath(cloud) };
 }
 
 /** The thread coming down through the lit page: from the top edge at x, one loop, out of the bottom at x. */
@@ -186,7 +202,7 @@ export default function Overture() {
     const cloudGroup = cloudRef.current!;
     const fill = fillRef.current!;
     const first = firstRef.current!;
-    const letters = Array.from(first.querySelectorAll<HTMLSpanElement>("span"));
+    const letters = Array.from(first.querySelectorAll<HTMLElement>("[data-key]"));
     let typed = -1;
 
     let cloud = cloudFor(viewFor(innerWidth / innerHeight));
@@ -227,11 +243,11 @@ export default function Overture() {
         const x = new DOMPoint(box.left + handoffX(box.width, box.height), 0).matrixTransform(ctm.inverse()).x;
         descentLength = lengthOf(descent, descentPath(x, view));
         descent.style.strokeDasharray = `${descentLength} ${descentLength}`;
-        // The first sentence sits in the middle of the cloud, as wide as the cloud allows
-        const centre = new DOMPoint(cloud.cx, cloud.cy).matrixTransform(ctm);
-        first.style.left = `${centre.x - box.left}px`;
-        first.style.top = `${centre.y - box.top}px`;
-        first.style.width = `${cloud.rx * 1.6 * ctm.a}px`;
+        // The prompt starts at the top left of the window, under the title bar
+        const corner = new DOMPoint(cloud.cx - cloud.rx * 0.88, cloud.cy - cloud.ry + barOf(cloud) * 1.7).matrixTransform(ctm);
+        first.style.left = `${corner.x - box.left}px`;
+        first.style.top = `${corner.y - box.top}px`;
+        first.style.width = `${cloud.rx * 1.76 * ctm.a}px`;
       }
     };
 
@@ -245,13 +261,13 @@ export default function Overture() {
       const drawn = drawnAt(p, keys);
       thread.style.strokeDashoffset = String(toLoops - Math.min(drawn, toLoops));
       outline.style.strokeDashoffset = String(cloudLength - clampTo(drawn - toLoops, cloudLength));
-      fill.style.opacity = String(range(p, T.screen - 0.02, T.screen + 0.01) * 0.96);
+      fill.style.opacity = String(range(p, T.screen - 0.02, T.screen + 0.01));
       // As soon as he scrolls, the town fades and leaves him alone with the bench and the tree
       if (setting) setting.style.opacity = String(1 - range(p, T.quiet[0], T.quiet[1]));
       // The sentence types itself onto the screen, letter by letter, as far as the reader has scrolled
       const shown = Math.round(range(p, T.type[0], T.type[1]) * letters.length);
       if (shown !== typed) {
-        letters.forEach((letter, i) => (letter.style.opacity = i < shown ? "1" : "0"));
+        letters.forEach((letter, i) => (letter.style.display = i < shown ? "" : "none"));
         typed = shown;
       }
       stage.style.setProperty("--first", String(p >= T.type[0] ? 1 - range(p, T.first[0], T.first[1]) : 0));
@@ -318,31 +334,32 @@ export default function Overture() {
         <ArtFallback name="scene-bench" className="ov-scene" />
 
         <div className="ov-intro">
-          <p className="ov-kicker">An illustrated autobiography · Limmattal, Switzerland</p>
+          <p className="ov-kicker">the story so far · Limmattal, Switzerland</p>
           <h1 id="overture-title" className="ov-title">Enis Shorra</h1>
-          <p className="ov-lede">Application developer in training. Eighteen. Still asking how things work.</p>
+          <p className="ov-lede">I am 18 and training to be an application developer. I still want to know how everything works.</p>
           <p className="ov-ways">
-            <span className="ov-cue" aria-hidden="true">Scroll to follow the thread</span>
-            <a className="ov-skip" href="#facts">or skip to the facts</a>
+            <span className="ov-cue" aria-hidden="true">scroll and follow the red thread</span>
+            <a className="ov-skip" href="#facts">or go straight to the facts</a>
           </p>
         </div>
 
         <p ref={firstRef} className="ov-first" aria-label={SENTENCE}>
-          {SENTENCE.split("").map((letter, i) => (
-            <span key={i} aria-hidden="true">{letter}</span>
-          ))}
+          {TYPED.split("").map((letter, i) =>
+            letter === "\n" ? <br key={i} data-key="" /> : <span key={i} data-key="" aria-hidden="true">{letter}</span>,
+          )}
+          <span className="ov-caret" aria-hidden="true" />
         </p>
 
         <div className="ov-memory">
           <p className="ov-question">
-            I kept asking it as a kid: <em>how does this work?</em>
+            As a kid I asked it about everything: how does this work?
           </p>
         </div>
 
         <p className="visually-hidden">
           Illustration: a young man in a flat cap, a long coat and an oatmeal scarf sits at the end of a park bench
           by the Limmat in Baden, looking up. A red thread drops from the top of the page and loops round his hand.
-          It climbs past his face into a thought, and the thought opens into the light of a childhood memory.
+          It climbs past his face and draws a terminal window in the air, where a sentence types itself, and the window opens into the light of a childhood memory.
         </p>
       </div>
     </section>

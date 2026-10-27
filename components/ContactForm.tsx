@@ -39,7 +39,7 @@ export default function ContactForm() {
 
   return (
     <aside className="cta-card contact-card">
-      <span className="cta-stamp">Get in touch</span>
+      <span className="cta-stamp">Write to me</span>
       {submitState === "sent" ? (
         <div className="contact-success" role="status">
           <h3>Message sent.</h3>

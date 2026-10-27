@@ -1,0 +1,13 @@
+<svg viewBox="0 0 1600 600">
+  <!-- The last picture: Enis back on the bench from the beginning, the wind in his hair. The thread
+       runs from his hand, over his knee, along the ground and up into the words it writes on the
+       page to his left (the words are set on the page and change). Ground 544. -->
+  <g id="ground" data-window="0 0.3">
+    <path class="fine" data-tone="far" data-w="0.8" d="M0,544 C400,543 800,545 1600,544"/>
+    <path class="fine" data-tone="far" data-w="0.6" d="M120,566 L260,566 M520,572 L640,572 M980,568 L1120,568 M1380,572 L1500,572"/>
+  </g>
+  <g id="enis" data-include="_figure-seated" transform="translate(880,40) scale(0.9)" data-window="0.05 0.8"/>
+  <g id="thread" data-window="0.7 1">
+    <path class="thread" data-w="3" d="M1199,372 C1200,380 1199,386 1197,390 C1191,398 1182,402 1176,400 C1170,398 1172,390 1179,389 C1188,388 1198,394 1199,402 C1201,430 1180,470 1150,505 C1110,540 1000,548 800,550 C600,552 300,556 170,542 C90,532 52,486 58,428 C62,388 72,354 86,330"/>
+  </g>
+</svg>

@@ -1,0 +1,36 @@
+<svg viewBox="0 0 500 620">
+  <!-- A friend, seated, hood up, hands raised in front of him
+       (the standing figure's arm and phone, moved down to the seated shoulders). -->
+  <g data-include="_teen-seated-body"/>
+
+  <g data-include="_head-hood" transform="translate(-2,124) rotate(-24 250 144) translate(190.9,37.3) scale(0.356)"/>
+
+
+  <g transform="translate(-4,112)">
+  <g id="arm">
+    <!-- near arm: elbow back at the waist, forearm raised, holding the phone -->
+    <path class="fill" data-tone="paper" d="M270,160 C284,166 292,182 292,206 C292,226 290,242 284,254 C274,258 262,254 252,250 L246,230 C252,232 258,234 262,234 C262,220 258,206 254,192 C258,178 262,166 270,160 Z"/>
+    <path class="ink" data-w="2.3" d="M274,162 C286,170 292,186 292,206 C292,226 290,242 284,254"/>
+    <path class="ink" data-w="1.8" d="M284,254 C274,258 262,255 252,251"/>
+    <path class="ink" data-w="1.3" d="M254,194 C258,208 261,220 262,234 C258,234 252,232 247,230"/>
+    <path class="fine" data-w="0.8" d="M262,236 C270,240 278,240 286,236 M266,246 C272,248 278,248 284,245"/>
+    <path class="hatch" data-angle="62 -28" data-gap="3" data-w="0.42" d="M284,206 C290,218 290,234 286,248 C282,240 280,226 284,206 Z"/>
+    <!-- ribbed cuff -->
+    <path class="ink" data-w="1.3" d="M247,230 C243,236 244,244 252,251"/>
+    <path class="ink" data-w="1.1" d="M241,231 C238,237 239,244 245,249"/>
+    <path class="fine" data-w="0.5" d="M244,233 L247,233 M242,238 L246,238 M243,243 L247,244"/>
+  </g>
+
+
+  <g id="hand" transform="translate(242,244) rotate(-115.5)">
+    <!-- palm and curled fingers under the back of the phone, thumb laid along the screen -->
+    <path class="fill" data-tone="paper" d="M0,-7 C6,-8 12,-9 17,-10 C21,-11 25,-11 28,-9.5 C31,-8 33,-6 33.5,-3 L33,-2.2 L4,-2.2 C10,1 16,2.6 22,2.8 C26,3 30,3.2 32,4.2 C33.5,5.2 33,7 31,7.4 C26,8 18,8.6 12,9 C7,9.2 3,8.6 0,7 Z"/>
+    <path class="ink" data-w="1.4" d="M0,-7 C6,-8 12,-9 17,-10 C21,-11 25,-11 28,-9.5 C31,-8 33,-6 33.5,-3"/>
+    <path class="fine" data-w="0.7" d="M18,-10 C19,-8 19,-6 18,-4 M24,-11 C25,-9 25,-6.5 24,-4.5"/>
+    <path class="ink" data-w="1.2" d="M6,6.5 C12,7.6 18,7.8 24,7.4 C28,7.2 31,7.6 31.5,6.2 C32,5 31,4.2 29,3.8"/>
+    <path class="ink" data-w="1.3" d="M0,7 C3,8.6 7,9.4 12,9"/>
+    <!-- the far thumb tip at the top of the screen -->
+    <path class="fine" data-w="0.9" d="M38,2.8 C41,3.4 43,4.6 42,6.2 C41,7.4 38,7 37,5.6"/>
+  </g>
+  </g>
+</svg>

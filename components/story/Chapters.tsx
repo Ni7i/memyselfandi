@@ -1,7 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
+import type React from "react";
 import ArtFallback from "@/components/art/ArtFallback";
 import InkArt from "@/components/art/InkArt";
+import { ART, type ArtName } from "@/components/art/manifest";
 import ContactForm from "@/components/ContactForm";
 import ProjectRow from "@/components/ProjectRow";
 import { projectLink } from "@/lib/content/format";
@@ -15,46 +17,65 @@ import { THREAD_DICE, THREAD_OBJECTS, type ThreadObject } from "./threads";
  */
 
 /** One of the thread's objects, drawn as the element passes through the screen. */
-function ThreadMark({ name, className = "thread-mark" }: { name: ThreadObject; className?: string }) {
+function ThreadMark({ name, className = "thread-mark", draw = "0 0.9" }: { name: ThreadObject; className?: string; draw?: string }) {
   return (
     <svg className={className} viewBox="0 0 120 160" aria-hidden="true" focusable="false">
-      <path className="thread-line" d={THREAD_OBJECTS[name]} pathLength={1} data-thread="0 0.9" data-own />
+      <path className="thread-line" d={THREAD_OBJECTS[name]} pathLength={1} data-thread={draw} data-own />
     </svg>
   );
 }
 
-/* ─────────────── SCENE 3: AGE THREE ─────────────── */
+/* ─────────────── ILLUSTRATED SCENES ─────────────── */
 
-export function AgeThree() {
-  const lines = [
-    "My father introduced me to computers when I was three.",
-    "I wanted to play games.",
-    "Then I kept asking how everything worked.",
-    "The questions got harder. I never stopped asking.",
-  ];
+type SceneProps = {
+  id: string;
+  /** Extra class for the scene's light (background). */
+  tone: string;
+  art: ArtName;
+  /** Accessible description of the drawing. */
+  desc: string;
+  kicker: string;
+  title: React.ReactNode;
+  lines: React.ReactNode[];
+  /** Chapter progress over which the drawing draws itself. */
+  drawing?: string;
+  /** Waypoints for the thread, in drawing units, between the top of the stage and the drawing's own red line. */
+  drop: string;
+  /** Chapter progress over which the thread runs through the scene and out at the bottom. */
+  run?: string;
+  /** More inside the drawing's <svg>, in drawing units (marks the thread draws, lettering). */
+  children?: React.ReactNode;
+};
+
+/**
+ * A pinned scene: the drawing builds itself as the reader scrolls, the lines of text arrive one by
+ * one, and the thread comes in at the top where the last scene let it go, runs through the drawing's
+ * own red line and leaves at the bottom for the next scene.
+ */
+function Scene({ id, tone, art, desc, kicker, title, lines, drawing = "0.02 0.5", drop, run = "0.3 0.96", children }: SceneProps) {
+  const { width, height } = ART[art];
+  const step = 0.62 / Math.max(1, lines.length);
   return (
-    <section id="age-three" className="chapter ch-desk" data-chapter="pin" aria-labelledby="age-three-title">
+    <section id={id} className={`chapter ch-scene ${tone}`} data-chapter="pin" aria-labelledby={`${id}-title`}>
       <div className="ch-stage">
         <div className="ch-copy">
-          <p className="ch-kicker" data-show="0 0.04">Age three</p>
-          <h2 id="age-three-title" className="ch-lines">
+          <p className="ch-kicker" data-show="0 0.03">{kicker}</p>
+          <h2 id={`${id}-title`} className="ch-title" data-show="0.02 0.06">{title}</h2>
+          <div className="ch-lines">
             {lines.map((line, i) => (
-              <span key={line} className="ch-line" data-show={`${0.08 + i * 0.18} ${0.15 + i * 0.18}`}>
-                {line}{" "}
-              </span>
+              <p key={i} className="ch-line" data-show={`${(0.1 + i * step).toFixed(3)} ${(0.16 + i * step).toFixed(3)}`}>
+                {line}
+              </p>
             ))}
-          </h2>
+          </div>
         </div>
-        <svg className="ch-art desk-art ink-host" viewBox="0 0 1300 900" preserveAspectRatio="xMidYMax meet" role="img" aria-labelledby="desk-desc">
-          <desc id="desk-desc">
-            Illustration: Enis at three, standing on a step stool at the family computer, both hands on the mouse.
-            His father&apos;s hand rests on his back. The red mouse cable runs into the computer.
-          </desc>
-          <g data-drawing="0 0.56"><InkArt name="scene-desk" /></g>
+        <svg className="ch-art ink-host" viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="xMidYMax meet" role="img" aria-labelledby={`${id}-desc`}>
+          <desc id={`${id}-desc`}>{desc}</desc>
+          <g data-drawing={drawing}><InkArt name={art} /></g>
+          {children}
         </svg>
-        <ArtFallback name="scene-desk" className="ch-art desk-art" alt="Enis at three at the family computer, his father's hand on his back." />
-        {/* The thread from the thought comes in at the top, drops into his hands and becomes the mouse cable */}
-        <svg className="thread-run" data-run="0.3 0.84" data-enter="0.2" data-follow=".desk-art" data-drop="712 150, 712 330" aria-hidden="true" focusable="false">
+        <ArtFallback name={art} className="ch-art" alt={desc} />
+        <svg className="thread-run" data-run={run} data-enter="0.2" data-follow=".ch-art" data-drop={drop} data-exit="" aria-hidden="true" focusable="false">
           <path />
         </svg>
       </div>
@@ -62,63 +83,103 @@ export function AgeThree() {
   );
 }
 
-/* ─────────────── SCENE 4: CURIOSITY ─────────────── */
+/* ─────────────── SCENE 3: AGE THREE ─────────────── */
 
-const CURIOSITY: { mark: ThreadObject; title: string; text: string }[] = [
-  { mark: "padlock", title: "Facebook", text: "I was curious how passwords and account security work." },
-  { mark: "phone", title: "TutuApp", text: "I experimented with apps from outside the official store." },
-  { mark: "onion", title: "Tor Browser", text: "I explored it and the darknet, to see how they work." },
-  { mark: "keys", title: "Counter-Strike", text: "And I played CS." },
-];
-
-export function Curiosity() {
+export function AgeThree() {
   return (
-    <section id="curiosity" className="chapter ch-curious" data-chapter="flow" aria-labelledby="curiosity-title">
-      <div className="ch-inner curious-grid">
-        <header className="ch-head">
-          <p className="ch-kicker">Growing up</p>
-          <h2 id="curiosity-title" className="ch-title">
-            After the first games on Y8, the questions moved <em>behind the screen.</em>
-          </h2>
-        </header>
-
-        <svg className="teen-art ink-host" viewBox="0 0 320 620" role="img" aria-labelledby="teen-desc">
-          <desc id="teen-desc">Illustration: Enis at about fifteen, headphones round his neck, looking at his phone. The headphone cable is red.</desc>
-          <g data-drawing="0 1" data-own><InkArt name="scene-teen" /></g>
-        </svg>
-        <ArtFallback name="scene-teen" className="teen-art" alt="Enis at about fifteen, looking at his phone." />
-
-        <ol className="rail">
-          {CURIOSITY.map((item) => (
-            <li key={item.title} className="rail-stop">
-              <span className="rail-thread">
-                <ThreadMark name={item.mark} />
-                <span className="rail-run" data-show="0.6 1" data-own />
-              </span>
-              <span className="rail-text" data-show="0.2 0.6" data-own>
-                <strong>{item.title}.</strong> {item.text}
-              </span>
-            </li>
-          ))}
-        </ol>
-
-        <p className="ch-coda" data-show="0.1 0.6" data-own>
-          None of it was a plan. It was curiosity. Today the same questions go into things I build myself.
-        </p>
-      </div>
-    </section>
+    <Scene
+      id="age-three"
+      tone="ch-desk"
+      art="scene-desk"
+      desc="Enis at three, standing on a step stool at the family computer, both hands on the mouse. His father's hand rests on his back. The red mouse cable runs into the computer."
+      kicker="Age three"
+      title={<>My father introduced me to computers <em>when I was three.</em></>}
+      lines={["I wanted to play games.", "Then I kept asking how everything worked.", <em key="q">The questions got harder. I never stopped asking.</em>]}
+      drawing="0 0.56"
+      drop="712 150, 712 330"
+      run="0.3 0.94"
+    />
   );
 }
 
-/* ─────────────── SCENE 5: THE LINE SO FAR ─────────────── */
+/* ─────────────── SCENE 4: GROWING UP ─────────────── */
+
+/** What the thread draws above the two boys, one after the other, each with its line. */
+const CURIOUS: { mark: ThreadObject; text: React.ReactNode }[] = [
+  { mark: "padlock", text: <><strong>Facebook.</strong> How do passwords and account security work?</> },
+  { mark: "phone", text: <><strong>TutuApp.</strong> With friends, apps from outside the official store.</> },
+  { mark: "onion", text: <><strong>Tor Browser.</strong> What is the darknet, and how does it work?</> },
+  { mark: "keys", text: <><strong>Counter-Strike.</strong> And CS, of course.</> },
+];
+
+export function GrowingUp() {
+  const step = 0.62 / CURIOUS.length;
+  return (
+    <Scene
+      id="curiosity"
+      tone="ch-curious"
+      art="scene-friends"
+      desc="Enis as a boy on a park bench, holding a phone out between him and a friend in a hooded jumper who sits facing him on an upturned crate. Above them the red thread draws a padlock, a phone, an onion and the keys W, A, S, D."
+      kicker="Growing up"
+      title={<>After the first games on Y8, the questions moved <em>behind the screen.</em></>}
+      lines={[...CURIOUS.map((c) => c.text), <em key="coda">None of it was a plan. It was curiosity.</em>]}
+      drop="660 250, 640 420"
+    >
+      {CURIOUS.map((c, i) => (
+        <g key={c.mark} transform={`translate(${150 + i * 140} 70) scale(0.9)`}>
+          <path className="thread-line" d={THREAD_OBJECTS[c.mark]} pathLength={1} data-thread={`${(0.1 + i * (0.62 / (CURIOUS.length + 1))).toFixed(3)} ${(0.1 + i * (0.62 / (CURIOUS.length + 1)) + step * 0.8).toFixed(3)}`} />
+        </g>
+      ))}
+    </Scene>
+  );
+}
+
+/* ─────────────── SCENE 5: SCHOOL ─────────────── */
+
+export function SchoolYears() {
+  return (
+    <Scene
+      id="school"
+      tone="ch-school"
+      art="scene-school"
+      desc="Enis as a teenager at a school desk by a classroom window, writing in an exercise book. The line he writes is the red thread."
+      kicker="Aug 2021 to Jul 2024"
+      title={<>Bezirksschule, <em>Kreisschule Mutschellen.</em></>}
+      lines={["Three years of Bezirksschule, before the IMS in Baden."]}
+      drop="600 300, 640 480"
+    />
+  );
+}
+
+/* ─────────────── SCENE 6: IMS AND BADEN HACKT ─────────────── */
+
+export function Hackathon() {
+  return (
+    <Scene
+      id="ims"
+      tone="ch-hack"
+      art="scene-hack"
+      desc="Enis at a long table at the hackathon Baden hackt, coding on a laptop, a wall of sticky notes and a sign behind him. The laptop's cable is the red thread."
+      kicker="From Aug 2024 · IMS Kantonsschule Baden and BBB Baden"
+      title={<>Application developer EFZ, <em>with the vocational baccalaureate.</em></>}
+      lines={[
+        <><strong>Baden hackt</strong>, the hackathon at BBB Baden: took part in 2025, top 10 in 2026.</>,
+        <><strong>IT-Regionalmeisterschaften</strong>, Skill 09: took part in 2025 and 2026.</>,
+      ]}
+      drop="470 170, 530 430"
+    >
+      <text className="art-lettering" x="662" y="242" textAnchor="middle" transform="rotate(-1.1 662 230)" data-show="0.12 0.2">
+        Baden hackt
+      </text>
+    </Scene>
+  );
+}
+
+/* ─────────────── AND THEN ─────────────── */
 
 type Station = { when: string; name: string; detail?: string; ahead?: boolean };
 
 const STATIONS: Station[] = [
-  { when: "Aug 2021 to Jul 2024", name: "Bezirksschule, Kreisschule Mutschellen" },
-  { when: "Aug 2024", name: "IMS Kantonsschule Baden and BBB Baden", detail: "Application developer EFZ with the vocational baccalaureate in business." },
-  { when: "Mar 2025 and Mar 2026", name: "IT-Regionalmeisterschaften", detail: "ICT-Berufsbildung Schweiz, Skill 09. I took part twice." },
-  { when: "Apr 2025 and Mar 2026", name: "Baden hackt, the hackathon at BBB Baden", detail: "Took part in 2025. Top 10 in 2026." },
   { when: "Feb 2026", name: "Tutor at Lernakademie Oase, Spreitenbach" },
   { when: "Sept 2026", name: "Web developer and SEO at LoliT, Baden", detail: "Part time, next to school." },
   { when: "27 Sept to 23 Oct 2026", name: "English Essential Centre, Manchester", detail: "C1 English preparation and Business English." },
@@ -132,7 +193,7 @@ export function Stations() {
       <div className="ch-inner">
         <header className="ch-head">
           <p className="ch-kicker">The line so far</p>
-          <h2 id="stations-title" className="ch-title">From one question to <em>a timetable.</em></h2>
+          <h2 id="stations-title" className="ch-title">And from here, <em>the next stops.</em></h2>
         </header>
         <ol className="line">
           {STATIONS.map((station, i) => (
@@ -146,7 +207,7 @@ export function Stations() {
                 <h3 className="station-name">{station.name}</h3>
                 {station.detail && <p className="station-detail">{station.detail}</p>}
               </div>
-              {i === 6 && <p className="station-today" aria-hidden="true">Today</p>}
+              {i === 2 && <p className="station-today" aria-hidden="true">Today</p>}
             </li>
           ))}
         </ol>
@@ -258,7 +319,7 @@ export function Work({ projects }: { projects: Project[] }) {
         <header className="ch-head">
           <p className="ch-kicker">What I build now</p>
           <h2 id="work-title" className="ch-title">The questions turned into <em>projects.</em></h2>
-          <p className="ch-sub">Strongest first. {projects.length} in all, kept up to date from my own admin page.</p>
+          <p className="ch-sub">Strongest first. {projects.length} in all, kept up to date from my own admin page. Each one opens once it is drawn.</p>
         </header>
 
         <ol className="work-lead">
@@ -268,8 +329,9 @@ export function Work({ projects }: { projects: Project[] }) {
             const isPrivate = !project.repoUrl && !project.liveUrl;
             return (
               <li key={project.slug} className="work-item">
-                <span className="work-mark">{mark ? <ThreadMark name={mark} /> : <span className="work-number">{String(i + 1).padStart(2, "0")}</span>}</span>
-                <div className="work-text" data-show="0.1 0.5" data-own>
+                {/* The thread draws the project's object completely; only then do its words appear and the link opens */}
+                <span className="work-mark">{mark ? <ThreadMark name={mark} draw="0 0.55" /> : <span className="work-number">{String(i + 1).padStart(2, "0")}</span>}</span>
+                <div className="work-text" data-show="0.6 0.85" data-own>
                   <h3>
                     <a href={href} {...(external ? { rel: "noreferrer", target: "_blank" } : {})}>
                       {project.title}
@@ -516,6 +578,22 @@ export function OtherEnd() {
         </div>
         <ContactForm />
       </div>
+      {/* The thread does not end here: it runs on across the page and off its edge */}
+      <div className="goes-on">
+        <p className="goes-on-text" data-show="0.35 0.7" data-own>
+          The red thread goes on. <em>Perhaps at your company.</em>
+        </p>
+        <svg className="goes-on-thread" viewBox="0 0 1200 220" preserveAspectRatio="xMinYMid slice" aria-hidden="true" focusable="false">
+          <path
+            className="thread-line"
+            vectorEffect="non-scaling-stroke"
+            pathLength={1}
+            data-thread="0 0.95"
+            data-own
+            d="M-10,70 C200,70 320,48 430,96 C486,120 478,156 446,148 C414,140 432,106 474,110 C560,118 650,176 830,156 C970,140 1100,124 1230,122"
+          />
+        </svg>
+      </div>
     </section>
   );
 }
@@ -524,7 +602,6 @@ export function StoryFooter() {
   return (
     <footer className="story-foot">
       <p className="story-foot-line">
-        <span className="story-foot-thread" aria-hidden="true" />
         Der rote Faden. One thread, from a question at three to whatever comes next.
       </p>
       <p>Concept, story and creative direction by me. Built with Claude as a coding partner.</p>

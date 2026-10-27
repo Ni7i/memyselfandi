@@ -61,6 +61,11 @@ function layoutRun(run: Run) {
     [px, py] = [wx, wy];
   }
   d += points.slice(1).map(([qx, qy]) => ` L${f(qx)},${f(qy)}`).join("");
+  // And on, out of the bottom at the handoff x, where the next scene picks it up
+  if (run.svg.hasAttribute("data-exit")) {
+    const [lx, ly] = points[points.length - 1];
+    d += ` C${f(lx)},${f(ly + (h - ly) * 0.5)} ${f(x)},${f(h - (h - ly) * 0.4)} ${f(x)},${f(h + 2)}`;
+  }
   run.svg.setAttribute("viewBox", `0 0 ${f(w)} ${f(h)}`);
   run.path.setAttribute("d", d);
   run.total = run.path.getTotalLength();
@@ -117,7 +122,8 @@ function partsOf(section: HTMLElement): Part[] {
   });
   section.querySelectorAll<HTMLElement>("[data-show]").forEach((el) => {
     const [a, b] = span(el, "data-show");
-    parts.push({ el, a, b, own: own(el), apply: (t) => el.style.setProperty("--show", t.toFixed(3)), last: -1 });
+    // Once fully shown an element counts as there: links inside it open (see .is-shown in story.css)
+    parts.push({ el, a, b, own: own(el), apply: (t) => (el.style.setProperty("--show", t.toFixed(3)), el.classList.toggle("is-shown", t >= 0.999)), last: -1 });
   });
   return parts;
 }

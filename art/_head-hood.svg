@@ -1,0 +1,34 @@
+<svg viewBox="0 0 300 340">
+  <!-- A friend: the same build of face as Enis at fifteen, the hood of his hoodie up.
+       The hood's rim runs from above the brow down past the cheek; inside it, deep shade. -->
+  <g id="shadow">
+    <path class="fill" data-tone="face" d="M88,99 C106,98 126,100 140,106 C150,112 157,126 160,141 C163,138 168,135 176,136 C184,138 189,146 190,158 C202,168 210,182 216,195 C212,197 210,198 208,199 C203,236 202,286 205,330 L129,330 C128,304 126,278 124,254 C114,255 108,255 98,255 C90,255 85,252 82,247 C80,242 80,236 82,230 C82,226 79,224 78,221 C77,218 78,215 80,213 C80,212 77,211 77,209 C76,206 77,202 80,199 C77,197 74,195.5 69,195.5 C63,196 61,192 65,186 C71,175 80,161 84,150 C84,146 79,143 79,136 C79,124 82,110 88,99 Z"/>
+  </g>
+
+  <g id="hood">
+    <!-- a soft, round hood: its rim close round the face, its back falling to the shoulders -->
+    <path class="fill" data-tone="paper" d="M90,92 C96,52 140,22 196,22 C252,22 292,62 294,120 C296,180 280,240 262,300 C240,316 200,322 156,318 C140,290 132,262 128,232 C124,196 118,160 110,132 C104,114 98,102 90,92 Z"/>
+    <path class="fill" data-tone="socket" d="M92,96 C100,104 108,116 113,130 C120,160 126,196 128,232 C130,256 134,280 140,304 L132,304 C126,282 122,258 120,232 C118,198 113,166 106,138 C102,120 98,106 92,96 Z"/>
+    <path class="ink" data-w="2.4" d="M90,92 C96,52 140,22 196,22 C252,22 292,62 294,120 C296,180 280,240 262,300"/>
+    <path class="ink" data-w="1.6" d="M90,92 C98,102 104,114 110,132 C118,160 124,196 128,232 C132,262 140,290 156,318"/>
+    <path class="fine" data-w="0.9" d="M118,58 C150,40 196,36 236,50 M126,82 C162,64 214,64 258,88"/>
+    <path class="fine" data-w="0.8" d="M200,200 C214,230 226,262 232,300"/>
+    <path class="hatch" data-angle="58" data-gap="3.2" data-w="0.45" d="M268,70 C290,100 292,150 284,200 C278,236 268,268 258,298 L240,300 C252,264 264,226 268,190 C272,150 272,110 268,70 Z"/>
+  </g>
+  <g id="face">
+    <!-- cues inside the shadow: a straight brow lifted a little at the front, the socket under it,
+         a nostril, light catching the cheekbone. Enough to read attention, no eyes, no mouth. -->
+    <path class="ink" data-tone="brow" data-min-scale="9" data-w="4" data-taper="0.15 0.55" d="M86.0,136.0 C96.0,132.5 108.0,132.0 120.0,134.5"/>
+    <ellipse class="fill" data-tone="socket" data-min-scale="9" cx="101" cy="150" rx="9" ry="6"/>
+    <path class="fine" data-tone="deep" data-w="1.0" d="M70.0,193.0 C72.0,190.0 76.0,190.0 77.0,194.0"/>
+    <path class="ink" data-w="2.2" d="M88,99 C82,110 79,124 79,136 C79,143 84,146 84,150 C80,161 71,175 65,186 C61,192 63,196 69,195.5 C74,195.5 77,197 80,199"/>
+    <path class="ink" data-w="2" d="M80,199 C77,202 76,206 77,209 C77,211 80,212 80,213 C78,215 77,218 78,221 C79,224 82,226 82,230 C80,236 80,242 82,247 C85,252 90,255 98,255"/>
+    <path class="fine" data-w="1.2" d="M98,255 C122,252 144,242 154,228 C159,220 162,212 164,204"/>
+    <path class="ink" data-tone="paper" data-w="1.2" data-taper="0.3 0.3" d="M88,108 C84,118 82,128 82,136 C82,142 86,146 87,150 C83,161 75,174 69,184"/>
+    <path class="ink" data-tone="paper" data-w="1" data-taper="0.3 0.3" d="M81,216 C82,219 85,223 85,229 C83,235 83,241 85,245 C88,249 93,252 99,252"/>
+  </g>
+
+  <g id="neck">
+    <path class="ink" data-w="1.9" d="M124,254 C126,278 128,304 129,330"/>
+  </g>
+</svg>

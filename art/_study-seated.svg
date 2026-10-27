@@ -1,0 +1,12 @@
+<svg viewBox="0 0 500 620">
+  <!-- study: the seated teen with a plain chair and table, to check the pose -->
+  <g id="chair">
+    <path class="ink" data-w="1.6" d="M300,452 L392,452 M300,462 L392,462 M384,452 L392,300 M392,300 L400,300 L394,452"/>
+    <path class="ink" data-w="1.5" d="M308,462 L304,600 M384,462 L388,600"/>
+  </g>
+  <g data-include="_figure-teen-seated"/>
+  <g id="table">
+    <path class="ink" data-w="2" d="M20,370 L196,370"/>
+    <path class="ink" data-w="1.5" d="M30,380 L190,380 M40,380 L40,600"/>
+  </g>
+</svg>

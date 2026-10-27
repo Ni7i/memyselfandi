@@ -1,0 +1,44 @@
+<svg viewBox="0 0 500 620">
+  <!-- Enis as a teenager, seated at a table, profile facing left, in the teen figure's units
+       (unit 74, ground 600). Head bent to the work in front of him, forearms on the table,
+       hands resting at y 368. The table and the chair belong to the scene: seat top 452, table top 370. -->
+  <g data-include="_teen-seated-body"/>
+
+  <g data-include="_head-teen" transform="translate(-2,124) rotate(-20 250 144) translate(190.9,37.3) scale(0.356)"/>
+
+  <g id="hood" transform="translate(-4,112)">
+    <!-- the hood, bunched around the neck and over the shoulders -->
+    <path class="fill" data-tone="paper" d="M238,150 C240,140 250,134 262,132 C278,130 294,136 300,150 C304,162 300,174 292,180 C280,178 266,170 254,162 C248,158 242,156 238,150 Z"/>
+    <path class="ink" data-w="2" d="M262,132 C278,130 294,136 300,150 C304,162 300,174 292,180"/>
+    <path class="ink" data-w="1.3" d="M238,151 C242,140 250,134 262,132"/>
+    <path class="fine" data-w="0.9" d="M246,152 C258,150 272,156 284,168"/>
+    <path class="fine" data-w="0.8" d="M260,140 C272,140 284,146 292,156"/>
+    <path class="hatch" data-angle="60" data-gap="3" data-w="0.42" d="M250,160 C262,164 276,172 290,178 C282,180 270,176 260,170 C255,167 252,164 250,160 Z"/>
+    <path class="fine" data-w="0.9" d="M240,156 C238,170 236,184 236,196 M246,158 C245,172 244,186 245,198"/>
+    <path class="fill" data-tone="dark" d="M234.6,196 L237.6,196 L237.4,203 L234.8,203 Z M243.6,198 L246.6,198 L246.4,205 L243.8,205 Z"/>
+  </g>
+
+  <g id="arm">
+    <!-- near arm: shoulder, elbow down at the side, forearm laid forward on the table -->
+    <path class="fill" data-tone="paper" d="M262,268 C280,274 292,292 292,318 C292,340 286,360 276,374 C270,382 262,386 252,386 L190,374 L186,356 L240,358 C244,340 248,318 248,298 C250,284 254,272 262,268 Z"/>
+    <path class="ink" data-w="2.3" d="M266,270 C282,278 292,296 292,318 C292,340 286,360 276,374 C270,382 262,386 252,386"/>
+    <path class="ink" data-w="1.8" d="M252,386 C230,382 210,378 190,374"/>
+    <path class="ink" data-w="1.3" d="M250,296 C248,318 245,340 240,358 C222,357 204,356 186,356"/>
+    <path class="fine" data-w="0.8" d="M244,360 C250,366 254,374 256,382 M258,350 C262,358 266,366 268,374"/>
+    <path class="hatch" data-angle="62 -28" data-gap="3" data-w="0.42" d="M284,300 C290,316 290,340 282,360 C276,370 270,376 262,380 C268,366 274,348 278,330 C280,318 282,308 284,300 Z"/>
+    <path class="hatch" data-angle="10" data-gap="3.2" data-w="0.4" d="M196,368 L250,376 L252,384 C232,382 212,378 192,374 Z"/>
+    <!-- ribbed cuff -->
+    <path class="ink" data-w="1.3" d="M190,356 C186,362 186,368 190,374"/>
+    <path class="ink" data-w="1.1" d="M184,356 C180,362 180,368 184,374"/>
+    <path class="fine" data-w="0.5" d="M182,359 L188,359 M181,365 L187,365 M182,371 L188,371"/>
+  </g>
+
+  <g id="hand">
+    <!-- the near hand, flat on the table, fingers forward; the far hand's fingertips beyond it -->
+    <path class="fill" data-tone="paper" d="M182,356 C172,354 160,354 150,358 C144,360 140,364 140,368 C140,371 144,372 150,371 L182,374 Z"/>
+    <path class="ink" data-w="1.4" d="M182,356 C172,354 160,354 150,358 C144,360 140,364 140,368 C140,371 144,372 150,371"/>
+    <path class="ink" data-w="1.2" d="M150,371 C160,372 172,373 182,374"/>
+    <path class="fine" data-w="0.7" d="M154,362 C150,364 148,366 148,369 M162,360 C158,363 156,366 156,370"/>
+    <path class="fine" data-w="1" d="M132,364 C128,365 126,367 127,369 C128,371 132,371 136,370"/>
+  </g>
+</svg>

@@ -1,7 +1,7 @@
 import ArtFilters from "@/components/art/ArtFilters";
-import { AgeThree, Curiosity, Facts, FirstGame, HowIWork, Life, OtherEnd, ProofSection, Stations, StoryFooter, Work } from "@/components/story/Chapters";
+import { AgeThree, Facts, FirstGame, GrowingUp, Hackathon, HowIWork, Life, OtherEnd, ProofSection, SchoolYears, Stations, StoryFooter, Work } from "@/components/story/Chapters";
 import Overture from "@/components/story/Overture";
-import SpoolNav from "@/components/story/SpoolNav";
+import IndexNav from "@/components/story/IndexNav";
 import StoryMotion from "@/components/story/StoryMotion";
 import "./story.css";
 import { getPublishedProjects } from "@/lib/content/projects";
@@ -20,7 +20,9 @@ export default async function Home() {
         {/* Der rote Faden: an illustrated autobiography in eleven scenes */}
         <Overture />
         <AgeThree />
-        <Curiosity />
+        <GrowingUp />
+        <SchoolYears />
+        <Hackathon />
         <Stations />
         <FirstGame />
         <Work projects={projects} />
@@ -31,7 +33,7 @@ export default async function Home() {
         <OtherEnd />
       </main>
       <StoryFooter />
-      <SpoolNav />
+      <IndexNav />
       <StoryMotion />
     </>
   );

@@ -1,0 +1,29 @@
+<svg viewBox="0 0 1300 900">
+  <!-- Growing up. Late afternoon after school: Enis sits at the end of a park bench, the same kind
+       of bench as today, holding a phone out between him and a friend, who sits facing him on an
+       upturned crate, hood up, leaning in. The phone's screen is the only light. A fence and a
+       few lines of the schoolyard behind. Floor 860. Figures at 1.3 (teen units). -->
+  <g id="yard" data-window="0 0.3">
+    <path class="fine" data-tone="far" data-w="0.9" d="M0,700 L1300,704"/>
+    <path class="fine" data-tone="far" data-w="0.7" d="M0,640 L1300,640 M0,520 L1300,520"/>
+    <path class="fine" data-tone="far" data-w="0.6" d="M60,520 L60,700 M200,520 L200,701 M340,520 L340,701 M480,520 L480,702 M620,520 L620,702 M760,520 L760,702 M900,520 L900,703 M1040,520 L1040,703 M1180,520 L1180,704"/>
+    <path class="hatch" data-tone="far" data-angle="45 -45" data-gap="14" data-w="0.3" d="M0,524 L1300,524 L1300,636 L0,636 Z"/>
+    <path class="fine" data-tone="far" data-w="0.5" d="M0,780 L1300,782 M120,820 L180,820 M420,840 L470,840 M980,830 L1040,830"/>
+  </g>
+  <g id="bench" data-include="_bench" transform="translate(240,168) scale(1.235)" data-window="0.08 0.4"/>
+  <g id="crate" data-window="0.12 0.42">
+    <!-- an upturned plastic crate -->
+    <path class="fill" data-tone="paper" d="M196,668 L392,668 L398,860 L190,860 Z"/>
+    <path class="ink" data-w="1.8" d="M196,668 L392,668 M190,860 L398,860"/>
+    <path class="ink" data-w="1.6" d="M196,668 L190,860 M392,668 L398,860"/>
+    <path class="ink" data-w="1.2" d="M200,690 L390,690"/>
+    <path class="fine" data-w="0.9" d="M214,710 L226,710 L224,840 L212,840 Z M248,710 L260,710 L259,840 L247,840 Z M282,710 L294,710 L294,840 L282,840 Z M316,710 L328,710 L329,840 L317,840 Z M350,710 L362,710 L364,840 L352,840 Z"/>
+    <path class="hatch" data-angle="80" data-gap="3.6" data-w="0.4" d="M380,692 L392,692 L398,858 L386,858 Z"/>
+  </g>
+  <g id="friend" data-include="_figure-friend" transform="translate(712,80) scale(-1.3,1.3)" data-window="0.2 0.62"/>
+  <g id="enis" data-include="_figure-teen-phone" transform="translate(372,80) scale(1.3)" data-window="0.34 0.86"/>
+  <g id="thread" data-window="0.86 1">
+    <!-- the phone's charging cable: out of its foot, down between them, across the ground -->
+    <path class="thread" data-w="1.9" d="M576,519 C578,540 576,570 570,600 C562,640 552,680 556,720 C560,760 590,780 620,800 C650,820 700,836 760,846"/>
+  </g>
+</svg>

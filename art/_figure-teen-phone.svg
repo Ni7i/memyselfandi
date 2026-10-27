@@ -1,0 +1,46 @@
+<svg viewBox="0 0 500 620">
+  <!-- Enis younger, seated, holding a phone out in front of him, his head bent over it. -->
+  <g data-include="_teen-seated-body"/>
+
+  <g data-include="_head-teen" transform="translate(-2,124) rotate(-28 250 144) translate(190.9,37.3) scale(0.356)"/>
+
+  <g id="hood" transform="translate(-4,112)">
+    <!-- the hood, bunched around the neck and over the shoulders -->
+    <path class="fill" data-tone="paper" d="M238,150 C240,140 250,134 262,132 C278,130 294,136 300,150 C304,162 300,174 292,180 C280,178 266,170 254,162 C248,158 242,156 238,150 Z"/>
+    <path class="ink" data-w="2" d="M262,132 C278,130 294,136 300,150 C304,162 300,174 292,180"/>
+    <path class="ink" data-w="1.3" d="M238,151 C242,140 250,134 262,132"/>
+    <path class="fine" data-w="0.9" d="M246,152 C258,150 272,156 284,168"/>
+    <path class="fine" data-w="0.8" d="M260,140 C272,140 284,146 292,156"/>
+    <path class="hatch" data-angle="60" data-gap="3" data-w="0.42" d="M250,160 C262,164 276,172 290,178 C282,180 270,176 260,170 C255,167 252,164 250,160 Z"/>
+    <path class="fine" data-w="0.9" d="M240,156 C238,170 236,184 236,196 M246,158 C245,172 244,186 245,198"/>
+    <path class="fill" data-tone="dark" d="M234.6,196 L237.6,196 L237.4,203 L234.8,203 Z M243.6,198 L246.6,198 L246.4,205 L243.8,205 Z"/>
+  </g>
+
+  <g id="arm">
+    <!-- near arm: elbow at the side, forearm reaching forward, the phone held out between them -->
+    <path class="fill" data-tone="paper" d="M264,270 C282,276 290,296 286,318 C282,336 274,348 262,356 C240,352 214,344 186,338 L180,322 C198,332 218,340 238,346 C242,334 246,316 250,296 C252,282 256,272 264,270 Z"/>
+    <path class="ink" data-w="2.3" d="M266,270 C282,276 290,296 286,318 C282,336 274,348 262,356"/>
+    <path class="ink" data-w="1.8" d="M262,356 C240,352 214,344 186,338"/>
+    <path class="ink" data-w="1.3" d="M250,296 C246,316 242,334 238,346 C218,340 198,332 182,322"/>
+    <path class="fine" data-w="0.8" d="M246,348 C250,352 254,354 258,355 M236,342 C238,348 240,352 242,354"/>
+    <path class="hatch" data-angle="62 -28" data-gap="3" data-w="0.42" d="M282,302 C286,318 282,334 274,346 C268,352 262,354 256,352 C264,340 272,326 276,312 C278,308 280,304 282,302 Z"/>
+    <path class="hatch" data-angle="18" data-gap="3" data-w="0.4" d="M196,338 L254,352 L250,356 C230,352 210,346 190,340 Z"/>
+    <!-- ribbed cuff -->
+    <path class="ink" data-w="1.3" d="M184,322 C179,327 180,334 187,338"/>
+    <path class="ink" data-w="1.1" d="M178,321 C173,326 174,333 181,337"/>
+  </g>
+
+  <g id="phone">
+    <!-- the phone, upright, its screen turned up toward the two faces -->
+    <path class="fill" data-tone="dark" d="M140,292 L160,288 C163,287.5 165,289 165.5,292 L170,330 C170.5,333 169,335 166,335.5 L146,339 C143,339.5 141,338 140.5,335 L136,297 C135.5,294 137,292.5 140,292 Z"/>
+    <path class="fill" data-tone="glow" d="M141,296 L159,292.5 L163.5,329 L145.5,332.5 Z"/>
+    <path class="fine" data-w="0.6" d="M146,302 L156,300 M147,308 L157,306 M148,314 L154,313"/>
+  </g>
+
+  <g id="hand">
+    <!-- fingers round the back of the phone, thumb along its side -->
+    <path class="fill" data-tone="paper" d="M184,322 C176,318 168,318 162,322 C160,326 160,332 162,336 C168,340 178,340 187,338 Z"/>
+    <path class="ink" data-w="1.4" d="M184,322 C176,318 168,318 162,322 C160,326 160,332 162,336 C168,340 178,340 187,338"/>
+    <path class="fine" data-w="0.8" d="M166,318 C162,312 161,306 163,302 M164,326 C160,326 158,327 158,329 M164,332 C160,333 159,334 159,336"/>
+  </g>
+</svg>

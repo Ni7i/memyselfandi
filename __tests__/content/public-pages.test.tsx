@@ -23,17 +23,19 @@ describe("homepage", () => {
   it("tells the illustrated autobiography in eleven scenes", async () => {
     const html = renderToStaticMarkup(await Home());
     expect(html).toContain('<h1 id="overture-title" class="ov-title">Enis Shorra</h1>');
-    for (const art of ["scene-bench", "scene-desk", "scene-teen", "scene-end"]) {
+    for (const art of ["scene-bench", "scene-desk", "scene-friends", "scene-school", "scene-hack", "scene-end"]) {
       expect(html).toContain(`data-ink="${art}"`);
       expect(html).toContain(`src="/art/${art}.svg?v=`);
     }
-    const ids = ["top", "age-three", "curiosity", "stations", "first-game", "work", "proof", "life", "how", "facts", "contact"];
+    const ids = ["top", "age-three", "curiosity", "school", "ims", "stations", "first-game", "work", "proof", "life", "how", "facts", "contact"];
     const positions = ids.map((id) => html.indexOf(` id="${id}"`));
     expect(positions.every((at) => at > 0)).toBe(true);
     expect([...positions].sort((a, b) => a - b)).toEqual(positions);
     // One thread: the overture draws it by scroll and the desk scene picks it up as the mouse cable
     expect(html).toContain('class="ov-thread"');
-    expect(html).toContain('class="thread-run" data-run="0.3 0.84" data-enter="0.2" data-follow=".desk-art" data-drop="712 150, 712 330"');
+    // every illustrated scene picks the thread up at the top and lets it go at the bottom
+    expect(html.match(/class="thread-run"[^>]*data-exit=""/g)).toHaveLength(4);
+    expect(html).toContain("The red thread goes on.");
   });
 
   it("lists the projects strongest first and keeps private code private", async () => {
@@ -66,7 +68,7 @@ describe("homepage", () => {
 
   it("states the competitions and dates as the CV does", async () => {
     const html = renderToStaticMarkup(await Home());
-    expect(html).toContain("Took part in 2025. Top 10 in 2026.");
+    expect(html).toContain("took part in 2025, top 10 in 2026.");
     expect(html).not.toMatch(/top 10 in 2025/i);
     expect(html).toContain("Aug 2027 to Jul 2028");
     expect(html).toContain("Concept, story and creative direction by me. Built with Claude as a coding partner.");
@@ -79,7 +81,7 @@ describe("navigation", () => {
   it("offers the chapters, a fast lane to the facts and the blog", async () => {
     const html = renderToStaticMarkup(await Home());
     expect(html).toContain('<a class="skip-link" href="#facts">Skip to the facts</a>');
-    expect(html).toContain('aria-controls="spool-menu"');
+    expect(html).toContain('aria-controls="index-menu"');
     for (const id of ["age-three", "work", "facts", "contact"]) expect(html).toContain(`href="#${id}"`);
     expect(html.match(/<a href="\/blog">Blog<\/a>/g)).toHaveLength(1);
   });

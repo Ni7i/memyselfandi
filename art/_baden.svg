@@ -47,8 +47,6 @@
     <path class="fine" data-tone="mid" data-w="0.6" d="M745,472 L745,498"/>
   </g>
 
-  <g id="tree" data-include="_tree"/>
-
   <g id="ground" class="fine">
     <!-- gravel, a few marks only -->
     <path data-tone="far" data-w="0.6" d="M640,782 l6,0 M700,792 l4,0 M820,786 l5,0 M960,796 l4,0 M1120,788 l6,0 M1240,798 l4,0 M1380,784 l5,0 M1500,794 l4,0 M560,800 l4,0 M1040,808 l5,0"/>

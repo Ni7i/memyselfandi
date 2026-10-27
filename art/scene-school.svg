@@ -1,0 +1,66 @@
+<svg viewBox="0 0 1300 900">
+  <!-- Bezirksschule. A classroom in daylight: a window behind, a board at the edge, a school desk
+       with an exercise book. Enis, a teenager, writes; the line he writes is the thread.
+       Floor 860. Figure at 1.3 (teen units): table top 561, seat 668. -->
+  <g id="room" data-window="0 0.3">
+    <path class="fine" data-tone="far" data-w="0.9" d="M0,760 L1300,760"/>
+    <path class="fine" data-tone="far" data-w="0.6" d="M0,772 L1300,772"/>
+    <!-- the window: frame, cross bars, a hill and roofs outside -->
+    <path class="ink" data-tone="mid" data-w="1.4" d="M110,110 L560,110 L560,470 L110,470 Z"/>
+    <path class="ink" data-tone="mid" data-w="1.1" d="M124,124 L546,124 L546,456 L124,456 Z"/>
+    <path class="ink" data-tone="mid" data-w="1.2" d="M335,124 L335,456 M124,290 L546,290"/>
+    <path class="ink" data-tone="mid" data-w="1.3" d="M96,470 L574,470 M96,480 L574,480"/>
+    <path class="fine" data-tone="far" data-w="0.7" d="M124,402 C190,380 250,372 335,384 C410,394 480,380 546,366"/>
+    <path class="fine" data-tone="far" data-w="0.6" d="M150,456 L150,420 L172,404 L194,420 L194,456 M220,456 L220,428 L256,428 L256,456 M410,456 L410,416 L436,398 L462,416 L462,456"/>
+    <path class="hatch" data-tone="far" data-angle="70" data-gap="7" data-w="0.35" d="M124,402 C190,380 250,372 335,384 C410,394 480,380 546,366 L546,456 L124,456 Z"/>
+    <path class="fill" data-tone="wash" d="M150,772 L560,772 L720,860 L60,860 Z"/>
+    <!-- the edge of the board, chalk ledge -->
+    <path class="ink" data-tone="mid" data-w="1.4" d="M1150,150 L1300,150 M1150,150 L1150,420 L1300,420"/>
+    <path class="ink" data-tone="mid" data-w="1.2" d="M1140,428 L1300,428 M1140,436 L1300,436"/>
+    <path class="fine" data-tone="far" data-w="0.8" d="M1180,200 C1200,196 1230,198 1260,194 M1182,232 C1210,228 1240,232 1290,226 M1186,270 L1226,268"/>
+  </g>
+
+  <g id="chair" data-window="0.12 0.42">
+    <path class="fill" data-tone="paper" d="M900,664 L1016,664 L1016,678 L900,678 Z"/>
+    <path class="ink" data-w="1.8" d="M900,664 L1016,664"/>
+    <path class="ink" data-w="1.4" d="M900,678 L1016,678 M900,664 L900,678"/>
+    <path class="hatch" data-angle="82" data-gap="3.4" data-w="0.4" d="M900,670 L1016,670 L1016,678 L900,678 Z"/>
+    <path class="ink" data-w="1.6" d="M1000,664 C1004,600 1006,540 1008,470 M1016,664 C1018,600 1020,540 1022,470"/>
+    <path class="fill" data-tone="paper" d="M992,476 L1036,470 L1038,560 L996,566 Z"/>
+    <path class="ink" data-w="1.5" d="M992,476 L1036,470 L1038,560 L996,566 Z"/>
+    <path class="ink" data-w="1.6" d="M914,678 L908,860 M1006,678 L1012,860"/>
+  </g>
+
+  <g id="enis" data-include="_figure-teen-seated" transform="translate(560,80) scale(1.3)" data-window="0.24 0.8"/>
+
+  <g id="desk" data-window="0.06 0.4">
+    <!-- a school desk: top seen a little from above, a book shelf under it, tube legs -->
+    <path class="fill" data-tone="paper" d="M420,548 L826,548 L834,561 L834,574 L412,574 L412,561 Z"/>
+    <path class="ink" data-w="1.3" d="M420,548 L826,548"/>
+    <path class="ink" data-w="2" d="M412,561 L834,561"/>
+    <path class="ink" data-w="1.5" d="M412,574 L834,574 M412,561 L420,548 M826,548 L834,561 L834,574 M412,561 L412,574"/>
+    <path class="hatch" data-angle="84" data-gap="4" data-w="0.4" d="M412,561 L834,561 L834,574 L412,574 Z"/>
+    <path class="ink" data-w="1.2" d="M430,600 L816,600 M430,600 L430,574 M816,600 L816,574"/>
+    <path class="ink" data-w="1.8" d="M440,600 L436,860 M806,600 L810,860"/>
+    <path class="ink" data-w="1.2" d="M452,600 L448,860 M794,600 L798,860"/>
+    <path class="fine" data-w="0.9" d="M436,820 L810,820"/>
+    <!-- on the desk: two books, a pencil case, the open exercise book -->
+    <path class="fill" data-tone="paper" d="M438,532 L520,530 L522,548 L436,548 Z"/>
+    <path class="ink" data-w="1.3" d="M438,532 L520,530 L522,548 L436,548 Z M440,539 L520,538"/>
+    <path class="fine" data-w="0.6" d="M444,543 L516,542"/>
+    <path class="fill" data-tone="paper" d="M444,516 L512,514 L514,530 L442,532 Z"/>
+    <path class="ink" data-w="1.2" d="M444,516 L512,514 L514,530 L442,532 Z"/>
+    <path class="hatch" data-angle="80" data-gap="2.6" data-w="0.35" d="M444,516 L512,514 L512,520 L444,522 Z"/>
+    <path class="fill" data-tone="paper" d="M528,540 C528,534 534,532 560,532 C584,532 588,534 588,540 L588,548 L528,548 Z"/>
+    <path class="ink" data-w="1.2" d="M528,548 L528,540 C528,534 534,532 560,532 C584,532 588,534 588,540 L588,548 M532,540 L584,540"/>
+    <path class="fill" data-tone="paper" d="M640,546 L796,543 L808,548 L636,550 Z"/>
+    <path class="ink" data-w="1.1" d="M640,546 L796,543 L808,548 L636,550 Z M720,544.5 L722,549"/>
+    <!-- the pen in his fingers -->
+    <path class="ink" data-w="1.8" d="M760,530 L738,551"/>
+  </g>
+
+  <g id="thread" data-window="0.86 1">
+    <!-- what he writes: a loose cursive line across the page, toward the pen -->
+    <path class="thread" data-w="1.8" d="M652,547 C656,540 662,540 662,546 C662,551 656,550 658,545 C662,538 670,538 672,545 C674,551 680,549 682,544 C686,536 694,538 692,546 C690,550 698,548 702,544 C708,538 716,540 714,546 C714,550 722,548 726,544 C730,539 736,542 738,550"/>
+  </g>
+</svg>

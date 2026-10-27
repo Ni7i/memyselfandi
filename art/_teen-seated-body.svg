@@ -1,0 +1,50 @@
+<svg viewBox="0 0 500 620">
+  <!-- The seated teen without head or arms (teen figure units, ground 600, seat top 452):
+       far shin, hoodie body with the hem on the lap, near leg and sneaker. Figures add a head and arms. -->
+  <g id="farLeg">
+    <!-- the far leg, behind: only the shin and the heel show past the near one -->
+    <path class="fill" data-tone="paper" d="M186,456 C188,500 192,540 196,580 L222,580 C218,540 214,500 212,458 Z"/>
+    <path class="ink" data-w="1.8" d="M212,458 C214,500 218,540 222,580"/>
+    <path class="hatch" data-angle="68" data-gap="4" data-w="0.42" d="M200,462 L211,462 C213,500 216,540 220,576 L208,576 C205,540 202,500 200,462 Z"/>
+    <path class="fill" data-tone="paper" d="M196,580 L224,580 C228,586 229,593 229,600 L196,600 Z"/>
+    <path class="ink" data-w="1.5" d="M224,580 C228,586 229,593 229,600"/>
+    <path class="ink" data-w="2.3" data-taper="0.05 0.15" d="M197,601 L230,601"/>
+  </g>
+
+  <g id="body">
+    <!-- hoodie: chest leaning a little toward the table, the hem lying on the lap -->
+    <path class="fill" data-tone="paper" d="M238,262 C228,276 222,296 222,320 C222,350 226,384 234,412 C238,424 242,432 248,438 L322,446 C318,420 314,394 312,362 C310,334 306,306 298,286 C288,268 262,256 238,262 Z"/>
+    <path class="ink" data-w="1.4" d="M240,264 C229,278 222,298 222,320 C222,350 226,384 234,412 C238,424 242,432 248,438"/>
+    <path class="ink" data-w="2.5" d="M298,288 C306,306 310,334 312,362 C314,394 318,420 322,446"/>
+    <!-- ribbed hem, folded on the thighs -->
+    <path class="ink" data-w="1.5" d="M244,426 C268,430 292,434 318,436"/>
+    <path class="ink" data-w="1.3" d="M248,438 C272,442 296,445 322,447"/>
+    <path class="fine" data-w="0.5" d="M254,428 L255,439 M262,429 L263,440 M270,430 L271,441 M278,431 L279,442 M286,432 L287,443 M294,433 L295,444 M302,434 L303,445 M310,435 L311,446"/>
+    <!-- kangaroo pocket under the arm -->
+    <path class="fine" data-w="0.9" d="M232,380 C244,376 256,375 262,378 L266,404 C266,412 265,418 263,424"/>
+    <path class="hatch" data-angle="66" data-gap="3.6" data-w="0.45" d="M296,300 C304,316 308,340 309,366 C310,392 314,416 318,440 L308,438 C304,414 300,390 300,362 C300,336 298,316 296,300 Z"/>
+  </g>
+
+  <g id="nearLeg">
+    <!-- thigh along the seat to the knee, shin down to the floor -->
+    <path class="fill" data-tone="paper" d="M248,434 C220,432 190,432 162,434 C150,436 144,444 146,456 C148,470 150,520 154,580 L188,580 C186,530 184,490 184,468 C210,468 260,466 324,462 C330,456 330,448 322,442 Z"/>
+    <path class="ink" data-w="1.5" d="M250,434 C222,432 192,432 164,434 C152,436 145,444 146,456"/>
+    <path class="ink" data-w="2.2" d="M324,462 C270,466 220,468 184,468"/>
+    <path class="ink" data-w="1.4" d="M146,456 C148,480 150,520 154,578"/>
+    <path class="ink" data-w="2.1" d="M184,468 C184,490 185,530 188,578"/>
+    <!-- jeans: outseam, a fold behind the knee, stacked at the ankle -->
+    <path class="fine" data-w="0.7" d="M318,450 C280,452 230,452 190,452 C178,452 170,456 168,466 C168,500 170,540 171,572"/>
+    <path class="fine" data-w="0.8" d="M178,466 C182,460 188,456 196,456 M174,470 C178,466 183,463 190,463"/>
+    <path class="fine" data-w="0.8" d="M152,556 C160,560 172,560 184,557 M153,566 C162,569 172,569 186,566"/>
+    <path class="hatch" data-angle="12" data-gap="3.8" data-w="0.42" d="M188,458 C230,458 280,456 322,454 L324,462 C270,466 220,468 186,468 Z"/>
+    <path class="hatch" data-angle="70" data-gap="3.8" data-w="0.42" d="M174,470 L184,470 C184,500 186,540 188,576 L176,576 C175,540 174,500 174,470 Z"/>
+    <!-- near sneaker: chunky sole, rounded toe, laces -->
+    <path class="fill" data-tone="paper" d="M154,578 L190,578 C193,584 195,592 195,598 L118,598 C112,598 110,592 116,588 C126,582 140,579 154,578 Z"/>
+    <path class="ink" data-w="1.7" d="M190,578 C193,584 195,592 195,598"/>
+    <path class="ink" data-w="1.6" d="M154,579 C140,580 126,583 116,588 C110,592 111,598 118,598"/>
+    <path class="ink" data-w="1.3" d="M115,592 L195,592"/>
+    <path class="ink" data-w="2.6" data-taper="0.05 0.12" d="M115,600 L197,600"/>
+    <path class="fine" data-w="0.8" d="M140,584 L144,588 M148,582 L152,586 M156,580 L160,584"/>
+    <path class="fill" data-tone="shade" d="M96,598 C150,592 240,592 280,600 C240,607 150,607 96,602 Z"/>
+  </g>
+</svg>

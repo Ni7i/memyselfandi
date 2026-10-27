@@ -6,7 +6,9 @@ const CHAPTERS = [
   { id: "top", label: "The bench" },
   { id: "age-three", label: "Age three" },
   { id: "curiosity", label: "Growing up" },
-  { id: "stations", label: "The line so far" },
+  { id: "school", label: "Bezirksschule" },
+  { id: "ims", label: "IMS and Baden hackt" },
+  { id: "stations", label: "The next stops" },
   { id: "first-game", label: "A dice game in C#" },
   { id: "work", label: "Projects" },
   { id: "proof", label: "Certificates" },
@@ -16,17 +18,13 @@ const CHAPTERS = [
   { id: "contact", label: "Contact" },
 ];
 
-const RADIUS = 19;
-const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
-
 /**
- * A small spool in the corner. Its red ring winds up as the reader goes through the story;
- * opening it lists the chapters. It works with the keyboard and closes on Escape.
+ * A handwritten word in the corner, "Index", that opens the table of contents of the book:
+ * a drawn frame, the chapters, the one you are in underlined. Keyboard: Escape closes it.
  */
-export default function SpoolNav() {
+export default function IndexNav() {
   const [open, setOpen] = useState(false);
   const [current, setCurrent] = useState("top");
-  const ringRef = useRef<SVGCircleElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -34,9 +32,6 @@ export default function SpoolNav() {
     let frame = 0;
     const update = () => {
       frame = 0;
-      const max = document.documentElement.scrollHeight - innerHeight;
-      const p = max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
-      ringRef.current?.style.setProperty("stroke-dashoffset", String(CIRCUMFERENCE * (1 - p)));
       // The current chapter is the last one whose top has passed the middle of the screen
       let id = "top";
       for (const chapter of CHAPTERS) {
@@ -50,11 +45,9 @@ export default function SpoolNav() {
     };
     update();
     addEventListener("scroll", schedule, { passive: true });
-    addEventListener("resize", schedule);
     return () => {
       cancelAnimationFrame(frame);
       removeEventListener("scroll", schedule);
-      removeEventListener("resize", schedule);
     };
   }, []);
 
@@ -80,45 +73,26 @@ export default function SpoolNav() {
   }, [open]);
 
   return (
-    <nav className="spool" aria-label="Chapters">
-      <div ref={menuRef} id="spool-menu" className="spool-menu" hidden={!open}>
-        <p className="spool-title">Der rote Faden</p>
+    <nav className="index-nav" aria-label="Chapters">
+      <button ref={buttonRef} type="button" className="index-button" aria-expanded={open} aria-controls="index-menu" onClick={() => setOpen((v) => !v)}>
+        {open ? "Close" : "Index"}
+        <svg viewBox="0 0 60 8" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <path d="M2,5 C14,3.6 28,6 42,4.2 C48,3.6 54,4.4 58,3.4" />
+        </svg>
+      </button>
+      <div ref={menuRef} id="index-menu" className="index-menu" hidden={!open}>
+        <p className="index-title">Der rote Faden</p>
         <ol>
           {CHAPTERS.map((chapter, i) => (
             <li key={chapter.id}>
               <a href={`#${chapter.id}`} aria-current={chapter.id === current ? "location" : undefined} onClick={() => setOpen(false)}>
-                <span className="spool-number">{String(i + 1).padStart(2, "0")}</span>
+                <span className="index-number">{String(i + 1).padStart(2, "0")}</span>
                 {chapter.label}
               </a>
             </li>
           ))}
         </ol>
       </div>
-      <button
-        ref={buttonRef}
-        type="button"
-        className="spool-button"
-        aria-expanded={open}
-        aria-controls="spool-menu"
-        onClick={() => setOpen((v) => !v)}
-      >
-        <span className="visually-hidden">{open ? "Close chapters" : "Open chapters"}</span>
-        <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
-          <circle className="spool-track" cx="24" cy="24" r={RADIUS} />
-          <circle
-            ref={ringRef}
-            className="spool-ring"
-            cx="24"
-            cy="24"
-            r={RADIUS}
-            strokeDasharray={CIRCUMFERENCE}
-            strokeDashoffset={CIRCUMFERENCE}
-            transform="rotate(-90 24 24)"
-          />
-          <path className="spool-body" d="M16,15 H32 M16,33 H32 M19,15 V33 M29,15 V33" />
-          <path className="spool-wind" d="M19,19 L29,21 M19,23 L29,25 M19,27 L29,29" />
-        </svg>
-      </button>
     </nav>
   );
 }

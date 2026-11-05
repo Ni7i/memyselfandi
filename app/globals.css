@@ -158,6 +158,34 @@ button, input, textarea { font: inherit; }
   padding-bottom: 12px;
 }
 
+.mobile-portfolio .desktop-experience-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  max-width: 1240px;
+  margin: 28px auto 0;
+  padding: 16px;
+  border-left: 2px solid var(--accent);
+  background: rgba(39, 74, 125, 0.045);
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+
+.desktop-experience-note svg {
+  flex: 0 0 22px;
+  width: 22px;
+  height: 22px;
+  color: var(--accent);
+}
+
+.desktop-experience-note strong {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
 .stamp {
   display: inline-block;
   font-family: var(--font-sans);

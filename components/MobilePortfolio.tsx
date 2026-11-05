@@ -52,6 +52,19 @@ export default function MobilePortfolio({ projects }: { projects: PortfolioProje
               this is going.
             </p>
           </div>
+          <aside className="desktop-experience-note" aria-label="Desktop experience">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true" focusable="false">
+              <rect x="3" y="4" width="18" height="12" rx="2" />
+              <path d="M12 16v4M8 20h8" strokeLinecap="round" />
+            </svg>
+            <div>
+              <strong>The full experience is on desktop.</strong>
+              <p>
+                Explore the illustrated story on a computer, or try your
+                browser&apos;s desktop mode.
+              </p>
+            </div>
+          </aside>
         </section>
 
         <section className="mag" id="about">

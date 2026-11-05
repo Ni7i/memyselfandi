@@ -168,6 +168,7 @@ export default function Overture() {
   const firstRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
+    if (matchMedia("(max-width: 767px)").matches) return;
     const section = sectionRef.current!;
     const scene = sceneRef.current!;
     // The drawing appears complete as soon as it arrives; from then on his hair moves in the wind

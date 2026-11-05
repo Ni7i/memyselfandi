@@ -10,7 +10,13 @@ import { projectStore } from "@/lib/content/projects";
 import { configureKv, params, unconfigureKv } from "../helpers/auth";
 import { memoryState } from "../helpers/memory-kv";
 
+const request = vi.hoisted(() => ({ userAgent: "" }));
+vi.mock("next/headers", () => ({
+  headers: async () => new Headers({ "user-agent": request.userAgent }),
+}));
+
 beforeEach(() => {
+  request.userAgent = "";
   memoryState.reset();
   unconfigureKv();
 });
@@ -20,6 +26,27 @@ afterEach(() => {
 });
 
 describe("homepage", () => {
+  it.each([
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) Mobile/15E148 Safari/604.1",
+    "Mozilla/5.0 (Linux; Android 15; Pixel 9) Chrome/130.0.0.0 Mobile Safari/537.36",
+  ])("serves the classic portfolio to phones without mounting the story (%s)", async (userAgent) => {
+    request.userAgent = userAgent;
+    const html = renderToStaticMarkup(await Home());
+    expect(html).toContain('class="mobile-portfolio"');
+    expect(html).toContain('aria-label="enisshorra.ch"');
+    for (const id of ["about", "archive", "certificates", "contact"]) {
+      expect(html).toContain(`id="${id}"`);
+      expect(html).toContain(`href="#${id}"`);
+    }
+    expect(html.match(/id="contact"/g)).toHaveLength(1);
+    expect(html).toContain('class="contact-form"');
+    expect(html).toContain("About me");
+    expect(html).toContain("Things I&#x27;ve");
+    expect(html).not.toContain('class="story"');
+    expect(html).not.toContain('data-ink=');
+    expect(html).not.toContain('aria-controls="index-menu"');
+  });
+
   it("tells the illustrated autobiography in ten scenes", async () => {
     const html = renderToStaticMarkup(await Home());
     expect(html).toContain('<h1 id="overture-title" class="ov-title">Enis Shorra</h1>');

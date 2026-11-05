@@ -27,6 +27,7 @@ export default function IndexNav() {
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (matchMedia("(max-width: 767px)").matches) return;
     let frame = 0;
     const update = () => {
       frame = 0;

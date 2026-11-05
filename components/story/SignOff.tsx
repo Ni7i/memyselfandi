@@ -24,15 +24,18 @@ export default function SignOff() {
   const wordRef = useRef<SVGTextElement>(null);
 
   useEffect(() => {
+    if (matchMedia("(max-width: 767px)").matches) return;
     const svg = svgRef.current!;
     const clip = clipRef.current!;
     const word = wordRef.current!;
     const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let cancelled = false;
     // On a phone the empty middle of the picture is cropped away, so the words can be read
     const narrow = matchMedia("(max-width: 700px)");
     // The words are set larger there, so their width is measured again
     let measure = () => {};
     const frameIt = () => {
+      if (cancelled) return;
       svg.setAttribute("viewBox", narrow.matches ? "0 70 1360 520" : "0 0 1600 600");
       measure();
     };
@@ -41,7 +44,6 @@ export default function SignOff() {
     let breeze: Breeze | null = null;
     let visible = false;
     let frame = 0;
-    let cancelled = false;
 
     inked(sceneRef.current!).then(() => {
       if (cancelled) return;
@@ -61,7 +63,9 @@ export default function SignOff() {
     let index = 0;
     let started = 0;
     let width = 1;
-    measure = () => (width = word.getComputedTextLength() + 40);
+    measure = () => {
+      if (!cancelled) width = word.getComputedTextLength() + 40;
+    };
     const show = (i: number) => {
       index = i % WORDS.length;
       word.textContent = WORDS[index];
@@ -71,6 +75,7 @@ export default function SignOff() {
 
     // Write (the pen moves at a hand's pace), hold, take it back quickly, next word
     const tick = (now: number) => {
+      if (cancelled) return;
       if (!started) started = now;
       const t = now - started;
       const write = 260 + WORDS[index].length * 95;
@@ -90,6 +95,7 @@ export default function SignOff() {
     };
 
     const observer = new IntersectionObserver(([entry]) => {
+      if (cancelled) return;
       visible = entry.isIntersecting;
       if (visible) {
         if (!frame) {

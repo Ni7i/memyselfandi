@@ -147,7 +147,7 @@ function passing(el: Element) {
   return clamp((innerHeight * 0.92 - r.top) / (innerHeight * 0.5));
 }
 
-function partsOf(section: HTMLElement): Part[] {
+function partsOf(section: HTMLElement, disposers: Array<() => void>): Part[] {
   const parts: Part[] = [];
   const own = (el: Element) => el.hasAttribute("data-own");
   section.querySelectorAll<SVGGElement>("[data-drawing]").forEach((el) => {
@@ -160,7 +160,10 @@ function partsOf(section: HTMLElement): Part[] {
       drawing.set(Math.max(0, part.last));
     };
     if (el.querySelector("[data-inked]")) take();
-    else el.addEventListener("ink", take, { once: true });
+    else {
+      el.addEventListener("ink", take, { once: true });
+      disposers.push(() => el.removeEventListener("ink", take));
+    }
     parts.push(part);
   });
   section.querySelectorAll<SVGPathElement>("[data-thread]").forEach((el) => {
@@ -178,8 +181,11 @@ function partsOf(section: HTMLElement): Part[] {
 
 export default function StoryMotion() {
   useEffect(() => {
+    if (matchMedia("(max-width: 767px)").matches) return;
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
+    let cancelled = false;
+    const disposers: Array<() => void> = [];
     const chapters: Chapter[] = Array.from(document.querySelectorAll<HTMLElement>("[data-chapter]")).map((el) => {
       el.classList.add("is-live");
       const stage = el.dataset.chapter === "pin" ? el.querySelector<HTMLElement>(".ch-stage") : null;
@@ -189,11 +195,14 @@ export default function StoryMotion() {
         return { svg, path: svg.querySelector("path")!, a, b, enter: 0, total: 1, ready: false, stops, ends: [] };
       });
       // A run follows a drawing, so it is laid out again whenever one arrives
-      el.addEventListener("ink", () => {
+      const onInk = () => {
+        if (cancelled) return;
         runs.forEach(layoutRun);
         schedule();
-      });
-      return { el, stage, pinned: false, parts: partsOf(el), runs, visible: false };
+      };
+      el.addEventListener("ink", onInk);
+      disposers.push(() => el.removeEventListener("ink", onInk));
+      return { el, stage, pinned: false, parts: partsOf(el, disposers), runs, visible: false };
     });
     const measure = () => {
       // Scenes that draw a row of objects line them up under the handoff x (see .ch-seq in story.css)
@@ -210,6 +219,7 @@ export default function StoryMotion() {
 
     let frame = 0;
     const render = () => {
+      if (cancelled) return;
       frame = 0;
       for (const chapter of chapters) {
         if (!chapter.visible) continue;
@@ -229,7 +239,7 @@ export default function StoryMotion() {
       }
     };
     const schedule = () => {
-      if (!frame) frame = requestAnimationFrame(render);
+      if (!cancelled && !frame) frame = requestAnimationFrame(render);
     };
 
     // Everything starts undrawn; a chapter only does work while it is near the screen
@@ -241,6 +251,7 @@ export default function StoryMotion() {
     }
     const observer = new IntersectionObserver(
       (entries) => {
+        if (cancelled) return;
         for (const entry of entries) {
           const chapter = chapters.find((c) => c.el === entry.target);
           if (chapter) chapter.visible = entry.isIntersecting;
@@ -253,6 +264,7 @@ export default function StoryMotion() {
 
     addEventListener("scroll", schedule, { passive: true });
     const resize = () => {
+      if (cancelled) return;
       measure();
       schedule();
     };
@@ -260,10 +272,12 @@ export default function StoryMotion() {
     // Text set in the web fonts moves the objects beside it
     document.fonts?.ready.then(resize);
     return () => {
+      cancelled = true;
       cancelAnimationFrame(frame);
       observer.disconnect();
       removeEventListener("scroll", schedule);
       removeEventListener("resize", resize);
+      disposers.forEach((dispose) => dispose());
     };
   }, []);
 

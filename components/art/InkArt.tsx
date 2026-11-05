@@ -37,6 +37,7 @@ export default function InkArt({ name, eager = false }: { name: ArtName; eager?:
   const ref = useRef<SVGGElement>(null);
 
   useEffect(() => {
+    if (matchMedia("(max-width: 767px)").matches) return;
     const group = ref.current!;
     let cancelled = false;
     const load = () =>
